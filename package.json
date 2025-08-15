@@ -1,0 +1,88 @@
+{
+  "name": "@lexilearner/monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LexiLearner monorepo - Language learning application with NestJS backend and React Native mobile app",
+  "keywords": ["language-learning", "education", "react-native", "nestjs", "typescript", "monorepo"],
+  "workspaces": [
+    "backend",
+    "mobile"
+  ],
+  "packageManager": "npm@10.8.2",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:backend": "cd backend && npm run start:dev",
+    "dev:mobile": "cd mobile && npm start",
+    "build": "npm-run-all build:*",
+    "build:backend": "cd backend && npm run build",
+    "build:mobile": "cd mobile && expo build",
+    "test": "npm-run-all test:*",
+    "test:backend": "cd backend && npm run test",
+    "test:mobile": "cd mobile && npm test",
+    "lint": "npm-run-all lint:*",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:mobile": "cd mobile && npm run lint",
+    "format": "npm-run-all format:*",
+    "format:backend": "cd backend && npm run format",
+    "clean": "npm-run-all clean:*",
+    "clean:backend": "cd backend && rimraf dist node_modules",
+    "clean:mobile": "cd mobile && rimraf node_modules .expo",
+    "install:all": "npm install && npm run install:backend && npm run install:mobile",
+    "install:backend": "cd backend && pnpm install",
+    "install:mobile": "cd mobile && npm install",
+    "openapi:spec": "cd backend && npm run build && node ../scripts/generate-openapi-spec.js",
+    "openapi:client": "node scripts/generate-client.js",
+    "openapi:docs": "npm run openapi:spec && npm run openapi:client",
+    "migration:compare": "node scripts/compare-apis.js",
+    "migration:test": "npm run test && npm run migration:compare",
+    "postinstall": "husky install",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "@openapi-generator/openapi-generator-cli": "^2.13.4",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^6.0.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-typescript-api": "^13.0.22"
+  },
+  "lint-staged": {
+    "backend/**/*.{js,ts}": [
+      "cd backend && npm run lint",
+      "cd backend && npm run format"
+    ],
+    "mobile/**/*.{js,ts,tsx}": [
+      "cd mobile && npm run lint"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "commitlint": {
+    "extends": ["@commitlint/config-conventional"]
+  },
+  "config": {
+    "openapi": {
+      "specUrl": "http://localhost:3000/docs-json",
+      "outputDir": "mobile/src/api/generated"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lexilearner/lexilearner-monorepo"
+  },
+  "author": "LexiLearner Team",
+  "license": "MIT",
+  "readme": "README.md",
+  "homepage": "https://github.com/lexilearner/lexilearner-monorepo#readme"
+}

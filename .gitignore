@@ -1,0 +1,71 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Build outputs
+dist/
+build/
+*/dist/
+*/build/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*/.env
+*/.env.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# C# Reference Code (local development only)
+csharp-backend/
+server-c#/
+
+# Temporary migration files (remove after migration complete)
+migration-temp/
+legacy-reference/
+
+# Generated API client (will be regenerated)
+mobile/src/api/generated/
+
+# Expo
+mobile/.expo/
+mobile/expo-env.d.ts
+
+# React Native
+mobile/android/app/build/
+mobile/ios/build/
+
+# Database
+*.db
+*.sqlite
