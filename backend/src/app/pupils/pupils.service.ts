@@ -1,15 +1,15 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { KyselyDatabaseService } from "@/database/kysely-database.service";
+import { Injectable, NotFoundException, Inject } from "@nestjs/common";
+import { Kysely } from "kysely";
+import { DB } from "@/database/db";
 import { UpdatePupilProfileDto } from "./dto/update-pupil-profile.dto";
 
 @Injectable()
 export class PupilsService {
-  constructor(private dbService: KyselyDatabaseService) {}
+  constructor(@Inject("DATABASE") private readonly db: Kysely<DB>) {}
 
   async getPupilProfile(userId: string) {
-    const db = this.dbService.database;
-
-    const profile = await db
+    
+    const profile = await this.db
       .selectFrom("public.pupils as p")
       .where("p.user_id", "=", userId)
       .selectAll()
@@ -22,14 +22,13 @@ export class PupilsService {
     userId: string,
     updatePupilProfileDto: UpdatePupilProfileDto
   ) {
-    const db = this.dbService.database;
-
-    await db
+    
+    await this.db
       .selectFrom("public.pupils as p")
       .where("p.user_id", "=", userId)
       .executeTakeFirstOrThrow(() => new NotFoundException("Pupil not found"));
 
-    const updated = await db
+    const updated = await this.db
       .updateTable("public.pupils as p")
       .set(updatePupilProfileDto)
       .where("p.user_id", "=", userId)
@@ -40,8 +39,7 @@ export class PupilsService {
   }
 
   async getGlobalPupilLeaderboard() {
-    const db = this.dbService.database;
-    const leaderboard = await db
+        const leaderboard = await this.db
       .selectFrom("public.pupil_leaderboard")
       .select(["pupil_id", "level", "recorded_at"])
       .orderBy("level", "desc")
@@ -55,8 +53,7 @@ export class PupilsService {
   }
 
   async getPupilByUsername(username: string) {
-    const db = this.dbService.database;
-    const result = await db
+        const result = await this.db
       .selectFrom("auth.users as u")
       .innerJoin("public.pupils as p", "p.user_id", "u.id")
       .where("u.username", "=", username)
@@ -106,9 +103,8 @@ export class PupilsService {
   }
 
   async getPupilLeaderBoardByPupilId(pupilId: string) {
-    const db = this.dbService.database;
-
-    const leaderboard = await db
+    
+    const leaderboard = await this.db
       .selectFrom("public.pupil_leaderboard")
       .selectAll()
       .where("pupil_id", "=", pupilId)

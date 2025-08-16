@@ -1,16 +1,15 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject } from "@nestjs/common";
 import { CreateClassroomDto } from "./dto/create-classroom.dto";
 import { UpdateClassroomDto } from "./dto/update-classroom.dto";
-import { KyselyDatabaseService } from "@/database/kysely-database.service";
+import { Kysely } from "kysely";
+import { DB } from "@/database/db";
 
 @Injectable()
 export class ClassroomsService {
-  constructor(private dbService: KyselyDatabaseService) {}
+  constructor(@Inject("DATABASE") private readonly db: Kysely<DB>) {}
 
   async create(user: any, createClassroomDto: CreateClassroomDto) {
-    const db = this.dbService.database;
-
-    const classroom = await db
+    const classroom = await this.db
       .insertInto("public.classrooms")
       .values({ ...createClassroomDto, teacher_id: user.teacher.id })
       .returningAll()

@@ -47,7 +47,7 @@ pids
 coverage/
 *.lcov
 
-csharp-backend/
+lexilearner-backend1/
 LexiLearner/
 
 # Temporary migration files (remove after migration complete)

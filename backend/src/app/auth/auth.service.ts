@@ -4,12 +4,14 @@ import {
   ConflictException,
   NotFoundException,
   BadRequestException,
+  Inject,
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import * as crypto from "crypto";
-import { KyselyDatabaseService } from "@/database/kysely-database.service";
+import { Kysely } from "kysely";
+import { DB } from "@/database/db";
 import {
   LoginDto,
   RegisterDto,
@@ -23,15 +25,14 @@ import {
 @Injectable()
 export class AuthService {
   constructor(
-    private dbService: KyselyDatabaseService,
+    @Inject("DATABASE") private readonly db: Kysely<DB>,
     private jwtService: JwtService,
   ) {}
 
   async register(registerDto: RegisterDto) {
-    const db = this.dbService.database;
 
     // Check if user already exists
-    const existing = await db
+    const existing = await this.db
       .selectFrom("auth.users")
       .select(["id", "email", "username"])
       .where((eb) =>
@@ -64,7 +65,7 @@ export class AuthService {
     const { password, confirm_password, role, ...userData } = registerDto;
 
     // Create user
-    const user = await db
+    const user = await this.db
       .insertInto("auth.users")
       .values({
         ...userData,
@@ -79,7 +80,7 @@ export class AuthService {
     }
 
     // Create auth provider entry
-    await db
+    await this.db
       .insertInto("auth.auth_providers")
       .values({
         id: uuidv4(),
@@ -90,7 +91,7 @@ export class AuthService {
       })
       .execute();
 
-    const dbRole = await db
+    const dbRole = await this.db
       .selectFrom("auth.roles")
       .select("id")
       .where("name", "=", registerDto.role)
@@ -99,7 +100,7 @@ export class AuthService {
       );
 
     // Assign role to user
-    await db
+    await this.db
       .insertInto("auth.user_roles")
       .values({
         user_id: user.id,
@@ -128,10 +129,9 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    const db = this.dbService.database;
 
     // Find user and auth provider
-    const userWithProvider = await db
+    const userWithProvider = await this.db
       .selectFrom("auth.users")
       .leftJoin(
         "auth.auth_providers",
@@ -174,7 +174,7 @@ export class AuthService {
     }
 
     // Log the login
-    await db
+    await this.db
       .insertInto("auth.login_logs")
       .values({
         id: uuidv4(),
@@ -202,10 +202,9 @@ export class AuthService {
   }
 
   async refreshToken(refreshTokenDto: RefreshTokenDto) {
-    const db = this.dbService.database;
 
     // Find and validate refresh token
-    const refreshToken = await db
+    const refreshToken = await this.db
       .selectFrom("auth.refresh_tokens")
       .leftJoin("auth.users", "auth.refresh_tokens.user_id", "auth.users.id")
       .leftJoin("auth.user_roles", "auth.users.id", "auth.user_roles.user_id")
@@ -230,7 +229,7 @@ export class AuthService {
     }
 
     // Revoke the old refresh token
-    await db
+    await this.db
       .updateTable("auth.refresh_tokens")
       .set({ revoked: true })
       .where("id", "=", refreshToken.token_id)
@@ -253,10 +252,9 @@ export class AuthService {
   }
 
   async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
-    const db = this.dbService.database;
 
     // Find user by email
-    const user = await db
+    const user = await this.db
       .selectFrom("auth.users")
       .select(["id", "email"])
       .where("email", "=", forgotPasswordDto.email)
@@ -277,7 +275,7 @@ export class AuthService {
       .digest("hex");
 
     // Store reset token
-    await db
+    await this.db
       .insertInto("auth.password_reset_tokens")
       .values({
         id: uuidv4(),
@@ -298,7 +296,6 @@ export class AuthService {
   }
 
   async resetPassword(resetPasswordDto: ResetPasswordDto) {
-    const db = this.dbService.database;
 
     // Hash the token to find it in the database
     const hashedToken = crypto
@@ -307,7 +304,7 @@ export class AuthService {
       .digest("hex");
 
     // Find valid reset token
-    const resetToken = await db
+    const resetToken = await this.db
       .selectFrom("auth.password_reset_tokens")
       .select(["id", "user_id", "expires_at", "used"])
       .where("token", "=", hashedToken)
@@ -325,7 +322,7 @@ export class AuthService {
     );
 
     // Update password
-    await db
+    await this.db
       .updateTable("auth.auth_providers")
       .set({ password_hash: hashedPassword })
       .where("user_id", "=", resetToken.user_id)
@@ -333,7 +330,7 @@ export class AuthService {
       .execute();
 
     // Mark token as used
-    await db
+    await this.db
       .updateTable("auth.password_reset_tokens")
       .set({ used: true })
       .where("id", "=", resetToken.id)
@@ -343,8 +340,7 @@ export class AuthService {
   }
 
   async requestEmailVerification(userId: string) {
-    const db = this.dbService.database;
-    const user = await db
+    const user = await this.db
       .selectFrom("auth.users")
       .select(["id", "email", "is_email_verified"])
       .where("id", "=", userId)
@@ -362,10 +358,9 @@ export class AuthService {
   }
 
   async verifyEmail(token: string) {
-    const db = this.dbService.database;
 
     // Find valid verification token
-    const verificationToken = await db
+    const verificationToken = await this.db
       .selectFrom("auth.email_verification_tokens")
       .select(["id", "user_id", "expires_at", "used"])
       .where("token", "=", token)
@@ -380,14 +375,14 @@ export class AuthService {
     }
 
     // Mark email as verified
-    await db
+    await this.db
       .updateTable("auth.users")
       .set({ is_email_verified: true })
       .where("id", "=", verificationToken.user_id)
       .execute();
 
     // Mark token as used
-    await db
+    await this.db
       .updateTable("auth.email_verification_tokens")
       .set({ used: true })
       .where("id", "=", verificationToken.id)
@@ -397,11 +392,10 @@ export class AuthService {
   }
 
   async updateProfile(userId: string, updateProfileDto: UpdateProfileDto) {
-    const db = this.dbService.database;
 
     // Check for email uniqueness if updating email
     if (updateProfileDto.email) {
-      const existingUser = await db
+      const existingUser = await this.db
         .selectFrom("auth.users")
         .select("id")
         .where("email", "=", updateProfileDto.email)
@@ -414,7 +408,7 @@ export class AuthService {
     }
 
     // Update user
-    await db
+    await this.db
       .updateTable("auth.users")
       .set(updateProfileDto)
       .where("id", "=", userId)
@@ -426,7 +420,7 @@ export class AuthService {
     }
 
     // Return updated user with role
-    const updatedUser = await db
+    const updatedUser = await this.db
       .selectFrom("auth.users")
       .innerJoin("auth.user_roles", "auth.users.id", "auth.user_roles.user_id")
       .innerJoin("auth.roles", "auth.user_roles.role_id", "auth.roles.id")
@@ -451,10 +445,9 @@ export class AuthService {
   }
 
   async changePassword(userId: string, changePasswordDto: ChangePasswordDto) {
-    const db = this.dbService.database;
 
     // Get current password hash
-    const authProvider = await db
+    const authProvider = await this.db
       .selectFrom("auth.auth_providers")
       .select(["password_hash"])
       .where("user_id", "=", userId)
@@ -483,7 +476,7 @@ export class AuthService {
     );
 
     // Update password
-    await db
+    await this.db
       .updateTable("auth.auth_providers")
       .set({ password_hash: hashedPassword })
       .where("user_id", "=", userId)
@@ -495,10 +488,9 @@ export class AuthService {
 
   async logout(refreshToken?: string): Promise<{ message: string }> {
     if (refreshToken) {
-      const db = this.dbService.database;
-
+  
       // Revoke the refresh token
-      await db
+      await this.db
         .updateTable("auth.refresh_tokens")
         .set({ revoked: true })
         .where("token", "=", refreshToken)
@@ -509,9 +501,8 @@ export class AuthService {
   }
 
   async validateUser(payload: { sub: string; email: string }) {
-    const db = this.dbService.database;
 
-    const user: any = await db
+    const user: any = await this.db
       .selectFrom("auth.users")
       .leftJoin("auth.user_roles", "auth.users.id", "auth.user_roles.user_id")
       .leftJoin("auth.roles", "auth.user_roles.role_id", "auth.roles.id")
@@ -533,7 +524,7 @@ export class AuthService {
       .executeTakeFirst();
 
     if (user.role === "Teacher") {
-      const teacher = await db
+      const teacher = await this.db
         .selectFrom("public.teachers as t")
         .where("t.user_id", "=", user.id)
         .selectAll()
@@ -544,7 +535,7 @@ export class AuthService {
     }
 
     if (user.role === "Pupil") {
-      const pupil = await db
+      const pupil = await this.db
         .selectFrom("public.pupils as p")
         .where("p.user_id", "=", user.id)
         .selectAll()
@@ -562,11 +553,10 @@ export class AuthService {
   }
 
   private async generateTokens(userId: string, email: string, role: string) {
-    const db = this.dbService.database;
     const payload: any = { sub: userId, email: email, role: role };
 
     if (role === "Teacher") {
-      const teacher = await db
+      const teacher = await this.db
         .selectFrom("public.teachers as t")
         .where("t.user_id", "=", userId)
         .selectAll()
@@ -577,7 +567,7 @@ export class AuthService {
     }
 
     if (role === "Pupil") {
-      const pupil = await db
+      const pupil = await this.db
         .selectFrom("public.pupils as p")
         .where("p.user_id", "=", userId)
         .selectAll()
@@ -594,7 +584,7 @@ export class AuthService {
     const refresh_token = crypto.randomBytes(32).toString("hex");
 
     // Store refresh token
-    await db
+    await this.db
       .insertInto("auth.refresh_tokens")
       .values({
         id: uuidv4(),
@@ -609,10 +599,9 @@ export class AuthService {
   }
 
   private async generateEmailVerificationToken(userId: string) {
-    const db = this.dbService.database;
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
-    await db
+    await this.db
       .insertInto("auth.email_verification_tokens")
       .values({
         id: uuidv4(),

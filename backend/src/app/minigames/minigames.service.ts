@@ -1,19 +1,19 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, Inject } from "@nestjs/common";
 import { CreateMinigameDto } from "./dto/create-minigame.dto";
 import { UpdateMinigameDto } from "./dto/update-minigame.dto";
-import { KyselyDatabaseService } from "@/database/kysely-database.service";
+import { Kysely } from "kysely";
+import { DB } from "@/database/db";
 import { sql } from "kysely";
 import { MinigameType } from "@/database/schemas";
 import { CreateMinigameLogDto } from "./dto/create-minigame-log.dto";
 
 @Injectable()
 export class MinigamesService {
- constructor(private dbService: KyselyDatabaseService) {}
+ constructor(@Inject("DATABASE") private readonly db: Kysely<DB>) {}
 
  async createMinigamesCompletion(readingSessionID: string) {
-  const db = this.dbService.database;
-
-  const readingSession = await db
+  
+  const readingSession = await this.db
    .selectFrom("public.reading_sessions as rs")
    .innerJoin(
     "public.reading_materials as rm",
@@ -26,7 +26,7 @@ export class MinigamesService {
     () => new NotFoundException("Reading session not found")
    );
 
-  const logs = await db
+  const logs = await this.db
    .selectFrom("public.minigame_logs as ml")
    .innerJoin("public.minigames as m", "m.id", "ml.minigame_id")
    .where("reading_session_id", "=", readingSessionID)
@@ -69,7 +69,7 @@ export class MinigamesService {
   else if (readingSession.difficulty >= 10) basePoints = 80;
   else if (readingSession.difficulty >= 0) basePoints = 100;
 
-  const readingSessions = await db
+  const readingSessions = await this.db
    .selectFrom("public.reading_sessions")
    .where("reading_material_id", "=", readingSession.reading_material_id)
    .select((eb) => eb.fn.count("id").as("count"))
@@ -86,7 +86,7 @@ export class MinigamesService {
    basePoints * numSessionsMultiplier +
    totalScore * minigamePerformanceMultiplier;
 
-  const updatedPupil = await db
+  const updatedPupil = await this.db
    .updateTable("public.pupils")
    .set({
     level: sql`level + ${Math.floor(finalScore)}`,
@@ -105,10 +105,9 @@ export class MinigamesService {
  }
 
  async getRandomMinigamesBySessionID(readingSessionID: string) {
-  const db = this.dbService.database;
-
+  
   // Fetch reading material ID based on the reading session ID and return error if not found
-  const readingSession = await db
+  const readingSession = await this.db
    .selectFrom("public.reading_sessions")
    .where("id", "=", readingSessionID)
    .select("reading_material_id")
@@ -120,7 +119,7 @@ export class MinigamesService {
   const { reading_material_id: readingMaterialID } = readingSession;
 
   // Fetch distinct minigames based on part_num, ordered randomly
-  const randomMinigames = await db
+  const randomMinigames = await this.db
    .selectFrom("public.minigames as m")
    .where("m.reading_material_id", "=", readingMaterialID)
    .distinctOn("part_num")
@@ -128,7 +127,7 @@ export class MinigamesService {
     "m.id as minigame_id",
     "m.minigame_type",
     "m.part_num",
-    "m.meta_data",
+    "m.metadata",
     "m.max_score",
    ])
    .orderBy("part_num")
@@ -142,10 +141,9 @@ export class MinigamesService {
  }
 
  async getRandomMinigamesByMaterialID(readingMaterialID: string) {
-  const db = this.dbService.database;
-
+  
   // Fetch distinct minigames based on part_num, ordered randomly
-  const randomMinigames = await db
+  const randomMinigames = await this.db
    .selectFrom("public.minigames as m")
    .where("m.reading_material_id", "=", readingMaterialID)
    .distinctOn("part_num")
@@ -153,7 +151,7 @@ export class MinigamesService {
     "m.id as minigame_id",
     "m.minigame_type",
     "m.part_num",
-    "m.meta_data",
+    "m.metadata",
     "m.max_score",
    ])
    .orderBy("part_num")
@@ -167,10 +165,9 @@ export class MinigamesService {
  }
 
  getWordsFromLettersMinigame(readingMaterialID: string) {
-  const db = this.dbService.database;
-
+  
   // Fetch WordsFromLetters minigame for the specific reading material
-  return db
+  return this.db
    .selectFrom("public.minigames as m")
    .where("reading_material_id", "=", readingMaterialID)
    .where("minigame_type", "=", 2) // 2 is the enum value for WordsFromLetters
@@ -178,7 +175,7 @@ export class MinigamesService {
     "m.id as minigame_id",
     "m.minigame_type",
     "m.part_num",
-    "m.meta_data",
+    "m.metadata",
     "m.max_score",
    ])
    .executeTakeFirstOrThrow(
@@ -190,10 +187,9 @@ export class MinigamesService {
   minigameType: MinigameType,
   minigameLogDto: CreateMinigameLogDto
  ) {
-  const db = this.dbService.database;
-
+  
   // Create a new minigame log entry
-  return db
+  return this.db
    .insertInto("public.minigame_logs")
    .values({
     minigame_id: minigameLogDto.minigame_id,

@@ -1,14 +1,14 @@
-import configuration from "./configuration/configuration";
 import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { ThrottlerModule } from "@nestjs/throttler";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { ConfigModule } from "@nestjs/config";
+import { AuthModule } from "./app/auth/auth.module";
+import { ClassroomsModule } from "./app/classrooms/classrooms.module";
+import { MinigamesModule } from "./app/minigames/minigames.module";
+import { PupilsModule } from "./app/pupils/pupils.module";
+import configuration from "./configuration/configuration";
 import { DatabaseModule } from "./database/database.module";
-import { AuthModule } from "./modules/auth/auth.module";
-import { PupilsModule } from "./modules/pupils/pupils.module";
-import { ThrottlerModule } from "@nestjs/throttler";
-import { ClassroomsModule } from "./modules/classrooms/classrooms.module";
-import { MinigamesModule } from "./modules/minigames/minigames.module";
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import { MinigamesModule } from "./modules/minigames/minigames.module";
     AuthModule,
     PupilsModule,
     ClassroomsModule,
-    MinigamesModule
+    MinigamesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
