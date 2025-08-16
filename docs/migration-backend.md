@@ -1,5 +1,10 @@
 # Backend Migration: C# → NestJS
 
+## Migration Status
+**Last Updated**: January 2025  
+**Package Manager**: pnpm (monorepo-wide)  
+**Reference Code**: LexiLearner/server (C# implementation)
+
 ## Migration Strategy
 
 **Vertical feature migration**: Migrate complete features from C# ASP.NET Core to NestJS one at a time.

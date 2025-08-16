@@ -47,9 +47,8 @@ pids
 coverage/
 *.lcov
 
-# C# Reference Code (local development only)
 csharp-backend/
-server-c#/
+LexiLearner/
 
 # Temporary migration files (remove after migration complete)
 migration-temp/

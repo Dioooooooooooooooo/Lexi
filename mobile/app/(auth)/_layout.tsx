@@ -1,5 +1,5 @@
+import React, { createContext, useState, useContext } from "react";
 import { Stack } from "expo-router";
-import React, { createContext, useContext, useState } from "react";
 
 // Define the type for the context state
 interface RegisterFormContextType {

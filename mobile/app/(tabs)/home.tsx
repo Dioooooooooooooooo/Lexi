@@ -16,6 +16,7 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
+  Pressable,
 } from "react-native";
 import { Text } from "~/components/ui/text";
 
@@ -274,7 +275,6 @@ function HomeScreen() {
                 resizeMode="contain"
               />
             </View>
-
             {user?.role === "Pupil" && (
               <View className="flex-1  w-full h-60 p-4">
                 <Text className="text-2xl px-4 font-bold">Recommended</Text>
