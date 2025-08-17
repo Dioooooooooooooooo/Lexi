@@ -38,6 +38,31 @@ const SignIn = () => {
     password: "",
   });
 
+  // TEST FUNCTION FOR BACKEND CONNECTION
+  const testBackendConnection = async () => {
+    setIsLoading(true);
+    try {
+      console.log("Testing backend connection...");
+      const response = await apiLogin("test@example.com", "test123456");
+      console.log("Backend connection success:", response);
+      
+      Toast.show({
+        type: "success",
+        text1: "Backend Connection Test",
+        text2: "Successfully connected to NestJS backend!",
+      });
+    } catch (error: any) {
+      console.error("Backend connection failed:", error);
+      Toast.show({
+        type: "error",
+        text1: "Backend Connection Test",
+        text2: error.message || "Connection failed",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const [formErrors, setFormErrors] = useState({
     email: "",
     password: "",
@@ -59,10 +84,10 @@ const SignIn = () => {
     setIsLoading(true);
     try {
       let response = await apiLogin(form.email, form.password);
-      await AsyncStorage.setItem("accessToken", response.data.accessToken);
+      await AsyncStorage.setItem("accessToken", response.data.access_token);
       await AsyncStorage.setItem(
         "refreshToken",
-        response.data.refreshToken.token
+        response.data.refresh_token
       );
 
       response = await getProfile();
@@ -182,6 +207,16 @@ const SignIn = () => {
             }}
           >
             <Text className="text-black text-md font-bold">Log In</Text>
+          </TouchableOpacity>
+          
+          {/* TEMPORARY TEST BUTTON FOR BACKEND CONNECTION */}
+          <TouchableOpacity
+            className="bg-green-500 border border-dropShadowColor rounded-xl border-b-4 p-3 items-center mt-3"
+            onPress={() => {
+              testBackendConnection();
+            }}
+          >
+            <Text className="text-white text-md font-bold">🧪 Test Backend Connection</Text>
           </TouchableOpacity>
           <TouchableOpacity
             className="justify-center items-center p-4"

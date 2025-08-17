@@ -74,7 +74,7 @@ export default function Step1() {
       const emailResponse = await checkUserExist("email", registerForm.email);
       console.log("Email check complete:", emailResponse);
 
-      if (emailResponse?.statusCode === 200) {
+      if (emailResponse?.statusCode === 409) {
         newErrors.email = "Email is already in use";
         isValid = false;
       }
@@ -95,7 +95,7 @@ export default function Step1() {
       );
       console.log("Username check complete:", usernameResponse);
 
-      if (usernameResponse?.statusCode === 200) {
+      if (usernameResponse?.statusCode === 409) {
         newErrors.username = "Username is already taken";
         isValid = false;
       }

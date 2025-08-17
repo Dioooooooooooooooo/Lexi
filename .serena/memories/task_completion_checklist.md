@@ -1,48 +1,61 @@
-# Task Completion Checklist
+# LexiLearner - Task Completion Checklist
 
-## When Working on Backend (lexilearner-backend/)
-After making changes, run these commands in order:
+## Code Quality & Standards
+- [ ] **Linting**: Run `npm run lint` to check all code
+- [ ] **Formatting**: Ensure Prettier formatting is applied
+- [ ] **Type checking**: Verify TypeScript compilation passes
+- [ ] **ESLint rules**: Address any linting warnings/errors
 
-1. **Linting**: `pnpm run lint`
-   - Fixes code style issues automatically
-   - Ensures ESLint rules compliance
+## API Development (if backend changes made)
+- [ ] **Swagger decorators**: Ensure all endpoints have proper OpenAPI documentation
+- [ ] **Generate OpenAPI spec**: Run `npm run openapi:spec`
+- [ ] **Generate client**: Run `npm run openapi:client` to update mobile API client
+- [ ] **Type safety**: Verify generated client types are used correctly in mobile app
 
-2. **Type Checking**: Built into the linting process via typescript-eslint
+## Testing Requirements
+- [ ] **Unit tests**: Run `npm run test:backend` for backend changes
+- [ ] **Mobile tests**: Run `npm run test:mobile` for frontend changes
+- [ ] **Integration tests**: Run end-to-end tests if available
+- [ ] **Manual testing**: Verify functionality works as expected
 
-3. **Testing**: `pnpm run test`
-   - Run unit tests to ensure no regressions
-   - For specific changes, consider running relevant test suites
+## Backend-Specific Checklist
+- [ ] **Database changes**: Update Kysely types if schema changed (`pnpm run generate:schema`)
+- [ ] **Validation**: Ensure DTOs have proper validation decorators
+- [ ] **Error handling**: Check that exceptions are properly handled
+- [ ] **Authentication**: Verify JWT guards are applied where needed
+- [ ] **Performance**: Check for N+1 queries or inefficient database operations
 
-4. **Build Verification**: `pnpm run build`
-   - Ensures the application compiles correctly
-   - Catches TypeScript compilation errors
+## Mobile-Specific Checklist
+- [ ] **Component testing**: Test components on both iOS and Android if possible
+- [ ] **State management**: Verify Zustand stores are updated correctly
+- [ ] **Navigation**: Ensure routing works properly with Expo Router
+- [ ] **Styling**: Check Tailwind classes render correctly with NativeWind
+- [ ] **API integration**: Verify Tanstack Query hooks work with generated client
 
-## When Working on Frontend (LexiLearner/lexilearner/)
-After making changes, run these commands:
+## Documentation Updates
+- [ ] **API docs**: Auto-generated at http://localhost:3000/docs should reflect changes
+- [ ] **README updates**: Update if new commands or setup steps are needed
+- [ ] **Migration notes**: Document progress if part of C# → TypeScript migration
 
-1. **Linting**: `npm run lint`
-   - Uses Expo's built-in linting configuration
+## Pre-Commit Requirements
+- [ ] **Conventional commits**: Follow format (feat:, fix:, docs:, etc.)
+- [ ] **Lint-staged**: Pre-commit hooks should pass automatically
+- [ ] **No secrets**: Ensure no API keys or sensitive data in code
+- [ ] **Clean commit**: Remove debug logs, commented code, console.logs
 
-2. **Type Checking**: TypeScript compiler runs automatically with Expo
-   - Check the terminal for any TypeScript errors
+## Deployment Readiness
+- [ ] **Build verification**: Run `npm run build` to ensure production build works
+- [ ] **Environment variables**: Verify all required env vars are documented
+- [ ] **Migration compatibility**: Ensure changes work with existing mobile app
+- [ ] **Backward compatibility**: Don't break existing API contracts without versioning
 
-3. **Testing**: `npm run test`
-   - Run Jest tests if available
+## Windows Development Notes
+- [ ] **Path separators**: Use forward slashes in cross-platform code
+- [ ] **File permissions**: Verify scripts have proper execution permissions
+- [ ] **Line endings**: Ensure consistent LF line endings (handled by .gitattributes)
 
-## Before Committing
-- Ensure both frontend and backend lint without errors
-- Verify all tests pass
-- Check that the build process completes successfully
-- Test key functionality manually if significant changes were made
-
-## API Development Specific
-- Update Swagger documentation if API endpoints change
-- Verify API documentation at http://localhost:3000/docs
-- Test API endpoints manually or with automated tests
-- Ensure database migrations are created if schema changes
-
-## Mobile Development Specific
-- Test on multiple platforms (iOS/Android) when possible
-- Verify responsive design on different screen sizes
-- Check for React Native specific warnings in the console
-- Ensure navigation flows work correctly
+## Final Verification
+- [ ] **Full development workflow**: `npm run dev` should start both apps successfully
+- [ ] **API generation workflow**: OpenAPI generation should work end-to-end
+- [ ] **No breaking changes**: Existing functionality should continue working
+- [ ] **Performance check**: No significant performance regressions introduced

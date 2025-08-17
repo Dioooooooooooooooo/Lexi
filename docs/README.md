@@ -21,18 +21,18 @@ LexiLearner is a modern language learning platform built with TypeScript, featur
 
 ### Commands
 ```bash
-npm run openapi:spec     # Generate OpenAPI from NestJS
-npm run openapi:client   # Generate React Native client
-npm run openapi:docs     # Generate both spec and client
+pnpm openapi:spec     # Generate OpenAPI from NestJS
+pnpm openapi:client   # Generate React Native client
+pnpm openapi:docs     # Generate both spec and client
 ```
 
 ## Development Guide
 
 ### Getting Started
-1. Install dependencies: `npm run install:all`
+1. Install dependencies: `pnpm install`
 2. Set up PostgreSQL database
 3. Configure environment variables
-4. Start development: `npm run dev`
+4. Start development: `pnpm dev`
 
 ### Project Structure
 ```
@@ -85,10 +85,10 @@ mobile/           # React Native application
 
 ### Development Setup
 1. Clone repository
-2. Install dependencies: `npm run install:all`
+2. Install dependencies: `pnpm install`
 3. Set up local PostgreSQL
 4. Copy `.env.example` to `.env` in backend/
-5. Start development: `npm run dev`
+5. Start development: `pnpm dev`
 
 ### Code Standards
 - **TypeScript**: Strict mode enabled
@@ -98,7 +98,7 @@ mobile/           # React Native application
 
 ### Adding New Features
 1. **Backend**: Create NestJS module with Swagger decorators
-2. **Generate**: Run `npm run openapi:client` to update client
+2. **Generate**: Run `pnpm openapi:client` to update client
 3. **Frontend**: Use generated Tanstack Query hooks
 4. **Test**: Verify functionality end-to-end
 

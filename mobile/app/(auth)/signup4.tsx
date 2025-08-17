@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { router } from "expo-router";
-import { useUserStore } from "@/stores/userStore";
-import { useGlobalStore } from "@/stores/globalStore";
 import { refreshAccessToken } from "@/services/AuthService";
+import { useGlobalStore } from "@/stores/globalStore";
+import { useUserStore } from "@/stores/userStore";
+import { router } from "expo-router";
+import { useState } from "react";
 import Toast from "react-native-toast-message";
 
 import { Platform, TouchableOpacity } from "react-native";
@@ -17,8 +17,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 
-import { View, Image } from "react-native";
-import { Button } from "~/components/ui/button";
+import { Image, View } from "react-native";
 import { Text } from "~/components/ui/text";
 
 export default function Step4() {
@@ -47,23 +46,24 @@ export default function Step4() {
       }
       setAgeInvalid(false);
       setIsLoading(true);
-      await updateProfile({ age: age });
+      await updateProfile({ age: parseInt(age, 10) });
       Toast.show({
         type: "success",
         text1: "Registration Success",
       });
-      refreshAccessToken();
+      // Remove unnecessary refreshAccessToken call - tokens are fresh after registration
       router.replace("/home");
     } catch (error: any) {
+      console.error("Signup4 updateProfile error:", error);
       Toast.show({
         type: "error",
-        text1: "Registration Failed aaa",
-        text2: error.message,
+        text1: "Profile Update Failed",
+        text2: error.message || "Unable to save your age. Please try again.",
       });
     } finally {
       setIsLoading(false);
     }
-  };
+  };;
 
   return (
     <ScrollView className="bg-white">

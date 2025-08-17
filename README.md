@@ -18,29 +18,28 @@ A comprehensive language learning platform with classroom management, interactiv
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **Node.js** 18+ and **npm** 9+
-- **pnpm** (for backend dependencies)
+- **Node.js** 18+ and **pnpm** 8+
 - **PostgreSQL** database
 - **Expo CLI** (for mobile development)
 
 ### Installation
 ```bash
 # Install all dependencies
-npm run install:all
+pnpm install
 
 # Or install individually
-npm run install:backend  # Uses pnpm
-npm run install:mobile   # Uses npm
+cd backend && pnpm install
+cd mobile && pnpm install
 ```
 
 ### Development
 ```bash
 # Start both backend and mobile concurrently
-npm run dev
+pnpm dev
 
 # Or start individually
-npm run dev:backend    # NestJS server on :3000
-npm run dev:mobile     # Expo dev server
+pnpm dev:backend    # NestJS server on :3000
+pnpm dev:mobile     # Expo dev server
 ```
 
 ## 📱 Applications
@@ -81,10 +80,10 @@ npm run dev:mobile     # Expo dev server
 ```bash
 # 1. Write NestJS code with Swagger decorators
 # 2. Generate OpenAPI spec from code
-npm run openapi:spec
+pnpm openapi:spec
 
 # 3. Generate type-safe React Native client
-npm run openapi:client
+pnpm openapi:client
 
 # 4. Use generated Tanstack Query hooks in React Native
 # 5. Always in sync - no manual API maintenance! 🎉
@@ -94,11 +93,11 @@ npm run openapi:client
 
 ### Root Level (Monorepo)
 ```bash
-npm run dev          # Start all applications
-npm run build        # Build all applications
-npm run test         # Run all test suites
-npm run lint         # Lint all projects
-npm run clean        # Clean all build artifacts
+pnpm dev          # Start all applications
+pnpm build        # Build all applications
+pnpm test         # Run all test suites
+pnpm lint         # Lint all projects
+pnpm clean        # Clean all build artifacts
 ```
 
 ### Backend Commands
@@ -114,18 +113,18 @@ pnpm run lint        # ESLint + Prettier
 ### Mobile Commands  
 ```bash
 cd mobile
-npm install          # Install dependencies
-npm start            # Start Expo dev server
-npm run android      # Run on Android
-npm run ios          # Run on iOS
-npm test             # Run Jest tests
+pnpm install          # Install dependencies
+pnpm start            # Start Expo dev server
+pnpm run android      # Run on Android
+pnpm run ios          # Run on iOS
+pnpm test             # Run Jest tests
 ```
 
 ### API Generation Commands
 ```bash
-npm run openapi:spec     # Generate OpenAPI spec from NestJS
-npm run openapi:client   # Generate React Native client
-npm run openapi:docs     # Generate both spec and client
+pnpm openapi:spec     # Generate OpenAPI spec from NestJS
+pnpm openapi:client   # Generate React Native client
+pnpm openapi:docs     # Generate both spec and client
 ```
 
 ## 📋 Project Management
@@ -146,9 +145,9 @@ npm run openapi:docs     # Generate both spec and client
 
 ### Automated Testing
 ```bash
-npm run test                 # All test suites
-npm run test:backend         # NestJS unit/integration tests
-npm run test:mobile          # React Native component tests
+pnpm test                 # All test suites
+pnpm test:backend         # NestJS unit/integration tests
+pnpm test:mobile          # React Native component tests
 ```
 
 ### Quality Assurance
@@ -196,10 +195,10 @@ npm run test:mobile          # React Native component tests
 
 ### Getting Started
 1. Clone repository
-2. Run `npm run install:all`
+2. Run `pnpm install`
 3. Set up PostgreSQL database
 4. Copy `.env.example` → `.env` in backend/
-5. Start development: `npm run dev`
+5. Start development: `pnpm dev`
 
 ### Code Guidelines
 - **Commits**: Follow conventional commit format

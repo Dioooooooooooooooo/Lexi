@@ -77,7 +77,7 @@ export default function Settings() {
 
       if (
         profile.userName !== user?.userName &&
-        (await checkUserExist("username", profile.userName)).statusCode === 200
+        (await checkUserExist("username", profile.userName)).statusCode === 409
       ) {
         newErrors["username"] = "Username is already taken";
       }

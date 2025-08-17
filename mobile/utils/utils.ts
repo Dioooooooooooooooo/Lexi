@@ -42,7 +42,8 @@ export const validateField = (
 
     case "email":
       if (!value.trim() || !value) return "Email is required.";
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+      // More comprehensive email regex that allows dots in local part
+      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value))
         return "Invalid email format.";
       return ""; // No error
 

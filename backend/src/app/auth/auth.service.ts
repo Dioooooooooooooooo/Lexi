@@ -128,6 +128,59 @@ export class AuthService {
     };
   }
 
+  async debugLogin(email: string) {
+    // Debug helper to check user existence and auth_provider
+    const user = await this.db
+      .selectFrom("auth.users")
+      .where("email", "=", email)
+      .selectAll()
+      .executeTakeFirst();
+    
+    const authProvider = await this.db
+      .selectFrom("auth.auth_providers")  
+      .where("email", "=", email)
+      .selectAll()
+      .executeTakeFirst();
+      
+    console.log("Debug login - User:", user ? "Found" : "Not found");
+    console.log("Debug login - Auth Provider:", authProvider ? "Found" : "Not found", authProvider?.provider_type);
+    
+    return { user: !!user, authProvider: !!authProvider, providerType: authProvider?.provider_type };
+  }
+
+  async debugDatabase() {
+    try {
+      const userCount = await this.db
+        .selectFrom("auth.users")
+        .select((eb) => eb.fn.count("id").as("count"))
+        .executeTakeFirst();
+        
+      const authProviderCount = await this.db
+        .selectFrom("auth.auth_providers")
+        .select((eb) => eb.fn.count("id").as("count"))
+        .executeTakeFirst();
+        
+      const rolesCount = await this.db
+        .selectFrom("auth.roles")
+        .select((eb) => eb.fn.count("id").as("count"))
+        .executeTakeFirst();
+        
+      return {
+        database: "connected",
+        tables: {
+          "auth.users": userCount?.count || 0,
+          "auth.auth_providers": authProviderCount?.count || 0,
+          "auth.roles": rolesCount?.count || 0
+        }
+      };
+    } catch (error: any) {
+      return {
+        database: "error",
+        error: error.message
+      };
+    }
+  }
+
   async login(loginDto: LoginDto) {
 
     // Find user and auth provider
@@ -550,6 +603,30 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  async checkUserExists(fieldType: string, fieldValue: string) {
+    const column = fieldType === 'email' ? 'email' : 'username';
+    
+    const existing = await this.db
+      .selectFrom("auth.users")
+      .select(["id", column])
+      .where(column, "=", fieldValue)
+      .executeTakeFirst();
+
+    if (existing) {
+      return {
+        message: `${fieldType.charAt(0).toUpperCase() + fieldType.slice(1)} already exists`,
+        statusCode: 409,
+        status: "error"
+      };
+    }
+
+    return {
+      message: `${fieldType.charAt(0).toUpperCase() + fieldType.slice(1)} is available`,
+      statusCode: 200,
+      status: "success"
+    };
   }
 
   private async generateTokens(userId: string, email: string, role: string) {

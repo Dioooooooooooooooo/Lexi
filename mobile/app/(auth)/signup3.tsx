@@ -1,18 +1,17 @@
-import React, { useContext, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
+import React, { useState } from "react";
 import Toast from "react-native-toast-message";
 
 import { router } from "expo-router";
 import { useRegisterFormContext } from "./_layout";
 
-import { useUserStore } from "@/stores/userStore";
 import { useAuthStore } from "@/stores/authStore";
 import { useGlobalStore } from "@/stores/globalStore";
+import { useUserStore } from "@/stores/userStore";
 
-import { View, Image, TouchableOpacity, ScrollView } from "react-native";
-import { Button } from "~/components/ui/button";
-import { Text } from "~/components/ui/text";
 import BackHeader from "@/components/BackHeader";
+import { Image, ScrollView, TouchableOpacity, View } from "react-native";
+import { Text } from "~/components/ui/text";
 
 export default function Step3() {
   const { fromProviderAuth } = useLocalSearchParams();
@@ -44,7 +43,7 @@ export default function Step3() {
       if (fromProviderAuth) {
         await updateProfile(form);
       } else {
-        signup(form);
+        await signup(form); // Added missing await keyword!
       }
       if (form.role === "Pupil") {
         router.push("/signup4");

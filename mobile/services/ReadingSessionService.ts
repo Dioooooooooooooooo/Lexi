@@ -89,16 +89,10 @@ export const getIncompleteReadingSessions = async () => {
 };
 
 export const getAllReadingSessions = async () => {
-  const response = await axiosInstance.get(`/readingsessions/history`, {
-    validateStatus: () => true,
-  });
-
-  if (response.status !== 200 && response.status !== 201) {
-    throw new Error(response.data.message);
-  }
-  console.log("history", response.data.data.length);
-  return response.data.data;
-};
+  // TODO: Implement reading sessions endpoint in NestJS backend
+  // Temporary fallback to prevent profile page crash
+  return [];
+};;
 
 export const totalBooksRead = () => {
   return useQuery({

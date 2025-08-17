@@ -1,41 +1,26 @@
-# LexiLearner Project Overview
+# LexiLearner - Project Overview
 
 ## Purpose
-LexiLearner is a language learning application with both frontend and backend components:
-
-- **Frontend**: A React Native mobile application built with Expo, designed for cross-platform (iOS/Android) deployment
-- **Backend**: A NestJS REST API server that provides data and authentication services
+LexiLearner is a modern language learning platform built with TypeScript that provides:
+- Classroom management for teachers and students
+- Interactive minigames for language learning
+- Reading comprehension tools and materials
+- Progress tracking and achievements system
+- JWT-based authentication with refresh tokens
 
 ## Architecture
-The project consists of two main parts:
-1. `LexiLearner/lexilearner/` - React Native frontend (Expo-based)
-2. `lexilearner-backend/` - NestJS backend API
+- **Monorepo structure** using pnpm workspaces
+- **Backend**: NestJS + TypeScript + Kysely + PostgreSQL
+- **Mobile**: React Native + Expo + TypeScript + Tanstack Query + Zustand
+- **Code-first API development** with automatic OpenAPI generation
+- **Type-safe client generation** ensures frontend/backend always in sync
 
-## Key Features (Based on Module Structure)
-- User authentication system
-- Classroom management
-- Minigames for language learning
-- Pupil/student management
-- Profile management
+## Key Technical Features
+- Auto-generated type-safe API client from NestJS code
+- Cross-platform mobile app (iOS/Android)
+- End-to-end TypeScript safety
+- Performance-optimized database queries with Kysely
+- Over-the-air updates via Expo Updates
 
-## Tech Stack Summary
-**Frontend:**
-- React Native + Expo
-- TypeScript
-- Tailwind CSS (via NativeWind)
-- React Query for data fetching
-- Zustand for state management
-- Axios for HTTP requests
-
-**Backend:**
-- NestJS (Node.js framework)
-- TypeScript
-- PostgreSQL (via Kysely query builder)
-- JWT Authentication
-- Swagger/OpenAPI documentation
-- bcrypt for password hashing
-
-## Development Environment
-- System: Windows
-- Package managers: pnpm (backend), npm (frontend)
-- Both projects are configured with TypeScript strict mode
+## Current Status
+Active migration from C# to TypeScript stack with focus on maintaining backward compatibility and testing against existing mobile app functionality.

@@ -11,6 +11,8 @@ import {
   Query,
   Res,
   Req,
+  BadRequestException,
+  Param,
 } from "@nestjs/common";
 import { Response, Request as ExpressRequest } from "express";
 import { AuthGuard } from "@nestjs/passport";
@@ -680,6 +682,87 @@ export class AuthController {
         user: req.user,
       },
     };
+  }
+
+  @Get("debug-login/:email")
+  @ApiOperation({
+    summary: "Debug login issues",
+    description: "Check if user and auth provider exist for debugging",
+  })
+  @HttpCode(HttpStatus.OK)
+  async debugLogin(@Param("email") email: string): Promise<any> {
+    return this.authService.debugLogin(email);
+  }
+
+  @Get("debug-db")
+  @ApiOperation({
+    summary: "Debug database connection",
+    description: "Check if database tables exist and are accessible",
+  })
+  @HttpCode(HttpStatus.OK)
+  async debugDatabase(): Promise<any> {
+    return this.authService.debugDatabase();
+  }
+
+  @Get("check-user")
+  @ApiOperation({
+    summary: "Check if user exists",
+    description: "Check if a user exists by email or username",
+  })
+  @ApiQuery({
+    name: "fieldType",
+    description: "Type of field to check (email or username)",
+    enum: ["email", "username"],
+    example: "email",
+  })
+  @ApiQuery({
+    name: "fieldValue",
+    description: "Value to check",
+    example: "user@example.com",
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "Field is available",
+    type: SuccessResponseDto,
+    example: {
+      message: "Email is available",
+      statusCode: 200,
+      status: "success",
+    },
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: "Field already exists",
+    type: ErrorResponseDto,
+    example: {
+      message: "Email already exists",
+      statusCode: 409,
+      status: "error",
+    },
+  })
+  @ApiBadRequestResponse({
+    description: "Invalid field type or missing parameters",
+    type: ErrorResponseDto,
+    example: {
+      statusCode: 400,
+      message: "fieldType must be either 'email' or 'username'",
+      error: "Bad Request",
+    },
+  })
+  @HttpCode(HttpStatus.OK)
+  async checkUserExists(
+    @Query("fieldType") fieldType: string,
+    @Query("fieldValue") fieldValue: string,
+  ): Promise<any> {
+    if (!fieldType || !fieldValue) {
+      throw new BadRequestException("fieldType and fieldValue are required");
+    }
+
+    if (fieldType !== "email" && fieldType !== "username") {
+      throw new BadRequestException("fieldType must be either 'email' or 'username'");
+    }
+
+    return this.authService.checkUserExists(fieldType, fieldValue);
   }
 
   // Legacy endpoint for backward compatibility

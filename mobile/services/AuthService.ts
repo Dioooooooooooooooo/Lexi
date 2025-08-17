@@ -58,10 +58,23 @@ export const login = async (email: string, password: string) => {
 };
 
 export const signUp = async (registerForm: Record<string, any>) => {
+  // Field mapping for frontend to backend compatibility
+  const fieldMap: Record<string, string> = {
+    firstName: 'first_name',
+    lastName: 'last_name',
+    confirmPassword: 'confirm_password'
+  };
+
+  // Transform field names
+  const transformedForm = Object.keys(registerForm).reduce((acc, key) => {
+    const backendKey = fieldMap[key] || key;
+    acc[backendKey] = registerForm[key];
+    return acc;
+  }, {} as Record<string, any>);
+
   const response = await axiosInstance.post(
     "/auth/register",
-    registerForm,
-
+    transformedForm,
     {
       validateStatus: () => true,
     },
@@ -72,14 +85,13 @@ export const signUp = async (registerForm: Record<string, any>) => {
   }
 
   return response.data;
-};
+};;
 
 export const refreshAccessToken = async () => {
   const response = await axiosInstance.post(
     "/auth/refresh",
     {
-      refreshToken: await AsyncStorage.getItem("refreshToken"),
-      accessToken: await AsyncStorage.getItem("accessToken"),
+      refresh_token: await AsyncStorage.getItem("refreshToken"),
     },
     {
       validateStatus: () => true,
@@ -94,8 +106,8 @@ export const refreshAccessToken = async () => {
     router.replace("/");
     return;
   }
-  await AsyncStorage.setItem("accessToken", response.data.data);
-};
+  await AsyncStorage.setItem("accessToken", response.data.data.access_token);
+};;
 
 export const tokenAuth = async (
   Provider: number, // 0 -> Google, 1 -> Facebook

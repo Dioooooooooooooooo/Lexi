@@ -43,7 +43,7 @@ export default function Step2() {
     if (Object.keys(newErrors).length === 0 && fromProviderAuth) {
       if (
         (await checkUserExist("username", providerRegisterForm.username))
-          .statusCode === 200
+          .statusCode === 409
       ) {
         newErrors["username"] = "Username is already taken.";
       }

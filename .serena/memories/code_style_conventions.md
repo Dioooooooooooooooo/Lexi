@@ -1,58 +1,83 @@
-# Code Style and Conventions
+# LexiLearner - Code Style & Conventions
 
-## Backend (NestJS/TypeScript)
-**Configuration:**
-- ESLint + Prettier for code formatting
-- TypeScript with experimental decorators enabled
-- Path mapping: `@/*` -> `./src/*`
+## TypeScript Configuration
+### Backend (NestJS)
+- **Target**: ES2021
+- **Module**: CommonJS
+- **Decorators**: Enabled (experimentalDecorators: true)
+- **Strict mode**: Partially enabled (strictNullChecks: false, noImplicitAny: false)
+- **Path mapping**: `@/*` → `./src/*`
 
-**Key Style Rules:**
-- `@typescript-eslint/no-explicit-any`: OFF (allows any type)
-- `@typescript-eslint/no-floating-promises`: WARN
-- `@typescript-eslint/no-unsafe-argument`: WARN
-- Strict null checks: disabled
-- No implicit any: disabled
+### Mobile (React Native)
+- **Extends**: expo/tsconfig.base
+- **Strict mode**: Fully enabled (strict: true)
+- **Path mapping**: `@/*` → `./*`, `~/*` → `*`
 
-**NestJS Conventions:**
-- Use decorators for controllers, services, modules
-- Dependency injection pattern
-- Global validation pipes enabled
-- Exception filters for error handling
-- Swagger documentation with decorators
+## ESLint Configuration
+### Backend
+- Uses typescript-eslint recommended + type-checked rules
+- Prettier integration enabled
+- Custom rules:
+  - `@typescript-eslint/no-explicit-any`: off
+  - `@typescript-eslint/no-floating-promises`: warn
+  - `@typescript-eslint/no-unsafe-argument`: warn
 
-**File Structure:**
-- Controllers in `src/modules/[module]/[module].controller.ts`
-- Services in `src/modules/[module]/[module].service.ts`
-- DTOs for request/response validation
-- Global filters, decorators, validators in respective directories
+### Mobile
+- Uses Expo's default ESLint configuration
+- Prettier integration for consistent formatting
 
-## Frontend (React Native/Expo)
-**Configuration:**
-- TypeScript with strict mode enabled
-- Tailwind CSS via NativeWind
-- Path mapping: `@/*` -> `./*`, `~/*` -> `*`
+## Naming Conventions
+- **Files/Directories**: kebab-case or camelCase (following respective framework conventions)
+- **Classes**: PascalCase (e.g., `AppController`, `UserService`)
+- **Interfaces/Types**: PascalCase with descriptive names
+- **Variables/Functions**: camelCase
+- **Constants**: UPPER_SNAKE_CASE for true constants
+- **Database**: Uses Kysely-generated types
 
-**Key Technologies:**
-- Expo Router for navigation
-- React Query for data fetching
-- Zustand for state management
-- React Native primitives for UI components
+## Code Organization
+### Backend Structure
+```
+src/
+├── app/              # Feature modules
+├── common/           # Shared utilities
+├── configuration/    # App configuration
+├── database/         # DB schemas & migrations
+├── decorators/       # Custom decorators
+├── filters/          # Exception filters
+└── validators/       # Custom validators
+```
 
-**File Structure:**
-- File-based routing in `app/` directory
-- Components in `components/` directory
-- Utilities in `utils/` directory
-- Services in `services/` directory
-- Models/types in `models/` directory
-- Stores (Zustand) in `stores/` directory
+### Mobile Structure
+```
+mobile/
+├── app/              # Expo Router screens
+├── components/       # Reusable UI components
+├── constants/        # App constants
+├── context/          # React contexts
+├── hooks/            # Custom React hooks
+├── lib/              # Utility libraries
+├── models/           # Data models
+├── services/         # API services (auto-generated)
+├── stores/           # Zustand stores
+├── types/            # TypeScript type definitions
+└── utils/            # Utility functions
+```
 
-**Naming Conventions:**
-- PascalCase for components and types
-- camelCase for functions and variables
-- kebab-case for file names (following Expo conventions)
+## API Development Conventions
+- **Code-first approach**: Write NestJS controllers with Swagger decorators
+- **DTOs**: Use class-validator decorators for validation
+- **Response formatting**: Consistent API response structure
+- **Error handling**: Global exception filters
+- **Authentication**: JWT with refresh token rotation
 
-## General Conventions
-- Use TypeScript throughout both projects
-- Consistent error handling patterns
-- Environment-specific configurations
-- API-first design with Swagger documentation
+## Styling Conventions (Mobile)
+- **Primary styling**: Tailwind CSS via NativeWind
+- **Component library**: Custom components + React Native Paper
+- **Responsive design**: Mobile-first approach
+- **Dark/Light mode**: System-based theme switching
+
+## Git Conventions
+- **Commits**: Conventional commit format (feat:, fix:, docs:, etc.)
+- **Branches**: feature/, bugfix/, hotfix/ prefixes
+- **Pre-commit hooks**: Lint-staged runs ESLint + Prettier on staged files
+- **PR requirements**: Include migration progress updates

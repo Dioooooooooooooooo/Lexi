@@ -1,6 +1,6 @@
-import React from "react";
-import { View, Text, TouchableOpacity, Modal, StatusBar } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import React from "react";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
 
 interface ConfirmModalProps {
   visible: boolean;
@@ -25,6 +25,12 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   icon,
   highlightedText,
 }) => {
+  // Debug logging
+  console.log("🎯 ConfirmModal render - visible:", visible, "title:", title);
+
+  React.useEffect(() => {
+    console.log("🎯 ConfirmModal visible prop changed:", visible);
+  }, [visible]);
   const renderMessage = () => {
     if (!highlightedText) {
       return (
@@ -109,17 +115,17 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     >
       <View
         style={{
-          flex: 1,
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           backgroundColor: "rgba(0, 0, 0, 0.5)",
           justifyContent: "center",
           alignItems: "center",
           paddingHorizontal: 20,
         }}
       >
-        <StatusBar
-          backgroundColor="rgba(0, 0, 0, 0.5)"
-          barStyle="light-content"
-        />
         <View
           style={{
             backgroundColor: "#ffffff",

@@ -8,7 +8,7 @@ import { ReadingContentType } from "@/models/ReadingContent";
 
 export const getProfile = async () => {
   try {
-    const response = await axiosInstance.get(`${API_URL}/users/me`);
+    const response = await axiosInstance.get(`${API_URL}/auth/me`);
 
     return response.data;
   } catch (error: any) {
@@ -20,25 +20,62 @@ export const getProfile = async () => {
 };
 
 export const updateProfile = async (updateProfileForm: Record<string, any>) => {
-  const response = await makeMultipartFormDataRequest(
-    `/users/me`,
-    updateProfileForm,
-    "PUT",
-    null
-  );
+  try {
+    // Field mapping for frontend to backend compatibility
+    const fieldMap: Record<string, string> = {
+      firstName: 'first_name',
+      lastName: 'last_name', 
+      userName: 'username'
+    };
 
-  const result = await response.json();
+    // Transform field names
+    const transformedForm = Object.keys(updateProfileForm).reduce((acc, key) => {
+      const backendKey = fieldMap[key] || key;
+      acc[backendKey] = updateProfileForm[key];
+      return acc;
+    }, {} as Record<string, any>);
 
-  if (response.status !== 200 && response.status !== 201) {
-    throw new Error(result.message);
+    // Determine which endpoint to use based on the fields being updated
+    const pupilFields = ['age', 'grade_level', 'level'];
+    const authFields = ['first_name', 'last_name', 'username', 'email', 'avatar', 'phone'];
+    const passwordFields = ['currentPassword', 'password', 'confirmPassword', 'current_password', 'new_password'];
+
+    const hasPupilFields = Object.keys(transformedForm).some(key => pupilFields.includes(key));
+    const hasAuthFields = Object.keys(transformedForm).some(key => authFields.includes(key));
+    const hasPasswordFields = Object.keys(updateProfileForm).some(key => passwordFields.includes(key));
+
+    let response;
+    
+    if (hasPasswordFields) {
+      // Use the auth change-password endpoint for password changes
+      const passwordData = {
+        current_password: updateProfileForm.currentPassword || updateProfileForm.current_password,
+        new_password: updateProfileForm.password || updateProfileForm.new_password
+      };
+      response = await axiosInstance.post(`${API_URL}/auth/change-password`, passwordData);
+    } else if (hasPupilFields) {
+      // Use pupils endpoint for pupil-specific data
+      response = await axiosInstance.patch(`${API_URL}/pupils/me`, transformedForm);
+    } else if (hasAuthFields) {
+      // Use auth endpoint for user profile data
+      response = await axiosInstance.patch(`${API_URL}/auth/me`, transformedForm);
+    } else {
+      // Default to auth endpoint
+      response = await axiosInstance.patch(`${API_URL}/auth/me`, transformedForm);
+    }
+    
+    return response.data;
+  } catch (error: any) {
+    console.error("Error updating profile:", error);
+    throw new Error(
+      error?.response?.data?.message || error?.message || "Failed to update profile"
+    );
   }
-
-  return result;
 };
 
 export const checkUserExist = async (fieldType: string, fieldValue: string) => {
   const response = await axiosInstance.get(
-    `/users/check-user?fieldType=${fieldType}&fieldValue=${fieldValue}`,
+    `/auth/check-user?fieldType=${fieldType}&fieldValue=${fieldValue}`,
     {
       validateStatus: () => true,
     }
@@ -52,7 +89,7 @@ export const checkUserExist = async (fieldType: string, fieldValue: string) => {
 };
 
 export const deleteAccount = async () => {
-  const response = await axiosInstance.delete(`/users/me`);
+  const response = await axiosInstance.delete(`${API_URL}/auth/me`);
 
   if (response.status !== 200 && response.status !== 204) {
     throw new Error(response.data.message);
@@ -62,7 +99,7 @@ export const deleteAccount = async () => {
 };
 
 export const createSession = async () => {
-  const response = await axiosInstance.post("/users/me/sessions", {
+  const response = await axiosInstance.post(`${API_URL}/pupils/me/sessions`, {
     validateStatus: () => true,
   });
 
@@ -74,7 +111,7 @@ export const createSession = async () => {
 }; // 1 session 1 new row
 
 export const endSession = async (sessionId: string) => {
-  const response = await axiosInstance.put(`/users/me/sessions/${sessionId}`, {
+  const response = await axiosInstance.put(`${API_URL}/pupils/me/sessions/${sessionId}`, {
     validateStatus: () => true,
   });
 
@@ -86,21 +123,15 @@ export const endSession = async (sessionId: string) => {
 };
 
 export const getTotalSession = async () => {
-  const response = await axiosInstance.get("/users/me/sessions", {
-    validateStatus: () => true,
-  });
-
-  if (response.status !== 200 && response.status !== 201) {
-    throw new Error(response.data.message);
-  }
-
-  return response.data.data;
-};
+  // TODO: Implement sessions endpoint in NestJS backend
+  // Temporary fallback to prevent profile page crash
+  return 0;
+};;
 
 export const getSessionById = async () => {};
 
 export const recordLoginStreak = async () => {
-  const response = await axiosInstance.put("/users/me/streak", {
+  const response = await axiosInstance.put(`${API_URL}/pupils/me/streak`, {
     validateStatus: () => true,
   });
 
@@ -112,30 +143,19 @@ export const recordLoginStreak = async () => {
 };
 
 export const getLoginStreak = async () => {
-  const response = await axiosInstance.get("/users/me/streak", {
-    validateStatus: () => true,
-  });
-  console.log("Get login streak response: ", response.data.data);
-
-  if (response.status !== 200 && response.status !== 201) {
-    throw new Error(response.data.message);
-  }
-
-  return response.data.data;
-};
+  // TODO: Implement login streak endpoint in NestJS backend
+  // Temporary fallback to prevent profile page crash
+  return {
+    longestStreak: 0,
+    currentStreak: 0
+  };
+};;
 
 export const getPupilAchievements = async () => {
-  const response = await axiosInstance.get(`/achievements`, {
-    validateStatus: () => true,
-  });
-
-  if (response.status !== 200 && response.status !== 201) {
-    console.error(response.data.message);
-    throw new Error(response.data.message);
-  }
-
-  return response.data.data;
-};
+  // TODO: Implement achievements endpoint in NestJS backend
+  // Temporary fallback to prevent profile page crash
+  return [];
+};;
 
 export const useProfileStats = (isPupil: boolean) => {
   return useQueries({
