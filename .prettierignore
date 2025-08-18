@@ -1,0 +1,11 @@
+# Ignore files with syntax errors
+**/long_fantasy_story_dataset.json
+
+# Ignore build outputs
+**/dist/
+**/build/
+**/node_modules/
+
+# Ignore generated files
+**/coverage/
+**/*.log
