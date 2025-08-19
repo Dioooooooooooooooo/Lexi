@@ -1,26 +1,36 @@
-# LexiLearner - Project Overview
+# Babolat LexiLearner Project Overview
 
-## Purpose
-LexiLearner is a modern language learning platform built with TypeScript that provides:
-- Classroom management for teachers and students
-- Interactive minigames for language learning
-- Reading comprehension tools and materials
-- Progress tracking and achievements system
-- JWT-based authentication with refresh tokens
+## Project Purpose
+LexiLearner is a language learning mobile application built with Expo/React Native. The app appears to focus on vocabulary learning through various minigames and classroom management features. The project is structured as a monorepo with both mobile frontend and backend API components.
 
-## Architecture
-- **Monorepo structure** using pnpm workspaces
-- **Backend**: NestJS + TypeScript + Kysely + PostgreSQL
-- **Mobile**: React Native + Expo + TypeScript + Tanstack Query + Zustand
-- **Code-first API development** with automatic OpenAPI generation
-- **Type-safe client generation** ensures frontend/backend always in sync
+## Project Structure
+```
+├── backend/          # NestJS API server
+│   ├── src/
+│   │   ├── app/      # Feature modules (auth, classrooms, minigames, pupils)
+│   │   ├── common/   # Shared utilities
+│   │   ├── database/ # Database configuration and types
+│   │   └── ...
+├── mobile/           # React Native/Expo mobile app
+│   ├── app/          # File-based routing (Expo Router)
+│   ├── components/   # Reusable UI components
+│   ├── hooks/        # Custom React hooks
+│   ├── lib/          # Generated API client and utilities
+│   ├── stores/       # State management (Zustand)
+│   └── ...
+├── docs/             # Documentation
+└── scripts/          # Build/deployment scripts
+```
 
-## Key Technical Features
-- Auto-generated type-safe API client from NestJS code
-- Cross-platform mobile app (iOS/Android)
-- End-to-end TypeScript safety
-- Performance-optimized database queries with Kysely
-- Over-the-air updates via Expo Updates
+## Key Features
+- Mobile language learning app with minigames
+- Classroom management system
+- User authentication and profiles
+- API integration with OpenAPI spec generation
+- Dark/light theme support
+- Offline capabilities
 
-## Current Status
-Active migration from C# to TypeScript stack with focus on maintaining backward compatibility and testing against existing mobile app functionality.
+## Monorepo Setup
+- Uses pnpm workspace with packages: backend, mobile
+- Shared dependencies and configuration at root level
+- Cross-platform development (iOS, Android, Web)

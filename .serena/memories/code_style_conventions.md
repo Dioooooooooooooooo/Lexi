@@ -1,83 +1,57 @@
-# LexiLearner - Code Style & Conventions
+# Code Style and Conventions
+
+## General Formatting (Prettier)
+- **Trailing Commas**: Always (all)
+- **Tab Width**: 2 spaces
+- **Semicolons**: Always
+- **Quotes**: Double quotes
+- **Print Width**: 80 characters
+- **Bracket Spacing**: true
+- **Arrow Parens**: avoid
 
 ## TypeScript Configuration
-### Backend (NestJS)
-- **Target**: ES2021
-- **Module**: CommonJS
-- **Decorators**: Enabled (experimentalDecorators: true)
-- **Strict mode**: Partially enabled (strictNullChecks: false, noImplicitAny: false)
-- **Path mapping**: `@/*` → `./src/*`
+- **Strict Mode**: Enabled
+- **Path Mapping**: 
+  - `@/*` maps to project root
+  - `~/*` maps to everything
+- **Base URL**: `./`
 
-### Mobile (React Native)
-- **Extends**: expo/tsconfig.base
-- **Strict mode**: Fully enabled (strict: true)
-- **Path mapping**: `@/*` → `./*`, `~/*` → `*`
+## Component Conventions
 
-## ESLint Configuration
-### Backend
-- Uses typescript-eslint recommended + type-checked rules
-- Prettier integration enabled
-- Custom rules:
-  - `@typescript-eslint/no-explicit-any`: off
+### React Native Components
+- Use `React.forwardRef` for components that need ref forwarding
+- Export interfaces for component props (e.g., `ButtonProps`, `SearchBarProps`)
+- Components use Expo Router for navigation
+- File-based routing in `app/` directory
+
+### Styling Patterns
+- Primary styling with NativeWind/Tailwind classes
+- Custom color palette defined in tailwind.config.js
+- Class Variance Authority (CVA) for component variants
+- `cn()` utility function for conditional classes
+- Custom design tokens for colors, spacing, and typography
+
+### Naming Conventions
+- **Components**: PascalCase (e.g., `SearchBar`, `Button`)
+- **Files**: camelCase for utilities, PascalCase for components
+- **Interfaces**: Descriptive names with Props suffix (e.g., `ButtonProps`)
+- **Constants**: SCREAMING_SNAKE_CASE (e.g., `DARK_THEME`)
+
+## Backend Conventions (NestJS)
+- **Modules**: Feature-based organization under `src/app/`
+- **Controllers**: RESTful endpoints with OpenAPI decorators
+- **Services**: Business logic separation
+- **DTOs**: Class-based with validation decorators
+- **Database**: Kysely for type-safe queries
+
+## Linting Rules (ESLint)
+- **TypeScript**: Recommended + type-checked rules
+- **Prettier**: Integrated formatting
+- **Custom Rules**:
+  - `@typescript-eslint/no-explicit-any`: error
   - `@typescript-eslint/no-floating-promises`: warn
   - `@typescript-eslint/no-unsafe-argument`: warn
 
-### Mobile
-- Uses Expo's default ESLint configuration
-- Prettier integration for consistent formatting
-
-## Naming Conventions
-- **Files/Directories**: kebab-case or camelCase (following respective framework conventions)
-- **Classes**: PascalCase (e.g., `AppController`, `UserService`)
-- **Interfaces/Types**: PascalCase with descriptive names
-- **Variables/Functions**: camelCase
-- **Constants**: UPPER_SNAKE_CASE for true constants
-- **Database**: Uses Kysely-generated types
-
-## Code Organization
-### Backend Structure
-```
-src/
-├── app/              # Feature modules
-├── common/           # Shared utilities
-├── configuration/    # App configuration
-├── database/         # DB schemas & migrations
-├── decorators/       # Custom decorators
-├── filters/          # Exception filters
-└── validators/       # Custom validators
-```
-
-### Mobile Structure
-```
-mobile/
-├── app/              # Expo Router screens
-├── components/       # Reusable UI components
-├── constants/        # App constants
-├── context/          # React contexts
-├── hooks/            # Custom React hooks
-├── lib/              # Utility libraries
-├── models/           # Data models
-├── services/         # API services (auto-generated)
-├── stores/           # Zustand stores
-├── types/            # TypeScript type definitions
-└── utils/            # Utility functions
-```
-
-## API Development Conventions
-- **Code-first approach**: Write NestJS controllers with Swagger decorators
-- **DTOs**: Use class-validator decorators for validation
-- **Response formatting**: Consistent API response structure
-- **Error handling**: Global exception filters
-- **Authentication**: JWT with refresh token rotation
-
-## Styling Conventions (Mobile)
-- **Primary styling**: Tailwind CSS via NativeWind
-- **Component library**: Custom components + React Native Paper
-- **Responsive design**: Mobile-first approach
-- **Dark/Light mode**: System-based theme switching
-
-## Git Conventions
-- **Commits**: Conventional commit format (feat:, fix:, docs:, etc.)
-- **Branches**: feature/, bugfix/, hotfix/ prefixes
-- **Pre-commit hooks**: Lint-staged runs ESLint + Prettier on staged files
-- **PR requirements**: Include migration progress updates
+## Import Organization
+- Absolute imports preferred with path mapping
+- Group imports: external libraries, internal modules, relative imports

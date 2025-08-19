@@ -18,11 +18,13 @@ A comprehensive language learning platform with classroom management, interactiv
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - **Node.js** 18+ and **pnpm** 8+
 - **PostgreSQL** database
 - **Expo CLI** (for mobile development)
 
 ### Installation
+
 ```bash
 # Install all dependencies
 pnpm install
@@ -33,11 +35,11 @@ cd mobile && pnpm install
 ```
 
 ### Development
-```bash
-# Start both backend and mobile concurrently
-pnpm dev
 
-# Or start individually
+```bash
+
+
+#start individually
 pnpm dev:backend    # NestJS server on :3000
 pnpm dev:mobile     # Expo dev server
 ```
@@ -45,6 +47,7 @@ pnpm dev:mobile     # Expo dev server
 ## 📱 Applications
 
 ### Backend API (NestJS)
+
 - **Framework**: NestJS + TypeScript
 - **Database**: PostgreSQL + Kysely Query Builder
 - **Auth**: JWT with refresh tokens
@@ -52,6 +55,7 @@ pnpm dev:mobile     # Expo dev server
 - **Port**: http://localhost:3000
 
 **Key Features:**
+
 - 🔐 Authentication & Authorization
 - 👥 Classroom Management
 - 🎮 Interactive Minigames API
@@ -59,6 +63,7 @@ pnpm dev:mobile     # Expo dev server
 - 🏆 Achievements & Progress Tracking
 
 ### Mobile App (React Native)
+
 - **Framework**: Expo + React Native
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS (NativeWind)
@@ -66,12 +71,12 @@ pnpm dev:mobile     # Expo dev server
 - **Navigation**: Expo Router
 
 **Key Features:**
+
 - 📱 Cross-platform (iOS/Android)
 - 🔄 Auto-generated API client
 - 🎯 Interactive learning games
 - 📊 Progress tracking & analytics
 - 👨‍🏫 Teacher & student roles
-
 
 ## 🎯 Code-First API Development
 
@@ -92,6 +97,7 @@ pnpm openapi:client
 ## 🛠️ Development Commands
 
 ### Root Level (Monorepo)
+
 ```bash
 pnpm dev          # Start all applications
 pnpm build        # Build all applications
@@ -101,16 +107,18 @@ pnpm clean        # Clean all build artifacts
 ```
 
 ### Backend Commands
+
 ```bash
 cd backend
 pnpm install         # Install dependencies
 pnpm run start:dev   # Development server
-pnpm run build       # Build application  
+pnpm run build       # Build application
 pnpm run test        # Run tests
 pnpm run lint        # ESLint + Prettier
 ```
 
-### Mobile Commands  
+### Mobile Commands
+
 ```bash
 cd mobile
 pnpm install          # Install dependencies
@@ -121,6 +129,7 @@ pnpm test             # Run Jest tests
 ```
 
 ### API Generation Commands
+
 ```bash
 pnpm openapi:spec     # Generate OpenAPI spec from NestJS
 pnpm openapi:client   # Generate React Native client
@@ -130,11 +139,13 @@ pnpm openapi:docs     # Generate both spec and client
 ## 📋 Project Management
 
 ### Documentation
+
 - 📚 **[Project Documentation](./docs/README.md)** - Architecture and development guide
 - 📖 **API Docs**: http://localhost:3000/docs (when backend running)
 - 🔧 **Auto-generated Client**: Always reflects current backend API
 
 ### Development Workflow
+
 1. **Backend**: Implement NestJS endpoint with Swagger decorators
 2. **Generate**: Create API client automatically
 3. **Frontend**: Use generated Tanstack Query hooks
@@ -144,6 +155,7 @@ pnpm openapi:docs     # Generate both spec and client
 ## 🧪 Testing
 
 ### Automated Testing
+
 ```bash
 pnpm test                 # All test suites
 pnpm test:backend         # NestJS unit/integration tests
@@ -151,6 +163,7 @@ pnpm test:mobile          # React Native component tests
 ```
 
 ### Quality Assurance
+
 - **Unit Tests**: Jest + Supertest
 - **Integration Tests**: TestContainers + PostgreSQL
 - **E2E Tests**: Expo testing utilities
@@ -160,13 +173,15 @@ pnpm test:mobile          # React Native component tests
 ## 📦 Dependencies
 
 ### Backend Stack
+
 - **NestJS** - Progressive Node.js framework
-- **Kysely** - Type-safe SQL query builder  
+- **Kysely** - Type-safe SQL query builder
 - **PostgreSQL** - Primary database
 - **Swagger** - API documentation
 - **Jest** - Testing framework
 
 ### Mobile Stack
+
 - **Expo** - React Native development platform
 - **Tanstack Query** - Data fetching/caching
 - **Zustand** - State management
@@ -174,6 +189,7 @@ pnpm test:mobile          # React Native component tests
 - **React Navigation** - Screen navigation
 
 ### Shared Tools
+
 - **TypeScript** - Type safety across stack
 - **ESLint/Prettier** - Code formatting
 - **Husky** - Git hooks
@@ -182,11 +198,13 @@ pnpm test:mobile          # React Native component tests
 ## 🚢 Deployment
 
 ### Backend (NestJS)
+
 - **Production**: Vercel serverless functions
 - **Staging**: Docker containers
 - **Database**: PostgreSQL on Railway/Supabase
 
 ### Mobile App
+
 - **Distribution**: Expo EAS Build
 - **Platforms**: iOS App Store, Google Play Store
 - **Updates**: Over-the-air with Expo Updates
@@ -194,6 +212,7 @@ pnpm test:mobile          # React Native component tests
 ## 🤝 Contributing
 
 ### Getting Started
+
 1. Clone repository
 2. Run `pnpm install`
 3. Set up PostgreSQL database
@@ -201,12 +220,14 @@ pnpm test:mobile          # React Native component tests
 5. Start development: `pnpm dev`
 
 ### Code Guidelines
+
 - **Commits**: Follow conventional commit format
-- **PRs**: Include migration progress updates  
+- **PRs**: Include migration progress updates
 - **Testing**: Write tests for new features
 - **Documentation**: Update API docs as needed
 
 ### Migration Guidelines
+
 - Always reference C# implementation for business logic
 - Maintain backward compatibility where possible
 - Update progress tracking after each feature
@@ -222,6 +243,6 @@ MIT License - see [LICENSE](./LICENSE) for details
 
 ---
 
-*🚀 **Status**: Active migration from C# to TypeScript stack*  
-*📅 **Last Updated**: $(date)*  
-*🎯 **Goal**: Complete type-safe, auto-generated API client*
+_🚀 **Status**: Active migration from C# to TypeScript stack_
+_📅 **Last Updated**: $(date)_
+_🎯 **Goal**: Complete type-safe, auto-generated API client_

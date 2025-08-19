@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "description": "LexiLearner monorepo - Language learning application with NestJS backend and React Native mobile app",
-  "keywords": ["language-learning", "education", "react-native", "nestjs", "typescript", "monorepo"],
+  "keywords": [
+    "language-learning",
+    "education",
+    "react-native",
+    "nestjs",
+    "typescript",
+    "monorepo"
+  ],
   "workspaces": [
     "backend",
     "mobile"
@@ -14,9 +21,9 @@
     "npm": ">=9.0.0"
   },
   "scripts": {
-    "dev": "npm-run-all --parallel dev:*",
     "dev:backend": "cd backend && pnpm run start:dev",
-    "dev:mobile": "cd mobile && pnpm start",
+    "dev:mobile": "cd mobile && pnpm exec expo run:android",
+    "dev:mobile-server": "cd mobile && pnpm start",
     "build": "npm-run-all build:*",
     "build:backend": "cd backend && pnpm run build",
     "build:mobile": "cd mobile && pnpm expo build",
@@ -69,13 +76,9 @@
     ]
   },
   "commitlint": {
-    "extends": ["@commitlint/config-conventional"]
-  },
-  "config": {
-    "openapi": {
-      "specUrl": "http://localhost:3000/docs-json",
-      "outputDir": "mobile/src/api/generated"
-    }
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "repository": {
     "type": "git",
