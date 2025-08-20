@@ -1,5 +1,4 @@
 import { Pupil } from "@/services/ClassroomService";
-import axios from "axios";
 import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
 import { API_URL } from "./constants";
