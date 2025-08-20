@@ -22,15 +22,16 @@ import { UserResponseDto } from "../auth/dto/auth.dto";
 import { ErrorResponseDto, SuccessResponseDto } from "@/common/dto";
 import { Roles } from "@/decorators/roles.decorator";
 import { RolesGuard } from "../auth/role-guard";
+import { Pupil, PupilLeaderboard } from "@/database/schemas";
 
 @Controller("pupils")
+@UseGuards(AuthGuard("jwt"), RolesGuard)
+@ApiBearerAuth("JWT-auth")
+@Roles(["Pupil"])
 export class PupilsController {
   constructor(private readonly pupilsService: PupilsService) {}
 
   @Get("me")
-  @UseGuards(AuthGuard("jwt"), RolesGuard)
-  @ApiBearerAuth("JWT-auth")
-  @Roles(["Pupil"])
   @ApiOperation({
     summary: "Get user pupil profile",
   })
@@ -56,16 +57,14 @@ export class PupilsController {
       error: "Unauthorized",
     },
   })
-  getPupilProfile(
+  async getPupilProfile(
     @Request() req: { user: UserResponseDto },
-  ): Promise<SuccessResponseDto> {
-    return this.pupilsService.getPupilProfile(req.user.id);
+  ): Promise<SuccessResponseDto<Pupil>> {
+    const data = await this.pupilsService.getPupilProfile(req.user.id);
+    return { message: "Pupil profile successfully fetched", data };
   }
 
   @Patch("me")
-  @UseGuards(AuthGuard("jwt"), RolesGuard)
-  @ApiBearerAuth("JWT-auth")
-  @Roles(["Pupil"])
   @ApiOperation({
     summary: "Update user pupil profile",
   })
@@ -105,69 +104,15 @@ export class PupilsController {
       error: "Unauthorized",
     },
   })
-  updatePupilProfile(
+  async updatePupilProfile(
     @Request() req: { user: UserResponseDto },
     @Body() updatePupilDto: UpdatePupilProfileDto,
-  ): Promise<SuccessResponseDto> {
-    return this.pupilsService.updatePupilProfile(req.user.id, updatePupilDto);
-  }
-
-  @Get("leaderboard")
-  @UseGuards(AuthGuard("jwt"))
-  @ApiBearerAuth("JWT-auth")
-  @ApiOperation({
-    summary: "Get global pupil leaderboard",
-  })
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: "Global pupil leaderboard successfully fetched",
-    type: SuccessResponseDto,
-    example: {
-      message: "Global pupil leaderboard successfully fetched",
-      data: {},
-    },
-  })
-  @ApiUnauthorizedResponse({
-    description: "Invalid credentials",
-    type: ErrorResponseDto,
-    example: {
-      statusCode: 401,
-      message: "Invalid credentials",
-      error: "Unauthorized",
-    },
-  })
-  getGlobalPupilLeaderboard(): Promise<SuccessResponseDto> {
-    return this.pupilsService.getGlobalPupilLeaderboard();
-  }
-
-  @Get("leaderboard/:pupilId")
-  @UseGuards(AuthGuard("jwt"))
-  @ApiBearerAuth("JWT-auth")
-  @ApiOperation({
-    summary: "Get pupil leaderboard by pupil ID",
-  })
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: "Pupil leaderboard successfully fetched",
-    type: SuccessResponseDto,
-    example: {
-      message: "Global pupil leaderboard successfully fetched",
-      data: {},
-    },
-  })
-  @ApiUnauthorizedResponse({
-    description: "Invalid credentials",
-    type: ErrorResponseDto,
-    example: {
-      statusCode: 401,
-      message: "Invalid credentials",
-      error: "Unauthorized",
-    },
-  })
-  getPupilLeaderBoardByPupilId(
-    @Param() pupilId: string,
-  ): Promise<SuccessResponseDto> {
-    return this.pupilsService.getPupilLeaderBoardByPupilId(pupilId);
+  ): Promise<SuccessResponseDto<Pupil>> {
+    const data = await this.pupilsService.updatePupilProfile(
+      req.user.id,
+      updatePupilDto,
+    );
+    return { message: "Pupil profile successfully updated", data };
   }
 
   @Get(":username")
@@ -208,9 +153,77 @@ export class PupilsController {
       error: "Unauthorized",
     },
   })
-  getUserByUsername(
+  async getPupilByUsername(
     @Param("username") username: string,
-  ): Promise<SuccessResponseDto> {
-    return this.pupilsService.getPupilByUsername(username);
+  ): Promise<SuccessResponseDto<Record<string, any>>> {
+    const data = await this.pupilsService.getPupilByUsername(username);
+    return {
+      message: "successfully fetched pupil leaderboard",
+      data,
+    };
+  }
+
+  @Get("leaderboard")
+  @UseGuards(AuthGuard("jwt"))
+  @ApiBearerAuth("JWT-auth")
+  @ApiOperation({
+    summary: "Get global pupil leaderboard",
+  })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: "Global pupil leaderboard successfully fetched",
+    type: SuccessResponseDto,
+    example: {
+      message: "Global pupil leaderboard successfully fetched",
+      data: {},
+    },
+  })
+  @ApiUnauthorizedResponse({
+    description: "Invalid credentials",
+    type: ErrorResponseDto,
+    example: {
+      statusCode: 401,
+      message: "Invalid credentials",
+      error: "Unauthorized",
+    },
+  })
+  async getGlobalPupilLeaderboard(): Promise<
+    SuccessResponseDto<PupilLeaderboard[]>
+  > {
+    const data = await this.pupilsService.getGlobalPupilLeaderboard();
+
+    return {
+      message: "Global pupil leaderboard successfully fetched",
+      data,
+    };
+  }
+
+  @Get("leaderboard/:pupilId")
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: "Pupil leaderboard successfully fetched",
+    type: SuccessResponseDto,
+    example: {
+      message: "Global pupil leaderboard successfully fetched",
+      data: {},
+    },
+  })
+  @ApiUnauthorizedResponse({
+    description: "Invalid credentials",
+    type: ErrorResponseDto,
+    example: {
+      statusCode: 401,
+      message: "Invalid credentials",
+      error: "Unauthorized",
+    },
+  })
+  async getPupilLeaderBoardByPupilId(
+    @Param() pupilId: string,
+  ): Promise<SuccessResponseDto<PupilLeaderboard[]>> {
+    const data = await this.pupilsService.getPupilLeaderBoardByPupilId(pupilId);
+    return {
+      message: "Pupil successfully fetched",
+      data,
+    };
   }
 }

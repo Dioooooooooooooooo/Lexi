@@ -9,12 +9,8 @@ import {
   HttpStatus,
   Patch,
   Query,
-  Res,
   Req,
-  BadRequestException,
-  Param,
 } from "@nestjs/common";
-import { Response, Request as ExpressRequest } from "express";
 import { AuthGuard } from "@nestjs/passport";
 import {
   ApiTags,
@@ -38,18 +34,25 @@ import {
   ChangePasswordDto,
   UpdateProfileDto,
   RefreshTokenDto,
+  GoogleExchangeTokenDto,
 } from "./dto/auth.dto";
 import { ErrorResponseDto, SuccessResponseDto } from "@/common/dto";
+import { OAuth2Client } from "google-auth-library";
 
 @ApiTags("Authentication")
 @Controller("auth")
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @Post("register")
   @ApiOperation({
     summary: "Register a new user",
     description: "Create a new user account with email and password",
+  })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: "User successfully registered",
+    type: AuthResponseDto,
   })
   @ApiBody({
     type: RegisterDto,
@@ -65,26 +68,6 @@ export class AuthController {
           password: "securePassword123",
           confirm_password: "securePassword123",
           role: "Pupil",
-        },
-      },
-    },
-  })
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: "User successfully registered",
-    type: AuthResponseDto,
-    example: {
-      message: "User successfully registered",
-      data: {
-        access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-        refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-        user: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          email: "john.doe@example.com",
-          first_name: "John",
-          last_name: "Doe",
-          role: "Pupil",
-          created_at: "2023-01-01T00:00:00.000Z",
         },
       },
     },
@@ -113,27 +96,18 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   async register(
     @Body() registerDto: RegisterDto,
-    @Res({ passthrough: true }) response: Response,
-  ): Promise<SuccessResponseDto> {
+  ): Promise<
+    SuccessResponseDto<{ access_token: string; refresh_token: string }>
+  > {
     const data = await this.authService.register(registerDto);
 
-    response.cookie("access_token", data.data.access_token, {
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-      secure: process.env.NODE_ENV !== "development", // false in dev, true in prod
-      path: "/",
-      // domain: "localhost",
-    });
-
-    response.cookie("refresh_token", data.data.refresh_token, {
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-      secure: process.env.NODE_ENV !== "development", // false in dev, true in prod
-      path: "/", // could be /auth/refresh
-      // domain: "localhost",
-    });
-
-    return data;
+    return {
+      message: "User successfully registered",
+      data: {
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+      },
+    };
   }
 
   @Post("login")
@@ -191,39 +165,58 @@ export class AuthController {
     },
   })
   @HttpCode(HttpStatus.OK)
-  async login(
-    @Res({ passthrough: true }) response: Response,
-    @Body() loginDto: LoginDto,
-  ): Promise<SuccessResponseDto> {
+  async login(@Body() loginDto: LoginDto): Promise<
+    SuccessResponseDto<{
+      access_token: string;
+      refresh_token: string;
+      user: any;
+    }>
+  > {
     const data = await this.authService.login(loginDto);
 
-    response.cookie("access_token", data.data.access_token, {
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-      secure: process.env.NODE_ENV !== "development", // false in dev, true in prod
-      path: "/",
-      expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
-      // domain: "localhost",
-    });
+    return {
+      message: "User successfully logged in",
+      data: {
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+        user: data.user,
+      },
+    };
+  }
 
-    response.cookie("refresh_token", data.data.refresh_token, {
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-      secure: process.env.NODE_ENV !== "development", // false in dev, true in prod
-      path: "/", // could be /auth/refresh
-      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
-      // domain: "localhost",
-    });
+  @Post("google/token")
+  @ApiOperation({
+    summary: "Exchange Google id_token for app tokens",
+  })
+  @ApiResponse({ status: HttpStatus.OK, type: SuccessResponseDto })
+  async exchangeGoogleIdToken(
+    @Body() googleExchangeTokenDto: GoogleExchangeTokenDto,
+  ): Promise<
+    SuccessResponseDto<{
+      access_token: string;
+      refresh_token: string;
+      user: any;
+    }>
+  > {
+    const data = await this.authService.exchangeGoogleIdToken(
+      googleExchangeTokenDto.id_token,
+    );
 
-    return data;
+    return {
+      message: "Authentication successful",
+      data,
+    };
   }
 
   @Post("refresh")
-  @UseGuards(AuthGuard("jwt"))
-  @ApiBearerAuth("JWT-auth")
   @ApiOperation({
     summary: "Refresh access token",
     description: "Get a new access token using refresh token",
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "Token refreshed successfully",
+    type: SuccessResponseDto,
   })
   @ApiBody({
     type: RefreshTokenDto,
@@ -267,41 +260,33 @@ export class AuthController {
   })
   @HttpCode(HttpStatus.OK)
   async refreshToken(
-    @Res({ passthrough: true }) response: Response,
     @Body() refreshTokenDto: RefreshTokenDto,
-    @Request() req: ExpressRequest,
-  ): Promise<SuccessResponseDto> {
-    // Prefer refresh_token from cookie for modern clients, fallback to body for legacy
-    const refreshToken =
-      req.cookies?.refresh_token || refreshTokenDto.refresh_token;
+  ): Promise<
+    SuccessResponseDto<{ access_token: string; refresh_token: string }>
+  > {
+    const refreshToken = refreshTokenDto.refresh_token;
     const data = await this.authService.refreshToken({
       refresh_token: refreshToken,
     });
 
-    response.cookie("access_token", data.data.access_token, {
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-      secure: process.env.NODE_ENV !== "development",
-      expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
-      path: "/",
-    });
-    response.cookie("refresh_token", data.data.refresh_token, {
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-      secure: process.env.NODE_ENV !== "development",
-      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
-      path: "/",
-    });
-
-    return data;
+    return {
+      message: "Token refreshed successfully",
+      data: {
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+      },
+    };
   }
 
   @Post("forgot-password")
-  @UseGuards(AuthGuard("jwt"))
-  @ApiBearerAuth("JWT-auth")
   @ApiOperation({
     summary: "Request password reset",
     description: "Send a password reset link to user email",
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "Password reset email sent (if email exists)",
+    type: SuccessResponseDto,
   })
   @ApiBody({
     type: ForgotPasswordDto,
@@ -336,8 +321,12 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async forgotPassword(
     @Body() forgotPasswordDto: ForgotPasswordDto,
-  ): Promise<SuccessResponseDto> {
-    return this.authService.forgotPassword(forgotPasswordDto);
+  ): Promise<SuccessResponseDto<void>> {
+    await this.authService.forgotPassword(forgotPasswordDto);
+
+    return {
+      message: "If the email exists, a password reset link has been sent.",
+    };
   }
 
   @Post("reset-password")
@@ -379,8 +368,10 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async resetPassword(
     @Body() resetPasswordDto: ResetPasswordDto,
-  ): Promise<SuccessResponseDto> {
-    return this.authService.resetPassword(resetPasswordDto);
+  ): Promise<SuccessResponseDto<void>> {
+    await this.authService.resetPassword(resetPasswordDto);
+
+    return { message: "Password reset successfully" };
   }
 
   @Post("request-email-verification")
@@ -433,8 +424,9 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async verifyEmail(
     @Query("token") token: string,
-  ): Promise<SuccessResponseDto> {
-    return this.authService.verifyEmail(token);
+  ): Promise<SuccessResponseDto<void>> {
+    await this.authService.verifyEmail(token);
+    return { message: "Email verified successfully" };
   }
 
   @Get("me")
@@ -466,7 +458,9 @@ export class AuthController {
       error: "Unauthorized",
     },
   })
-  getProfile(@Request() req: { user: UserResponseDto }): SuccessResponseDto {
+  getProfile(
+    @Request() req: { user: UserResponseDto },
+  ): SuccessResponseDto<UserResponseDto> {
     return { message: "User profile retrieved successfully", data: req.user };
   }
 
@@ -526,8 +520,11 @@ export class AuthController {
   async updateProfile(
     @Request() req: { user: UserResponseDto },
     @Body() updateProfileDto: UpdateProfileDto,
-  ): Promise<SuccessResponseDto> {
-    return this.authService.updateProfile(req.user.id, updateProfileDto);
+  ): Promise<SuccessResponseDto<UserResponseDto>> {
+    await this.authService.updateProfile(req.user.id, updateProfileDto);
+    return {
+      message: "User profile successfully updated",
+    };
   }
 
   @Post("change-password")
@@ -572,8 +569,9 @@ export class AuthController {
   async changePassword(
     @Request() req: { user: UserResponseDto },
     @Body() changePasswordDto: ChangePasswordDto,
-  ): Promise<SuccessResponseDto> {
-    return this.authService.changePassword(req.user.id, changePasswordDto);
+  ): Promise<SuccessResponseDto<void>> {
+    await this.authService.changePassword(req.user.id, changePasswordDto);
+    return { message: "Password changed successfully" };
   }
 
   @Post("logout")
@@ -616,29 +614,12 @@ export class AuthController {
   })
   @HttpCode(HttpStatus.OK)
   async logout(
-    @Request() req: ExpressRequest,
-    @Res({ passthrough: true }) response: Response,
     @Body() body?: { refresh_token?: string },
-  ): Promise<SuccessResponseDto> {
-    // Prefer refresh_token from cookie for modern clients, fallback to body for legacy
-    const refreshToken = req.cookies?.refresh_token || body?.refresh_token;
-    const result = await this.authService.logout(refreshToken);
+  ): Promise<SuccessResponseDto<void>> {
+    const refreshToken = body?.refresh_token;
+    await this.authService.logout(refreshToken);
 
-    // Clear cookies for modern clients
-    response.clearCookie("access_token", {
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-      secure: process.env.NODE_ENV !== "development",
-      path: "/",
-    });
-    response.clearCookie("refresh_token", {
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-      secure: process.env.NODE_ENV !== "development",
-      path: "/",
-    });
-
-    return result;
+    return { message: "Successfully logged out" };
   }
 
   @UseGuards(AuthGuard("jwt"))
@@ -674,7 +655,9 @@ export class AuthController {
       error: "Unauthorized",
     },
   })
-  verifyToken(@Request() req: { user: UserResponseDto }): SuccessResponseDto {
+  verifyToken(
+    @Request() req: { user: UserResponseDto },
+  ): SuccessResponseDto<{ valid: boolean; user: UserResponseDto }> {
     return {
       message: "Token is valid",
       data: {
@@ -682,87 +665,6 @@ export class AuthController {
         user: req.user,
       },
     };
-  }
-
-  @Get("debug-login/:email")
-  @ApiOperation({
-    summary: "Debug login issues",
-    description: "Check if user and auth provider exist for debugging",
-  })
-  @HttpCode(HttpStatus.OK)
-  async debugLogin(@Param("email") email: string): Promise<any> {
-    return this.authService.debugLogin(email);
-  }
-
-  @Get("debug-db")
-  @ApiOperation({
-    summary: "Debug database connection",
-    description: "Check if database tables exist and are accessible",
-  })
-  @HttpCode(HttpStatus.OK)
-  async debugDatabase(): Promise<any> {
-    return this.authService.debugDatabase();
-  }
-
-  @Get("check-user")
-  @ApiOperation({
-    summary: "Check if user exists",
-    description: "Check if a user exists by email or username",
-  })
-  @ApiQuery({
-    name: "fieldType",
-    description: "Type of field to check (email or username)",
-    enum: ["email", "username"],
-    example: "email",
-  })
-  @ApiQuery({
-    name: "fieldValue",
-    description: "Value to check",
-    example: "user@example.com",
-  })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: "Field is available",
-    type: SuccessResponseDto,
-    example: {
-      message: "Email is available",
-      statusCode: 200,
-      status: "success",
-    },
-  })
-  @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: "Field already exists",
-    type: ErrorResponseDto,
-    example: {
-      message: "Email already exists",
-      statusCode: 409,
-      status: "error",
-    },
-  })
-  @ApiBadRequestResponse({
-    description: "Invalid field type or missing parameters",
-    type: ErrorResponseDto,
-    example: {
-      statusCode: 400,
-      message: "fieldType must be either 'email' or 'username'",
-      error: "Bad Request",
-    },
-  })
-  @HttpCode(HttpStatus.OK)
-  async checkUserExists(
-    @Query("fieldType") fieldType: string,
-    @Query("fieldValue") fieldValue: string,
-  ): Promise<any> {
-    if (!fieldType || !fieldValue) {
-      throw new BadRequestException("fieldType and fieldValue are required");
-    }
-
-    if (fieldType !== "email" && fieldType !== "username") {
-      throw new BadRequestException("fieldType must be either 'email' or 'username'");
-    }
-
-    return this.authService.checkUserExists(fieldType, fieldValue);
   }
 
   // Legacy endpoint for backward compatibility
@@ -786,7 +688,7 @@ export class AuthController {
   })
   getProfileLegacy(
     @Request() req: { user: UserResponseDto },
-  ): SuccessResponseDto {
+  ): SuccessResponseDto<UserResponseDto> {
     return {
       message: "User profile retrieved successfully",
       data: req.user,

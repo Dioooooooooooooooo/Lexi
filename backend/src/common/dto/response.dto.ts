@@ -1,22 +1,26 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsOptional } from "class-validator";
 
 export class ErrorResponseDto {
-  @ApiProperty({ description: "Status of the response", example: "error" })
-  status: "error";
-
-  @ApiProperty({ description: "Error message", example: "Invalid credentials" })
+  @ApiProperty({ example: "Something went wrong" })
   message: string;
+
+  @ApiProperty({
+    example: 'Field "name" must not be empty',
+    description: "Detailed error, if any",
+    required: false,
+  })
+  error: string;
 }
 
-export class SuccessResponseDto {
-  @ApiProperty({
-    description: "Success message",
-    example: "User created successfully",
-  })
+export class SuccessResponseDto<T> {
+  @ApiProperty({ description: "Response status" })
+  @IsOptional()
+  status?: string = "success";
+
+  @ApiProperty({ example: "Request successful" })
   message: string;
 
-  @ApiProperty({
-    description: "Returned data payload",
-  })
-  data?: Record<string, any>;
+  @ApiProperty({ description: "Response data" })
+  data?: T;
 }

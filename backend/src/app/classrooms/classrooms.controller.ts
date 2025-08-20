@@ -25,15 +25,16 @@ import {
 } from "@nestjs/swagger";
 import { Roles } from "@/decorators/roles.decorator";
 import { ErrorResponseDto, SuccessResponseDto } from "@/common/dto";
+import { Classroom } from "@/database/schemas";
 
 @Controller("classrooms")
+@UseGuards(AuthGuard("jwt"), RolesGuard)
+@ApiBearerAuth("JWT-auth")
+@Roles(["Teacher"])
 export class ClassroomsController {
   constructor(private readonly classroomsService: ClassroomsService) {}
 
   @Post()
-  @UseGuards(AuthGuard("jwt"), RolesGuard)
-  @ApiBearerAuth("JWT-auth")
-  @Roles(["Teacher"])
   @ApiOperation({
     summary: "Create classroom",
     description: "Create classroom with its name and description",
@@ -75,33 +76,42 @@ export class ClassroomsController {
     },
   })
   @HttpCode(HttpStatus.OK)
-  create(
+  async create(
     @Request() req: any,
     @Body() createClassroomDto: CreateClassroomDto,
-  ): Promise<SuccessResponseDto> {
-    return this.classroomsService.create(req.user, createClassroomDto);
+  ): Promise<SuccessResponseDto<Classroom>> {
+    const data = await this.classroomsService.create(
+      req.user,
+      createClassroomDto,
+    );
+
+    return { message: "Classroom created successfully", data };
   }
 
   @Get()
-  findAll() {
-    return this.classroomsService.findAll();
+  async findAll() {
+    const data = await this.classroomsService.findAll();
+    return { message: "Classrooms successfully fetched", data };
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.classroomsService.findOne(+id);
+  async findOne(@Param("id") id: string) {
+    const data = await this.classroomsService.findOne(id);
+    return { message: "Classroom successfully fetched", data };
   }
 
   @Patch(":id")
-  update(
+  async update(
     @Param("id") id: string,
     @Body() updateClassroomDto: UpdateClassroomDto,
   ) {
-    return this.classroomsService.update(+id, updateClassroomDto);
+    const data = await this.classroomsService.update(id, updateClassroomDto);
+    return { message: "Classroom successfully updated", data };
   }
 
   @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.classroomsService.remove(+id);
+  async remove(@Param("id") id: string) {
+    const data = await this.classroomsService.remove(id);
+    return { message: "Classroom successfully deleted", data };
   }
 }

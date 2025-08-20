@@ -231,3 +231,10 @@ export class AuthResponseDto {
   @MaxLength(255)
   refresh_token?: string;
 }
+
+export class GoogleExchangeTokenDto {
+  @ApiProperty({ description: "Google ID Token", required: true })
+  @IsString()
+  @IsNotEmpty()
+  id_token: string;
+}

@@ -1,6 +1,7 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateClassroomDto } from "./dto/create-classroom.dto";
 import { UpdateClassroomDto } from "./dto/update-classroom.dto";
+import { Classroom } from "@/database/schemas";
 import { Kysely } from "kysely";
 import { DB } from "@/database/db";
 
@@ -8,29 +9,81 @@ import { DB } from "@/database/db";
 export class ClassroomsService {
   constructor(@Inject("DATABASE") private readonly db: Kysely<DB>) {}
 
-  async create(user: any, createClassroomDto: CreateClassroomDto) {
+  async create(
+    user: any,
+    createClassroomDto: CreateClassroomDto,
+  ): Promise<Classroom> {
+    const join_code = await this.generateUniqueRoomCode();
+
     const classroom = await this.db
       .insertInto("public.classrooms")
-      .values({ ...createClassroomDto, teacher_id: user.teacher.id })
+      .values({ ...createClassroomDto, teacher_id: user.teacher.id, join_code })
       .returningAll()
-      .execute();
+      .executeTakeFirst();
 
-    return { message: "Classroom created successfully", data: classroom };
+    return classroom;
   }
 
-  findAll() {
-    return `This action returns all classrooms`;
+  async findAll(): Promise<Classroom[]> {
+    return await this.db.selectFrom("public.classrooms").selectAll().execute();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} classroom`;
+  async findOne(id: string): Promise<Classroom> {
+    return await this.db
+      .selectFrom("public.classrooms as p")
+      .where("p.id", "=", id)
+      .selectAll()
+      .executeTakeFirstOrThrow(
+        () => new NotFoundException(`Classroom with id ${id} not found`),
+      );
   }
 
-  update(id: number, updateClassroomDto: UpdateClassroomDto) {
-    return `This action updates a #${id} classroom`;
+  async update(
+    id: string,
+    updateClassroomDto: UpdateClassroomDto,
+  ): Promise<Classroom> {
+    const classroom = await this.db
+      .updateTable("public.classrooms")
+      .set(updateClassroomDto)
+      .where("id", "=", id)
+      .returningAll()
+      .executeTakeFirstOrThrow(
+        () => new NotFoundException(`Classroom with id ${id} not found`),
+      );
+
+    return classroom;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} classroom`;
+  async remove(id: string): Promise<Classroom> {
+    const classroom = await this.db
+      .deleteFrom("public.classrooms")
+      .where("id", "=", id)
+      .returningAll()
+      .executeTakeFirstOrThrow(
+        () => new NotFoundException(`Classroom with id ${id} not found`),
+      );
+
+    return classroom;
+  }
+
+  async generateUniqueRoomCode(length = 6): Promise<string> {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    while (true) {
+      let code = "";
+      for (let i = 0; i < length; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+
+      const existing = await this.db
+        .selectFrom("public.classrooms")
+        .select("join_code")
+        .where("join_code", "=", code)
+        .executeTakeFirst();
+
+      if (!existing) {
+        return code;
+      }
+    }
   }
 }

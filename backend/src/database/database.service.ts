@@ -1,14 +1,10 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable, Inject } from "@nestjs/common";
 import { Kysely } from "kysely";
 import { DB } from "./db";
 
 @Injectable()
 export class DatabaseService {
-  constructor(@Inject("DATABASE") private readonly db: Kysely<DB>) {}
-
-  get database() {
-    return this.db;
-  }
+  constructor(@Inject("DATABASE") private readonly db: Kysely<DB>) { }
 
   async testConnection() {
     try {

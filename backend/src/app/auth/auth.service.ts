@@ -10,8 +10,6 @@ import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import * as crypto from "crypto";
-import { Kysely } from "kysely";
-import { DB } from "@/database/db";
 import {
   LoginDto,
   RegisterDto,
@@ -21,21 +19,23 @@ import {
   UpdateProfileDto,
   RefreshTokenDto,
 } from "./dto/auth.dto";
+import { Kysely } from "kysely";
+import { DB } from "@/database/db";
+import { OAuth2Client } from "google-auth-library";
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject("DATABASE") private readonly db: Kysely<DB>,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async register(registerDto: RegisterDto) {
-
     // Check if user already exists
     const existing = await this.db
       .selectFrom("auth.users")
       .select(["id", "email", "username"])
-      .where((eb) =>
+      .where(eb =>
         eb.or([
           eb("email", "=", registerDto.email),
           eb("username", "=", registerDto.username),
@@ -44,9 +44,9 @@ export class AuthService {
       .execute();
 
     if (existing.length > 0) {
-      const hasEmail = existing.some((u) => u.email === registerDto.email);
+      const hasEmail = existing.some(u => u.email === registerDto.email);
       const hasUsername = existing.some(
-        (u) => u.username === registerDto.username,
+        u => u.username === registerDto.username,
       );
 
       if (hasEmail && hasUsername) {
@@ -119,70 +119,12 @@ export class AuthService {
     );
 
     return {
-      message: "User successfully registered",
-      data: {
-        access_token: tokens.access_token,
-        refresh_token: tokens.refresh_token,
-        user,
-      },
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
     };
   }
 
-  async debugLogin(email: string) {
-    // Debug helper to check user existence and auth_provider
-    const user = await this.db
-      .selectFrom("auth.users")
-      .where("email", "=", email)
-      .selectAll()
-      .executeTakeFirst();
-    
-    const authProvider = await this.db
-      .selectFrom("auth.auth_providers")  
-      .where("email", "=", email)
-      .selectAll()
-      .executeTakeFirst();
-      
-    console.log("Debug login - User:", user ? "Found" : "Not found");
-    console.log("Debug login - Auth Provider:", authProvider ? "Found" : "Not found", authProvider?.provider_type);
-    
-    return { user: !!user, authProvider: !!authProvider, providerType: authProvider?.provider_type };
-  }
-
-  async debugDatabase() {
-    try {
-      const userCount = await this.db
-        .selectFrom("auth.users")
-        .select((eb) => eb.fn.count("id").as("count"))
-        .executeTakeFirst();
-        
-      const authProviderCount = await this.db
-        .selectFrom("auth.auth_providers")
-        .select((eb) => eb.fn.count("id").as("count"))
-        .executeTakeFirst();
-        
-      const rolesCount = await this.db
-        .selectFrom("auth.roles")
-        .select((eb) => eb.fn.count("id").as("count"))
-        .executeTakeFirst();
-        
-      return {
-        database: "connected",
-        tables: {
-          "auth.users": userCount?.count || 0,
-          "auth.auth_providers": authProviderCount?.count || 0,
-          "auth.roles": rolesCount?.count || 0
-        }
-      };
-    } catch (error: any) {
-      return {
-        database: "error",
-        error: error.message
-      };
-    }
-  }
-
   async login(loginDto: LoginDto) {
-
     // Find user and auth provider
     const userWithProvider = await this.db
       .selectFrom("auth.users")
@@ -245,17 +187,44 @@ export class AuthService {
 
     const { password_hash, ...user } = userWithProvider;
     return {
-      message: "User successfully logged in",
-      data: {
-        access_token: tokens.access_token,
-        refresh_token: tokens.refresh_token,
-        user,
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+      user,
+    };
+  }
+
+  async exchangeGoogleIdToken(idToken: string) {
+    if (!idToken) throw new Error("id_token required");
+
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+
+    const profile = {
+      id: payload?.sub,
+      emails: payload?.email ? [{ value: payload.email }] : [],
+      name: {
+        givenName: payload?.given_name,
+        familyName: payload?.family_name,
       },
+      displayName: payload?.name,
+      photos: payload?.picture ? [{ value: payload.picture }] : [],
+    };
+
+    const user = await this.validateGoogleUser(profile);
+    const tokens = await this.generateTokens(user.id, user.email, user.role);
+
+    return {
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+      user,
     };
   }
 
   async refreshToken(refreshTokenDto: RefreshTokenDto) {
-
     // Find and validate refresh token
     const refreshToken = await this.db
       .selectFrom("auth.refresh_tokens")
@@ -296,16 +265,12 @@ export class AuthService {
     );
 
     return {
-      message: "Token refreshed successfully",
-      data: {
-        access_token: tokens.access_token,
-        refresh_token: tokens.refresh_token,
-      },
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
     };
   }
 
   async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
-
     // Find user by email
     const user = await this.db
       .selectFrom("auth.users")
@@ -342,14 +307,9 @@ export class AuthService {
     // In a real app, you would send an email here
     // For now, just return the token (remove this in production)
     console.log(`Password reset token for ${user.email}: ${resetToken}`);
-
-    return {
-      message: "If the email exists, a password reset link has been sent.",
-    };
   }
 
   async resetPassword(resetPasswordDto: ResetPasswordDto) {
-
     // Hash the token to find it in the database
     const hashedToken = crypto
       .createHash("sha256")
@@ -388,8 +348,6 @@ export class AuthService {
       .set({ used: true })
       .where("id", "=", resetToken.id)
       .execute();
-
-    return { message: "Password reset successfully" };
   }
 
   async requestEmailVerification(userId: string) {
@@ -411,7 +369,6 @@ export class AuthService {
   }
 
   async verifyEmail(token: string) {
-
     // Find valid verification token
     const verificationToken = await this.db
       .selectFrom("auth.email_verification_tokens")
@@ -440,12 +397,9 @@ export class AuthService {
       .set({ used: true })
       .where("id", "=", verificationToken.id)
       .execute();
-
-    return { message: "Email verified successfully" };
   }
 
   async updateProfile(userId: string, updateProfileDto: UpdateProfileDto) {
-
     // Check for email uniqueness if updating email
     if (updateProfileDto.email) {
       const existingUser = await this.db
@@ -494,11 +448,10 @@ export class AuthService {
       .where("auth.users.id", "=", userId)
       .executeTakeFirstOrThrow(() => new NotFoundException("User not found"));
 
-    return { message: "Profile updated successfully", data: updatedUser };
+    return updatedUser;
   }
 
   async changePassword(userId: string, changePasswordDto: ChangePasswordDto) {
-
     // Get current password hash
     const authProvider = await this.db
       .selectFrom("auth.auth_providers")
@@ -535,13 +488,10 @@ export class AuthService {
       .where("user_id", "=", userId)
       .where("provider_type", "=", "email")
       .execute();
-
-    return { message: "Password changed successfully" };
   }
 
-  async logout(refreshToken?: string): Promise<{ message: string }> {
+  async logout(refreshToken?: string) {
     if (refreshToken) {
-  
       // Revoke the refresh token
       await this.db
         .updateTable("auth.refresh_tokens")
@@ -549,12 +499,9 @@ export class AuthService {
         .where("token", "=", refreshToken)
         .execute();
     }
-
-    return { message: "Successfully logged out" };
   }
 
   async validateUser(payload: { sub: string; email: string }) {
-
     const user: any = await this.db
       .selectFrom("auth.users")
       .leftJoin("auth.user_roles", "auth.users.id", "auth.user_roles.user_id")
@@ -574,7 +521,9 @@ export class AuthService {
         "auth.roles.name as role",
       ])
       .where("auth.users.id", "=", payload.sub)
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow(
+        () => new NotFoundException("User does not exist"),
+      );
 
     if (user.role === "Teacher") {
       const teacher = await this.db
@@ -593,43 +542,141 @@ export class AuthService {
         .where("p.user_id", "=", user.id)
         .selectAll()
         .executeTakeFirstOrThrow(
-          () => new NotFoundException("Teacher does not exist"),
+          () => new NotFoundException("Pupil does not exist"),
         );
       user.pupil = pupil;
-    }
-
-    if (!user) {
-      return null;
     }
 
     return user;
   }
 
-  async checkUserExists(fieldType: string, fieldValue: string) {
-    const column = fieldType === 'email' ? 'email' : 'username';
-    
-    const existing = await this.db
-      .selectFrom("auth.users")
-      .select(["id", column])
-      .where(column, "=", fieldValue)
+  // Validate or create a user from Google profile
+  async validateGoogleUser(profile: any) {
+    const providerId = profile.id;
+    // Try to find existing federated provider
+    const provider = await this.db
+      .selectFrom("auth.auth_providers")
+      .leftJoin("auth.users", "auth.auth_providers.user_id", "auth.users.id")
+      .leftJoin("auth.user_roles", "auth.users.id", "auth.user_roles.user_id")
+      .leftJoin("auth.roles", "auth.user_roles.role_id", "auth.roles.id")
+      .select([
+        "auth.auth_providers.id as provider_id",
+        "auth.auth_providers.user_id",
+        "auth.users.id as id",
+        "auth.users.email",
+        "auth.users.first_name",
+        "auth.users.last_name",
+        "auth.users.username",
+        "auth.roles.name as role",
+      ])
+      .where("auth.auth_providers.provider_type", "=", "google")
+      .where("auth.auth_providers.provider_user_id", "=", providerId)
       .executeTakeFirst();
 
-    if (existing) {
+    if (provider && provider.user_id) {
+      // Return the existing user object shape used elsewhere
       return {
-        message: `${fieldType.charAt(0).toUpperCase() + fieldType.slice(1)} already exists`,
-        statusCode: 409,
-        status: "error"
+        id: provider.user_id,
+        email: provider.email,
+        first_name: provider.first_name,
+        last_name: provider.last_name,
+        username: provider.username,
+        role: provider.role || "Pupil",
       };
     }
 
+    // No provider found -> create a new user and provider
+    const email = profile.emails?.[0]?.value || null;
+    const firstName = profile.name?.givenName || profile.displayName || null;
+    const lastName = profile.name?.familyName || null;
+    const usernameBase = email
+      ? email.split("@")[0]
+      : profile.displayName || `google_${providerId}`;
+    const username =
+      `${usernameBase}_${Math.random().toString(36).substring(2, 8)}`.slice(
+        0,
+        255,
+      );
+
+    // Default role for social signups
+    const roleName = "Pupil";
+
+    // Create user
+    const user = await this.db
+      .insertInto("auth.users")
+      .values({
+        username,
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        avatar: profile.photos?.[0]?.value || null,
+        phone: null,
+        is_email_verified: !!email,
+        is_phone_verified: false,
+      })
+      .returningAll()
+      .executeTakeFirst();
+
+    if (!user) {
+      throw new Error("Failed to create user from Google profile");
+    }
+
+    // Create auth provider link
+    await this.db
+      .insertInto("auth.auth_providers")
+      .values({
+        id: uuidv4(),
+        user_id: user.id,
+        provider_type: "google",
+        provider_user_id: providerId,
+        email: email,
+        access_token: null,
+        refresh_token: null,
+      })
+      .execute();
+
+    // Find role
+    const dbRole = await this.db
+      .selectFrom("auth.roles")
+      .select("id")
+      .where("name", "=", roleName)
+      .executeTakeFirst();
+
+    if (dbRole) {
+      await this.db
+        .insertInto("auth.user_roles")
+        .values({ user_id: user.id, role_id: dbRole.id })
+        .execute();
+    }
+
     return {
-      message: `${fieldType.charAt(0).toUpperCase() + fieldType.slice(1)} is available`,
-      statusCode: 200,
-      status: "success"
+      id: user.id,
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      username: user.username,
+      role: roleName,
     };
   }
 
-  private async generateTokens(userId: string, email: string, role: string) {
+  async validateGoogleIdToken(idToken: string) {
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const profile = {
+      id: payload.sub,
+      emails: payload.email ? [{ value: payload.email }] : [],
+      name: { givenName: payload.given_name, familyName: payload.family_name },
+      displayName: payload.name,
+      photos: payload.picture ? [{ value: payload.picture }] : [],
+    };
+    return this.validateGoogleUser(profile);
+  }
+
+  async generateTokens(userId: string, email: string, role: string) {
     const payload: any = { sub: userId, email: email, role: role };
 
     if (role === "Teacher") {

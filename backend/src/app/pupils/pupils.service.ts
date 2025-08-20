@@ -1,59 +1,35 @@
-import { Injectable, NotFoundException, Inject } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { UpdatePupilProfileDto } from "./dto/update-pupil-profile.dto";
 import { Kysely } from "kysely";
 import { DB } from "@/database/db";
-import { UpdatePupilProfileDto } from "./dto/update-pupil-profile.dto";
+import { Pupil, PupilLeaderboard } from "@/database/schemas";
 
 @Injectable()
 export class PupilsService {
-  constructor(@Inject("DATABASE") private readonly db: Kysely<DB>) {}
+  constructor(@Inject("DATABASE") private readonly db: Kysely<DB>) { }
 
-  async getPupilProfile(userId: string) {
-    
-    const profile = await this.db
+  async getPupilProfile(userId: string): Promise<Pupil> {
+    return await this.db
       .selectFrom("public.pupils as p")
       .where("p.user_id", "=", userId)
       .selectAll()
       .executeTakeFirstOrThrow(() => new NotFoundException("Pupil not found"));
-
-    return { message: "Pupil profile successfully fetched", data: profile };
   }
 
   async updatePupilProfile(
     userId: string,
-    updatePupilProfileDto: UpdatePupilProfileDto
-  ) {
-    
-    await this.db
-      .selectFrom("public.pupils as p")
-      .where("p.user_id", "=", userId)
-      .executeTakeFirstOrThrow(() => new NotFoundException("Pupil not found"));
-
-    const updated = await this.db
+    updatePupilProfileDto: UpdatePupilProfileDto,
+  ): Promise<Pupil> {
+    return await this.db
       .updateTable("public.pupils as p")
       .set(updatePupilProfileDto)
       .where("p.user_id", "=", userId)
       .returningAll()
-      .execute();
-
-    return { message: "Pupil profile successfully updated", data: updated };
-  }
-
-  async getGlobalPupilLeaderboard() {
-        const leaderboard = await this.db
-      .selectFrom("public.pupil_leaderboard")
-      .select(["pupil_id", "level", "recorded_at"])
-      .orderBy("level", "desc")
-      .limit(10)
-      .execute();
-
-    return {
-      message: "Global pupil leaderboard successfully fetched",
-      data: leaderboard,
-    };
+      .executeTakeFirstOrThrow(() => new NotFoundException("Pupil not found"));
   }
 
   async getPupilByUsername(username: string) {
-        const result = await this.db
+    const result = await this.db
       .selectFrom("auth.users as u")
       .innerJoin("public.pupils as p", "p.user_id", "u.id")
       .where("u.username", "=", username)
@@ -101,19 +77,23 @@ export class PupilsService {
       },
     };
   }
+  async getGlobalPupilLeaderboard(): Promise<PupilLeaderboard[]> {
+    return await this.db
+      .selectFrom("public.pupil_leaderboard")
+      .selectAll()
+      .orderBy("level", "desc")
+      .limit(10)
+      .execute();
+  }
 
-  async getPupilLeaderBoardByPupilId(pupilId: string) {
-    
-    const leaderboard = await this.db
+  async getPupilLeaderBoardByPupilId(
+    pupilId: string,
+  ): Promise<PupilLeaderboard[]> {
+    return await this.db
       .selectFrom("public.pupil_leaderboard")
       .selectAll()
       .where("pupil_id", "=", pupilId)
       .orderBy("level", "desc")
       .execute();
-
-    return {
-      message: "successfully fetched pupil leaderboard",
-      data: leaderboard,
-    };
   }
 }

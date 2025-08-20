@@ -123,7 +123,7 @@ export interface MinigameLogs {
   minigame_id: string | null;
   pupil_id: string | null;
   reading_session_id: string | null;
-  result: string | null;
+  result: number | null;
 }
 
 export interface Minigames {
