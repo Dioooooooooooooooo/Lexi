@@ -1,115 +1,168 @@
-# LexiLearner - Codebase Structure
+# LexiLearner Codebase Structure
 
-## Root Directory Structure
+## Root Level Structure
 ```
 lexilearner/
 ├── backend/                 # NestJS API server
-├── mobile/                  # React Native mobile app
+├── mobile/                  # React Native/Expo app
 ├── docs/                    # Project documentation
-├── scripts/                 # API generation automation scripts
-├── package.json             # Monorepo workspace configuration
-├── pnpm-workspace.yaml      # pnpm workspace config
-├── pnpm-lock.yaml          # Lock file for dependencies
-└── README.md               # Main project documentation
+├── scripts/                 # API generation automation
+├── package.json            # Monorepo workspace config
+├── pnpm-workspace.yaml     # pnpm workspace configuration
+├── .prettierrc.json        # Global Prettier config
+└── API_MIGRATION_PROGRESS.md # Migration tracking
 ```
 
 ## Backend Structure (NestJS)
 ```
 backend/
 ├── src/
-│   ├── app/                 # Feature modules (auth, classrooms, etc.)
-│   ├── common/              # Shared utilities and helpers
-│   ├── configuration/       # App configuration and env handling
-│   ├── database/            # Database schemas, migrations, types
-│   ├── decorators/          # Custom NestJS decorators
-│   ├── filters/             # Exception filters
-│   ├── validators/          # Custom validation rules
-│   ├── app.controller.ts    # Main app controller
-│   ├── app.module.ts        # Root application module
-│   ├── app.service.ts       # Main app service
-│   └── main.ts              # Application bootstrap
-├── test/                    # Test files and configurations
-├── dist/                    # Compiled JavaScript output
-├── package.json             # Backend dependencies and scripts
-├── tsconfig.json            # TypeScript configuration
-├── eslint.config.mjs        # ESLint configuration
-├── nest-cli.json            # NestJS CLI configuration
-└── vercel.json              # Vercel deployment config
+│   ├── app/                # Feature modules
+│   │   ├── auth/          # Authentication & JWT
+│   │   │   ├── dto/       # Auth DTOs
+│   │   │   ├── entities/  # Auth entities
+│   │   │   ├── auth.controller.ts
+│   │   │   ├── auth.service.ts
+│   │   │   ├── auth.module.ts
+│   │   │   ├── jwt.strategy.ts
+│   │   │   └── role-guard.ts
+│   │   ├── classrooms/    # Classroom management
+│   │   │   ├── dto/       # Classroom DTOs
+│   │   │   ├── entities/  # Classroom entities
+│   │   │   ├── classrooms.controller.ts
+│   │   │   ├── classrooms.service.ts
+│   │   │   └── classrooms.module.ts
+│   │   ├── pupils/        # Student management
+│   │   │   ├── dto/       # Pupil DTOs
+│   │   │   ├── entities/  # Pupil entities
+│   │   │   ├── pupils.controller.ts
+│   │   │   ├── pupils.service.ts
+│   │   │   └── pupils.module.ts
+│   │   └── minigames/     # Game functionality
+│   │       ├── dto/       # Minigame DTOs
+│   │       ├── entities/  # Minigame entities
+│   │       ├── minigames.controller.ts
+│   │       ├── minigames.service.ts
+│   │       └── minigames.module.ts
+│   ├── common/            # Shared utilities
+│   ├── configuration/     # App configuration
+│   ├── database/          # DB schema & types
+│   ├── decorators/        # Custom decorators
+│   ├── filters/           # Exception filters
+│   ├── validators/        # Custom validators
+│   ├── app.module.ts      # Main app module
+│   └── main.ts           # Application bootstrap
+├── test/                  # E2E tests
+├── package.json          # Backend dependencies
+├── nest-cli.json         # NestJS CLI config
+├── tsconfig.json         # TypeScript config
+└── eslint.config.mjs     # ESLint configuration
 ```
 
-## Mobile Structure (React Native + Expo)
+## Mobile Structure (React Native/Expo)
 ```
 mobile/
-├── app/                     # Expo Router pages and layouts
-├── components/              # Reusable UI components
-├── constants/               # App constants and configuration
-├── context/                 # React context providers
-├── hooks/                   # Custom React hooks
-├── lib/                     # Third-party library configurations
-├── models/                  # Data models and interfaces
-├── services/                # API services (auto-generated)
-├── stores/                  # Zustand state management
-├── types/                   # TypeScript type definitions
-├── utils/                   # Utility functions
-├── assets/                  # Images, fonts, static files
-├── android/                 # Android-specific configuration
-├── package.json             # Mobile dependencies and scripts
-├── app.json                 # Expo app configuration
-├── eas.json                 # Expo Application Services config
-├── babel.config.js          # Babel configuration
-├── metro.config.js          # Metro bundler configuration
-├── tailwind.config.js       # Tailwind CSS configuration
-└── tsconfig.json            # TypeScript configuration
-```
-
-## Scripts Directory
-```
-scripts/
-├── generate-openapi-spec.js # Generates OpenAPI spec from NestJS
-└── generate-client.js       # Generates React Native API client
-```
-
-## Documentation Structure
-```
-docs/
-├── README.md                # Main documentation hub
-├── migration-overview.md    # C# to TypeScript migration status
-├── migration-backend.md     # Backend migration details
-└── backend-to-ui-integration.md # API integration guide
+├── app/                   # Expo Router pages (file-based routing)
+├── components/            # Reusable UI components
+├── lib/
+│   └── hooks/            # API hooks & utilities
+│       ├── requests/     # Auto-generated API client
+│       │   ├── services.gen.ts    # Generated service classes
+│       │   ├── types.gen.ts       # Generated TypeScript types
+│       │   ├── schemas.gen.ts     # Generated JSON schemas
+│       │   └── core/             # HTTP client infrastructure
+│       └── useApiHooks.ts        # Manual TanStack Query hooks
+├── stores/               # Zustand state stores
+├── types/                # TypeScript type definitions
+├── utils/                # Helper functions
+├── constants/            # App constants
+├── context/              # React contexts
+├── assets/               # Images, fonts, etc.
+├── package.json          # Mobile dependencies
+├── app.json             # Expo configuration
+├── tailwind.config.js   # Tailwind CSS config
+├── tsconfig.json        # TypeScript config
+└── swagger.json         # Downloaded OpenAPI spec
 ```
 
 ## Key Configuration Files
 
 ### Root Level
-- **package.json**: Monorepo scripts and workspace configuration
-- **pnpm-workspace.yaml**: Defines backend and mobile as workspaces
-- **.gitignore**: Git ignore patterns for all projects
+- **package.json**: Monorepo scripts, workspaces, shared devDeps
+- **pnpm-workspace.yaml**: Workspace configuration
+- **.prettierrc.json**: Code formatting rules
 
-### Backend Configuration
-- **tsconfig.json**: TypeScript compiler options, path mapping
-- **eslint.config.mjs**: ESLint + Prettier + TypeScript rules
-- **nest-cli.json**: NestJS CLI settings and build configuration
-- **vercel.json**: Deployment configuration for Vercel
+### Backend
+- **nest-cli.json**: NestJS CLI configuration
+- **tsconfig.json**: TypeScript compiler options
+- **eslint.config.mjs**: ESLint rules and plugins
+- **vercel.json**: Deployment configuration
 
-### Mobile Configuration
-- **app.json**: Expo app metadata and configuration
-- **eas.json**: Expo Application Services build configuration
-- **babel.config.js**: Babel presets for React Native
-- **metro.config.js**: Metro bundler configuration
+### Mobile  
+- **app.json**: Expo app configuration
 - **tailwind.config.js**: Tailwind CSS customization
-- **nativewind-env.d.ts**: NativeWind TypeScript declarations
+- **metro.config.js**: Metro bundler configuration
+- **babel.config.js**: Babel transpilation
 
-## Generated/Build Artifacts
-- **backend/dist/**: Compiled NestJS application
-- **mobile/.expo/**: Expo build cache and metadata
-- **mobile/src/api/generated/**: Auto-generated API client
-- **node_modules/**: Dependencies (in each workspace)
-- **coverage/**: Test coverage reports
+## API Generation Workflow Files
 
-## Important Patterns
-- **Monorepo structure**: Shared dependencies managed by pnpm workspaces
-- **Code-first API**: Backend defines API, client is auto-generated
-- **Type safety**: End-to-end TypeScript from backend to mobile
-- **Module federation**: NestJS modules for feature organization
-- **Component-based UI**: Reusable React Native components
-- **State management**: Zustand for global state, Tanstack Query for server state
+### Scripts Directory
+```
+scripts/
+├── generate-openapi-spec.js    # Extract spec from NestJS
+├── generate-client.js          # Generate TypeScript client
+└── compare-apis.js            # Migration comparison tool
+```
+
+### Generated Files (Auto-created)
+```
+mobile/
+├── swagger.json               # Downloaded OpenAPI spec
+└── lib/hooks/requests/        # Generated TypeScript client
+    ├── services.gen.ts        # Service classes
+    ├── types.gen.ts          # Type definitions
+    ├── schemas.gen.ts        # JSON schemas
+    └── core/                 # HTTP infrastructure
+```
+
+## Database Structure
+- **Type**: PostgreSQL
+- **Query Builder**: Kysely (type-safe SQL)
+- **Schema Generation**: `kysely-codegen` generates TypeScript types
+- **Location**: `backend/src/database/db.d.ts`
+
+## Testing Structure
+```
+backend/test/              # E2E tests
+backend/src/**/*.spec.ts   # Unit tests (co-located)
+
+mobile/__tests__/          # Jest tests
+mobile/**/*.test.ts        # Component tests (co-located)
+```
+
+## Documentation Structure
+```
+docs/                      # Project documentation
+├── README.md             # Documentation overview
+└── [additional docs]     # Architecture, APIs, etc.
+```
+
+## Import Patterns
+
+### Backend
+- Absolute imports using `@/` alias (maps to `src/`)
+- Module barrel exports for cleaner imports
+- Strict TypeScript compilation
+
+### Mobile
+- Relative imports for local files
+- Absolute imports for shared utilities
+- Generated API client imports from `lib/hooks/requests`
+
+## Build Outputs
+```
+backend/dist/              # NestJS compiled output
+mobile/.expo/             # Expo build cache
+mobile/node_modules/      # Dependencies
+backend/node_modules/     # Dependencies
+```

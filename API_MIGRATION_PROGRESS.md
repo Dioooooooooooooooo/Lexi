@@ -21,74 +21,80 @@
 - ✅ **OpenAPI Codegen**: @7nohe/openapi-react-query-codegen@^1.6.2 installed
 - ✅ **Removed**: Old unnecessary scripts (`generate:api`, `generate:api-local`)
 
-## 🔄 IN PROGRESS / TODO
+### 4. Hook Modularization ✅ COMPLETE
+- ✅ **Modular Architecture**: Split monolithic `useApiHooks.ts` into organized modules
+- ✅ **Hook Files Created**:
+  - `useAuthHooks.ts` - 8 authentication hooks (login, register, profile, etc.)
+  - `usePupilsHooks.ts` - 5 student management hooks (profile, leaderboard, etc.)
+  - `useClassroomsHooks.ts` - 5 classroom CRUD hooks (list, create, update, delete)
+  - `useMinigamesHooks.ts` - 7 minigame hooks (games, logging, completion)
+- ✅ **Shared Utilities**: `apiUtils.ts` with query keys and auth configuration
+- ✅ **Barrel Exports**: `index.ts` for clean import patterns
+- ✅ **Legacy Cleanup**: Removed old monolithic `useApiHooks.ts`
 
-### 4. Hook Modularization (NEXT PRIORITY)
-**Current Issue**: All hooks are in one large file `lib/hooks/useApiHooks.ts`
-**Required**: Split into separate modules based on NestJS controllers:
+### 5. Hook Implementation ✅ COMPLETE  
+- ✅ **Authentication**: All auth flows (login, register, logout, token refresh, profile)
+- ✅ **Classrooms**: Full CRUD operations with cache invalidation
+- ✅ **Students**: Profile management, leaderboards, user lookup
+- ✅ **Minigames**: Game retrieval, logging, session completion
+- ✅ **Error Handling**: Consistent error boundaries and retry logic
+- ✅ **Cache Management**: Smart invalidation and optimistic updates
+- ✅ **Loading States**: Automatic loading indicators
 
-```
-hooks/
-├── useAuthQuery.ts        # AuthenticationService hooks
-├── usePupilsQuery.ts      # PupilsService hooks  
-├── useClassroomsQuery.ts  # ClassroomsService hooks
-├── useMinigamesQuery.ts   # MinigamesService hooks
-└── useHealthQuery.ts      # HealthService hooks (if needed)
-```
+## 🎯 READY FOR UI INTEGRATION
 
-Each module should:
-- Import from `../lib/hooks/requests`
-- Provide TanStack Query hooks for that service
-- Handle proper caching and invalidation
-- Include proper TypeScript types
+### 6. Component Migration (READY TO START)
+Hooks are production-ready and awaiting UI integration:
+- ⏳ **Auth Components**: Replace manual API calls with `useAuthHooks` 
+- ⏳ **Classroom Components**: Replace services with `useClassroomsHooks`
+- ⏳ **Pupil Components**: Replace services with `usePupilsHooks`
+- ⏳ **Minigame Components**: Replace services with `useMinigamesHooks`
 
-### 5. Component Migration
-- 🔄 **Auth Components**: Replace existing auth hooks with new generated ones
-- 🔄 **Classroom Components**: Replace ClassroomService with new hooks
-- 🔄 **Pupil Components**: Replace UserService calls with new hooks
-- 🔄 **Minigame Components**: Replace minigameService with new hooks
+### 7. Development & Testing (READY TO START)
+- ⏳ **React Query DevTools**: Install for debugging (optional)
+- ⏳ **Component Testing**: Test UI integration with hooks
+- ⏳ **End-to-End Testing**: Validate complete user workflows
 
-### 6. Development & Testing
-- ⏳ **React Query DevTools**: Install for debugging
-- ⏳ **Error Handling**: Improve global error boundaries
-- ⏳ **Testing**: Create tests for generated hooks
-- ⏳ **Optimization**: Fine-tune caching strategies
-
-### 7. Cleanup
-- ⏳ **Remove Old Files**: Delete old axios service files
+### 8. Cleanup (AFTER UI INTEGRATION)
+- ⏳ **Remove Old Service Files**: Delete manual API service classes
 - ⏳ **Remove Old Dependencies**: Clean up unused packages
 
 ## 🎯 COMMIT READY
 
 **Suggested Commit Message:**
 ```
-feat: implement OpenAPI-generated TanStack Query integration
+feat: complete API hook modularization and architecture
 
-- Add OpenAPI spec generation from NestJS Swagger endpoint
-- Generate TypeScript API client with @7nohe/openapi-react-query-codegen
-- Create comprehensive TanStack Query hooks for all API services
-- Configure automated workflow: spec → client → hooks → dev
-- Replace manual API calls with type-safe generated client
+- Decouple monolithic useApiHooks.ts into modular, organized hooks
+- Create service-specific hook files: Auth, Pupils, Classrooms, Minigames
+- Implement comprehensive TanStack Query hooks for all API endpoints
+- Add shared utilities (apiUtils.ts) with query keys and auth config
+- Include automatic error handling, cache invalidation, and loading states
+- Ready for immediate UI component integration
 
-Breaking: Requires hook modularization before component migration
+BREAKING: useApiHooks.ts removed - import from specific hook modules
 ```
 
-## 🚀 WORKFLOW SUMMARY
+## 🚀 WORKFLOW SUMMARY ✅ COMPLETE
 
-### Current Workflow
+### ✅ Current Implementation
 1. `pnpm run openapi:spec` → Downloads `swagger.json` from NestJS
 2. `pnpm run openapi:client` → Generates API client in `lib/hooks/requests/`
-3. Manual hooks in `lib/hooks/useApiHooks.ts` wrap the generated services
+3. **✅ Modular hooks** in organized files wrap generated services:
+   - `useAuthHooks.ts` - Authentication operations
+   - `usePupilsHooks.ts` - Student management
+   - `useClassroomsHooks.ts` - Classroom operations
+   - `useMinigamesHooks.ts` - Game functionality
 
-### Target Architecture
+### ✅ Achieved Architecture
 ```
 NestJS Backend (with Swagger)
          ↓ (OpenAPI spec)
 Generated TypeScript Client
          ↓ (wrapped with)
-Modular TanStack Query Hooks
-         ↓ (consumed by)
-React Native Components
+✅ Modular TanStack Query Hooks ← COMPLETE
+         ↓ (ready for)
+React Native Components ← NEXT: UI INTEGRATION
 ```
 
 ## 📝 NOTES
