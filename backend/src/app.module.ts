@@ -10,6 +10,7 @@ import { PupilsModule } from "./app/pupils/pupils.module";
 import { ReadingSessionsModule } from "./app/reading-sessions/reading-sessions.module";
 import configuration from "./configuration/configuration";
 import { DatabaseModule } from "./database/database.module";
+import { EmailModule } from "./app/email/email.module";
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { DatabaseModule } from "./database/database.module";
       load: [configuration],
     }),
     DatabaseModule,
+    EmailModule,
     AuthModule,
     PupilsModule,
     ClassroomsModule,
