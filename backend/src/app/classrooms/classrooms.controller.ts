@@ -7,24 +7,15 @@ import {
   Param,
   Delete,
   UseGuards,
-  HttpStatus,
-  HttpCode,
-  Request,
 } from "@nestjs/common";
 import { ClassroomsService } from "./classrooms.service";
 import { CreateClassroomDto } from "./dto/create-classroom.dto";
 import { UpdateClassroomDto } from "./dto/update-classroom.dto";
 import { AuthGuard } from "@nestjs/passport";
 import { RolesGuard } from "../auth/role-guard";
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiOperation,
-  ApiResponse,
-  ApiUnauthorizedResponse,
-} from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiOperation } from "@nestjs/swagger";
 import { Roles } from "@/decorators/roles.decorator";
-import { ErrorResponseDto, SuccessResponseDto } from "@/common/dto";
+import { SuccessResponseDto } from "@/common/dto";
 import { Classroom } from "@/database/schemas";
 
 @Controller("classrooms")
@@ -36,71 +27,38 @@ export class ClassroomsController {
 
   @Post()
   @ApiOperation({
-    summary: "Create classroom",
-    description: "Create classroom with its name and description",
+    summary: "Create a classroom",
   })
-  @ApiBody({
-    type: CreateClassroomDto,
-    description: "Create classroom data",
-    examples: {
-      example1: {
-        summary: "Example create classroom",
-        description: "A sample create classroom data",
-        value: {
-          name: "Section Maya",
-          description: "Friendly classroom",
-        },
-      },
-    },
-  })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: "Classroom created successfully",
-    type: SuccessResponseDto,
-    example: {
-      message: "Classroom created successfully",
-      data: {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        name: "Section Maya",
-        description: "Friendly classroom",
-      },
-    },
-  })
-  @ApiUnauthorizedResponse({
-    description: "Invalid or missing token",
-    type: ErrorResponseDto,
-    example: {
-      statusCode: 401,
-      message: "Unauthorized",
-      error: "Unauthorized",
-    },
-  })
-  @HttpCode(HttpStatus.OK)
   async create(
-    @Request() req: any,
     @Body() createClassroomDto: CreateClassroomDto,
   ): Promise<SuccessResponseDto<Classroom>> {
-    const data = await this.classroomsService.create(
-      req.user,
-      createClassroomDto,
-    );
+    const data = await this.classroomsService.create(createClassroomDto);
 
     return { message: "Classroom created successfully", data };
   }
 
   @Get()
+  @ApiOperation({
+    summary: "Find classrooms by teacher id",
+  })
   async findAll() {
     const data = await this.classroomsService.findAll();
     return { message: "Classrooms successfully fetched", data };
   }
 
   @Get(":id")
+  @ApiOperation({
+    summary: "Find classroom by id",
+  })
   async findOne(@Param("id") id: string) {
     const data = await this.classroomsService.findOne(id);
     return { message: "Classroom successfully fetched", data };
   }
 
   @Patch(":id")
+  @ApiOperation({
+    summary: "Update classroom by id",
+  })
   async update(
     @Param("id") id: string,
     @Body() updateClassroomDto: UpdateClassroomDto,
@@ -110,6 +68,9 @@ export class ClassroomsController {
   }
 
   @Delete(":id")
+  @ApiOperation({
+    summary: "Delete classroom by id",
+  })
   async remove(@Param("id") id: string) {
     const data = await this.classroomsService.remove(id);
     return { message: "Classroom successfully deleted", data };
