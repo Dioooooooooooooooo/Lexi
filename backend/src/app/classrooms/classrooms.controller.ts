@@ -1,21 +1,20 @@
+import { ErrorResponseDto, SuccessResponseDto } from "@/common/dto";
+import { Classroom } from "@/database/schemas";
+import { Roles } from "@/decorators/roles.decorator";
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
-  HttpStatus,
+  Get,
   HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
   Request,
+  UseGuards,
 } from "@nestjs/common";
-import { ClassroomsService } from "./classrooms.service";
-import { CreateClassroomDto } from "./dto/create-classroom.dto";
-import { UpdateClassroomDto } from "./dto/update-classroom.dto";
 import { AuthGuard } from "@nestjs/passport";
-import { RolesGuard } from "../auth/role-guard";
 import {
   ApiBearerAuth,
   ApiBody,
@@ -23,9 +22,10 @@ import {
   ApiResponse,
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger";
-import { Roles } from "@/decorators/roles.decorator";
-import { ErrorResponseDto, SuccessResponseDto } from "@/common/dto";
-import { Classroom } from "@/database/schemas";
+import { RolesGuard } from "../auth/role-guard";
+import { ClassroomsService } from "./classrooms.service";
+import { CreateClassroomDto } from "./dto/create-classroom.dto";
+import { UpdateClassroomDto } from "./dto/update-classroom.dto";
 
 @Controller("classrooms")
 @UseGuards(AuthGuard("jwt"), RolesGuard)
