@@ -23,6 +23,7 @@ import { Kysely } from "kysely";
 import { DB } from "@/database/db";
 import { OAuth2Client } from "google-auth-library";
 import { EmailService } from "../email/email.service";
+import { AccessTokenPayload } from "@/common/types/jwt.types";
 
 @Injectable()
 export class AuthService {
@@ -701,7 +702,11 @@ export class AuthService {
   }
 
   async generateTokens(userId: string, email: string, role: string) {
-    const payload: any = { sub: userId, email: email, role: role };
+    const payload: AccessTokenPayload = {
+      sub: userId,
+      email: email,
+      role: role,
+    };
 
     if (role === "Teacher") {
       const teacher = await this.db

@@ -7,6 +7,7 @@ import { AuthModule } from "./app/auth/auth.module";
 import { ClassroomsModule } from "./app/classrooms/classrooms.module";
 import { MinigamesModule } from "./app/minigames/minigames.module";
 import { PupilsModule } from "./app/pupils/pupils.module";
+import { ReadingSessionsModule } from "./app/reading-sessions/reading-sessions.module";
 import configuration from "./configuration/configuration";
 import { DatabaseModule } from "./database/database.module";
 import { EmailModule } from "./app/email/email.module";
@@ -31,6 +32,7 @@ import { EmailModule } from "./app/email/email.module";
     PupilsModule,
     ClassroomsModule,
     MinigamesModule,
+    ReadingSessionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as cookieParser from "cookie-parser";
 import { AppModule } from "./app.module";
 import { GlobalExceptionFilter } from "./filters/global-exception-filter";
+import { RequestContextMiddleware } from "./common/middlewares/request-context.middleware";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,6 +28,7 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.useGlobalFilters(new GlobalExceptionFilter());
+  app.use(new RequestContextMiddleware().use);
 
   const config = new DocumentBuilder()
     .setTitle("LexiLearner API")
