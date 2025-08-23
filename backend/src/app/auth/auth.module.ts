@@ -5,10 +5,12 @@ import { ConfigService } from "@nestjs/config";
 import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
 import { JwtStrategy } from "./jwt.strategy";
+import { EmailModule } from "../email/email.module";
 
 @Module({
   imports: [
     PassportModule,
+    EmailModule,
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>("JWT_SECRET") || "your-secret-key",
@@ -21,4 +23,4 @@ import { JwtStrategy } from "./jwt.strategy";
   providers: [AuthService, JwtStrategy],
   exports: [AuthService, JwtStrategy, PassportModule, JwtModule],
 })
-export class AuthModule {}
+export class AuthModule { }

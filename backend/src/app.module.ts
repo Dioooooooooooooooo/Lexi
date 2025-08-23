@@ -9,6 +9,7 @@ import { MinigamesModule } from "./app/minigames/minigames.module";
 import { PupilsModule } from "./app/pupils/pupils.module";
 import configuration from "./configuration/configuration";
 import { DatabaseModule } from "./database/database.module";
+import { EmailModule } from "./app/email/email.module";
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { DatabaseModule } from "./database/database.module";
       load: [configuration],
     }),
     DatabaseModule,
+    EmailModule,
     AuthModule,
     PupilsModule,
     ClassroomsModule,
@@ -33,4 +35,4 @@ import { DatabaseModule } from "./database/database.module";
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
