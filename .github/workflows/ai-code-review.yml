@@ -10,6 +10,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+      models: read
 
     steps:
       - name: Checkout
@@ -42,51 +43,40 @@ jobs:
             echo "FILES_EOF"
           } >> $GITHUB_OUTPUT
 
-      - name: Try GitHub Models API
+      - name: AI Code Review
         id: github_models
         continue-on-error: true
+        uses: actions/ai-inference@v1
+        with:
+          prompt: |
+            Please review this PR. Look at the changes and provide thoughtful feedback on:
+            - Code quality and best practices
+            - Potential bugs or issues
+            - Suggestions for improvements
+            - Overall architecture and design decisions
+
+            Be constructive and specific in your feedback. Give inline comments where applicable.
+            
+            Diff:
+            ${{ steps.changes.outputs.diff }}
+
+      - name: Set Success Status
+        id: set_status
         run: |
-          DIFF_CONTENT="${{ steps.changes.outputs.diff }}"
-
-          # Escape content for JSON
-          DIFF_JSON=$(echo "$DIFF_CONTENT" | jq -R -s .)
-
-          # Try calling GitHub Models API
-          RESPONSE=$(curl -s -X POST \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"messages\": [
-                {
-                  \"role\": \"system\",
-                  \"content\": \"You are a code reviewer. Analyze this diff and provide concise feedback on bugs, security, and improvements.\"
-                },
-                {
-                  \"role\": \"user\",
-                  \"content\": $DIFF_JSON
-                }
-              ],
-              \"model\": \"gpt-4o-mini\",
-              \"max_tokens\": 800
-            }" \
-            "https://models.inference.ai.azure.com/chat/completions")
-
-          # Check if API call worked
-          if echo "$RESPONSE" | jq -e '.choices[0].message.content' >/dev/null 2>&1; then
-            AI_RESPONSE=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
+          if [ -n "${{ steps.github_models.outputs.response }}" ]; then
+            echo "success=true" >> $GITHUB_OUTPUT
             {
               echo "review<<REVIEW_EOF"
-              echo "$AI_RESPONSE"
+              echo "${{ steps.github_models.outputs.response }}"
               echo "REVIEW_EOF"
             } >> $GITHUB_OUTPUT
-            echo "success=true" >> $GITHUB_OUTPUT
           else
             echo "success=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Basic Analysis (Fallback)
         id: basic_analysis
-        if: steps.github_models.outputs.success != 'true'
+        if: steps.set_status.outputs.success != 'true'
         run: |
           DIFF="${{ steps.changes.outputs.diff }}"
           FILES="${{ steps.changes.outputs.files }}"
@@ -129,11 +119,11 @@ jobs:
         with:
           script: |
             const changedFiles = `${{ steps.changes.outputs.files }}`.split('\n').filter(f => f.trim());
-            const success = '${{ steps.github_models.outputs.success }}' === 'true';
+            const success = '${{ steps.set_status.outputs.success }}' === 'true';
 
             let reviewContent;
             if (success) {
-              reviewContent = `${{ steps.github_models.outputs.review }}`;
+              reviewContent = `${{ steps.set_status.outputs.review }}`;
             } else {
               reviewContent = `${{ steps.basic_analysis.outputs.fallback_review }}`;
             }
