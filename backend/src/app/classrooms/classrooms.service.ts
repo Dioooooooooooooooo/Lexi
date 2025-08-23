@@ -1,16 +1,16 @@
+import { DB } from "@/database/db";
+import { Classroom } from "@/database/schemas";
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { Kysely } from "kysely";
 import { CreateClassroomDto } from "./dto/create-classroom.dto";
 import { UpdateClassroomDto } from "./dto/update-classroom.dto";
-import { Classroom } from "@/database/schemas";
-import { Kysely } from "kysely";
-import { DB } from "@/database/db";
 
 @Injectable()
 export class ClassroomsService {
   constructor(@Inject("DATABASE") private readonly db: Kysely<DB>) {}
 
   async create(
-    user: any,
+    user: string,
     createClassroomDto: CreateClassroomDto,
   ): Promise<Classroom> {
     const join_code = await this.generateUniqueRoomCode();
