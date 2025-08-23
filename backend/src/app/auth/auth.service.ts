@@ -22,13 +22,14 @@ import {
 import { Kysely } from "kysely";
 import { DB } from "@/database/db";
 import { OAuth2Client } from "google-auth-library";
+import { AccessTokenPayload } from "@/common/types/jwt.types";
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject("DATABASE") private readonly db: Kysely<DB>,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async register(registerDto: RegisterDto) {
     // Check if user already exists
@@ -677,7 +678,11 @@ export class AuthService {
   }
 
   async generateTokens(userId: string, email: string, role: string) {
-    const payload: any = { sub: userId, email: email, role: role };
+    const payload: AccessTokenPayload = {
+      sub: userId,
+      email: email,
+      role: role,
+    };
 
     if (role === "Teacher") {
       const teacher = await this.db
