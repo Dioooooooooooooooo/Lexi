@@ -9,6 +9,9 @@ import { MinigamesModule } from "./app/minigames/minigames.module";
 import { PupilsModule } from "./app/pupils/pupils.module";
 import configuration from "./configuration/configuration";
 import { DatabaseModule } from "./database/database.module";
+import { ReadingMaterialsModule } from './reading-materials/reading-materials.module';
+import { ReadingMaterialsModule } from './app/reading-materials/reading-materials.module';
+import { GenresModule } from './app/genres/genres.module';
 
 @Module({
   imports: [
@@ -29,6 +32,8 @@ import { DatabaseModule } from "./database/database.module";
     PupilsModule,
     ClassroomsModule,
     MinigamesModule,
+    ReadingMaterialsModule,
+    GenresModule,
   ],
   controllers: [AppController],
   providers: [AppService],
