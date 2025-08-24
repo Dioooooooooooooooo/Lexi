@@ -8,6 +8,7 @@ import {
   ReadingSessions,
   Minigames,
   MinigameLogs,
+  ClassroomEnrollment,
 } from "../db.d";
 
 export enum MinigameType {
@@ -27,3 +28,4 @@ export type MinigameLog = Selectable<MinigameLogs>;
 
 export type NewClassroom = Insertable<Classrooms>;
 export type NewReadingSession = Insertable<ReadingSessions>;
+export type NewClassroomEnrollment = Insertable<ClassroomEnrollment>;

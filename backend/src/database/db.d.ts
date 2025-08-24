@@ -101,6 +101,13 @@ export interface AuthUsers {
   username: string;
 }
 
+export interface ClassroomEnrollment {
+  classroom_id: string;
+  created_at: Generated<Timestamp | null>;
+  id: Generated<string>;
+  pupil_id: string;
+}
+
 export interface Classrooms {
   created_at: Generated<Timestamp>;
   description: string | null;
@@ -174,11 +181,13 @@ export interface ReadingMaterials {
 
 export interface ReadingSessions {
   completed_at: Timestamp | null;
-  completion_percentage: number | null;
+  completion_percentage: Generated<number | null>;
+  created_at: Generated<Timestamp>;
   id: Generated<string>;
   pupil_id: string | null;
   reading_material_id: string | null;
   started_at: Generated<Timestamp | null>;
+  updated_at: Timestamp | null;
 }
 
 export interface Teachers {
@@ -199,6 +208,7 @@ export interface DB {
   "auth.roles": AuthRoles;
   "auth.user_roles": AuthUserRoles;
   "auth.users": AuthUsers;
+  "public.classroom_enrollment": ClassroomEnrollment;
   "public.classrooms": Classrooms;
   "public.genres": Genres;
   "public.minigame_logs": MinigameLogs;
