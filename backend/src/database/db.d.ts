@@ -188,6 +188,13 @@ export interface Teachers {
   user_id: string;
 }
 
+export interface Achievements {
+  name: string | null;
+  description: string | null;
+  badge: string | null;
+  created_at: Timestamp | null;
+}
+
 export interface DB {
   "auth.auth_providers": AuthAuthProviders;
   "auth.email_verification_tokens": AuthEmailVerificationTokens;
@@ -209,4 +216,5 @@ export interface DB {
   "public.reading_materials": ReadingMaterials;
   "public.reading_sessions": ReadingSessions;
   "public.teachers": Teachers;
+  "public.achievements": Achievements;
 }
