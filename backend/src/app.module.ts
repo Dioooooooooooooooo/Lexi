@@ -11,6 +11,8 @@ import { ReadingSessionsModule } from "./app/reading-sessions/reading-sessions.m
 import configuration from "./configuration/configuration";
 import { DatabaseModule } from "./database/database.module";
 import { EmailModule } from "./app/email/email.module";
+import { ReadingMaterialsModule } from './app/reading-materials/reading-materials.module';
+import { GenresModule } from './app/genres/genres.module';
 
 @Module({
   imports: [
@@ -32,7 +34,8 @@ import { EmailModule } from "./app/email/email.module";
     PupilsModule,
     ClassroomsModule,
     MinigamesModule,
-    ReadingSessionsModule,
+    ReadingMaterialsModule,
+    GenresModule,
   ],
   controllers: [AppController],
   providers: [AppService],
