@@ -42,7 +42,7 @@ import { OAuth2Client } from "google-auth-library";
 @ApiTags("Authentication")
 @Controller("auth")
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Post("register")
   @ApiOperation({

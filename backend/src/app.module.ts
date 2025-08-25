@@ -7,8 +7,10 @@ import { AuthModule } from "./app/auth/auth.module";
 import { ClassroomsModule } from "./app/classrooms/classrooms.module";
 import { MinigamesModule } from "./app/minigames/minigames.module";
 import { PupilsModule } from "./app/pupils/pupils.module";
+import { ReadingSessionsModule } from "./app/reading-sessions/reading-sessions.module";
 import configuration from "./configuration/configuration";
 import { DatabaseModule } from "./database/database.module";
+import { EmailModule } from "./app/email/email.module";
 import { ReadingMaterialsModule } from './app/reading-materials/reading-materials.module';
 import { GenresModule } from './app/genres/genres.module';
 
@@ -27,6 +29,7 @@ import { GenresModule } from './app/genres/genres.module';
       load: [configuration],
     }),
     DatabaseModule,
+    EmailModule,
     AuthModule,
     PupilsModule,
     ClassroomsModule,
@@ -37,4 +40,4 @@ import { GenresModule } from './app/genres/genres.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

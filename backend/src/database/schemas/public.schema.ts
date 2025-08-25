@@ -28,3 +28,4 @@ export type MinigameLog = Selectable<MinigameLogs>;
 export type Genre = Selectable<Genres>;
 
 export type NewClassroom = Insertable<Classrooms>;
+export type NewReadingSession = Insertable<ReadingSessions>;

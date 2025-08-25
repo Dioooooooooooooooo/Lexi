@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as cookieParser from "cookie-parser";
 import { AppModule } from "./app.module";
 import { GlobalExceptionFilter } from "./filters/global-exception-filter";
+import { RequestContextMiddleware } from "./common/middlewares/request-context.middleware";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,12 +22,13 @@ async function bootstrap() {
       transform: true,
       whitelist: true,
       forbidNonWhitelisted: true,
-    })
+    }),
   );
 
   app.use(cookieParser());
 
   app.useGlobalFilters(new GlobalExceptionFilter());
+  app.use(new RequestContextMiddleware().use);
 
   const config = new DocumentBuilder()
     .setTitle("LexiLearner API")
@@ -58,12 +60,25 @@ async function bootstrap() {
     },
   });
 
-  console.log("🚀 Server running on http://localhost:3000");
-  console.log("📚 API Documentation available at http://localhost:3000/docs");
+  const port = Number(process.env.PORT) || 3000;
+  console.log(`🚀 Server running on http://localhost:${port}`);
   console.log(
-    "📋 API JSON Spec available at http://localhost:3000/api/swagger.json"
+    `📚 API Documentation available at http://localhost:${port}/docs`,
+  );
+  console.log(
+    `📋 API JSON Spec available at http://localhost:${port}/api/swagger.json`,
   );
 
-  await app.listen(3000);
+  try {
+    await app.listen(port);
+  } catch (err: any) {
+    if (err && err.code === "EADDRINUSE") {
+      console.error(
+        `Port ${port} is already in use. Please stop the process using it or set a different PORT environment variable.`,
+      );
+      process.exit(1);
+    }
+    throw err;
+  }
 }
 bootstrap().catch(console.error);

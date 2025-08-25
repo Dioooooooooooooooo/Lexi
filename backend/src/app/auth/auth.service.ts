@@ -22,12 +22,16 @@ import {
 import { Kysely } from "kysely";
 import { DB } from "@/database/db";
 import { OAuth2Client } from "google-auth-library";
+import { EmailService } from "../email/email.service";
+import { AccessTokenPayload } from "@/common/types/jwt.types";
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject("DATABASE") private readonly db: Kysely<DB>,
     private jwtService: JwtService,
+    // EmailService injected to send onboarding / reset / verify emails
+    private readonly emailService: EmailService,
   ) { }
 
   async register(registerDto: RegisterDto) {
@@ -109,7 +113,22 @@ export class AuthService {
       .execute();
 
     // Generate email verification token
-    await this.generateEmailVerificationToken(user.id);
+    const token = await this.generateEmailVerificationToken(user.id);
+
+    // Send onboarding and verification email (non-blocking)
+    try {
+      await this.emailService.sendOnboarding({
+        email: user.email,
+        name: user.first_name,
+      });
+      await this.emailService.sendVerifyEmail(
+        { email: user.email, name: user.first_name },
+        token,
+      );
+    } catch (err) {
+      // Email service will enqueue failed sends itself. Log and continue.
+      console.warn("Email send failed during registration, queued for retry");
+    }
 
     // Generate JWT tokens
     const tokens = await this.generateTokens(
@@ -304,9 +323,15 @@ export class AuthService {
       })
       .execute();
 
-    // In a real app, you would send an email here
-    // For now, just return the token (remove this in production)
-    console.log(`Password reset token for ${user.email}: ${resetToken}`);
+    // Send password reset email (non-blocking)
+    try {
+      await this.emailService.sendResetPassword(
+        { email: user.email },
+        resetToken,
+      );
+    } catch (err) {
+      console.warn("Failed to send reset password email, enqueued for retry");
+    }
   }
 
   async resetPassword(resetPasswordDto: ResetPasswordDto) {
@@ -677,7 +702,11 @@ export class AuthService {
   }
 
   async generateTokens(userId: string, email: string, role: string) {
-    const payload: any = { sub: userId, email: email, role: role };
+    const payload: AccessTokenPayload = {
+      sub: userId,
+      email: email,
+      role: role,
+    };
 
     if (role === "Teacher") {
       const teacher = await this.db
