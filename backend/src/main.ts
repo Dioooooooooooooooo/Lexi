@@ -6,9 +6,14 @@ import * as cookieParser from "cookie-parser";
 import { AppModule } from "./app.module";
 import { GlobalExceptionFilter } from "./filters/global-exception-filter";
 import { RequestContextMiddleware } from "./common/middlewares/request-context.middleware";
+import { SeedService } from "./seed/seed/seed.service";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const seeder = app.get(SeedService);
+
+  // Reading materials seed. RUN ONLY ONCE (?)
+  await seeder.run();
 
   // Enable CORS for development
   app.enableCors({
