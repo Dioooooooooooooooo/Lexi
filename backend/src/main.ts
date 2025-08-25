@@ -13,7 +13,7 @@ async function bootstrap() {
   const seeder = app.get(SeedService);
 
   // Reading materials seed. RUN ONLY ONCE (?)
-  await seeder.run();
+  // await seeder.run();
 
   // Enable CORS for development
   app.enableCors({
