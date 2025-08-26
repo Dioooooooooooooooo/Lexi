@@ -189,10 +189,19 @@ export interface Teachers {
 }
 
 export interface Achievements {
+  id: Generated<string>;
   name: string | null;
   description: string | null;
   badge: string | null;
   created_at: Timestamp | null;
+}
+
+export interface Activities {
+  id: Generated<string>;
+  title: string | null;
+  description: string | null;
+  reading_material_id: string | null;
+  classroom_id: string | null;
 }
 
 export interface DB {
@@ -217,4 +226,5 @@ export interface DB {
   "public.reading_sessions": ReadingSessions;
   "public.teachers": Teachers;
   "public.achievements": Achievements;
+  "public.activities": Activities;
 }

@@ -13,12 +13,13 @@ import { CreateClassroomDto } from "./dto/create-classroom.dto";
 import { UpdateClassroomDto } from "./dto/update-classroom.dto";
 import { AuthGuard } from "@nestjs/passport";
 import { RolesGuard } from "../auth/role-guard";
-import { ApiBearerAuth, ApiBody, ApiOperation } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Roles } from "@/decorators/roles.decorator";
 import { SuccessResponseDto } from "@/common/dto";
 import { Classroom } from "@/database/schemas";
 
 @Controller("classrooms")
+@ApiTags("Classrooms")
 @UseGuards(AuthGuard("jwt"), RolesGuard)
 @ApiBearerAuth("JWT-auth")
 @Roles(["Teacher"])

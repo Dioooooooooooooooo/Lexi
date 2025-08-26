@@ -44,7 +44,8 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("docs", app, document, {
-    jsonDocumentUrl: "api/swagger.json",
+    // jsonDocumentUrl: "api/swagger.json",
+    jsonDocumentUrl: "/docs-json",
     customSiteTitle: "LexiLearner API Documentation",
     customfavIcon: "/favicon.ico",
     customCss: `
