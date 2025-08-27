@@ -187,16 +187,6 @@ export class AuthService {
       throw new UnauthorizedException("Invalid credentials");
     }
 
-    // Log the login
-    await this.db
-      .insertInto("auth.login_logs")
-      .values({
-        id: uuidv4(),
-        user_id: userWithProvider.id,
-        logged_in_at: new Date(),
-      })
-      .execute();
-
     // Generate JWT tokens
     const tokens = await this.generateTokens(
       userWithProvider.id,

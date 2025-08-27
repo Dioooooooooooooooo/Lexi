@@ -52,16 +52,6 @@ export interface AuthProvidersTable {
   updated_at: Generated<Date>;
 }
 
-export interface AuthLoginLogsTable {
-  id: Generated<string>;
-  user_id: string | null;
-  ip_address: string | null;
-  user_agent: string | null;
-  device: string | null;
-  location: string | null;
-  logged_in_at: Date | null;
-}
-
 export interface AuthPasswordResetTokensTable {
   id: Generated<string>;
   user_id: string;
