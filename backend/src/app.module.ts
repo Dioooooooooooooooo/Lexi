@@ -15,6 +15,7 @@ import { ReadingMaterialsModule } from "./app/reading-materials/reading-material
 import { GenresModule } from "./app/genres/genres.module";
 import { SeedModule } from "./seed/seed.module";
 import { ActivityModule } from './app/activity/activity.module';
+import { UserModule } from './app/user/user.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { ActivityModule } from './app/activity/activity.module';
     GenresModule,
     SeedModule,
     ActivityModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

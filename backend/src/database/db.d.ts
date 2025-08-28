@@ -46,6 +46,22 @@ export interface AuthLoginLogs {
   user_id: string | null;
 }
 
+export interface AuthLoginStreaks {
+  id: Generated<string>;
+  pupil_id: Generated<string>;
+  current_streak: number;
+  longest_streak: number;
+  last_login_date: Date;
+}
+
+export interface AuthSessions {
+  id: Generated<string>;
+  user_id: Generated<string>;
+  duration: number;
+  created_at: Generated<Date>;
+  end_at: Generated<Date>;
+}
+
 export interface AuthPasswordResetTokens {
   created_at: Generated<Timestamp>;
   expires_at: Timestamp;
@@ -207,7 +223,8 @@ export interface Activities {
 export interface DB {
   "auth.auth_providers": AuthAuthProviders;
   "auth.email_verification_tokens": AuthEmailVerificationTokens;
-  "auth.login_logs": AuthLoginLogs;
+  "auth.login_streaks": AuthLoginStreaks;
+  "auth.sessions": AuthSessions;
   "auth.password_reset_tokens": AuthPasswordResetTokens;
   "auth.permissions": AuthPermissions;
   "auth.refresh_tokens": AuthRefreshTokens;
