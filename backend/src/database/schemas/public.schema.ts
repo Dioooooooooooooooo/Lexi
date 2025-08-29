@@ -32,5 +32,6 @@ export type Achievement = Selectable<Achievements>;
 export type Activity = Selectable<Activities>;
 
 export type NewActivity = Insertable<Activities>;
+export type NewAchievement = Insertable<Achievements>;
 export type NewClassroom = Insertable<Classrooms>;
 export type NewReadingSession = Insertable<ReadingSessions>;

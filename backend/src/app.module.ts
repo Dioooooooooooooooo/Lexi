@@ -14,8 +14,9 @@ import { EmailModule } from "./app/email/email.module";
 import { ReadingMaterialsModule } from "./app/reading-materials/reading-materials.module";
 import { GenresModule } from "./app/genres/genres.module";
 import { SeedModule } from "./seed/seed.module";
-import { ActivityModule } from './app/activity/activity.module';
-import { UserModule } from './app/user/user.module';
+import { ActivityModule } from "./app/activity/activity.module";
+import { UserModule } from "./app/user/user.module";
+import { AchievementsModule } from "./app/achievements/achievements.module";
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { UserModule } from './app/user/user.module';
     ReadingSessionsModule,
     ReadingMaterialsModule,
     GenresModule,
+    AchievementsModule,
     SeedModule,
     ActivityModule,
     UserModule,
