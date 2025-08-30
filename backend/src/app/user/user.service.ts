@@ -1,32 +1,40 @@
-import { DB } from "@/database/db";
-import { LoginStreak, Session } from "@/database/schemas";
+import { DB } from '@/database/db';
+import { LoginStreak, Session } from '@/database/schemas';
 import {
   BadRequestException,
   Inject,
   Injectable,
   NotFoundException,
-} from "@nestjs/common";
-import { Kysely, sql } from "kysely";
-import { UserResponseDto } from "../auth/dto/auth.dto";
-import { PupilsService } from "../pupils/pupils.service";
+} from '@nestjs/common';
+import { Kysely, sql } from 'kysely';
+import { UserResponseDto } from '../auth/dto/auth.dto';
+import { PupilsService } from '../pupils/pupils.service';
 
 @Injectable()
 export class UserService {
   constructor(
-    @Inject("DATABASE") private readonly db: Kysely<DB>,
+    @Inject('DATABASE') private readonly db: Kysely<DB>,
     private readonly pupilService: PupilsService,
   ) {}
-  async updateLoginStreak(user_id: string): Promise<LoginStreak> {
+  async updateLoginStreak(
+    user_id: string,
+    role?: string,
+  ): Promise<LoginStreak | null> {
+    // pupil ra unta ang naa streak
+    if (role !== 'Pupil') {
+      return null;
+    }
+
     const pupil = await this.pupilService.getPupilProfile(user_id);
     let loginStreak = await this.db
-      .selectFrom("auth.login_streaks")
-      .where("pupil_id", "=", pupil.id)
+      .selectFrom('auth.login_streaks')
+      .where('pupil_id', '=', pupil.id)
       .selectAll()
       .executeTakeFirst();
 
     if (!loginStreak) {
       loginStreak = await this.db
-        .insertInto("auth.login_streaks")
+        .insertInto('auth.login_streaks')
         .values({
           pupil_id: pupil.id,
           current_streak: 1,
@@ -60,13 +68,13 @@ export class UserService {
       }
 
       loginStreak = await this.db
-        .updateTable("auth.login_streaks")
+        .updateTable('auth.login_streaks')
         .set({
           current_streak: newCurrentStreak,
           longest_streak: newLongestStreak,
           last_login_date: new Date(),
         })
-        .where("id", "=", loginStreak.id)
+        .where('id', '=', loginStreak.id)
         .returningAll()
         .executeTakeFirst();
     }
@@ -77,13 +85,13 @@ export class UserService {
   async getLoginStreak(user_id: string): Promise<LoginStreak> {
     const pupil = await this.pupilService.getPupilProfile(user_id);
     const loginStreak = await this.db
-      .selectFrom("auth.login_streaks")
-      .where("pupil_id", "=", pupil.id)
+      .selectFrom('auth.login_streaks')
+      .where('pupil_id', '=', pupil.id)
       .selectAll()
       .executeTakeFirst();
 
     if (!loginStreak) {
-      throw new NotFoundException("Login streak not found");
+      throw new NotFoundException('Login streak not found');
     }
 
     return loginStreak;
@@ -112,18 +120,18 @@ export class UserService {
 
   async getUsersByRole(role: string): Promise<UserResponseDto[]> {
     const users = await this.db
-      .selectFrom("auth.users as u")
-      .leftJoin("auth.user_roles as ur", "u.id", "ur.user_id")
-      .leftJoin("auth.roles as r", "ur.role_id", "r.id")
-      .where("r.name", "=", role)
+      .selectFrom('auth.users as u')
+      .leftJoin('auth.user_roles as ur', 'u.id', 'ur.user_id')
+      .leftJoin('auth.roles as r', 'ur.role_id', 'r.id')
+      .where('r.name', '=', role)
       .select([
-        "u.id",
-        "u.email",
-        "u.first_name",
-        "u.last_name",
-        "u.created_at",
-        "u.updated_at",
-        sql<string>`r.name`.as("role"),
+        'u.id',
+        'u.email',
+        'u.first_name',
+        'u.last_name',
+        'u.created_at',
+        'u.updated_at',
+        sql<string>`r.name`.as('role'),
       ])
       .execute();
     return users;
@@ -131,7 +139,7 @@ export class UserService {
 
   async createSession(user_id: string): Promise<Session> {
     const newSession = await this.db
-      .insertInto("auth.sessions")
+      .insertInto('auth.sessions')
       .values({
         user_id: user_id,
         created_at: new Date(),
@@ -145,28 +153,29 @@ export class UserService {
 
   async endSession(id: string, sessionId: string): Promise<Session> {
     const session = await this.db
-      .selectFrom("auth.sessions")
-      .where("id", "=", sessionId)
+      .selectFrom('auth.sessions')
+      .where('id', '=', sessionId)
       .selectAll()
       .executeTakeFirstOrThrow(() => {
-        throw new NotFoundException("Session not found.");
+        throw new NotFoundException('Session not found.');
       });
 
     if (session.end_at) {
-      throw new BadRequestException("Session already ended.");
+      throw new BadRequestException('Session already ended.');
     }
 
-    const durationOfSession =
-      Math.floor((new Date().getTime() - new Date(session.created_at).getTime()) /
-      (1000 * 60));
+    const durationOfSession = Math.floor(
+      (new Date().getTime() - new Date(session.created_at).getTime()) /
+        (1000 * 60),
+    );
 
     const endedSession = await this.db
-      .updateTable("auth.sessions")
+      .updateTable('auth.sessions')
       .set({
         duration: durationOfSession,
         end_at: new Date(),
       })
-      .where("id", "=", sessionId)
+      .where('id', '=', sessionId)
       .returningAll()
       .executeTakeFirst();
 
@@ -175,9 +184,9 @@ export class UserService {
 
   async getTotalSessions(user_id: string): Promise<{ number }> {
     const session = await this.db
-      .selectFrom("auth.sessions")
-      .where("user_id", "=", user_id)
-      .select(sql`Sum(duration)`.as("number"))
+      .selectFrom('auth.sessions')
+      .where('user_id', '=', user_id)
+      .select(sql`Sum(duration)`.as('number'))
       .executeTakeFirst();
 
     return session;

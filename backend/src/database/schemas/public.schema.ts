@@ -1,4 +1,4 @@
-import { Insertable, Selectable } from "kysely";
+import { Insertable, Selectable } from 'kysely';
 import {
   Pupils,
   Teachers,
@@ -11,6 +11,9 @@ import {
   Genres,
   Achievements,
   Activities,
+  PupilAchievements,
+} from '../db.d';
+
   ActivityLogs,
 } from "../db.d";
 
@@ -35,5 +38,8 @@ export type ActivityLog = Selectable<ActivityLogs>;
 
 export type NewActivityLog = Insertable<ActivityLogs>;
 export type NewActivity = Insertable<Activities>;
+export type NewAchievement = Insertable<Achievements>;
 export type NewClassroom = Insertable<Classrooms>;
 export type NewReadingSession = Insertable<ReadingSessions>;
+export type PupilAchievement = Selectable<PupilAchievements>;
+export type NewPupilAchievement = Insertable<PupilAchievements>;
