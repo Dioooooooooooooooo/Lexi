@@ -17,6 +17,8 @@ import { SeedModule } from "./seed/seed.module";
 import { ActivityModule } from "./app/activity/activity.module";
 import { UserModule } from "./app/user/user.module";
 import { AchievementsModule } from "./app/achievements/achievements.module";
+import { ActivityLogsModule } from "./app/activity-logs/activity-logs.module";
+import { UserModule } from "./app/user/user.module";
 
 @Module({
   imports: [
@@ -45,6 +47,7 @@ import { AchievementsModule } from "./app/achievements/achievements.module";
     SeedModule,
     ActivityModule,
     UserModule,
+    ActivityLogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

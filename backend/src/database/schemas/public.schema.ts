@@ -14,6 +14,9 @@ import {
   PupilAchievements,
 } from '../db.d';
 
+  ActivityLogs,
+} from "../db.d";
+
 export enum MinigameType {
   SentenceRearrangement,
   Choices,
@@ -31,7 +34,9 @@ export type MinigameLog = Selectable<MinigameLogs>;
 export type Genre = Selectable<Genres>;
 export type Achievement = Selectable<Achievements>;
 export type Activity = Selectable<Activities>;
+export type ActivityLog = Selectable<ActivityLogs>;
 
+export type NewActivityLog = Insertable<ActivityLogs>;
 export type NewActivity = Insertable<Activities>;
 export type NewAchievement = Insertable<Achievements>;
 export type NewClassroom = Insertable<Classrooms>;

@@ -7,5 +7,6 @@ import { ClassroomsModule } from "../classrooms/classrooms.module";
   controllers: [ActivityController],
   providers: [ActivityService],
   imports: [ClassroomsModule],
+  exports: [ActivityService],
 })
 export class ActivityModule {}
