@@ -24,6 +24,7 @@ import { DB } from "@/database/db";
 import { OAuth2Client } from "google-auth-library";
 import { EmailService } from "../email/email.service";
 import { AccessTokenPayload } from "@/common/types/jwt.types";
+import { UserService } from "../user/user.service";
 
 @Injectable()
 export class AuthService {
@@ -32,6 +33,7 @@ export class AuthService {
     private jwtService: JwtService,
     // EmailService injected to send onboarding / reset / verify emails
     private readonly emailService: EmailService,
+    private readonly userService: UserService
   ) { }
 
   async register(registerDto: RegisterDto) {
@@ -186,6 +188,9 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedException("Invalid credentials");
     }
+
+    // Save login streak
+    this.userService.updateLoginStreak(userWithProvider.id);
 
     // Generate JWT tokens
     const tokens = await this.generateTokens(
