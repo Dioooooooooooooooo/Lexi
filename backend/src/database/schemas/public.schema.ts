@@ -1,4 +1,4 @@
-import { Insertable, Selectable } from "kysely";
+import { Insertable, Selectable } from 'kysely';
 import {
   Pupils,
   Teachers,
@@ -11,7 +11,8 @@ import {
   Genres,
   Achievements,
   Activities,
-} from "../db.d";
+  PupilAchievements,
+} from '../db.d';
 
 export enum MinigameType {
   SentenceRearrangement,
@@ -35,3 +36,5 @@ export type NewActivity = Insertable<Activities>;
 export type NewAchievement = Insertable<Achievements>;
 export type NewClassroom = Insertable<Classrooms>;
 export type NewReadingSession = Insertable<ReadingSessions>;
+export type PupilAchievement = Selectable<PupilAchievements>;
+export type NewPupilAchievement = Insertable<PupilAchievements>;
