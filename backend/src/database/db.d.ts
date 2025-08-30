@@ -220,6 +220,13 @@ export interface Activities {
   classroom_id: string | null;
 }
 
+export interface ActivityLogs {
+  id: Generated<string>;
+  activity_id: string | null;
+  minigame_log_id: string | null;
+  completed_at: Timestamp | null;
+}
+
 export interface DB {
   "auth.auth_providers": AuthAuthProviders;
   "auth.email_verification_tokens": AuthEmailVerificationTokens;
@@ -244,4 +251,5 @@ export interface DB {
   "public.teachers": Teachers;
   "public.achievements": Achievements;
   "public.activities": Activities;
+  "public.activity_logs": ActivityLogs;
 }
