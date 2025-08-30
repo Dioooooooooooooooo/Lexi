@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "@nestjs/mapped-types": "*"
+    "@nestjs/mapped-types": "*",
+    "tslib": "^2.8.1"
   },
   "name": "@lexilearner/monorepo",
   "version": "1.0.0",

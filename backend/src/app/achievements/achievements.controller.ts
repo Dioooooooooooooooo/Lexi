@@ -35,7 +35,7 @@ export class AchievementsController {
   @ApiOperation({
     summary: 'Create an achievement',
   })
-  @Roles(['Teacher', 'Admin'])
+  @Roles(['Teacher'])
   async create(
     @Body() createAchievementDto: CreateAchievementDto,
   ): Promise<SuccessResponseDto<Achievement>> {
@@ -48,17 +48,52 @@ export class AchievementsController {
   @ApiOperation({
     summary: 'Find all achievements',
   })
-  @Roles(['Teacher', 'Student', 'Admin'])
+  @Roles(['Teacher', 'Student'])
   async findAll(): Promise<SuccessResponseDto<Achievement[]>> {
     const data = await this.achievementsService.findAll();
     return { message: 'Achievements successfully fetched', data };
+  }
+
+  @Get('user')
+  @ApiOperation({
+    summary: 'Get current user achievements',
+  })
+  @Roles(['Teacher', 'Student'])
+  async getUserAchievements(
+    @Request() req: { user: UserResponseDto },
+  ): Promise<SuccessResponseDto<Achievement[]>> {
+    // Only pupils have achievements for now
+    if (req.user.role !== 'Pupil') {
+      return { message: 'User achievements successfully fetched', data: [] };
+    }
+
+    const pupil = await this.pupilsService.getPupilProfile(req.user.id);
+    const data = await this.achievementsService.getUserAchievements(pupil.id);
+    return { message: 'User achievements successfully fetched', data };
+  }
+
+  @Post('user/:achievementId')
+  @ApiOperation({
+    summary: 'Award achievement to current user',
+  })
+  @Roles(['Teacher'])
+  async awardAchievementToUser(
+    @Param('achievementId') achievementId: string,
+    @Request() req: { user: UserResponseDto },
+  ): Promise<SuccessResponseDto<PupilAchievement>> {
+    const pupil = await this.pupilsService.getPupilProfile(req.user.id);
+    const data = await this.achievementsService.awardAchievementToUser(
+      pupil.id,
+      achievementId,
+    );
+    return { message: 'Achievement awarded successfully', data };
   }
 
   @Get(':id')
   @ApiOperation({
     summary: 'Find achievement by id',
   })
-  @Roles(['Teacher', 'Student', 'Admin'])
+  @Roles(['Teacher', 'Student'])
   async findOne(
     @Param('id') id: string,
   ): Promise<SuccessResponseDto<Achievement>> {
@@ -70,7 +105,7 @@ export class AchievementsController {
   @ApiOperation({
     summary: 'Update achievement by id',
   })
-  @Roles(['Teacher', 'Admin'])
+  @Roles(['Teacher'])
   async update(
     @Param('id') id: string,
     @Body() updateAchievementDto: UpdateAchievementDto,
@@ -86,38 +121,11 @@ export class AchievementsController {
   @ApiOperation({
     summary: 'Delete achievement by id',
   })
-  @Roles(['Admin'])
+  @Roles(['Teacher'])
   async remove(
     @Param('id') id: string,
   ): Promise<SuccessResponseDto<Achievement>> {
     const data = await this.achievementsService.remove(id);
     return { message: 'Achievement successfully deleted', data };
-  }
-
-  @Get('user')
-  @ApiOperation({
-    summary: 'Get current user achievements',
-  })
-  @Roles(['Teacher', 'Student', 'Admin'])
-  async getUserAchievements(
-    @Request() req: { user: UserResponseDto },
-  ): Promise<SuccessResponseDto<Achievement[]>> {
-    const pupil = await this.pupilsService.getPupilProfile(req.user.id);
-    const data = await this.achievementsService.getUserAchievements(pupil.id);
-    return { message: 'User achievements successfully fetched', data };
-  }
-
-  @Post('user/:achievementId')
-  @ApiOperation({
-    summary: 'Award achievement to current user',
-  })
-  @Roles(['Teacher', 'Admin'])
-  async awardAchievementToUser(
-    @Param('achievementId') achievementId: string,
-    @Request() req: { user: UserResponseDto },
-  ): Promise<SuccessResponseDto<PupilAchievement>> {
-    const pupil = await this.pupilsService.getPupilProfile(req.user.id);
-    const data = await this.achievementsService.awardAchievementToUser(pupil.id, achievementId);
-    return { message: 'Achievement awarded successfully', data };
   }
 }

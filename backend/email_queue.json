@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1756573723032.2742,
+    "mailOptions": {
+      "to": "john.doe2@example.com",
+      "subject": "Welcome to App",
+      "template": "onboarding",
+      "context": {
+        "name": "John Doe2",
+        "appName": "App",
+        "signinUrl": "login"
+      }
+    },
+    "attempts": 2,
+    "lastError": "connect ECONNREFUSED ::1:587"
+  },
+  {
+    "id": 1756573723042.167,
+    "mailOptions": {
+      "to": "john.doe2@example.com",
+      "subject": "Verify your email for App",
+      "template": "verify-email",
+      "context": {
+        "name": "John Doe2",
+        "verifyUrl": "verify-email?token=e43157d01de7708b85352edf0cfa5423fe4dc8f0d5edf5fa864f31e9a8abf346",
+        "appName": "App"
+      }
+    },
+    "attempts": 2,
+    "lastError": "connect ECONNREFUSED ::1:587"
+  },
+  {
+    "id": 1756573797709.1804,
+    "mailOptions": {
+      "to": "john.doe3@example.com",
+      "subject": "Welcome to App",
+      "template": "onboarding",
+      "context": {
+        "name": "John Doe2",
+        "appName": "App",
+        "signinUrl": "login"
+      }
+    },
+    "attempts": 1,
+    "lastError": "connect ECONNREFUSED ::1:587"
+  }
+]

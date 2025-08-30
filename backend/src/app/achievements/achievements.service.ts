@@ -21,6 +21,7 @@ export class AchievementsService {
       name: createAchievementDto.name,
       description: createAchievementDto.description,
       badge: createAchievementDto.badge || null,
+      created_at: new Date(),
     };
 
     const achievement = await this.db

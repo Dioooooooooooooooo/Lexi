@@ -4,8 +4,8 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
-import { GlobalExceptionFilter } from './filters/global-exception-filter';
 import { RequestContextMiddleware } from './common/middlewares/request-context.middleware';
+import { GlobalExceptionFilter } from './filters/global-exception-filter';
 import { SeedService } from './seed/seed/seed.service';
 
 async function bootstrap() {
@@ -45,7 +45,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document, {
     // jsonDocumentUrl: "api/swagger.json",
-    jsonDocumentUrl: '/docs-json',
+    jsonDocumentUrl: 'api/docs-json',
     customSiteTitle: 'LexiLearner API Documentation',
     customfavIcon: '/favicon.ico',
     customCss: `
