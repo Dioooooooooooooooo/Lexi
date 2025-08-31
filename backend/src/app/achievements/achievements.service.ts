@@ -128,6 +128,27 @@ export class AchievementsService {
       .executeTakeFirst();
   }
 
+  async awardAchievementByName(
+    pupilId: string,
+    achievementName: string,
+  ): Promise<PupilAchievement> {
+    // Find achievement by name
+    const achievement = await this.db
+      .selectFrom('public.achievements')
+      .where('name', '=', achievementName)
+      .selectAll()
+      .executeTakeFirst();
+
+    if (!achievement) {
+      throw new NotFoundException(
+        `Achievement with name '${achievementName}' not found`,
+      );
+    }
+
+    // Award the achievement using existing method
+    return await this.awardAchievementToUser(pupilId, achievement.id);
+  }
+
   async hasAchievement(
     pupilId: string,
     achievementName: string,
