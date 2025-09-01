@@ -188,11 +188,10 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Save login streak
-    void this.userService.updateLoginStreak(
-      userWithProvider.id,
-      userWithProvider.role,
-    );
+    if (userWithProvider.role === 'Pupil') {
+      // Save login streak
+      void this.userService.updateLoginStreak(userWithProvider.id);
+    }
 
     // Generate JWT tokens
     const tokens = await this.generateTokens(
