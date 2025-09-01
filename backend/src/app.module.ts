@@ -15,7 +15,6 @@ import { ReadingMaterialsModule } from "./app/reading-materials/reading-material
 import { GenresModule } from "./app/genres/genres.module";
 import { SeedModule } from "./seed/seed.module";
 import { ActivityModule } from "./app/activity/activity.module";
-import { UserModule } from "./app/user/user.module";
 import { AchievementsModule } from "./app/achievements/achievements.module";
 import { ActivityLogsModule } from "./app/activity-logs/activity-logs.module";
 import { UserModule } from "./app/user/user.module";
