@@ -260,16 +260,3 @@ export interface DB {
   'public.reading_sessions': ReadingSessions;
   'public.teachers': Teachers;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
