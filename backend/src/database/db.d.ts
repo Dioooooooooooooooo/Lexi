@@ -3,9 +3,10 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from "kysely";
+import type { ColumnType } from 'kysely';
 
-export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
+export type Generated<T> =
+  T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
 
@@ -233,11 +234,9 @@ export interface Teachers {
 }
 
 export interface DB {
-  'public.achievements': Achievements;
-  'public.activities': Activities;
-  'public.activity_logs': ActivityLogs;
   'auth.auth_providers': AuthAuthProviders;
   'auth.email_verification_tokens': AuthEmailVerificationTokens;
+  'auth.login_logs': AuthLoginLogs;
   'auth.login_streaks': AuthLoginStreaks;
   'auth.password_reset_tokens': AuthPasswordResetTokens;
   'auth.permissions': AuthPermissions;
@@ -247,6 +246,7 @@ export interface DB {
   'auth.sessions': AuthSessions;
   'auth.user_roles': AuthUserRoles;
   'auth.users': AuthUsers;
+
   'public.classroom_enrollment': ClassroomEnrollment;
   'public.classrooms': Classrooms;
   'public.genres': Genres;
@@ -259,4 +259,7 @@ export interface DB {
   'public.reading_materials': ReadingMaterials;
   'public.reading_sessions': ReadingSessions;
   'public.teachers': Teachers;
+  'public.achievements': Achievements;
+  'public.activities': Activities;
+  'public.activity_logs': ActivityLogs;
 }

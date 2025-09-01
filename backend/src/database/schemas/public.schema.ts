@@ -8,13 +8,8 @@ import {
   ReadingSessions,
   Minigames,
   MinigameLogs,
-  Genres,
-  Achievements,
-  Activities,
-  PupilAchievements,
-  ActivityLogs,
   ClassroomEnrollment,
-} from '../db.d';
+} from "../db.d";
 
 export enum MinigameType {
   SentenceRearrangement,
@@ -41,5 +36,4 @@ export type NewAchievement = Insertable<Achievements>;
 export type NewClassroom = Insertable<Classrooms>;
 export type NewClassroomEnrollment = Insertable<ClassroomEnrollment>;
 export type NewReadingSession = Insertable<ReadingSessions>;
-export type PupilAchievement = Selectable<PupilAchievements>;
-export type NewPupilAchievement = Insertable<PupilAchievements>;
+export type NewClassroomEnrollment = Insertable<ClassroomEnrollment>;
