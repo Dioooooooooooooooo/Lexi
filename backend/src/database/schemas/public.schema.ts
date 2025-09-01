@@ -12,8 +12,6 @@ import {
   Achievements,
   Activities,
   PupilAchievements,
-} from '../db.d';
-
   ActivityLogs,
 } from "../db.d";
 

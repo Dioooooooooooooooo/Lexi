@@ -17,14 +17,8 @@ export class UserService {
     private readonly pupilService: PupilsService,
   ) {}
   async updateLoginStreak(
-    user_id: string,
-    role?: string,
+    user_id: string
   ): Promise<LoginStreak | null> {
-    // pupil ra unta ang naa streak
-    if (role !== 'Pupil') {
-      return null;
-    }
-
     const pupil = await this.pupilService.getPupilProfile(user_id);
     let loginStreak = await this.db
       .selectFrom('auth.login_streaks')

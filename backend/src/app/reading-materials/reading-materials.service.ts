@@ -1,6 +1,5 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateReadingMaterialDto } from "./dto/create-reading-material.dto";
-import { UpdateReadingMaterialDto } from "./dto/update-reading-material.dto";
 import { Kysely, sql } from "kysely";
 import { DB } from "@/database/db";
 import { GenresService } from "../genres/genres.service";
