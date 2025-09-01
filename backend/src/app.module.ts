@@ -1,23 +1,23 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { ThrottlerModule } from '@nestjs/throttler';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthModule } from './app/auth/auth.module';
-import { ClassroomsModule } from './app/classrooms/classrooms.module';
-import { MinigamesModule } from './app/minigames/minigames.module';
-import { PupilsModule } from './app/pupils/pupils.module';
-import { ReadingSessionsModule } from './app/reading-sessions/reading-sessions.module';
-import configuration from './configuration/configuration';
-import { DatabaseModule } from './database/database.module';
-import { EmailModule } from './app/email/email.module';
-import { ReadingMaterialsModule } from './app/reading-materials/reading-materials.module';
-import { GenresModule } from './app/genres/genres.module';
-import { SeedModule } from './seed/seed.module';
-import { ActivityModule } from './app/activity/activity.module';
-import { AchievementsModule } from './app/achievements/achievements.module';
-import { ActivityLogsModule } from './app/activity-logs/activity-logs.module';
-import { UserModule } from './app/user/user.module';
+import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { ThrottlerModule } from "@nestjs/throttler";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { AuthModule } from "./app/auth/auth.module";
+import { ClassroomsModule } from "./app/classrooms/classrooms.module";
+import { MinigamesModule } from "./app/minigames/minigames.module";
+import { PupilsModule } from "./app/pupils/pupils.module";
+import { ReadingSessionsModule } from "./app/reading-sessions/reading-sessions.module";
+import configuration from "./configuration/configuration";
+import { DatabaseModule } from "./database/database.module";
+import { EmailModule } from "./app/email/email.module";
+import { ReadingMaterialsModule } from "./app/reading-materials/reading-materials.module";
+import { GenresModule } from "./app/genres/genres.module";
+import { SeedModule } from "./seed/seed.module";
+import { ActivityModule } from "./app/activity/activity.module";
+import { AchievementsModule } from "./app/achievements/achievements.module";
+import { ActivityLogsModule } from "./app/activity-logs/activity-logs.module";
+import { UserModule } from "./app/user/user.module";
 
 @Module({
   imports: [

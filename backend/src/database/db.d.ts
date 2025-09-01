@@ -3,14 +3,36 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from 'kysely';
+import type { ColumnType } from "kysely";
 
-export type Generated<T> =
-  T extends ColumnType<infer S, infer I, infer U>
-    ? ColumnType<S, I | undefined, U>
-    : ColumnType<T, T | undefined, T>;
+export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
+  ? ColumnType<S, I | undefined, U>
+  : ColumnType<T, T | undefined, T>;
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
+
+export interface Achievements {
+  badge: string | null;
+  created_at: Timestamp | null;
+  description: string | null;
+  id: Generated<string>;
+  name: string | null;
+}
+
+export interface Activities {
+  classroom_id: string | null;
+  description: string | null;
+  id: Generated<string>;
+  reading_material_id: string | null;
+  title: string | null;
+}
+
+export interface ActivityLogs {
+  activity_id: string | null;
+  completed_at: Timestamp | null;
+  id: Generated<string>;
+  minigame_log_id: string | null;
+}
 
 export interface AuthAuthProviders {
   access_token: string | null;
@@ -36,30 +58,12 @@ export interface AuthEmailVerificationTokens {
   user_id: string;
 }
 
-export interface AuthLoginLogs {
-  device: string | null;
-  id: Generated<string>;
-  ip_address: string | null;
-  location: string | null;
-  logged_in_at: Timestamp | null;
-  user_agent: string | null;
-  user_id: string | null;
-}
-
 export interface AuthLoginStreaks {
+  current_streak: number | null;
   id: Generated<string>;
-  pupil_id: Generated<string>;
-  current_streak: number;
-  longest_streak: number;
-  last_login_date: Date;
-}
-
-export interface AuthSessions {
-  id: Generated<string>;
-  user_id: Generated<string>;
-  duration: number;
-  created_at: Generated<Date>;
-  end_at: Generated<Date>;
+  last_login_date: Generated<Timestamp | null>;
+  longest_streak: number | null;
+  pupil_id: string | null;
 }
 
 export interface AuthPasswordResetTokens {
@@ -96,6 +100,14 @@ export interface AuthRoles {
   description: string | null;
   id: Generated<number>;
   name: string;
+}
+
+export interface AuthSessions {
+  created_at: Generated<Timestamp | null>;
+  duration: number | null;
+  end_at: Timestamp | null;
+  id: Generated<string>;
+  user_id: string | null;
 }
 
 export interface AuthUserRoles {
@@ -159,6 +171,13 @@ export interface Minigames {
   reading_material_id: string | null;
 }
 
+export interface PupilAchievements {
+  achievement_id: string | null;
+  created_at: Timestamp | null;
+  id: Generated<string>;
+  pupil_id: string | null;
+}
+
 export interface PupilLeaderboard {
   id: Generated<string>;
   level: number;
@@ -197,11 +216,13 @@ export interface ReadingMaterials {
 
 export interface ReadingSessions {
   completed_at: Timestamp | null;
-  completion_percentage: number | null;
+  completion_percentage: Generated<number | null>;
+  created_at: Generated<Timestamp>;
   id: Generated<string>;
   pupil_id: string | null;
   reading_material_id: string | null;
   started_at: Generated<Timestamp | null>;
+  updated_at: Timestamp | null;
 }
 
 export interface Teachers {
@@ -211,61 +232,31 @@ export interface Teachers {
   user_id: string;
 }
 
-export interface Achievements {
-  id: Generated<string>;
-  name: string | null;
-  description: string | null;
-  badge: string | null;
-  created_at: Timestamp | null;
-}
-
-export interface Activities {
-  id: Generated<string>;
-  title: string | null;
-  description: string | null;
-  reading_material_id: string | null;
-  classroom_id: string | null;
-}
-
-export interface PupilAchievements {
-  id: Generated<string>;
-  pupil_id: string;
-  achievement_id: string;
-  earned_at: Generated<Timestamp>;
-}
-
-export interface ActivityLogs {
-  id: Generated<string>;
-  activity_id: string | null;
-  minigame_log_id: string | null;
-  completed_at: Timestamp | null;
-}
-
 export interface DB {
+  'public.achievements': Achievements;
+  'public.activities': Activities;
+  'public.activity_logs': ActivityLogs;
   'auth.auth_providers': AuthAuthProviders;
   'auth.email_verification_tokens': AuthEmailVerificationTokens;
   'auth.login_streaks': AuthLoginStreaks;
-  'auth.sessions': AuthSessions;
   'auth.password_reset_tokens': AuthPasswordResetTokens;
   'auth.permissions': AuthPermissions;
   'auth.refresh_tokens': AuthRefreshTokens;
   'auth.role_permissions': AuthRolePermissions;
   'auth.roles': AuthRoles;
+  'auth.sessions': AuthSessions;
   'auth.user_roles': AuthUserRoles;
-  'public.classroom_enrollment': ClassroomEnrollment;
   'auth.users': AuthUsers;
+  'public.classroom_enrollment': ClassroomEnrollment;
   'public.classrooms': Classrooms;
   'public.genres': Genres;
   'public.minigame_logs': MinigameLogs;
   'public.minigames': Minigames;
+  'public.pupil_achievements': PupilAchievements;
   'public.pupil_leaderboard': PupilLeaderboard;
   'public.pupils': Pupils;
   'public.reading_material_genres': ReadingMaterialGenres;
   'public.reading_materials': ReadingMaterials;
   'public.reading_sessions': ReadingSessions;
   'public.teachers': Teachers;
-  'public.achievements': Achievements;
-  'public.activities': Activities;
-  'public.activity_logs': ActivityLogs;
-  'public.pupil_achievements': PupilAchievements;
 }

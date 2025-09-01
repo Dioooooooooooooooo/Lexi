@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { ReadingMaterialsService } from './reading-materials.service';
 import { CreateReadingMaterialDto } from './dto/create-reading-material.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -9,39 +19,62 @@ import { RolesGuard } from '../auth/role-guard';
 import { Roles } from '@/decorators/roles.decorator';
 import { UserResponseDto } from '../auth/dto/auth.dto';
 
-@UseGuards(AuthGuard("jwt"))
-@ApiBearerAuth("JWT-auth")
-@Controller("reading-materials")
+export type ReadingMaterialWithGenres = ReadingMaterial & { genres: string[] };
+
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth('JWT-auth')
+@Controller('reading-materials')
 export class ReadingMaterialsController {
   constructor(
     private readonly readingMaterialsService: ReadingMaterialsService,
   ) {}
 
   @Post()
-  create(
+  async create(
     @Body() createReadingMaterialDto: CreateReadingMaterialDto,
   ): Promise<SuccessResponseDto<ReadingMaterial>> {
-    return this.readingMaterialsService.create(createReadingMaterialDto);
+    const result = await this.readingMaterialsService.create(
+      createReadingMaterialDto,
+    );
+    return {
+      message: 'Reading material successfully created',
+      data: result,
+    };
   }
 
   @Get()
-  findAll(): Promise<SuccessResponseDto<ReadingMaterial[]>> {
-    return this.readingMaterialsService.findAll();
+  async findAll(): Promise<SuccessResponseDto<ReadingMaterialWithGenres[]>> {
+    const readingMaterials = await this.readingMaterialsService.findAll();
+    return {
+      message: 'Reading materials successfully fetched',
+      data: readingMaterials,
+    };
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string): Promise<SuccessResponseDto<ReadingMaterial>> {
-    return this.readingMaterialsService.findOne(id);
-  }
-
-  @Get("recommendations")
+  @Get('recommendations')
   @UseGuards(RolesGuard)
-  @Roles(["Pupil"])
-  findRecommendations(
+  @Roles(['Pupil'])
+  async findRecommendations(
     @Request() req: { user: UserResponseDto },
-  ): Promise<SuccessResponseDto<ReadingMaterial[]>> {
-    return this.readingMaterialsService.getRecommendedReadingMaterials(
-      req.user.id,
-    );
+  ): Promise<SuccessResponseDto<ReadingMaterialWithGenres[]>> {
+    const recommendedMaterials =
+      await this.readingMaterialsService.getRecommendedReadingMaterials(
+        req.user.id,
+      );
+    return {
+      message: 'Recommended reading materials successfully fetched',
+      data: recommendedMaterials,
+    };
+  }
+
+  @Get(':id')
+  async findOne(
+    @Param('id') id: string,
+  ): Promise<SuccessResponseDto<ReadingMaterialWithGenres>> {
+    const readingMaterial = await this.readingMaterialsService.findOne(id);
+    return {
+      message: 'Reading material successfully fetched',
+      data: readingMaterial,
+    };
   }
 }
