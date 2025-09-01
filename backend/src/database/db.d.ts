@@ -117,6 +117,13 @@ export interface AuthUsers {
   username: string;
 }
 
+export interface ClassroomEnrollment {
+  classroom_id: string;
+  created_at: Generated<Timestamp | null>;
+  id: Generated<string>;
+  pupil_id: string;
+}
+
 export interface Classrooms {
   created_at: Generated<Timestamp>;
   description: string | null;
@@ -235,28 +242,30 @@ export interface ActivityLogs {
 }
 
 export interface DB {
-  "auth.auth_providers": AuthAuthProviders;
-  "auth.email_verification_tokens": AuthEmailVerificationTokens;
-  "auth.login_streaks": AuthLoginStreaks;
-  "auth.sessions": AuthSessions;
-  "auth.password_reset_tokens": AuthPasswordResetTokens;
-  "auth.permissions": AuthPermissions;
-  "auth.refresh_tokens": AuthRefreshTokens;
-  "auth.role_permissions": AuthRolePermissions;
-  "auth.roles": AuthRoles;
-  "auth.user_roles": AuthUserRoles;
-  "auth.users": AuthUsers;
-  "public.classrooms": Classrooms;
-  "public.genres": Genres;
-  "public.minigame_logs": MinigameLogs;
-  "public.minigames": Minigames;
-  "public.pupil_leaderboard": PupilLeaderboard;
-  "public.pupils": Pupils;
-  "public.reading_material_genres": ReadingMaterialGenres;
-  "public.reading_materials": ReadingMaterials;
-  "public.reading_sessions": ReadingSessions;
-  "public.teachers": Teachers;
-  "public.achievements": Achievements;
-  "public.activities": Activities;
-  "public.activity_logs": ActivityLogs;
+  'auth.auth_providers': AuthAuthProviders;
+  'auth.email_verification_tokens': AuthEmailVerificationTokens;
+  'auth.login_streaks': AuthLoginStreaks;
+  'auth.sessions': AuthSessions;
+  'auth.password_reset_tokens': AuthPasswordResetTokens;
+  'auth.permissions': AuthPermissions;
+  'auth.refresh_tokens': AuthRefreshTokens;
+  'auth.role_permissions': AuthRolePermissions;
+  'auth.roles': AuthRoles;
+  'auth.user_roles': AuthUserRoles;
+  'public.classroom_enrollment': ClassroomEnrollment;
+  'auth.users': AuthUsers;
+  'public.classrooms': Classrooms;
+  'public.genres': Genres;
+  'public.minigame_logs': MinigameLogs;
+  'public.minigames': Minigames;
+  'public.pupil_leaderboard': PupilLeaderboard;
+  'public.pupils': Pupils;
+  'public.reading_material_genres': ReadingMaterialGenres;
+  'public.reading_materials': ReadingMaterials;
+  'public.reading_sessions': ReadingSessions;
+  'public.teachers': Teachers;
+  'public.achievements': Achievements;
+  'public.activities': Activities;
+  'public.activity_logs': ActivityLogs;
+  'public.pupil_achievements': PupilAchievements;
 }
