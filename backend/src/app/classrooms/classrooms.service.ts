@@ -1,19 +1,31 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { CreateClassroomDto } from "./dto/create-classroom.dto";
-import { UpdateClassroomDto } from "./dto/update-classroom.dto";
-import { Classroom, NewClassroom } from "@/database/schemas";
-import { Kysely } from "kysely";
-import { DB } from "@/database/db";
-import { JwtAccessTokenPayload } from "@/common/types/jwt.types";
-import { getCurrentRequest } from "@/common/utils/request-context";
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { CreateClassroomDto } from './dto/create-classroom.dto';
+import { UpdateClassroomDto } from './dto/update-classroom.dto';
+import { JwtAccessTokenPayload } from '@/common/types/jwt.types';
+import { Kysely } from 'kysely';
+import { DB } from '@/database/db';
+import {
+  Classroom,
+  NewClassroom,
+  NewClassroomEnrollment,
+} from '@/database/schemas';
+import { getCurrentRequest } from '@/common/utils/request-context';
+import { EnrollPupilDto, UnEnrollPupilDto } from './dto/pupil-classroom.dto';
+import { JoinClassroomDto } from './dto/join-classroom.dto';
+import { LeaveClassroomDto } from './dto/leave-classroom.dto';
 
 @Injectable()
 export class ClassroomsService {
-  constructor(@Inject("DATABASE") private readonly db: Kysely<DB>) {}
+  constructor(@Inject('DATABASE') private readonly db: Kysely<DB>) {}
 
   async create(createClassroomDto: CreateClassroomDto): Promise<Classroom> {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
     const join_code = await this.generateUniqueRoomCode();
 
     const newClassroom: NewClassroom = {
@@ -23,7 +35,7 @@ export class ClassroomsService {
     };
 
     const classroom = await this.db
-      .insertInto("public.classrooms")
+      .insertInto('public.classrooms')
       .values(newClassroom)
       .returningAll()
       .executeTakeFirst();
@@ -31,26 +43,137 @@ export class ClassroomsService {
     return classroom;
   }
 
+  async enroll(enrollPupilDto: EnrollPupilDto) {
+    const newClassroomEnrollment: NewClassroomEnrollment[] =
+      enrollPupilDto.pupil_ids.map(p_id => {
+        return {
+          pupil_id: p_id,
+          classroom_id: enrollPupilDto.classroom_id,
+        };
+      });
+
+    return await this.db
+      .insertInto('public.classroom_enrollment')
+      .values(newClassroomEnrollment)
+      .returningAll()
+      .execute()
+      .catch(err => {
+        const match = err.detail.match(
+          /\(pupil_id, classroom_id\)=\(([^,]+), ([^)]+)\)/,
+        );
+
+        if (match) {
+          const [_, pupilId] = match;
+          throw new ConflictException(
+            `Pupil ${pupilId} is already enrolled in this classroom`,
+          );
+        }
+        throw err;
+      });
+  }
+
+  async unenroll(unEnrollPupilDto: UnEnrollPupilDto) {
+    return await this.db
+      .deleteFrom('public.classroom_enrollment')
+      .where('pupil_id', 'in', unEnrollPupilDto.pupil_ids)
+      .where('classroom_id', '=', unEnrollPupilDto.classroom_id)
+      .returningAll()
+      .execute();
+  }
+
+  async join(joinClassroomDto: JoinClassroomDto) {
+    const req = getCurrentRequest();
+    const user: JwtAccessTokenPayload = req['user'];
+
+    const classroom = await this.findByCode(joinClassroomDto.code);
+
+    const newClassroomEnrollment: NewClassroomEnrollment = {
+      pupil_id: user.pupil.id,
+      classroom_id: classroom.id,
+    };
+
+    await this.db
+      .insertInto('public.classroom_enrollment')
+      .values(newClassroomEnrollment)
+      .returningAll()
+      .executeTakeFirstOrThrow()
+      .catch(err => {
+        if (err.code === '23505') {
+          throw new ConflictException(
+            'Pupil is already enrolled in this classroom',
+          );
+        }
+        throw err;
+      });
+  }
+
+  async leave(leaveClassroomDto: LeaveClassroomDto) {
+    const req = getCurrentRequest();
+    const user: JwtAccessTokenPayload = req['user'];
+
+    await this.db
+      .deleteFrom('public.classroom_enrollment')
+      .where('pupil_id', '=', user.pupil.id)
+      .where('classroom_id', '=', leaveClassroomDto.classroom_id)
+      .returningAll()
+      .executeTakeFirstOrThrow(
+        () =>
+          new NotFoundException(
+            `Enrollment for pupil ${user.pupil.id} in classroom ${leaveClassroomDto.classroom_id} not found`,
+          ),
+      );
+  }
+
   async findAll(): Promise<Classroom[]> {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
+
+    const role = user.role;
+    if (role === 'Teacher') {
+      return await this.db
+        .selectFrom('public.classrooms')
+        .where('teacher_id', '=', user.teacher.id)
+        .selectAll()
+        .execute();
+    }
+
     return await this.db
-      .selectFrom("public.classrooms")
-      .where("teacher_id", "=", user.teacher.id)
+      .selectFrom('public.classrooms as c')
+      .leftJoin('public.classroom_enrollment as ce', 'ce.classroom_id', 'c.id')
+      .where('ce.pupil_id', '=', user.pupil.id)
       .selectAll()
       .execute();
   }
 
   async findOne(id: string): Promise<Classroom> {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
+
+    if (user.role === 'Teacher') {
+      return await this.db
+        .selectFrom('public.classrooms as p')
+        .where('p.id', '=', id)
+        .where('teacher_id', '=', user.teacher.id)
+        .selectAll()
+        .executeTakeFirstOrThrow(
+          () =>
+            new NotFoundException(
+              `Classroom with id ${id} not found or not assigned to you as a teacher`,
+            ),
+        );
+    }
+
     return await this.db
-      .selectFrom("public.classrooms as p")
-      .where("p.id", "=", id)
-      .where("teacher_id", "=", user.teacher.id)
+      .selectFrom('public.classrooms as c')
+      .leftJoin('public.classroom_enrollment as ce', 'ce.classroom_id', 'c.id')
+      .where('c.id', '=', id)
+      .where('ce.pupil_id', '=', user.pupil.id)
       .selectAll()
       .executeTakeFirstOrThrow(
-        () => new NotFoundException(`Classroom with id ${id} not found`),
+        () =>
+          new NotFoundException(
+            `Classroom with id ${id} not found or you are not enrolled as a pupil`,
+          ),
       );
   }
 
@@ -59,16 +182,19 @@ export class ClassroomsService {
     updateClassroomDto: UpdateClassroomDto,
   ): Promise<Classroom> {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
 
     const classroom = await this.db
-      .updateTable("public.classrooms")
+      .updateTable('public.classrooms')
       .set(updateClassroomDto)
-      .where("id", "=", id)
-      .where("teacher_id", "=", user.teacher.id)
+      .where('id', '=', id)
+      .where('teacher_id', '=', user.teacher.id)
       .returningAll()
       .executeTakeFirstOrThrow(
-        () => new NotFoundException(`Classroom with id ${id} not found`),
+        () =>
+          new NotFoundException(
+            `Classroom with id ${id} not found or not assigned to you as a teacher`,
+          ),
       );
 
     return classroom;
@@ -76,33 +202,46 @@ export class ClassroomsService {
 
   async remove(id: string): Promise<Classroom> {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
 
     const classroom = await this.db
-      .deleteFrom("public.classrooms")
-      .where("id", "=", id)
-      .where("teacher_id", "=", user.teacher.id)
+      .deleteFrom('public.classrooms')
+      .where('id', '=', id)
+      .where('teacher_id', '=', user.teacher.id)
       .returningAll()
       .executeTakeFirstOrThrow(
-        () => new NotFoundException(`Classroom with id ${id} not found`),
+        () =>
+          new NotFoundException(
+            `Classroom with id ${id} not found or not assigned to you as a teacher`,
+          ),
       );
 
     return classroom;
   }
 
+  async findByCode(code: string): Promise<Classroom> {
+    return await this.db
+      .selectFrom('public.classrooms')
+      .where('join_code', '=', code)
+      .selectAll()
+      .executeTakeFirstOrThrow(
+        () => new NotFoundException(`Classroom with code ${code} not found`),
+      );
+  }
+
   async generateUniqueRoomCode(length = 6): Promise<string> {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
     while (true) {
-      let code = "";
+      let code = '';
       for (let i = 0; i < length; i++) {
         code += chars.charAt(Math.floor(Math.random() * chars.length));
       }
 
       const existing = await this.db
-        .selectFrom("public.classrooms")
-        .select("join_code")
-        .where("join_code", "=", code)
+        .selectFrom('public.classrooms')
+        .select('join_code')
+        .where('join_code', '=', code)
         .executeTakeFirst();
 
       if (!existing) {

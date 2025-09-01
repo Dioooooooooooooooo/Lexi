@@ -1,9 +1,9 @@
-import { Pupil, TeacherProfile, User } from "./User";
+import { Pupil, TeacherProfile, User } from './User';
 
 export interface Classroom {
   id: string;
   teacher: TeacherProfile;
-  joinCode: string;
+  join_code: string;
   name: string;
   description?: string;
   pupilCount?: number;

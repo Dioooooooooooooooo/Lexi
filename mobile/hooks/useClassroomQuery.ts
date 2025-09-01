@@ -2,8 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '../lib/api/client';
 import { Classroom } from '../models/Classroom';
 import { User } from '../models/User';
-import { ReadingMaterialAssignment } from '../models/ReadingMaterialAssignment';
 import { ReadingAssignmentLog } from '../models/ReadingAssignmentLog';
+import { ReadingAssignment } from '@/models/ReadingMaterialAssignment';
 
 // Types
 export interface CreateClassroomData {
@@ -46,15 +46,17 @@ export const CLASSROOM_KEYS = {
   details: () => [...CLASSROOM_KEYS.all, 'detail'] as const,
   detail: (id: string) => [...CLASSROOM_KEYS.details(), id] as const,
   pupils: (id: string) => [...CLASSROOM_KEYS.detail(id), 'pupils'] as const,
-  assignments: (id: string) => [...CLASSROOM_KEYS.detail(id), 'assignments'] as const,
-  leaderboard: (id: string) => [...CLASSROOM_KEYS.detail(id), 'leaderboard'] as const,
+  assignments: (id: string) =>
+    [...CLASSROOM_KEYS.detail(id), 'assignments'] as const,
+  leaderboard: (id: string) =>
+    [...CLASSROOM_KEYS.detail(id), 'leaderboard'] as const,
   search: (query: string) => [...CLASSROOM_KEYS.all, 'search', query] as const,
 } as const;
 
 // API Functions
 const classroomApi = {
-  getByRole: async (role: string): Promise<Classroom[]> => {
-    return apiClient.get(`/classrooms/by-role/${role}`);
+  getClassrooms: async (): Promise<Classroom[]> => {
+    return apiClient.get(`/classrooms`);
   },
 
   create: async (data: CreateClassroomData): Promise<Classroom> => {
@@ -87,18 +89,22 @@ const classroomApi = {
   },
 
   addPupil: async (classroomId: string, pupilId: string): Promise<void> => {
-    return apiClient.post(`/classrooms/${classroomId}/pupils`, { pupil_id: pupilId });
+    return apiClient.post(`/classrooms/${classroomId}/pupils`, {
+      pupil_id: pupilId,
+    });
   },
 
   removePupil: async (classroomId: string, pupilId: string): Promise<void> => {
     return apiClient.delete(`/classrooms/${classroomId}/pupils/${pupilId}`);
   },
 
-  getAssignments: async (id: string): Promise<ReadingMaterialAssignment[]> => {
+  getAssignments: async (id: string): Promise<ReadingAssignment[]> => {
     return apiClient.get(`/classrooms/${id}/assignments`);
   },
 
-  createAssignment: async (data: CreateReadingAssignmentData): Promise<ReadingMaterialAssignment> => {
+  createAssignment: async (
+    data: CreateReadingAssignmentData,
+  ): Promise<ReadingAssignment> => {
     return apiClient.post('/reading-assignments', data);
   },
 
@@ -106,11 +112,15 @@ const classroomApi = {
     return apiClient.get(`/classrooms/${id}/leaderboard`);
   },
 
-  createAssignmentLog: async (data: AssignmentLogData): Promise<ReadingAssignmentLog> => {
+  createAssignmentLog: async (
+    data: AssignmentLogData,
+  ): Promise<ReadingAssignmentLog> => {
     return apiClient.post('/reading-assignment-logs', data);
   },
 
-  getAssignmentLogs: async (assignmentId: string): Promise<ReadingAssignmentLog[]> => {
+  getAssignmentLogs: async (
+    assignmentId: string,
+  ): Promise<ReadingAssignmentLog[]> => {
     return apiClient.get(`/reading-assignments/${assignmentId}/logs`);
   },
 };
@@ -120,7 +130,7 @@ const classroomApi = {
 export const useGetClassroomsByRole = (role: string) => {
   return useQuery({
     queryKey: CLASSROOM_KEYS.list(role),
-    queryFn: () => classroomApi.getByRole(role),
+    queryFn: () => classroomApi.getClassrooms(),
     staleTime: 2 * 60 * 1000, // 2 minutes
     enabled: !!role,
   });
@@ -161,7 +171,8 @@ export const useGetLeaderboardByClassroomId = (classroomId: string) => {
 export const useReadingAssignmentsWStats = (classroomId: string) => {
   return useQuery({
     queryKey: [...CLASSROOM_KEYS.assignments(classroomId), 'with-stats'],
-    queryFn: () => apiClient.get(`/classrooms/${classroomId}/assignments/stats`),
+    queryFn: () =>
+      apiClient.get(`/classrooms/${classroomId}/assignments/stats`),
     enabled: !!classroomId,
     staleTime: 2 * 60 * 1000, // 2 minutes
   });
@@ -207,10 +218,10 @@ export const useEditClassroom = () => {
 
   return useMutation({
     mutationFn: classroomApi.update,
-    onSuccess: (data) => {
+    onSuccess: data => {
       // Update the classroom in cache
       queryClient.setQueryData(CLASSROOM_KEYS.detail(data.id), data);
-      
+
       // Invalidate lists
       queryClient.invalidateQueries({ queryKey: CLASSROOM_KEYS.lists() });
     },
@@ -269,12 +280,17 @@ export const useAddPupilToClassroom = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ classroomId, pupilId }: { classroomId: string; pupilId: string }) =>
-      classroomApi.addPupil(classroomId, pupilId),
+    mutationFn: ({
+      classroomId,
+      pupilId,
+    }: {
+      classroomId: string;
+      pupilId: string;
+    }) => classroomApi.addPupil(classroomId, pupilId),
     onSuccess: (_, variables) => {
       // Invalidate pupils list for this classroom
-      queryClient.invalidateQueries({ 
-        queryKey: CLASSROOM_KEYS.pupils(variables.classroomId) 
+      queryClient.invalidateQueries({
+        queryKey: CLASSROOM_KEYS.pupils(variables.classroomId),
       });
     },
     onError: (error: any) => {
@@ -287,12 +303,17 @@ export const useRemovePupilFromClassroom = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ classroomId, pupilId }: { classroomId: string; pupilId: string }) =>
-      classroomApi.removePupil(classroomId, pupilId),
+    mutationFn: ({
+      classroomId,
+      pupilId,
+    }: {
+      classroomId: string;
+      pupilId: string;
+    }) => classroomApi.removePupil(classroomId, pupilId),
     onSuccess: (_, variables) => {
       // Invalidate pupils list for this classroom
-      queryClient.invalidateQueries({ 
-        queryKey: CLASSROOM_KEYS.pupils(variables.classroomId) 
+      queryClient.invalidateQueries({
+        queryKey: CLASSROOM_KEYS.pupils(variables.classroomId),
       });
     },
     onError: (error: any) => {
@@ -308,8 +329,8 @@ export const useCreateReadingAssignment = () => {
     mutationFn: classroomApi.createAssignment,
     onSuccess: (_, variables) => {
       // Invalidate assignments for this classroom
-      queryClient.invalidateQueries({ 
-        queryKey: CLASSROOM_KEYS.assignments(variables.classroomId) 
+      queryClient.invalidateQueries({
+        queryKey: CLASSROOM_KEYS.assignments(variables.classroomId),
       });
     },
     onError: (error: any) => {
@@ -325,14 +346,14 @@ export const useCreateAssignmentLog = () => {
     mutationFn: classroomApi.createAssignmentLog,
     onSuccess: (_, variables) => {
       // Invalidate assignment logs
-      queryClient.invalidateQueries({ 
-        queryKey: ['reading-assignment-logs', variables.reading_assignment_id] 
+      queryClient.invalidateQueries({
+        queryKey: ['reading-assignment-logs', variables.reading_assignment_id],
       });
-      
+
       // Also invalidate leaderboard as it may be affected
       // Note: We'd need the classroomId for this, might need to adjust the mutation
-      queryClient.invalidateQueries({ 
-        queryKey: CLASSROOM_KEYS.all
+      queryClient.invalidateQueries({
+        queryKey: CLASSROOM_KEYS.all,
       });
     },
     onError: (error: any) => {
