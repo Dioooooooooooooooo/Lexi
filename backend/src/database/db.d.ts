@@ -3,14 +3,37 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from "kysely";
+import type { ColumnType } from 'kysely';
 
 export type Generated<T> =
   T extends ColumnType<infer S, infer I, infer U>
-    ? ColumnType<S, I | undefined, U>
-    : ColumnType<T, T | undefined, T>;
+  ? ColumnType<S, I | undefined, U>
+  : ColumnType<T, T | undefined, T>;
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
+
+export interface Achievements {
+  badge: string | null;
+  created_at: Timestamp | null;
+  description: string | null;
+  id: Generated<string>;
+  name: string | null;
+}
+
+export interface Activities {
+  classroom_id: string | null;
+  description: string | null;
+  id: Generated<string>;
+  reading_material_id: string | null;
+  title: string | null;
+}
+
+export interface ActivityLogs {
+  activity_id: string | null;
+  completed_at: Timestamp | null;
+  id: Generated<string>;
+  minigame_log_id: string | null;
+}
 
 export interface AuthAuthProviders {
   access_token: string | null;
@@ -36,14 +59,12 @@ export interface AuthEmailVerificationTokens {
   user_id: string;
 }
 
-export interface AuthLoginLogs {
-  device: string | null;
+export interface AuthLoginStreaks {
+  current_streak: number | null;
   id: Generated<string>;
-  ip_address: string | null;
-  location: string | null;
-  logged_in_at: Timestamp | null;
-  user_agent: string | null;
-  user_id: string | null;
+  last_login_date: Generated<Timestamp | null>;
+  longest_streak: number | null;
+  pupil_id: string | null;
 }
 
 export interface AuthPasswordResetTokens {
@@ -80,6 +101,14 @@ export interface AuthRoles {
   description: string | null;
   id: Generated<number>;
   name: string;
+}
+
+export interface AuthSessions {
+  created_at: Generated<Timestamp | null>;
+  duration: number | null;
+  end_at: Timestamp | null;
+  id: Generated<string>;
+  user_id: string | null;
 }
 
 export interface AuthUserRoles {
@@ -143,6 +172,13 @@ export interface Minigames {
   reading_material_id: string | null;
 }
 
+export interface PupilAchievements {
+  achievement_id: string | null;
+  created_at: Timestamp | null;
+  id: Generated<string>;
+  pupil_id: string | null;
+}
+
 export interface PupilLeaderboard {
   id: Generated<string>;
   level: number;
@@ -198,25 +234,32 @@ export interface Teachers {
 }
 
 export interface DB {
-  "auth.auth_providers": AuthAuthProviders;
-  "auth.email_verification_tokens": AuthEmailVerificationTokens;
-  "auth.login_logs": AuthLoginLogs;
-  "auth.password_reset_tokens": AuthPasswordResetTokens;
-  "auth.permissions": AuthPermissions;
-  "auth.refresh_tokens": AuthRefreshTokens;
-  "auth.role_permissions": AuthRolePermissions;
-  "auth.roles": AuthRoles;
-  "auth.user_roles": AuthUserRoles;
-  "auth.users": AuthUsers;
-  "public.classroom_enrollment": ClassroomEnrollment;
-  "public.classrooms": Classrooms;
-  "public.genres": Genres;
-  "public.minigame_logs": MinigameLogs;
-  "public.minigames": Minigames;
-  "public.pupil_leaderboard": PupilLeaderboard;
-  "public.pupils": Pupils;
-  "public.reading_material_genres": ReadingMaterialGenres;
-  "public.reading_materials": ReadingMaterials;
-  "public.reading_sessions": ReadingSessions;
-  "public.teachers": Teachers;
+  'auth.auth_providers': AuthAuthProviders;
+  'auth.email_verification_tokens': AuthEmailVerificationTokens;
+  'auth.login_logs': AuthLoginLogs;
+  'auth.login_streaks': AuthLoginStreaks;
+  'auth.password_reset_tokens': AuthPasswordResetTokens;
+  'auth.permissions': AuthPermissions;
+  'auth.refresh_tokens': AuthRefreshTokens;
+  'auth.role_permissions': AuthRolePermissions;
+  'auth.roles': AuthRoles;
+  'auth.sessions': AuthSessions;
+  'auth.user_roles': AuthUserRoles;
+  'auth.users': AuthUsers;
+
+  'public.classroom_enrollment': ClassroomEnrollment;
+  'public.classrooms': Classrooms;
+  'public.genres': Genres;
+  'public.minigame_logs': MinigameLogs;
+  'public.minigames': Minigames;
+  'public.pupil_achievements': PupilAchievements;
+  'public.pupil_leaderboard': PupilLeaderboard;
+  'public.pupils': Pupils;
+  'public.reading_material_genres': ReadingMaterialGenres;
+  'public.reading_materials': ReadingMaterials;
+  'public.reading_sessions': ReadingSessions;
+  'public.teachers': Teachers;
+  'public.achievements': Achievements;
+  'public.activities': Activities;
+  'public.activity_logs': ActivityLogs;
 }

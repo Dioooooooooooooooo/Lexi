@@ -1,20 +1,20 @@
-import { axiosInstance } from "@/utils/axiosInstance";
+import { axiosInstance } from '@/utils/axiosInstance';
 
-import { User, Pupil } from "@/models/User";
+import { User, Pupil } from '@/models/User';
 import {
   ReadingAssignment,
   ReadingAssignmentOverview,
-} from "@/models/ReadingMaterialAssignment";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { ReadingAssignmentLog } from "@/models/ReadingAssignmentLog";
-import { Classroom } from "@/models/Classroom";
+} from '@/models/ReadingMaterialAssignment';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { ReadingAssignmentLog } from '@/models/ReadingAssignmentLog';
+import { Classroom } from '@/models/Classroom';
 export { Pupil };
 
 export const createClassroom = async (classroomForm: Record<string, any>) => {
   const response = await axiosInstance.post(
-    "/classroom/create",
+    '/classroom/create',
     classroomForm,
-    { validateStatus: () => true }
+    { validateStatus: () => true },
   );
 
   if (response.status !== 200 && response.status !== 201) {
@@ -34,39 +34,28 @@ export const joinClassroom = async (joinCode: string) => {
   return response.data;
 };
 
-const getByRoleId = async (role: string): Promise<Classroom[]> => {
-  let response;
-  if (role === "Teacher") {
-    response = await axiosInstance.get("/classroom/teacher/me", {
-      validateStatus: () => true,
-    });
-  } else {
-    response = await axiosInstance.get("/classroom/me", {
-      validateStatus: () => true,
-    });
-  }
-
-  if (response.status !== 200 && response.status !== 201) {
-    throw new Error(response.data.message);
-  }
+const getClassrooms = async (): Promise<Classroom[]> => {
+  const response = await axiosInstance.get('/classrooms', {
+    validateStatus: () => true,
+  });
 
   return response.data.data;
 };
 
-export const useGetClassroomsByRole = (role: string) => {
+export const useGetClassrooms = () => {
   return useQuery<Classroom[], Error>({
-    queryKey: ["classroomsData", role],
-    queryFn: () => getByRoleId(role)
-});
+    queryKey: ['classrooms'],
+    queryFn: getClassrooms,
+  });
 };
 
 export const editClassroom = async (
   classroomForm: Record<string, any>,
-  classroomId: string
+  classroomId: string,
 ) => {
   const requestData = new FormData();
 
-  Object.keys(classroomForm).forEach((key) => {
+  Object.keys(classroomForm).forEach(key => {
     const value = classroomForm[key];
     if (value instanceof File || value instanceof Blob) {
       requestData.append(key, value);
@@ -75,7 +64,7 @@ export const editClassroom = async (
     }
   });
 
-  console.log("requestData", requestData);
+  console.log('requestData', requestData);
 
   try {
     const response = await axiosInstance.put(
@@ -83,9 +72,9 @@ export const editClassroom = async (
       requestData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
-      }
+      },
     );
 
     return response.data;
@@ -105,18 +94,18 @@ export const leaveClassroom = async (classroomId: string) => {
       `/classroom/me/${classroomId}`,
       {
         validateStatus: () => true,
-      }
+      },
     );
 
     if (response.status !== 200) {
-      throw new Error(response.data.message || "Failed to leave classroom");
+      throw new Error(response.data.message || 'Failed to leave classroom');
     }
 
     return response.data;
   } catch (error: any) {
-    console.error("Error leaving classroom:", error);
+    console.error('Error leaving classroom:', error);
     throw new Error(
-      error.response?.data?.message || "Failed to leave classroom"
+      error.response?.data?.message || 'Failed to leave classroom',
     );
   }
 };
@@ -127,11 +116,11 @@ export const searchPupils = async (query: string): Promise<Pupil[]> => {
       `/users/search?query=${query}&role=Pupil`,
       {
         validateStatus: () => true,
-      }
+      },
     );
 
     if (response.status !== 200 && response.status !== 201) {
-      throw new Error(response.data.message || "Failed to search pupils");
+      throw new Error(response.data.message || 'Failed to search pupils');
     }
 
     let users;
@@ -140,60 +129,60 @@ export const searchPupils = async (query: string): Promise<Pupil[]> => {
     } else if (response.data.data) {
       users = response.data.data;
     } else {
-      console.warn("Unexpected response format:", response.data);
+      console.warn('Unexpected response format:', response.data);
       return [];
     }
 
     if (!Array.isArray(users)) {
-      console.error("Expected an array but got, hoi:", typeof users);
+      console.error('Expected an array but got, hoi:', typeof users);
       return [];
     }
 
     return users.map((user: User) => ({
       id: user.pupil?.id,
-      firstName: user.firstName || "",
-      lastName: user.lastName || "",
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
     }));
   } catch (error: any) {
-    console.error("Error searching pupils:", error);
+    console.error('Error searching pupils:', error);
     return [];
   }
 };
 
 export const addPupilToClassroom = async (
   classroomId: string,
-  pupilId: string
+  pupilId: string,
 ) => {
   try {
-    console.log("Adding pupil with ID:", pupilId);
+    console.log('Adding pupil with ID:', pupilId);
     const response = await axiosInstance.post(
       `/classroom/${classroomId}/pupils`,
       pupilId,
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
 
     if (response.status !== 200 && response.status !== 201) {
       throw new Error(
-        response.data.message || "Failed to add pupil to classroom"
+        response.data.message || 'Failed to add pupil to classroom',
       );
     }
 
     return response.data;
   } catch (error: any) {
-    console.error("Error adding pupil to classroom:", error);
+    console.error('Error adding pupil to classroom:', error);
     throw new Error(
-      error.response?.data?.message || "Failed to add pupil to classroom"
+      error.response?.data?.message || 'Failed to add pupil to classroom',
     );
   }
 };
 
 export const removePupilFromClassroom = async (
   classroomId: string,
-  pupilId: string
+  pupilId: string,
 ) => {
   try {
     const response = await axiosInstance.delete(
@@ -201,41 +190,41 @@ export const removePupilFromClassroom = async (
       {
         data: pupilId,
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         validateStatus: () => true,
-      }
+      },
     );
 
     if (response.status !== 200 && response.status !== 201) {
       throw new Error(
-        response.data.message || "Failed to remove pupil from classroom"
+        response.data.message || 'Failed to remove pupil from classroom',
       );
     }
 
     return response.data;
   } catch (error: any) {
-    console.error("Error removing pupil from classroom:", error);
+    console.error('Error removing pupil from classroom:', error);
     throw new Error(
-      error.response?.data?.message || "Failed to remove pupil from classroom"
+      error.response?.data?.message || 'Failed to remove pupil from classroom',
     );
   }
 };
 
 export const getPupilsFromClassroom = async (
-  classroomId: string
+  classroomId: string,
 ): Promise<Pupil[]> => {
   try {
     const response = await axiosInstance.get(
       `/classroom/${classroomId}/pupils`,
       {
         validateStatus: () => true,
-      }
+      },
     );
 
     if (response.status !== 200 && response.status !== 201) {
       throw new Error(
-        response.data.message || "Failed to get pupils from classroom"
+        response.data.message || 'Failed to get pupils from classroom',
       );
     }
 
@@ -245,29 +234,29 @@ export const getPupilsFromClassroom = async (
     } else if (response.data && response.data.data) {
       pupils = response.data.data;
     } else {
-      console.warn("Unexpected response format:", response.data);
+      console.warn('Unexpected response format:', response.data);
       return [];
     }
 
     if (!Array.isArray(pupils)) {
-      console.warn("Expected an array but got, array oi:", typeof pupils);
+      console.warn('Expected an array but got, array oi:', typeof pupils);
       return [];
     }
 
     return pupils.map((pupil: any) => ({
-      id: pupil.id || pupil.pupilId || "",
-      firstName: pupil.firstName || (pupil.user && pupil.user.firstName) || "",
-      lastName: pupil.lastName || (pupil.user && pupil.user.lastName) || "",
+      id: pupil.id || pupil.pupilId || '',
+      firstName: pupil.firstName || (pupil.user && pupil.user.firstName) || '',
+      lastName: pupil.lastName || (pupil.user && pupil.user.lastName) || '',
     }));
   } catch (error: any) {
-    console.error("Error getting pupils from classroom:", error);
+    console.error('Error getting pupils from classroom:', error);
     return [];
   }
 };
 
 export const usePupilsFromClassroom = (selectedClassroom: Classroom) => {
   return useQuery({
-    queryKey: ["classroomPupils", selectedClassroom?.id],
+    queryKey: ['classroomPupils', selectedClassroom?.id],
     queryFn: () =>
       selectedClassroom?.id
         ? getPupilsFromClassroom(selectedClassroom.id)
@@ -290,7 +279,7 @@ export const createReadingAssignment = async (variables: {
   const response = await axiosInstance.post(
     `/classroom/${classroomId}/readingassignments`,
     readingAssignmentForm,
-    { validateStatus: () => true }
+    { validateStatus: () => true },
   );
 
   if (response.status !== 200 && response.status !== 201) {
@@ -302,22 +291,22 @@ export const createReadingAssignment = async (variables: {
 
 export const useActiveReadingAssignments = (classroomId: string) => {
   return useQuery<ReadingAssignment[], Error>({
-    queryKey: ["activeReadingAssignments"],
+    queryKey: ['activeReadingAssignments'],
     queryFn: () => getReadingAssignments(classroomId),
     staleTime: 1000 * 60 * 60, // 1 hour
   });
 };
 
 const getReadingAssignments = async (
-  classroomId: string
+  classroomId: string,
 ): Promise<ReadingAssignment[]> => {
   console.log(
-    "Fetching active reading assignments for classroom:",
-    classroomId
+    'Fetching active reading assignments for classroom:',
+    classroomId,
   );
   const response = await axiosInstance.get(
     `/classroom/${classroomId}/readingassignments/active`,
-    { validateStatus: () => true }
+    { validateStatus: () => true },
   );
 
   if (response.status !== 200 && response.status !== 201) {
@@ -332,7 +321,7 @@ export const getLeaderboardByClassroomId = async (classroomId: string) => {
     `/classroom/${classroomId}/leaderboard`,
     {
       validateStatus: () => true,
-    }
+    },
   );
 
   if (response.status !== 200 && response.status !== 201) {
@@ -345,16 +334,16 @@ export const getLeaderboardByClassroomId = async (classroomId: string) => {
 export const useGetLeaderboardByClassroomId = (classroomId: string) => {
   return useQuery({
     queryFn: () => getLeaderboardByClassroomId(classroomId),
-    queryKey: ["leaderboard", classroomId],
+    queryKey: ['leaderboard', classroomId],
   });
 };
 
 const getReadingAssignmentsOverviewByClassroomId = async (
-  classroomId: string
+  classroomId: string,
 ): Promise<ReadingAssignmentOverview[]> => {
   const response = await axiosInstance.get(
     `/classroom/${classroomId}/readingAssignments/overview`,
-    { validateStatus: () => true }
+    { validateStatus: () => true },
   );
 
   if (response.status !== 200 && response.status !== 201) {
@@ -365,20 +354,20 @@ const getReadingAssignmentsOverviewByClassroomId = async (
 };
 
 export const useReadingAssigmentsWStats = (classroomId: string) => {
-  console.log("CALLED IT");
+  console.log('CALLED IT');
   return useQuery({
-    queryKey: ["readingAssignmentsWStats"],
+    queryKey: ['readingAssignmentsWStats'],
     queryFn: () => getReadingAssignmentsOverviewByClassroomId(classroomId),
   });
 };
 
 const createAssignmentLog = async (
   readingAssignmentId: string,
-  minigamelogId: string
+  minigamelogId: string,
 ) => {
   const response = await axiosInstance.post(
     `classroom/readingAssignments/${readingAssignmentId}/logs/${minigamelogId}`,
-    { validateStatus: () => true }
+    { validateStatus: () => true },
   );
 
   if (response.status !== 200 && response.status !== 201) {
@@ -402,11 +391,11 @@ export const useCreateAssignmentLog = () => {
 };
 
 const getReadingAssignmentLogsByReadingAssignmentId = async (
-  readingAssignmentId: string
+  readingAssignmentId: string,
 ): Promise<ReadingAssignmentLog[]> => {
   const response = await axiosInstance.get(
     `classroom/readingAssignments/${readingAssignmentId}/logs`,
-    { validateStatus: () => true }
+    { validateStatus: () => true },
   );
 
   if (response.status !== 200 && response.status !== 201) {
@@ -418,7 +407,7 @@ const getReadingAssignmentLogsByReadingAssignmentId = async (
 
 export const useGetReadingAssignmentLogs = (readingAssignmentId: string) => {
   return useQuery({
-    queryKey: ["assignmentlogs"],
+    queryKey: ['assignmentlogs'],
     queryFn: () =>
       getReadingAssignmentLogsByReadingAssignmentId(readingAssignmentId),
   });

@@ -11,6 +11,13 @@ import { ReadingSessionsModule } from "./app/reading-sessions/reading-sessions.m
 import configuration from "./configuration/configuration";
 import { DatabaseModule } from "./database/database.module";
 import { EmailModule } from "./app/email/email.module";
+import { ReadingMaterialsModule } from "./app/reading-materials/reading-materials.module";
+import { GenresModule } from "./app/genres/genres.module";
+import { SeedModule } from "./seed/seed.module";
+import { ActivityModule } from "./app/activity/activity.module";
+import { AchievementsModule } from "./app/achievements/achievements.module";
+import { ActivityLogsModule } from "./app/activity-logs/activity-logs.module";
+import { UserModule } from "./app/user/user.module";
 
 @Module({
   imports: [
@@ -33,8 +40,15 @@ import { EmailModule } from "./app/email/email.module";
     ClassroomsModule,
     MinigamesModule,
     ReadingSessionsModule,
+    ReadingMaterialsModule,
+    GenresModule,
+    AchievementsModule,
+    SeedModule,
+    ActivityModule,
+    UserModule,
+    ActivityLogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,4 +1,5 @@
 import { Generated, Selectable } from "kysely";
+import { AuthSessions, AuthLoginStreaks } from "../db";
 
 // Auth schema interface
 export interface AuthRolePermissionsTable {
@@ -52,16 +53,6 @@ export interface AuthProvidersTable {
   updated_at: Generated<Date>;
 }
 
-export interface AuthLoginLogsTable {
-  id: Generated<string>;
-  user_id: string | null;
-  ip_address: string | null;
-  user_agent: string | null;
-  device: string | null;
-  location: string | null;
-  logged_in_at: Date | null;
-}
-
 export interface AuthPasswordResetTokensTable {
   id: Generated<string>;
   user_id: string;
@@ -89,3 +80,6 @@ export interface AuthRefreshTokensTable {
   created_at: Generated<Date>;
   updated_at: Generated<Date>;
 }
+
+export type Session = Selectable<AuthSessions>;
+export type LoginStreak = Selectable<AuthLoginStreaks>;
