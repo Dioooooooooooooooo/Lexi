@@ -227,6 +227,13 @@ export interface PupilAchievements {
   earned_at: Generated<Timestamp>;
 }
 
+export interface ActivityLogs {
+  id: Generated<string>;
+  activity_id: string | null;
+  minigame_log_id: string | null;
+  completed_at: Timestamp | null;
+}
+
 export interface DB {
   'auth.auth_providers': AuthAuthProviders;
   'auth.email_verification_tokens': AuthEmailVerificationTokens;
@@ -251,38 +258,6 @@ export interface DB {
   'public.teachers': Teachers;
   'public.achievements': Achievements;
   'public.activities': Activities;
+  'public.activity_logs': ActivityLogs;
   'public.pupil_achievements': PupilAchievements;
-=======
-export interface ActivityLogs {
-  id: Generated<string>;
-  activity_id: string | null;
-  minigame_log_id: string | null;
-  completed_at: Timestamp | null;
-}
-
-export interface DB {
-  "auth.auth_providers": AuthAuthProviders;
-  "auth.email_verification_tokens": AuthEmailVerificationTokens;
-  "auth.login_streaks": AuthLoginStreaks;
-  "auth.sessions": AuthSessions;
-  "auth.password_reset_tokens": AuthPasswordResetTokens;
-  "auth.permissions": AuthPermissions;
-  "auth.refresh_tokens": AuthRefreshTokens;
-  "auth.role_permissions": AuthRolePermissions;
-  "auth.roles": AuthRoles;
-  "auth.user_roles": AuthUserRoles;
-  "auth.users": AuthUsers;
-  "public.classrooms": Classrooms;
-  "public.genres": Genres;
-  "public.minigame_logs": MinigameLogs;
-  "public.minigames": Minigames;
-  "public.pupil_leaderboard": PupilLeaderboard;
-  "public.pupils": Pupils;
-  "public.reading_material_genres": ReadingMaterialGenres;
-  "public.reading_materials": ReadingMaterials;
-  "public.reading_sessions": ReadingSessions;
-  "public.teachers": Teachers;
-  "public.achievements": Achievements;
-  "public.activities": Activities;
-  "public.activity_logs": ActivityLogs;
 }

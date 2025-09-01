@@ -12,10 +12,8 @@ import {
   Achievements,
   Activities,
   PupilAchievements,
-} from '../db.d';
-
   ActivityLogs,
-} from "../db.d";
+} from '../db.d';
 
 export enum MinigameType {
   SentenceRearrangement,

@@ -1,13 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import { axiosInstance } from "@/utils/axiosInstance";
-import { API_URL } from "../utils/constants";
+import { axiosInstance } from '@/utils/axiosInstance';
+import { API_URL } from '../utils/constants';
 
-import { ReadingContentType } from "@/models/ReadingContent";
+import { ReadingContentType } from '@/models/ReadingContent';
 
 export const useStories = () => {
   return useQuery<ReadingContentType[], Error>({
-    queryKey: ["stories"],
+    queryKey: ['stories'],
     queryFn: getStories,
     staleTime: 1000 * 60 * 60, // 1 hour
   });
@@ -15,20 +15,20 @@ export const useStories = () => {
 
 const getStories = async (): Promise<ReadingContentType[]> => {
   try {
-    const response = await axiosInstance.get(`${API_URL}/readingMaterials`);
+    const response = await axiosInstance.get(`${API_URL}/reading-materials`);
 
     return response.data.data;
   } catch (error: any) {
-    console.error("Error fetching stories:", error);
+    console.error('Error fetching stories:', error);
     throw new Error(
-      error?.response?.data?.message || "Failed to fetch stories."
+      error?.response?.data?.message || 'Failed to fetch stories.',
     );
   }
 };
 
 export const useRecommendedStories = (isPupil: boolean) => {
   return useQuery<ReadingContentType[], Error>({
-    queryKey: ["recommendedStories"],
+    queryKey: ['recommendedStories'],
     queryFn: getRecommendations,
     staleTime: 1000 * 60 * 60,
     enabled: !!isPupil,
@@ -38,20 +38,21 @@ export const useRecommendedStories = (isPupil: boolean) => {
 const getRecommendations = async (): Promise<ReadingContentType[]> => {
   try {
     const response = await axiosInstance.get(
-      `${API_URL}/readingMaterials/recommendations`
+      `${API_URL}/reading-materials/recommendations`,
     );
 
+    console.log(response.data.data);
     return response.data.data;
   } catch (error: any) {
-    console.error("Error fetching recommended stories:", error);
+    console.error('Error fetching recommended stories:', error);
     throw new Error(
-      error?.response?.data?.message || "Failed to fetch recommended stories."
+      error?.response?.data?.message || 'Failed to fetch recommended stories.',
     );
   }
 };
 
 export const getFilteredStories = async (
-  filters?: ReadingMaterialFilters
+  filters?: ReadingMaterialFilters,
 ): Promise<ReadingContentType[]> => {
   try {
     const response = await axiosInstance.get(`${API_URL}/readingMaterials`, {
@@ -61,9 +62,9 @@ export const getFilteredStories = async (
 
     return response.data.data;
   } catch (error: any) {
-    console.error("Error fetching stories:", error);
+    console.error('Error fetching stories:', error);
     throw new Error(
-      error?.response?.data?.message || "Failed to fetch stories."
+      error?.response?.data?.message || 'Failed to fetch stories.',
     );
   }
 };
@@ -79,7 +80,7 @@ const getReadingMaterialById = async (readingMaterialId: string) => {
     `/readingMaterials/${readingMaterialId}`,
     {
       validateStatus: () => true,
-    }
+    },
   );
 
   if (response.status !== 200 && response.status !== 201) {
@@ -90,7 +91,7 @@ const getReadingMaterialById = async (readingMaterialId: string) => {
 
 export const useGetReadingMaterialById = (readingMaterialId: string) => {
   return useQuery<ReadingContentType>({
-    queryKey: ["readingMaterial", readingMaterialId],
+    queryKey: ['readingMaterial', readingMaterialId],
     queryFn: () => getReadingMaterialById(readingMaterialId),
     enabled: !!readingMaterialId,
   });
