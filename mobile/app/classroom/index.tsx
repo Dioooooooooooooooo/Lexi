@@ -1,30 +1,30 @@
-import { Text } from "@/components/ui/text";
-import { ScrollView, View, Image } from "react-native";
+import { Text } from '@/components/ui/text';
+import { ScrollView, View, Image } from 'react-native';
 import {
   JoinClassroomBtn,
   NewClassroomBtn,
-} from "../../components/Classroom/MainClassroomBtns";
-import ClassroomCard from "../../components/Classroom/ClassroomCard";
-import { useGetClassroomsByRole } from "@/services/ClassroomService";
-import { useUserStore } from "@/stores/userStore";
-import LoadingScreen from "@/components/LoadingScreen";
-import { useFocusEffect } from "expo-router";
-import { useCallback } from "react";
+} from '../../components/Classroom/MainClassroomBtns';
+import ClassroomCard from '../../components/Classroom/ClassroomCard';
+import { useUserStore } from '@/stores/userStore';
+import LoadingScreen from '@/components/LoadingScreen';
+import { useFocusEffect } from 'expo-router';
+import { useCallback } from 'react';
+import { useGetClassrooms } from '@/services/ClassroomService';
 
 export default function ClassroomScreen() {
-  const user = useUserStore((state) => state.user);
+  const user = useUserStore(state => state.user);
 
   const {
     data: classrooms,
     isLoading,
     isError,
     refetch: refetchClassrooms,
-  } = useGetClassroomsByRole(user?.role ?? "Pupil");
+  } = useGetClassrooms();
 
   useFocusEffect(
     useCallback(() => {
       refetchClassrooms();
-    }, [user?.role, refetchClassrooms])
+    }, [user?.role, refetchClassrooms]),
   );
 
   if (isLoading) {
@@ -47,11 +47,11 @@ export default function ClassroomScreen() {
         <View className="h-[150px] w-full rounded-bl-[40px] bg-yellowOrange p-4">
           <View className="flex-row items-center justify-between px-4 h-full">
             <Text className="text-[22px] font-bold leading-tight">
-              Your{"\n"}Classrooms
+              Your{'\n'}Classrooms
             </Text>
 
             <Image
-              source={require("@/assets/images/Juicy/Office-desk.png")}
+              source={require('@/assets/images/Juicy/Office-desk.png')}
               resizeMode="contain"
               className="h-64 w-64"
             />
@@ -59,7 +59,7 @@ export default function ClassroomScreen() {
         </View>
 
         <View className="p-8">
-          {user?.role === "Teacher" ? (
+          {user?.role === 'Teacher' ? (
             <NewClassroomBtn />
           ) : (
             <JoinClassroomBtn />
@@ -68,7 +68,7 @@ export default function ClassroomScreen() {
           classrooms &&
           Array.isArray(classrooms) &&
           classrooms.length > 0 ? (
-            classrooms.map((item) => (
+            classrooms.map(item => (
               <ClassroomCard key={item.id} classroom={{ ...item }} />
             ))
           ) : (

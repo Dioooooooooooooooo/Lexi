@@ -1,62 +1,62 @@
-import React, { useState } from "react";
-import Toast from "react-native-toast-message";
-import { useGlobalStore } from "~/stores/globalStore";
-import { router } from "expo-router";
-import { useAuthStore } from "@/stores/authStore";
-import { validateField } from "@/utils/utils";
-import { getProfile } from "@/services/UserService";
-import { login as apiLogin } from "@/services/AuthService";
-import { extractUser } from "@/models/User";
-import { useUserStore } from "@/stores/userStore";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState } from 'react';
+import Toast from 'react-native-toast-message';
+import { useGlobalStore } from '~/stores/globalStore';
+import { router } from 'expo-router';
+import { useAuthStore } from '@/stores/authStore';
+import { validateField } from '@/utils/utils';
+import { getProfile } from '@/services/UserService';
+import { login as apiLogin } from '@/services/AuthService';
+import { extractUser } from '@/models/User';
+import { useUserStore } from '@/stores/userStore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Components
-import { ScrollView, TouchableOpacity, View } from "react-native";
-import { Eye, EyeOff, Mail, KeyRound } from "lucide-react-native";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Text } from "~/components/ui/text";
+import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { Eye, EyeOff, Mail, KeyRound } from 'lucide-react-native';
+import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import { Text } from '~/components/ui/text';
 
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
-import BackHeader from "@/components/BackHeader";
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
+import BackHeader from '@/components/BackHeader';
 
 const SignIn = () => {
   const setUser = useUserStore.getState().setUser;
-  const providerAuth = useAuthStore((state) => state.providerAuth);
-  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
+  const providerAuth = useAuthStore(state => state.providerAuth);
+  const setIsLoading = useGlobalStore(state => state.setIsLoading);
 
   const [showPassword, setShowPassword] = useState(false);
 
   const [form, setForm] = useState({
     // kang angel guro ni
-    // email: "ang@g.com",
-    // password: "Angel123!",
+    email: 'john.doe@example.com',
+    password: 'securePassword123',
 
     // deo accounts
-    email: "",
-    password: "",
+    // email: "",
+    // password: "",
   });
 
   // TEST FUNCTION FOR BACKEND CONNECTION
   const testBackendConnection = async () => {
     setIsLoading(true);
     try {
-      console.log("Testing backend connection...");
-      const response = await apiLogin("test@example.com", "test123456");
-      console.log("Backend connection success:", response);
-      
+      console.log('Testing backend connection...');
+      const response = await apiLogin('test@example.com', 'test123456');
+      console.log('Backend connection success:', response);
+
       Toast.show({
-        type: "success",
-        text1: "Backend Connection Test",
-        text2: "Successfully connected to NestJS backend!",
+        type: 'success',
+        text1: 'Backend Connection Test',
+        text2: 'Successfully connected to NestJS backend!',
       });
     } catch (error: any) {
-      console.error("Backend connection failed:", error);
+      console.error('Backend connection failed:', error);
       Toast.show({
-        type: "error",
-        text1: "Backend Connection Test",
-        text2: error.message || "Connection failed",
+        type: 'error',
+        text1: 'Backend Connection Test',
+        text2: error.message || 'Connection failed',
       });
     } finally {
       setIsLoading(false);
@@ -64,15 +64,15 @@ const SignIn = () => {
   };
 
   const [formErrors, setFormErrors] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const handleLogin = async () => {
     const newErrors: any = {};
-    Object.keys(form).forEach((field) => {
+    Object.keys(form).forEach(field => {
       const error = validateField(field, form[field as keyof typeof form]);
-      if (error == "") return;
+      if (error == '') return;
       newErrors[field] = error;
     });
 
@@ -84,11 +84,8 @@ const SignIn = () => {
     setIsLoading(true);
     try {
       let response = await apiLogin(form.email, form.password);
-      await AsyncStorage.setItem("accessToken", response.data.access_token);
-      await AsyncStorage.setItem(
-        "refreshToken",
-        response.data.refresh_token
-      );
+      await AsyncStorage.setItem('accessToken', response.data.access_token);
+      await AsyncStorage.setItem('refreshToken', response.data.refresh_token);
 
       response = await getProfile();
 
@@ -98,20 +95,20 @@ const SignIn = () => {
         const user = extractUser(response.data);
         setUser(user);
         Toast.show({
-          type: "success",
-          text1: "Authentication Success",
+          type: 'success',
+          text1: 'Authentication Success',
         });
-        router.replace("/home");
+        router.replace('/home');
       } else {
         router.push({
-          pathname: "/signup3",
-          params: { fromProviderAuth: "false" },
+          pathname: '/signup3',
+          params: { fromProviderAuth: 'false' },
         });
       }
     } catch (error: any) {
       Toast.show({
-        type: "error",
-        text1: "Authentication Failed",
+        type: 'error',
+        text1: 'Authentication Failed',
         text2: error.message,
       });
     } finally {
@@ -133,7 +130,7 @@ const SignIn = () => {
                 size={20}
                 color="#888"
                 style={{
-                  position: "absolute",
+                  position: 'absolute',
                   left: 10,
                   top: 12,
                   zIndex: 1,
@@ -162,7 +159,7 @@ const SignIn = () => {
                   size={20}
                   color="#888"
                   style={{
-                    position: "absolute",
+                    position: 'absolute',
                     left: 10,
                     top: 12,
                     zIndex: 1,
@@ -183,7 +180,7 @@ const SignIn = () => {
               </View>
 
               <TouchableOpacity
-                onPress={() => setShowPassword((prev) => !prev)}
+                onPress={() => setShowPassword(prev => !prev)}
                 className="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 p-0 text-muted-foreground"
               >
                 {showPassword ? (
@@ -208,7 +205,7 @@ const SignIn = () => {
           >
             <Text className="text-black text-md font-bold">Log In</Text>
           </TouchableOpacity>
-          
+
           {/* TEMPORARY TEST BUTTON FOR BACKEND CONNECTION */}
           <TouchableOpacity
             className="bg-green-500 border border-dropShadowColor rounded-xl border-b-4 p-3 items-center mt-3"
@@ -216,11 +213,13 @@ const SignIn = () => {
               testBackendConnection();
             }}
           >
-            <Text className="text-white text-md font-bold">🧪 Test Backend Connection</Text>
+            <Text className="text-white text-md font-bold">
+              🧪 Test Backend Connection
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             className="justify-center items-center p-4"
-            onPress={() => router.push("/(auth)/signup")}
+            onPress={() => router.push('/(auth)/signup')}
           >
             <View className="flex flex-row">
               <Text>Don't have an account?</Text>

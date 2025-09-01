@@ -1,12 +1,9 @@
-import { Pressable, View } from "react-native";
-import { Text } from "@/components/ui/text";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "expo-router";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useClassroomStore } from "@/stores/classroomStore";
-import { Classroom } from "@/models/Classroom";
-import { getPupilsFromClassroom } from "@/services/ClassroomService";
+import { Pressable, View } from 'react-native';
+import { Text } from '@/components/ui/text';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'expo-router';
+import { useClassroomStore } from '@/stores/classroomStore';
+import { Classroom } from '@/models/Classroom';
 
 interface ClassroomCardProps {
   classroom: Classroom;
@@ -14,21 +11,22 @@ interface ClassroomCardProps {
 
 export default function ClassroomCard({ classroom }: ClassroomCardProps) {
   const setSelectedClassroom = useClassroomStore(
-    (state) => state.setSelectedClassroom
+    state => state.setSelectedClassroom,
   );
   const router = useRouter();
 
   const onPress = () => {
     setSelectedClassroom(classroom);
+    console.log(classroom);
     router.push(`/classroom/${classroom.id}`);
   };
 
   const displayText =
     classroom.pupilCount !== null
       ? classroom.pupilCount === 1
-        ? "1 Pupil"
+        ? '1 Pupil'
         : `${classroom.pupilCount} Pupils`
-      : "Loading...";
+      : 'Loading...';
   return (
     <Pressable onPress={onPress}>
       <View className="rounded-xl overflow-hidden border-b-4 border-lightGray border bg-white my-2">

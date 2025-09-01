@@ -117,6 +117,13 @@ export interface AuthUsers {
   username: string;
 }
 
+export interface ClassroomEnrollment {
+  classroom_id: string;
+  created_at: Generated<Timestamp | null>;
+  id: Generated<string>;
+  pupil_id: string;
+}
+
 export interface Classrooms {
   created_at: Generated<Timestamp>;
   description: string | null;
@@ -245,6 +252,7 @@ export interface DB {
   'auth.role_permissions': AuthRolePermissions;
   'auth.roles': AuthRoles;
   'auth.user_roles': AuthUserRoles;
+  'public.classroom_enrollment': ClassroomEnrollment;
   'auth.users': AuthUsers;
   'public.classrooms': Classrooms;
   'public.genres': Genres;
