@@ -1,19 +1,19 @@
 import { Insertable, Selectable } from 'kysely';
 import {
-  Pupils,
-  Teachers,
-  PupilLeaderboard as PLTable,
-  Classrooms,
-  ReadingMaterials,
-  ReadingSessions,
-  Minigames,
-  MinigameLogs,
-  Genres,
   Achievements,
   Activities,
-  PupilAchievements,
   ActivityLogs,
   ClassroomEnrollment,
+  Classrooms,
+  Genres,
+  MinigameLogs,
+  Minigames,
+  PupilLeaderboard as PLTable,
+  PupilAchievements,
+  Pupils,
+  ReadingMaterials,
+  ReadingSessions,
+  Teachers,
 } from '../db.d';
 
 export enum MinigameType {

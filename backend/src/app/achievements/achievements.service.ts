@@ -128,6 +128,27 @@ export class AchievementsService {
       .executeTakeFirst();
   }
 
+  async awardAchievementByName(
+    pupilId: string,
+    achievementName: string,
+  ): Promise<PupilAchievement> {
+    // Find achievement by name
+    const achievement = await this.db
+      .selectFrom('public.achievements')
+      .where('name', '=', achievementName)
+      .selectAll()
+      .executeTakeFirst();
+
+    if (!achievement) {
+      throw new NotFoundException(
+        `Achievement with name '${achievementName}' not found`,
+      );
+    }
+
+    // Award the achievement using existing method
+    return await this.awardAchievementToUser(pupilId, achievement.id);
+  }
+
   async hasAchievement(
     pupilId: string,
     achievementName: string,
@@ -190,5 +211,24 @@ export class AchievementsService {
     }
 
     return addedAchievements;
+  }
+
+  async removePupilAchievement(
+    pupilId: string,
+    achievementId: string,
+  ): Promise<PupilAchievement> {
+    const deletedAchievement = await this.db
+      .deleteFrom('public.pupil_achievements')
+      .where('pupil_id', '=', pupilId)
+      .where('achievement_id', '=', achievementId)
+      .returningAll()
+      .executeTakeFirstOrThrow(
+        () =>
+          new NotFoundException(
+            `Achievement not found for this pupil or already removed`,
+          ),
+      );
+
+    return deletedAchievement;
   }
 }
