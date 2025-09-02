@@ -18,6 +18,7 @@ import { ReadingMaterial } from '@/database/schemas';
 import { RolesGuard } from '../auth/role-guard';
 import { Roles } from '@/decorators/roles.decorator';
 import { UserResponseDto } from '../auth/dto/auth.dto';
+import { PupilsService } from '../pupils/pupils.service';
 
 export type ReadingMaterialWithGenres = ReadingMaterial & { genres: string[] };
 
@@ -27,6 +28,7 @@ export type ReadingMaterialWithGenres = ReadingMaterial & { genres: string[] };
 export class ReadingMaterialsController {
   constructor(
     private readonly readingMaterialsService: ReadingMaterialsService,
+    private readonly pupilService: PupilsService,
   ) {}
 
   @Post()
@@ -57,9 +59,10 @@ export class ReadingMaterialsController {
   async findRecommendations(
     @Request() req: { user: UserResponseDto },
   ): Promise<SuccessResponseDto<ReadingMaterialWithGenres[]>> {
+    const pupil = await this.pupilService.getPupilProfile(req.user.id);
     const recommendedMaterials =
       await this.readingMaterialsService.getRecommendedReadingMaterials(
-        req.user.id,
+        pupil.id,
       );
     return {
       message: 'Recommended reading materials successfully fetched',
