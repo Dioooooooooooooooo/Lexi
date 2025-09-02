@@ -41,44 +41,6 @@ export class ClassroomsController {
     return { message: 'Classroom created successfully', data };
   }
 
-  @Post('enroll')
-  @ApiOperation({
-    summary: 'Enroll pupils',
-  })
-  async enroll(@Body() enrollPupilDto: EnrollPupilDto) {
-    const enrolled = await this.classroomsService.enroll(enrollPupilDto);
-    return { message: 'Successfully enrolled pupils', data: enrolled };
-  }
-
-  @Post('unenroll')
-  @ApiOperation({
-    summary: 'Unenroll pupils',
-  })
-  async unEnroll(@Body() unEnrollPupilDto: UnEnrollPupilDto) {
-    const unenrolled = await this.classroomsService.unenroll(unEnrollPupilDto);
-    return { message: 'Successfully unenrolled pupils', data: unenrolled };
-  }
-
-  @Post('join')
-  @Roles(['Pupil'])
-  @ApiOperation({
-    summary: 'Join classroom by code',
-  })
-  async join(@Body() joinClassroomDto: JoinClassroomDto) {
-    await this.classroomsService.join(joinClassroomDto);
-    return { message: 'Successfully joined classroom' };
-  }
-
-  @Post('leave')
-  @Roles(['Pupil'])
-  @ApiOperation({
-    summary: 'Leave classroom',
-  })
-  async leave(@Body() leaveClassroomDto: LeaveClassroomDto) {
-    await this.classroomsService.leave(leaveClassroomDto);
-    return { message: 'Successfully left classroom' };
-  }
-
   @Post("enroll")
   @ApiOperation({
     summary: "Enroll pupils",
