@@ -1,38 +1,51 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
-import { Kysely, sql } from "kysely";
-import { MinigameType } from "../../database/schemas/public.schema";
-import { CreateMinigameLogDto } from "./dto/create-minigame-log.dto";
-import { DB } from "../../database/db.d";
+import { Kysely, sql } from 'kysely';
+import {
+  Minigame,
+  MinigameLog,
+  MinigameType,
+} from '../../database/schemas/public.schema';
+import { CreateMinigameLogDto } from './dto/create-minigame-log.dto';
+import { DB } from '../../database/db.d';
+import { CompleteReadingSessionDto } from './dto/complete-reading-session.dto';
+import { AchievementsService } from '../achievements/achievements.service';
+import { ReadingMaterialsService } from '../reading-materials/reading-materials.service';
 
 @Injectable()
 export class MinigamesService {
-  constructor(@Inject("DATABASE") private readonly db: Kysely<DB>) { }
+  constructor(
+    @Inject('DATABASE') private readonly db: Kysely<DB>,
+    private readonly achievementService: AchievementsService,
+    private readonly readingMaterialService: ReadingMaterialsService,
+  ) {}
 
-  async createMinigamesCompletion(readingSessionID: string) {
+  async createMinigamesCompletion(
+    readingSessionID: string,
+  ): Promise<CompleteReadingSessionDto> {
     const readingSession = await this.db
-      .selectFrom("public.reading_sessions as rs")
+      .selectFrom('public.reading_sessions as rs')
       .innerJoin(
-        "public.reading_materials as rm",
-        "rm.id",
-        "rs.reading_material_id",
+        'public.reading_materials as rm',
+        'rm.id',
+        'rs.reading_material_id',
       )
-      .where("id", "=", readingSessionID)
-      .select(["rs.pupil_id", "rs.reading_material_id", "rm.difficulty"])
+      .where('id', '=', readingSessionID)
+      .select(['rs.pupil_id', 'rs.reading_material_id', 'rm.difficulty'])
       .executeTakeFirstOrThrow(
-        () => new NotFoundException("Reading session not found"),
+        () => new NotFoundException('Reading session not found'),
       );
 
     const logs = await this.db
-      .selectFrom("public.minigame_logs as ml")
-      .innerJoin("public.minigames as m", "m.id", "ml.minigame_id")
-      .where("reading_session_id", "=", readingSessionID)
-      .select(["ml.result", "m.max_score"])
+      .selectFrom('public.minigame_logs as ml')
+      .innerJoin('public.minigames as m', 'm.id', 'ml.minigame_id')
+      .where('reading_session_id', '=', readingSessionID)
+      .select(['ml.result', 'm.max_score'])
       .execute();
 
     if (logs.length === 0) {
       throw new NotFoundException(
-        "No minigame logs found for this reading session",
+        'No minigame logs found for this reading session',
       );
     }
 
@@ -42,14 +55,14 @@ export class MinigamesService {
     logs.forEach(log => {
       // log.result can be a JSON string or a number depending on source
       let score = 0;
-      if (typeof log.result === "string") {
+      if (typeof log.result === 'string') {
         try {
           const parsed = JSON.parse(log.result);
-          score = typeof parsed === "number" ? parsed : (parsed?.score ?? 0);
+          score = typeof parsed === 'number' ? parsed : (parsed?.score ?? 0);
         } catch {
           score = Number(log.result) || 0;
         }
-      } else if (typeof log.result === "number") {
+      } else if (typeof log.result === 'number') {
         score = log.result;
       }
 
@@ -79,9 +92,9 @@ export class MinigamesService {
     else if (readingSession.difficulty >= 0) basePoints = 100;
 
     const readingSessions = await this.db
-      .selectFrom("public.reading_sessions")
-      .where("reading_material_id", "=", readingSession.reading_material_id)
-      .select(eb => eb.fn.count("id").as("count"))
+      .selectFrom('public.reading_sessions')
+      .where('reading_material_id', '=', readingSession.reading_material_id)
+      .select(eb => eb.fn.count('id').as('count'))
       .executeTakeFirst();
 
     const readingSessionsCount = readingSessions.count as number;
@@ -96,31 +109,40 @@ export class MinigamesService {
       totalScore * minigamePerformanceMultiplier;
 
     const updatedPupil = await this.db
-      .updateTable("public.pupils")
+      .updateTable('public.pupils')
       .set({
         level: sql`level + ${Math.floor(finalScore)}`,
       })
-      .where("id", "=", readingSession.pupil_id)
-      .returning(["level"])
+      .where('id', '=', readingSession.pupil_id)
+      .returning(['level'])
       .executeTakeFirst();
 
     // add for achievements n recommendations
+    const newAchievements =
+      await this.achievementService.addBooksReadAchievement(
+        readingSession.pupil_id,
+      );
+    const newRecommendations =
+      await this.readingMaterialService.getRecommendedReadingMaterials(
+        readingSession.pupil_id,
+      );
+
     return {
-      message: "Minigames successfully completed and pupil level updated",
-      data: {
-        level: updatedPupil.level,
-      },
+      recommendations: newRecommendations,
+      level: updatedPupil.level,
     };
   }
 
-  async getRandomMinigamesBySessionID(readingSessionID: string) {
+  async getRandomMinigamesBySessionID(
+    readingSessionID: string,
+  ): Promise<Minigame[]> {
     // Fetch reading material ID based on the reading session ID and return error if not found
     const readingSession = await this.db
-      .selectFrom("public.reading_sessions")
-      .where("id", "=", readingSessionID)
-      .select("reading_material_id")
+      .selectFrom('public.reading_sessions')
+      .where('id', '=', readingSessionID)
+      .select('reading_material_id')
       .executeTakeFirstOrThrow(
-        () => new NotFoundException("Reading session not found"),
+        () => new NotFoundException('Reading session not found'),
       );
 
     // Extract reading material ID from the result
@@ -128,82 +150,61 @@ export class MinigamesService {
 
     // Fetch distinct minigames based on part_num, ordered randomly
     const randomMinigames = await this.db
-      .selectFrom("public.minigames as m")
-      .where("m.reading_material_id", "=", readingMaterialID)
-      .distinctOn("part_num")
-      .selectAll("m")
-      .orderBy(({ ref }) => ref("m.part_num"))
+      .selectFrom('public.minigames as m')
+      .where('m.reading_material_id', '=', readingMaterialID)
+      .distinctOn('part_num')
+      .selectAll('m')
+      .orderBy(({ ref }) => ref('m.part_num'))
       .orderBy(sql`random()`)
       .execute();
 
-    return {
-      message: "Random minigames successfully fetched",
-      data: randomMinigames.map(r => ({
-        minigame_id: r.id,
-        minigame_type: r.minigame_type,
-        part_num: r.part_num,
-        metadata: r.metadata,
-        max_score: r.max_score,
-      })),
-    };
+    return randomMinigames;
   }
 
-  async getRandomMinigamesByMaterialID(readingMaterialID: string) {
+  async getRandomMinigamesByMaterialID(
+    readingMaterialID: string,
+  ): Promise<Minigame[]> {
     // Fetch distinct minigames based on part_num, ordered randomly
     const randomMinigames = await this.db
-      .selectFrom("public.minigames as m")
-      .where("m.reading_material_id", "=", readingMaterialID)
-      .distinctOn("part_num")
-      .selectAll("m")
-      .orderBy(({ ref }) => ref("m.part_num"))
+      .selectFrom('public.minigames as m')
+      .where('m.reading_material_id', '=', readingMaterialID)
+      .distinctOn('part_num')
+      .selectAll('m')
+      .orderBy(({ ref }) => ref('m.part_num'))
       .orderBy(sql`random()`)
       .execute();
 
-    return {
-      message: "Random minigames successfully fetched",
-      data: randomMinigames.map(r => ({
-        minigame_id: r.id,
-        minigame_type: r.minigame_type,
-        part_num: r.part_num,
-        metadata: r.metadata,
-        max_score: r.max_score,
-      })),
-    };
+    return randomMinigames;
   }
 
-  getWordsFromLettersMinigame(readingMaterialID: string) {
+  async getWordsFromLettersMinigame(
+    readingMaterialID: string,
+  ): Promise<Minigame> {
     // Fetch WordsFromLetters minigame for the specific reading material
-    return this.db
-      .selectFrom("public.minigames as m")
-      .where("reading_material_id", "=", readingMaterialID)
-      .where("minigame_type", "=", 2) // 2 is the enum value for WordsFromLetters
-      .selectAll("m")
+    return await this.db
+      .selectFrom('public.minigames as m')
+      .where('reading_material_id', '=', readingMaterialID)
+      .where('minigame_type', '=', 2) // 2 is the enum value for WordsFromLetters
+      .selectAll('m')
       .executeTakeFirstOrThrow(
-        () => new NotFoundException("WordsFromLetters minigame not found"),
-      )
-      .then(r => ({
-        minigame_id: r.id,
-        minigame_type: r.minigame_type,
-        part_num: r.part_num,
-        metadata: r.metadata,
-        max_score: r.max_score,
-      }));
+        () => new NotFoundException('WordsFromLetters minigame not found'),
+      );
   }
 
-  createMinigameLog(
+  async createMinigameLog(
     minigameType: MinigameType,
     minigameLogDto: CreateMinigameLogDto,
-  ) {
+  ): Promise<MinigameLog> {
     // Parse DTO result (JSON string) to extract a numeric score for DB
     let resultNumber: number | null = null;
     try {
-      if (typeof minigameLogDto.result === "string") {
+      if (typeof minigameLogDto.result === 'string') {
         const parsed = JSON.parse(minigameLogDto.result);
-        if (typeof parsed === "number") resultNumber = parsed;
-        else if (parsed && typeof parsed.score === "number")
+        if (typeof parsed === 'number') resultNumber = parsed;
+        else if (parsed && typeof parsed.score === 'number')
           resultNumber = parsed.score;
         else resultNumber = Number(parsed) || null;
-      } else if (typeof minigameLogDto.result === "number") {
+      } else if (typeof minigameLogDto.result === 'number') {
         resultNumber = minigameLogDto.result;
       }
     } catch {
@@ -211,19 +212,15 @@ export class MinigamesService {
     }
 
     // Create a new minigame log entry
-    return this.db
-      .insertInto("public.minigame_logs")
+    return await this.db
+      .insertInto('public.minigame_logs')
       .values({
         minigame_id: minigameLogDto.minigame_id,
         pupil_id: minigameLogDto.pupil_id,
         reading_session_id: minigameLogDto.reading_session_id,
         result: resultNumber,
       })
-      .returning(["id", "created_at"])
-      .executeTakeFirst()
-      .then(log => ({
-        message: "Minigame log created successfully.",
-        data: log,
-      }));
+      .returningAll()
+      .executeTakeFirst();
   }
 }
