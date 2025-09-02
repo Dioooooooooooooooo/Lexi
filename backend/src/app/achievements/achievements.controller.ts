@@ -31,7 +31,7 @@ export class AchievementsController {
   @ApiOperation({
     summary: 'Get pupil achievements',
   })
-  @Roles(['Student'])
+  @Roles(['Pupil'])
   async getPupilAchievements(
     @Request() req: { user: UserResponseDto },
   ): Promise<SuccessResponseDto<Achievement[]>> {
@@ -45,28 +45,55 @@ export class AchievementsController {
     return { message: 'Successfully fetched pupil achievement', data };
   }
 
-  @Post(':achievementName')
+  @Post('pupil/:pupilId/achievement/:achievementName')
   @ApiOperation({
     summary: 'Add pupil achievement',
   })
-  @Roles(['Student'])
+  @Roles(['Teacher'])
   async addPupilAchievement(
+    @Param('pupilId') pupilId: string,
     @Param('achievementName') achievementName: string,
-    @Request() req: { user: UserResponseDto },
   ): Promise<SuccessResponseDto<PupilAchievement>> {
-    const pupil = await this.pupilsService.getPupilProfile(req.user.id);
     const data = await this.achievementsService.awardAchievementByName(
-      pupil.id,
+      pupilId,
       achievementName,
     );
     return { message: 'Successfully added pupil achievement.', data };
+  }
+
+  @Get('pupils/:pupilId')
+  @ApiOperation({
+    summary: 'Get achievements for specific pupil (admin/testing)',
+  })
+  @Roles(['Teacher', 'Pupil'])
+  async getPupilAchievementsById(
+    @Param('pupilId') pupilId: string,
+  ): Promise<SuccessResponseDto<Achievement[]>> {
+    const data = await this.achievementsService.getUserAchievements(pupilId);
+    return { message: 'Successfully fetched pupil achievements', data };
+  }
+
+  @Delete('pupils/:pupilId/achievements/:achievementId')
+  @ApiOperation({
+    summary: 'Remove specific achievement from specific pupil',
+  })
+  @Roles(['Teacher'])
+  async removePupilAchievement(
+    @Param('pupilId') pupilId: string,
+    @Param('achievementId') achievementId: string,
+  ): Promise<SuccessResponseDto<PupilAchievement>> {
+    const data = await this.achievementsService.removePupilAchievement(
+      pupilId,
+      achievementId,
+    );
+    return { message: 'Achievement removed from pupil successfully', data };
   }
 
   @Delete(':id')
   @ApiOperation({
     summary: 'Delete achievement by id (safety measure)',
   })
-  @Roles(['Teacher'])
+  @Roles(['Teacher', 'Pupil'])
   async remove(
     @Param('id') id: string,
   ): Promise<SuccessResponseDto<Achievement>> {

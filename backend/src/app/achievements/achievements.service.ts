@@ -212,4 +212,23 @@ export class AchievementsService {
 
     return addedAchievements;
   }
+
+  async removePupilAchievement(
+    pupilId: string,
+    achievementId: string,
+  ): Promise<PupilAchievement> {
+    const deletedAchievement = await this.db
+      .deleteFrom('public.pupil_achievements')
+      .where('pupil_id', '=', pupilId)
+      .where('achievement_id', '=', achievementId)
+      .returningAll()
+      .executeTakeFirstOrThrow(
+        () =>
+          new NotFoundException(
+            `Achievement not found for this pupil or already removed`,
+          ),
+      );
+
+    return deletedAchievement;
+  }
 }
