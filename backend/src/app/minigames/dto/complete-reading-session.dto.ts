@@ -1,7 +1,7 @@
-import { Achievement, ReadingMaterial } from '@/database/schemas';
+import { Achievement, PupilAchievement, ReadingMaterial } from '@/database/schemas';
 
 export class CompleteReadingSessionDto {
-  achievements?: Achievement[];
+  achievements?: PupilAchievement[];
   recommendations?: ReadingMaterial[];
   level: number;
 }

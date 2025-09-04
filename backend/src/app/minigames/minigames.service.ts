@@ -128,6 +128,7 @@ export class MinigamesService {
       );
 
     return {
+      achievements: newAchievements,
       recommendations: newRecommendations,
       level: updatedPupil.level,
     };
