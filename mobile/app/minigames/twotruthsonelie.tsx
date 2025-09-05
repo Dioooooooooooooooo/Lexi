@@ -4,18 +4,15 @@ import {
   View,
   BackHandler,
   TouchableOpacity,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import {
-  useTwoTruthsOneLieGameStore,
-  useMiniGameStore,
-} from "@/stores/miniGameStore";
-import { CorrectSound, IncorrectSound } from "@/utils/sounds";
-import { Minigame, MinigameType } from "@/models/Minigame";
-import { useCreateMinigameLog } from "@/services/minigameService";
-import { useUserStore } from "@/stores/userStore";
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useChoicesGameStore, useMiniGameStore } from '@/stores/miniGameStore';
+import { CorrectSound, IncorrectSound } from '@/utils/sounds';
+import { Minigame, MinigameType } from '@/models/Minigame';
+import { useCreateMinigameLog } from '@/services/minigameService';
+import { useUserStore } from '@/stores/userStore';
 
-export default function TwoTruthsOneLie({
+export default function Choices({
   minigame,
   nextGame,
 }: {
@@ -23,19 +20,19 @@ export default function TwoTruthsOneLie({
   nextGame: () => void;
 }) {
   const { mutate: triggerCreateMinigameLog } = useCreateMinigameLog();
-  const userRole = useUserStore((state) => state.user?.role);
+  const userRole = useUserStore(state => state.user?.role);
 
   const [answered, setAnswered] = useState(false);
 
   const { choices, setChoices, setScore, resetGameState } =
-    useTwoTruthsOneLieGameStore();
+    useChoicesGameStore();
 
   const { gameOver, incrementMinigamesIndex } = useMiniGameStore();
 
   useEffect(() => {
     setChoices(JSON.parse(minigame.metaData).choices);
     const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
+      'hardwareBackPress',
       () => true,
     );
 
@@ -53,17 +50,17 @@ export default function TwoTruthsOneLie({
     }
     try {
       let score = answer === true ? 0 : 1;
-      console.log("Two Truths 1 Lie Game Over");
-      if (userRole === "Pupil") {
+      console.log('Two Truths 1 Lie Game Over');
+      if (userRole === 'Pupil') {
         const minigameLog = gameOver({ score });
 
         if (!minigameLog) {
-          throw Error("Minigame Log is null");
+          throw Error('Minigame Log is null');
         }
 
         triggerCreateMinigameLog({
           minigameLog,
-          type: MinigameType.TwoTruthsOneLie,
+          type: MinigameType.Choices,
         });
       }
       setTimeout(() => {
@@ -71,7 +68,7 @@ export default function TwoTruthsOneLie({
         resetGameState();
       }, 500);
     } catch (error) {
-      console.error("Error during Two Truths One Lie game over logic: ", error);
+      console.error('Error during Two Truths One Lie game over logic: ', error);
     }
   };
 
@@ -94,7 +91,7 @@ export default function TwoTruthsOneLie({
               style={{
                 padding: 20,
                 borderRadius: 16,
-                shadowColor: "#000",
+                shadowColor: '#000',
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: 0.25,
                 shadowRadius: 3,
@@ -105,9 +102,9 @@ export default function TwoTruthsOneLie({
                 ${
                   answered
                     ? choice.answer === true
-                      ? "bg-greenCorrect"
-                      : "bg-redIncorrect"
-                    : "bg-white"
+                      ? 'bg-greenCorrect'
+                      : 'bg-redIncorrect'
+                    : 'bg-white'
                 }`}
             >
               <TouchableOpacity

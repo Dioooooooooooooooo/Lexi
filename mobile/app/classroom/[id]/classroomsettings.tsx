@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { View } from "react-native";
-import { useUserStore } from "@/stores/userStore";
-import { useClassroomStore } from "@/stores/classroomStore";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { useUserStore } from '@/stores/userStore';
+import { useClassroomStore } from '@/stores/classroomStore';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import {
   editClassroom as apiEditClassroom,
   deleteClassroom as apiDeleteClassroom,
@@ -12,21 +12,19 @@ import {
   getPupilsFromClassroom,
   leaveClassroom as apiLeaveClassroom,
   usePupilsFromClassroom,
-} from "@/services/ClassroomService";
-import TeacherSetting from "@/components/Classroom/TeacherSetting";
-import PupilSetting from "@/components/Classroom/PupilSetting";
+} from '@/services/ClassroomService';
+import TeacherSetting from '@/components/Classroom/TeacherSetting';
+import PupilSetting from '@/components/Classroom/PupilSetting';
 
 export default function ClassroomSettings() {
   const queryClient = useQueryClient();
 
-  const selectedClassroom = useClassroomStore(
-    (state) => state.selectedClassroom
-  );
+  const selectedClassroom = useClassroomStore(state => state.selectedClassroom);
   const setSelectedClassroom = useClassroomStore(
-    (state) => state.setSelectedClassroom
+    state => state.setSelectedClassroom,
   );
 
-  const user = useUserStore((state) => state.user);
+  const user = useUserStore(state => state.user);
 
   const { data: enrolledPupils, isLoading: loadingPupils } =
     usePupilsFromClassroom(selectedClassroom!); // GI BALHIN NAKOS SERVICES SO I CAN REUSE TTOTT
@@ -40,7 +38,7 @@ export default function ClassroomSettings() {
       classroomId: string;
     }) => apiEditClassroom(classroomForm, classroomId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["classroomsData"] });
+      queryClient.invalidateQueries({ queryKey: ['classroomsData'] });
     },
   });
 
@@ -48,15 +46,7 @@ export default function ClassroomSettings() {
     mutationFn: ({ classroomId }: { classroomId: string }) =>
       apiDeleteClassroom(classroomId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["classroomsData"] });
-    },
-  });
-
-  const { mutateAsync: leaveClassroomMutation } = useMutation({
-    mutationFn: ({ classroomId }: { classroomId: string }) =>
-      apiLeaveClassroom(classroomId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["classroomsData"] });
+      queryClient.invalidateQueries({ queryKey: ['classroomsData'] });
     },
   });
 
@@ -70,7 +60,7 @@ export default function ClassroomSettings() {
     }) => apiAddPupilToClassroom(classroomId, pupilId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["classroomPupils", selectedClassroom?.id],
+        queryKey: ['classroomPupils', selectedClassroom?.id],
       });
     },
   });
@@ -85,13 +75,13 @@ export default function ClassroomSettings() {
     }) => apiRemovePupilFromClassroom(classroomId, pupilId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["classroomPupils", selectedClassroom?.id],
+        queryKey: ['classroomPupils', selectedClassroom?.id],
       });
     },
   });
 
   // buwag nani ha
-  return user?.role === "Teacher" ? (
+  return user?.role === 'Teacher' ? (
     <TeacherSetting
       selectedClassroom={selectedClassroom}
       setSelectedClassroom={setSelectedClassroom}
@@ -107,7 +97,6 @@ export default function ClassroomSettings() {
     <PupilSetting
       selectedClassroom={selectedClassroom}
       setSelectedClassroom={setSelectedClassroom}
-      leaveClassroomMutation={leaveClassroomMutation}
     />
   );
 }

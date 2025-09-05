@@ -25,8 +25,8 @@ export const createClassroom = async (classroomForm: Record<string, any>) => {
 };
 
 export const joinClassroom = async (joinCode: string) => {
-  const response = await axiosInstance.post(`/classroom/${joinCode}`, {
-    validateState: () => true,
+  const response = await axiosInstance.post(`/classrooms/join`, {
+    code: joinCode,
   });
   if (response.status !== 200 && response.status !== 201) {
     throw new Error(response.data.message);
@@ -90,8 +90,9 @@ export const deleteClassroom = async (classroomId: string) => {
 
 export const leaveClassroom = async (classroomId: string) => {
   try {
-    const response = await axiosInstance.delete(
-      `/classroom/me/${classroomId}`,
+    const response = await axiosInstance.post(
+      `/classrooms/leave`,
+      classroomId,
       {
         validateStatus: () => true,
       },
@@ -287,6 +288,13 @@ export const createReadingAssignment = async (variables: {
   }
 
   return response.data;
+};
+
+export const useLeaveClassroom = (classroomId: string) => {
+  return useQuery({
+    queryKey: ['classroom', classroomId],
+    queryFn: () => leaveClassroom(classroomId),
+  });
 };
 
 export const useActiveReadingAssignments = (classroomId: string) => {

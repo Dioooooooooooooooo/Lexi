@@ -1,39 +1,42 @@
-import React, { useState } from "react";
-import { Text } from "@/components/ui/text";
-import { ScrollView, View } from "react-native";
-import { Button } from "@/components/ui/button";
-import BackHeader from "@/components/BackHeader";
-import { router } from "expo-router";
-import ConfirmModal from "../Modal";
-import LoadingScreen from "../LoadingScreen";
-import LoadingScreenForm from "../LoadingScreenForm";
+import React, { useState } from 'react';
+import { Text } from '@/components/ui/text';
+import { ScrollView, View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import BackHeader from '@/components/BackHeader';
+import { router } from 'expo-router';
+import ConfirmModal from '../Modal';
+import LoadingScreen from '../LoadingScreen';
+import LoadingScreenForm from '../LoadingScreenForm';
+import { useMutation } from '@tanstack/react-query';
+import { useLeaveClassroom } from '@/services/ClassroomService';
 
 type PupilSettingsProps = {
   selectedClassroom: any;
   setSelectedClassroom: (classroom: any) => void;
-  leaveClassroomMutation: any;
 };
 
 export default function PupilSetting({
   selectedClassroom,
   setSelectedClassroom,
-  leaveClassroomMutation,
 }: PupilSettingsProps) {
   const [showDeleteClassroomModal, setShowLeaveClassroomModal] =
     useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log('mao mn kaha ni');
   const handleLeaveClassroom = async () => {
     if (selectedClassroom?.id) {
+      console.log('wait', selectedClassroom.id);
       try {
         setIsLoading(true);
-        await leaveClassroomMutation({
-          classroomId: selectedClassroom?.id,
-        });
+        // await leaveClassroomMutation({
+        //   classroomId: selectedClassroom?.id,
+        // });
+        useLeaveClassroom(selectedClassroom.id);
         setSelectedClassroom(null);
-        router.replace("/home");
+        router.replace('/home');
       } catch (error) {
-        console.error("Error leaving classroom:", error);
+        console.error('Error leaving classroom:', error);
       } finally {
         setIsLoading(true);
       }
@@ -64,7 +67,7 @@ export default function PupilSetting({
         visible={showDeleteClassroomModal}
         title="Leave Classroom"
         message={`Are you sure you want to leave your classroom ${selectedClassroom?.name}? This action cannot be undone.`}
-        confirmText="Delete"
+        confirmText="Leave"
         cancelText="Cancel"
         onConfirm={handleLeaveClassroom}
         onCancel={() => setShowLeaveClassroomModal(false)}

@@ -4,49 +4,49 @@ import {
   useCompleteMinigameSession,
   useGetMinigameLogByMIDRSID,
   useRandomMinigamesByRMId,
-} from "@/services/minigameService";
-import { useMiniGameStore } from "@/stores/miniGameStore";
-import { memo, useEffect } from "react";
-import WordsFromLetters from "./wordsfromletters";
-import FillInTheBlank from "./fillintheblanks";
-import SentenceArrangement from "./sentencearrangement";
-import { Minigame, MinigameType } from "@/models/Minigame";
-import WordHunt from "./wordhunt";
-import TwoTruthsOneLie from "./twotruthsonelie";
-import { View, Text, ActivityIndicator } from "react-native";
-import { useReadingSessionStore } from "@/stores/readingSessionStore";
-import { useReadingAssignmentStore } from "@/stores/readingAssignmentStore";
+} from '@/services/minigameService';
+import { useMiniGameStore } from '@/stores/miniGameStore';
+import { memo, useEffect } from 'react';
+import WordsFromLetters from './wordsfromletters';
+import FillInTheBlank from './fillintheblanks';
+import SentenceArrangement from './sentencearrangement';
+import { Minigame, MinigameType } from '@/models/Minigame';
+import WordHunt from './wordhunt';
+import { View, Text, ActivityIndicator } from 'react-native';
+import { useReadingSessionStore } from '@/stores/readingSessionStore';
+import { useReadingAssignmentStore } from '@/stores/readingAssignmentStore';
 
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
-} from "react-native-reanimated";
-import { Dimensions } from "react-native";
-import { router } from "expo-router";
-import { useCreateAssignmentLog } from "@/services/ClassroomService";
-import { useUserStore } from "@/stores/userStore";
-import { useReadingContentStore } from "@/stores/readingContentStore";
+} from 'react-native-reanimated';
+import { Dimensions } from 'react-native';
+import { router } from 'expo-router';
+import { useCreateAssignmentLog } from '@/services/ClassroomService';
+import { useUserStore } from '@/stores/userStore';
+import { useReadingContentStore } from '@/stores/readingContentStore';
+import Choices from './twotruthsonelie';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 
 function Play() {
   const selectedReadingAssignment = useReadingAssignmentStore(
-    (state) => state.selectedReadingAssignment,
+    state => state.selectedReadingAssignment,
   );
 
   const selectedReadingContent = useReadingContentStore(
-    (state) => state.selectedContent,
+    state => state.selectedContent,
   );
 
   const { mutateAsync: CreateAssignmentLog } = useCreateAssignmentLog();
 
   const translateX = useSharedValue(0);
 
-  const userRole = useUserStore((state) => state.user?.role);
+  const userRole = useUserStore(state => state.user?.role);
 
   const currentReadingSession = useReadingSessionStore(
-    (state) => state.currentSession,
+    state => state.currentSession,
   );
 
   const {
@@ -64,7 +64,7 @@ function Play() {
   const { mutateAsync: completeMinigamesSession } =
     useCompleteMinigameSession();
 
-  const selectedReadingContentId = selectedReadingContent?.id ?? "";
+  const selectedReadingContentId = selectedReadingContent?.id ?? '';
   const {
     data: randomMinigamesTeacher,
     refetch: fetchRandomMinigamesForTeacher,
@@ -73,21 +73,21 @@ function Play() {
   const { data: randomMinigames, refetch: fetchRandomMinigames } =
     useRandomMinigames(currentReadingSession.id);
 
-  const assignmentMinigameId = selectedReadingAssignment?.minigameId ?? "";
+  const assignmentMinigameId = selectedReadingAssignment?.minigameId ?? '';
   const { data: assignmentMinigame, refetch: fetchAssignmentMinigame } =
     useGetMinigameById(assignmentMinigameId);
 
   const { refetch: refetchMinigameLog } =
     selectedReadingAssignment != null
       ? useGetMinigameLogByMIDRSID(
-          selectedReadingAssignment?.minigameId ?? "",
+          selectedReadingAssignment?.minigameId ?? '',
           currentReadingSession?.id,
         )
       : { refetch: async () => undefined };
 
   useEffect(() => {
     if (selectedReadingAssignment) fetchAssignmentMinigame();
-    else if (userRole === "Teacher") fetchRandomMinigamesForTeacher();
+    else if (userRole === 'Teacher') fetchRandomMinigamesForTeacher();
     else fetchRandomMinigames();
 
     setMinigamesIndex(0);
@@ -118,11 +118,11 @@ function Play() {
   }, [assignmentMinigame, randomMinigames, randomMinigamesTeacher]);
 
   const handleFinishMinigamesSession = async () => {
-    if (userRole === "Teacher") {
+    if (userRole === 'Teacher') {
       setCurrentMinigame(null);
       setMinigames([]);
       setMinigamesIndex(0);
-      router.replace("/home");
+      router.replace('/home');
       return;
     }
 
@@ -137,7 +137,7 @@ function Play() {
         const minigamelog = await refetchMinigameLog();
 
         if (minigamelog && minigamelog.data && minigamelog.data.id) {
-          console.log("fetched minigamelog: ", minigamelog);
+          console.log('fetched minigamelog: ', minigamelog);
 
           await CreateAssignmentLog({
             readingAssignmentId: selectedReadingAssignment.id,
@@ -148,8 +148,8 @@ function Play() {
 
       const routePath =
         data?.achievements?.length > 0
-          ? "/minigames/results/achievements"
-          : "/minigames/results/levelup";
+          ? '/minigames/results/achievements'
+          : '/minigames/results/levelup';
 
       router.replace({
         pathname: routePath,
@@ -159,16 +159,16 @@ function Play() {
       });
     } catch (error) {
       if (error instanceof Error) {
-        console.error("Failed to complete minigames session:", error.message);
+        console.error('Failed to complete minigames session:', error.message);
         console.error(error);
       } else {
-        console.error("Failed to complete minigames session:", error);
+        console.error('Failed to complete minigames session:', error);
       }
     }
   };
 
   const nextGame = () => {
-    console.log("Next Game after ", minigamesIndex);
+    console.log('Next Game after ', minigamesIndex);
     const nextIndex = minigamesIndex + 1;
     if ((selectedReadingAssignment && nextIndex == 1) || nextIndex > 2) {
       handleFinishMinigamesSession();
@@ -190,14 +190,14 @@ function Play() {
     switch (minigame.minigameType) {
       case MinigameType.WordsFromLetters:
         return <WordsFromLetters minigame={minigame} nextGame={nextGame} />;
-      case MinigameType.FillInTheBlanks:
-        return <FillInTheBlank minigame={minigame} nextGame={nextGame} />;
+      // case MinigameType.FillInTheBlanks:
+      //   return <FillInTheBlank minigame={minigame} nextGame={nextGame} />;
       case MinigameType.SentenceRearrangement:
         return <SentenceArrangement minigame={minigame} nextGame={nextGame} />;
-      case MinigameType.WordHunt:
-        return <WordHunt minigame={minigame} nextGame={nextGame} />;
-      case MinigameType.TwoTruthsOneLie:
-        return <TwoTruthsOneLie minigame={minigame} nextGame={nextGame} />;
+      // case MinigameType.WordHunt:
+      //   return <WordHunt minigame={minigame} nextGame={nextGame} />;
+      case MinigameType.Choices:
+        return <Choices minigame={minigame} nextGame={nextGame} />;
       default:
         return <Text>Unknown minigame type</Text>;
     }
@@ -212,11 +212,11 @@ function Play() {
     );
 
   return (
-    <View style={{ flex: 1, overflow: "hidden" }}>
+    <View style={{ flex: 1, overflow: 'hidden' }}>
       <Animated.View
         style={[
           {
-            flexDirection: "row",
+            flexDirection: 'row',
             width: width * minigames.length,
           },
           animatedStyle,

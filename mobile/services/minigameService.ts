@@ -1,14 +1,14 @@
-import { API_URL } from "../utils/constants";
-import { Minigame, MinigameType } from "@/models/Minigame";
+import { API_URL } from '../utils/constants';
+import { Minigame, MinigameType } from '@/models/Minigame';
 
-import { useMutation, UseQueryOptions } from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "@/utils/axiosInstance";
-import { MinigameLog } from "@/models/MinigameLog";
+import { useMutation, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import { axiosInstance } from '@/utils/axiosInstance';
+import { MinigameLog } from '@/models/MinigameLog';
 
 export const useRandomMinigames = (readingSessionId: string) => {
   return useQuery<Minigame[], Error>({
-    queryKey: ["random-minigames", readingSessionId],
+    queryKey: ['random-minigames', readingSessionId],
     queryFn: () => getRandomMinigames(readingSessionId),
     staleTime: 1000 * 60 * 60, // 1 hour
     enabled: false,
@@ -25,33 +25,33 @@ export const getRandomMinigames = async (
 
     return response.data.data;
   } catch (error: any) {
-    console.error("Error fetching minigames:", error);
+    console.error('Error fetching minigames:', error);
     throw new Error(
-      error?.response?.data?.message || "Failed to fetch minigames.",
+      error?.response?.data?.message || 'Failed to fetch minigames.',
     );
   }
 };
 
 const getRandomMinigamesByRMId = async (
-  readingMaterialId: string
+  readingMaterialId: string,
 ): Promise<Minigame[]> => {
   try {
     const response = await axiosInstance.get(
-      `${API_URL}/minigames/readingmaterials/${readingMaterialId}/random`
+      `${API_URL}/minigames/readingmaterials/${readingMaterialId}/random`,
     );
 
     return response.data.data;
   } catch (error: any) {
-    console.error("Error fetching minigames:", error);
+    console.error('Error fetching minigames:', error);
     throw new Error(
-      error?.response?.data?.message || "Failed to fetch minigames."
+      error?.response?.data?.message || 'Failed to fetch minigames.',
     );
   }
 };
 
 export const useRandomMinigamesByRMId = (readingMaterialId: string) => {
   return useQuery<Minigame[], Error>({
-    queryKey: ["random-minigames", readingMaterialId],
+    queryKey: ['random-minigames', readingMaterialId],
     queryFn: () => getRandomMinigamesByRMId(readingMaterialId),
     enabled: false,
   });
@@ -59,7 +59,7 @@ export const useRandomMinigamesByRMId = (readingMaterialId: string) => {
 
 export const useGetMinigameById = (minigameId: string) => {
   return useQuery<Minigame, Error>({
-    queryKey: ["minigame", minigameId],
+    queryKey: ['minigame', minigameId],
     queryFn: () => getMinigameById(minigameId),
     staleTime: 1000 * 60 * 60, // 1 hour
     enabled: false,
@@ -77,9 +77,9 @@ export const getMinigameById = async (
 
     return response.data.data;
   } catch (error: any) {
-    console.error("Error fetching minigame:", error);
+    console.error('Error fetching minigame:', error);
     throw new Error(
-      error?.response?.data?.message || "Failed to fetch minigame.",
+      error?.response?.data?.message || 'Failed to fetch minigame.',
     );
   }
 };
@@ -93,22 +93,22 @@ const createMinigameLog = async (
 
     switch (type) {
       case MinigameType.WordsFromLetters:
-        url += "wordsfromletters";
+        url += 'wordsfromletters';
         break;
       case MinigameType.FillInTheBlanks:
-        url += "fillintheblanks";
+        url += 'fillintheblanks';
         break;
 
       case MinigameType.SentenceRearrangement:
-        url += "sentencerearrangement";
+        url += 'sentencerearrangement';
         break;
 
       case MinigameType.WordHunt:
-        url += "wordhunt";
+        url += 'wordhunt';
         break;
 
-      case MinigameType.TwoTruthsOneLie:
-        url += "twotruthsonelie";
+      case MinigameType.Choices:
+        url += 'Choices';
         break;
     }
 
@@ -116,9 +116,9 @@ const createMinigameLog = async (
 
     return response.data.data;
   } catch (error: any) {
-    console.error("Failed to create minigame log.", error);
+    console.error('Failed to create minigame log.', error);
     throw new Error(
-      error?.response?.data?.message || "Failed to create minigame log.",
+      error?.response?.data?.message || 'Failed to create minigame log.',
     );
   }
 };
@@ -132,11 +132,11 @@ export const useCreateMinigameLog = () => {
       minigameLog: MinigameLog;
       type: MinigameType;
     }) => createMinigameLog(minigameLog, type),
-    onSuccess: (data) => {
+    onSuccess: data => {
       //console.log("Minigame log created", data);
     },
-    onError: (error) => {
-      console.error("Error creating minigame log:", error);
+    onError: error => {
+      console.error('Error creating minigame log:', error);
     },
   });
 };
@@ -150,9 +150,9 @@ const completeMinigameSession = async (
 
     return response.data.data;
   } catch (error: any) {
-    console.error("Failed to complete minigame session.", error);
+    console.error('Failed to complete minigame session.', error);
     throw new Error(
-      error?.response?.data?.message || "Failed to complete minigame session.",
+      error?.response?.data?.message || 'Failed to complete minigame session.',
     );
   }
 };
@@ -161,11 +161,11 @@ export const useCompleteMinigameSession = () => {
   return useMutation({
     mutationFn: (readingSessionId: string) =>
       completeMinigameSession(readingSessionId),
-    onSuccess: (data) => {
-      console.log("Minigames session completed", data);
+    onSuccess: data => {
+      console.log('Minigames session completed', data);
     },
-    onError: (error) => {
-      console.error("Failed to complete minigame session.", error);
+    onError: error => {
+      console.error('Failed to complete minigame session.', error);
     },
   });
 };
@@ -180,9 +180,9 @@ const getMinigameLogByMinigameIdAndSessionId = async (
 
     return response.data.data;
   } catch (error: any) {
-    console.error("Failed to get minigamelog.", error);
+    console.error('Failed to get minigamelog.', error);
     throw new Error(
-      error?.response?.data?.message || "Failed to fetch minigamelog.",
+      error?.response?.data?.message || 'Failed to fetch minigamelog.',
     );
   }
 };
@@ -192,7 +192,7 @@ export const useGetMinigameLogByMIDRSID = (
   readingSessionId: string,
 ) => {
   return useQuery<MinigameLog, Error>({
-    queryKey: ["minigamelog"],
+    queryKey: ['minigamelog'],
     queryFn: () =>
       getMinigameLogByMinigameIdAndSessionId(minigameId, readingSessionId),
     enabled: false,

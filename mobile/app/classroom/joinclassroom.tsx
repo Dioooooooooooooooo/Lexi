@@ -1,24 +1,24 @@
-import BackHeader from "@/components/BackHeader";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { joinClassroom as apiJoinClassroom } from "@/services/ClassroomService";
-import { useClassroomStore } from "@/stores/classroomStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { router } from "expo-router";
-import React, { useState } from "react";
-import { View, Image, TouchableOpacity, Text, ScrollView } from "react-native";
+import BackHeader from '@/components/BackHeader';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { joinClassroom as apiJoinClassroom } from '@/services/ClassroomService';
+import { useClassroomStore } from '@/stores/classroomStore';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { router } from 'expo-router';
+import React, { useState } from 'react';
+import { View, Image, TouchableOpacity, Text, ScrollView } from 'react-native';
 
 export default function JoinClassroom() {
-  const [joinCode, setJoinCode] = useState("");
+  const [joinCode, setJoinCode] = useState('');
   const setSelectedClassroom = useClassroomStore(
-    (state) => state.setSelectedClassroom
+    state => state.setSelectedClassroom,
   );
 
   const queryClient = useQueryClient();
   const { mutateAsync: joinClassroomMutation } = useMutation({
     mutationFn: apiJoinClassroom,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["classroomsData"] });
+      queryClient.invalidateQueries({ queryKey: ['classroomsData'] });
     },
   });
 
@@ -33,7 +33,7 @@ export default function JoinClassroom() {
               placeholder="Enter Classroom Code..."
               className="my-3"
               value={joinCode}
-              onChangeText={(joinCode) => {
+              onChangeText={joinCode => {
                 setJoinCode(joinCode);
               }}
             ></Input>
@@ -52,7 +52,7 @@ export default function JoinClassroom() {
               setSelectedClassroom(classroom);
               router.replace(`/classroom/${classroom.id}`);
             } catch (error) {
-              console.error("Error joining classroom:", error);
+              console.error('Error joining classroom:', error);
             }
           }}
         >

@@ -44,7 +44,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document, {
-    // jsonDocumentUrl: "api/swagger.json",
+    // jsonDocumentUrl: 'api/swagger.json',
     jsonDocumentUrl: 'api/docs-json',
     customSiteTitle: 'LexiLearner API Documentation',
     customfavIcon: '/favicon.ico',
@@ -64,6 +64,11 @@ async function bootstrap() {
       showRequestHeaders: true,
       tryItOutEnabled: true,
     },
+  });
+
+  // giadd kay idk what happened to docs-json :((
+  app.getHttpAdapter().get('/docs-json', (req, res) => {
+    res.json(document);
   });
 
   const port = Number(process.env.PORT) || 3000;

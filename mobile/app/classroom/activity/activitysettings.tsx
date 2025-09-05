@@ -1,15 +1,15 @@
-import BackHeader from "@/components/BackHeader";
-import BookCard from "@/components/Classroom/BookCard";
+import BackHeader from '@/components/BackHeader';
+import BookCard from '@/components/Classroom/BookCard';
 import {
   SetMinigameDropdown,
   AddReadingAssignment,
-} from "@/components/Classroom/MainClassroomBtns";
-import { Input } from "@/components/ui/input";
-import { TextArea } from "@/components/ui/textarea";
-import { useClassroomStore } from "@/stores/classroomStore";
-import { useReadingAssignmentStore } from "@/stores/readingAssignmentStore";
-import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
+} from '@/components/Classroom/MainClassroomBtns';
+import { Input } from '@/components/ui/input';
+import { TextArea } from '@/components/ui/textarea';
+import { useClassroomStore } from '@/stores/classroomStore';
+import { useReadingAssignmentStore } from '@/stores/readingAssignmentStore';
+import { router } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -17,24 +17,24 @@ import {
   TouchableOpacity,
   ScrollView,
   Switch,
-} from "react-native";
-import { PaperProvider } from "react-native-paper";
-import { Button } from "@/components/ui/button";
-import { useReadingContentStore } from "@/stores/readingContentStore";
-import { ReadingAssignment } from "@/models/ReadingMaterialAssignment";
-import { MinigameType } from "@/models/Minigame";
-import { useUpdateReadingAssignment } from "@/services/ReadingAssignment";
-import { useGetReadingMaterialById } from "@/services/ReadingMaterialService";
+} from 'react-native';
+import { PaperProvider } from 'react-native-paper';
+import { Button } from '@/components/ui/button';
+import { useReadingContentStore } from '@/stores/readingContentStore';
+import { ReadingAssignment } from '@/models/ReadingMaterialAssignment';
+import { MinigameType } from '@/models/Minigame';
+import { useUpdateReadingAssignment } from '@/services/ReadingAssignment';
+import { useGetReadingMaterialById } from '@/services/ReadingMaterialService';
 
 export default function activitysettings() {
   const selectedReadingAssignment = useReadingAssignmentStore(
-    (state) => state.selectedReadingAssignment
+    state => state.selectedReadingAssignment,
   );
   const setSelectedReadingAssignment = useReadingAssignmentStore(
-    (state) => state.setSelectedReadingAssignment
+    state => state.setSelectedReadingAssignment,
   );
   const [selectedMinigameType, setSelectedMinigameType] = useState(
-    MinigameType.TwoTruthsOneLie
+    MinigameType.Choices,
   );
   const { selectedContent } = useReadingContentStore();
   const { mutateAsync: updateReadingAssignment } = useUpdateReadingAssignment();
@@ -51,7 +51,7 @@ export default function activitysettings() {
       setEditActivityForm(selectedReadingAssignment);
       setSelectedMinigameType(
         (selectedReadingAssignment.minigameType as MinigameType) ||
-          MinigameType.TwoTruthsOneLie
+          MinigameType.Choices,
       );
     }
   }, [selectedReadingAssignment]);
@@ -65,7 +65,7 @@ export default function activitysettings() {
   }
 
   const activityStatus = () => {
-    setIsActive((previous) => !previous);
+    setIsActive(previous => !previous);
   };
   return (
     <PaperProvider>
@@ -118,8 +118,8 @@ export default function activitysettings() {
                   <Switch
                     onValueChange={activityStatus}
                     value={isActive}
-                    trackColor={{ true: "#D2A45F", false: "#B33A3A" }}
-                    thumbColor={isActive ? "#FFCD37" : "#FF663E"}
+                    trackColor={{ true: '#D2A45F', false: '#B33A3A' }}
+                    thumbColor={isActive ? '#FFCD37' : '#FF663E'}
                   />
                 </View>
               </View>
@@ -141,7 +141,7 @@ export default function activitysettings() {
                     setSelectedReadingAssignment(editActivityForm);
                     router.back();
                   } catch (error: any) {
-                    console.error("Failed to edit activity", error);
+                    console.error('Failed to edit activity', error);
                   }
                 }}
               >
