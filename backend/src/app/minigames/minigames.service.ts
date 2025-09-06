@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ClassSerializerInterceptor, Inject, Injectable, NotFoundException, UseInterceptors } from '@nestjs/common';
 
 import { Kysely, sql } from 'kysely';
 import {
@@ -11,7 +11,13 @@ import { DB } from '../../database/db.d';
 import { CompleteReadingSessionDto } from './dto/complete-reading-session.dto';
 import { AchievementsService } from '../achievements/achievements.service';
 import { ReadingMaterialsService } from '../reading-materials/reading-materials.service';
+import {
+  CreateMinigameDto,
+  CreateWordsFromLettersGame,
+} from './dto/create-minigame.dto';
+import { instanceToPlain } from 'class-transformer';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Injectable()
 export class MinigamesService {
   constructor(
@@ -19,6 +25,46 @@ export class MinigamesService {
     private readonly achievementService: AchievementsService,
     private readonly readingMaterialService: ReadingMaterialsService,
   ) {}
+
+  async createMinigame(
+    minigameType: MinigameType,
+    request: CreateMinigameDto,
+  ): Promise<Minigame> {
+    const metaDataObj = instanceToPlain(request);
+    const metaData = JSON.stringify(metaDataObj, null, 2);
+
+    const maxScore = this.getMaxScore(minigameType, request);
+
+    const minigame = await this.db
+      .insertInto('public.minigames')
+      .values({
+        reading_material_id: request.reading_material_id,
+        minigame_type: minigameType,
+        part_num: request.part_num,
+        max_score: maxScore,
+        metadata: metaData,
+      })
+      .returningAll()
+      .executeTakeFirst();
+
+    if (!minigame) {
+      throw new Error('Error creating minigame.');
+    }
+
+    return minigame;
+  }
+
+  getMaxScore(minigameType: MinigameType, request: CreateMinigameDto): number {
+    switch (minigameType) {
+      case MinigameType.Choices:
+      case MinigameType.SentenceRearrangement:
+        return 1;
+
+      case MinigameType.WordsFromLetters:
+        const wordRequest = request as CreateWordsFromLettersGame;
+        return wordRequest.words.length;
+    }
+  }
 
   async createMinigamesCompletion(
     readingSessionID: string,
