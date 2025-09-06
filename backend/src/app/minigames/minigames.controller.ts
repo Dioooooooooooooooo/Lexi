@@ -9,18 +9,22 @@ import {
   UseGuards,
   HttpStatus,
   HttpCode,
+  ClassSerializerInterceptor,
+  UseInterceptors,
 } from '@nestjs/common';
 import { MinigamesService } from './minigames.service';
-import { CreateMinigameDto } from './dto/create-minigame.dto';
-import { UpdateMinigameDto } from './dto/update-minigame.dto';
+import { CreateChoicesGame, CreateMinigameDto, CreateSentenceRearrangementGame, CreateWordsFromLettersGame } from './dto/create-minigame.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { Minigame, MinigameLog, MinigameType } from '@/database/schemas';
 import { CreateMinigameLogDto } from './dto/create-minigame-log.dto';
 import { SuccessResponseDto } from '@/common/dto';
 import { CompleteReadingSessionDto } from './dto/complete-reading-session.dto';
+import { RolesGuard } from '../auth/role-guard';
+import { Roles } from '@/decorators/roles.decorator';
 
-@UseGuards(AuthGuard('jwt'))
+@UseInterceptors(ClassSerializerInterceptor)
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 @ApiBearerAuth('JWT-auth')
 @Controller('minigames')
 export class MinigamesController {
@@ -30,6 +34,54 @@ export class MinigamesController {
         GET /minigames/:readingSessionID/complete
         GET /minigames/:readingSessionID/random
     */
+
+  @Roles(['Teacher'])
+  @Post('wordsFromLetters')
+  @ApiOperation({ summary: 'Create WFL minigame' })
+  async createWFLMinigame(
+    @Body() request: CreateWordsFromLettersGame,
+  ): Promise<SuccessResponseDto<Minigame>> {
+    const minigame = await this.minigamesService.createMinigame(
+      MinigameType.WordsFromLetters,
+      request,
+    );
+    return {
+      message: 'Words from letters successfully created.',
+      data: minigame,
+    };
+  }
+
+  @Roles(['Teacher'])
+  @Post('choices')
+  @ApiOperation({ summary: 'Create Choices minigame' })
+  async createChoicesMinigame(
+    @Body() request: CreateChoicesGame,
+  ): Promise<SuccessResponseDto<Minigame>> {
+    const minigame = await this.minigamesService.createMinigame(
+      MinigameType.Choices,
+      request,
+    );
+    return {
+      message: 'Choices successfully created.',
+      data: minigame,
+    };
+  }
+
+  @Roles(['Teacher'])
+  @Post('sentenceRearrangement')
+  @ApiOperation({ summary: 'Create SR minigame' })
+  async createSRMinigame(
+    @Body() request: CreateSentenceRearrangementGame,
+  ): Promise<SuccessResponseDto<Minigame>> {
+    const minigame = await this.minigamesService.createMinigame(
+      MinigameType.SentenceRearrangement,
+      request,
+    );
+    return {
+      message: 'Sentence Rearrangement successfully created.',
+      data: minigame,
+    };
+  }
 
   @Get('readingmaterials/:readingMaterialID/random')
   @ApiOperation({
