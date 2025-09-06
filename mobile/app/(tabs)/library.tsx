@@ -1,21 +1,21 @@
-import ReadingContent from "@/components/ReadingContent";
-import { ReadingContentType } from "@/models/ReadingContent";
-import { getIncompleteReadingSessions } from "@/services/ReadingSessionService";
-import { useReadingSessionStore } from "@/stores/readingSessionStore";
-import { useQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
-import { ScrollView, Text, View } from "react-native";
+import ReadingContent from '@/components/ReadingContent';
+import { ReadingContentType } from '@/models/ReadingContent';
+import { getIncompleteReadingSessions } from '@/services/ReadingSessionService';
+import { useReadingSessionStore } from '@/stores/readingSessionStore';
+import { useQuery } from '@tanstack/react-query';
+import React, { useEffect } from 'react';
+import { ScrollView, Text, View } from 'react-native';
 
 function library() {
   const currentlyReading = useReadingSessionStore(
-    (state) => state.currentlyReading
+    state => state.currentlyReading,
   );
   const setCurrentlyReading = useReadingSessionStore(
-    (state) => state.setCurrentlyReading
+    state => state.setCurrentlyReading,
   );
 
   const { data: readingMaterials, isLoading } = useQuery({
-    queryKey: ["readingSessions"],
+    queryKey: ['readingSessions'],
     queryFn: getIncompleteReadingSessions,
     enabled: !!currentlyReading,
   });
@@ -38,7 +38,9 @@ function library() {
     <ScrollView className="bg-background">
       <View>
         <View className="flex p-8">
-          <Text className="text-[24px] font-bold py-3">Continue Reading</Text>
+          <Text className="text-[24px] font-poppins-bold py-3">
+            Continue Reading
+          </Text>
           <View className="flex flex-row flex-wrap gap-4">
             {readingMaterials?.map(
               (material: ReadingContentType, index: number) => (
@@ -54,7 +56,7 @@ function library() {
                     difficulty={material.difficulty}
                   />
                 </View>
-              )
+              ),
             )}
           </View>
         </View>

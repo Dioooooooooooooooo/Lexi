@@ -33,7 +33,7 @@ export default function ClassroomCard({ classroom }: ClassroomCardProps) {
         <View className="bg-yellowOrange h-24 w-full" />
 
         <View className="flex-row justify-between items-center px-5 py-4 bg-white">
-          <Text className="font-bold text-lg">{classroom.name}</Text>
+          <Text className="font-poppins-bold text-lg">{classroom.name}</Text>
           <Text className="text-gray-700">{displayText}</Text>
         </View>
       </View>

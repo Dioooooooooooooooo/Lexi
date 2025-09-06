@@ -1,13 +1,13 @@
-import { refreshAccessToken } from "@/services/AuthService";
-import { useGlobalStore } from "@/stores/globalStore";
-import { useUserStore } from "@/stores/userStore";
-import { router } from "expo-router";
-import { useState } from "react";
-import Toast from "react-native-toast-message";
+import { refreshAccessToken } from '@/services/AuthService';
+import { useGlobalStore } from '@/stores/globalStore';
+import { useUserStore } from '@/stores/userStore';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import Toast from 'react-native-toast-message';
 
-import { Platform, TouchableOpacity } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Platform, TouchableOpacity } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   Select,
   SelectContent,
@@ -15,14 +15,14 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "~/components/ui/select";
+} from '~/components/ui/select';
 
-import { Image, View } from "react-native";
-import { Text } from "~/components/ui/text";
+import { Image, View } from 'react-native';
+import { Text } from '@/components/ui/text';
 
 export default function Step4() {
-  const updateProfile = useUserStore((state) => state.updateProfile);
-  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
+  const updateProfile = useUserStore(state => state.updateProfile);
+  const setIsLoading = useGlobalStore(state => state.setIsLoading);
 
   const [age, setAge] = useState<string | null>(null);
   const [ageInvalid, setAgeInvalid] = useState(false);
@@ -48,40 +48,40 @@ export default function Step4() {
       setIsLoading(true);
       await updateProfile({ age: parseInt(age, 10) });
       Toast.show({
-        type: "success",
-        text1: "Registration Success",
+        type: 'success',
+        text1: 'Registration Success',
       });
       // Remove unnecessary refreshAccessToken call - tokens are fresh after registration
-      router.replace("/home");
+      router.replace('/home');
     } catch (error: any) {
-      console.error("Signup4 updateProfile error:", error);
+      console.error('Signup4 updateProfile error:', error);
       Toast.show({
-        type: "error",
-        text1: "Profile Update Failed",
-        text2: error.message || "Unable to save your age. Please try again.",
+        type: 'error',
+        text1: 'Profile Update Failed',
+        text2: error.message || 'Unable to save your age. Please try again.',
       });
     } finally {
       setIsLoading(false);
     }
-  };;
+  };
 
   return (
     <ScrollView className="bg-white">
       <View className="flex-1 gap-14 p-8 h-full justify-around items-center">
         <View className="flex-1 gap-6 p-8 h-full justify-around items-center">
           <Image
-            source={require("@/assets/images/role-pupil.png")}
+            source={require('@/assets/images/role-pupil.png')}
             style={{ width: 160, height: 160 }}
             resizeMode="contain"
             alt=""
           />
-          <Text className="text-typography-black font-bold text-3xl">
+          <Text className="text-typography-black font-poppins-bold text-3xl">
             Almost There!
           </Text>
         </View>
 
         <Select
-          onValueChange={(e) => {
+          onValueChange={e => {
             setAge(e?.value as string);
           }}
         >
@@ -97,7 +97,7 @@ export default function Step4() {
               <SelectLabel>Age</SelectLabel>
               {[
                 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-              ].map((value) => (
+              ].map(value => (
                 <SelectItem
                   key={value}
                   label={String(value)}
@@ -122,7 +122,7 @@ export default function Step4() {
             handleStep();
           }}
         >
-          <Text className="text-black text-base font-bold">Finish</Text>
+          <Text className="text-black text-base font-poppins-bold">Finish</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

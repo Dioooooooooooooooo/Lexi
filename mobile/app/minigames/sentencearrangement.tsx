@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, memo } from "react";
+import React, { useEffect, useState, useCallback, memo } from 'react';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -6,19 +6,24 @@ import Animated, {
   withTiming,
   FadeIn,
   LinearTransition,
-} from "react-native-reanimated";
-import { useSentenceRearrangementMiniGameStore } from "@/stores/miniGameStore";
-import { useMiniGameStore } from "@/stores/miniGameStore";
-import { CorrectSound, IncorrectSound } from "@/utils/sounds";
-import { View, ScrollView, TouchableOpacity, BackHandler } from "react-native";
-import { Text } from "~/components/ui/text";
-import { Heart } from "lucide-react-native";
-import { Minigame, MinigameType } from "@/models/Minigame";
-import { useCreateMinigameLog } from "@/services/minigameService";
-import { useUserStore } from "@/stores/userStore";
+} from 'react-native-reanimated';
+import { useSentenceRearrangementMiniGameStore } from '@/stores/miniGameStore';
+import { useMiniGameStore } from '@/stores/miniGameStore';
+import { CorrectSound, IncorrectSound } from '@/utils/sounds';
+import {
+  View,
+  ScrollView,
+  TouchableOpacity,
+  BackHandler,
+  Text,
+} from 'react-native';
+import { Heart } from 'lucide-react-native';
+import { Minigame, MinigameType } from '@/models/Minigame';
+import { useCreateMinigameLog } from '@/services/minigameService';
+import { useUserStore } from '@/stores/userStore';
 
 // Consistent colors for parts - alternate between these two
-const PART_COLORS = ["#FFFFFF", "#7dd3fc"];
+const PART_COLORS = ['#FFFFFF', '#7dd3fc'];
 
 // Memoized Part component to prevent unnecessary re-renders
 const Part = memo(
@@ -37,7 +42,7 @@ const Part = memo(
       backgroundColor: PART_COLORS[colorIndex % 2],
       padding: 12,
       borderRadius: 16,
-      shadowColor: "#000",
+      shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.25,
       shadowRadius: 3,
@@ -50,7 +55,7 @@ const Part = memo(
     return (
       <Animated.View layout={LinearTransition.duration(300)} style={partStyle}>
         <TouchableOpacity onPress={() => onPress(index, colorIndex)}>
-          <Text style={{ fontSize: 16, fontWeight: "600" }}>{part}</Text>
+          <Text style={{ fontSize: 16, fontWeight: '600' }}>{part}</Text>
         </TouchableOpacity>
       </Animated.View>
     );
@@ -76,7 +81,7 @@ const AnswerPart = memo(
       backgroundColor: PART_COLORS[colorIndex % 2],
       padding: 12,
       borderRadius: 16,
-      shadowColor: "#000",
+      shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.25,
       shadowRadius: 3,
@@ -92,7 +97,7 @@ const AnswerPart = memo(
       >
         <TouchableOpacity onPress={() => onPress(index)}>
           <Text
-            style={{ fontSize: 16, fontWeight: "600" }}
+            style={{ fontSize: 16, fontWeight: '600' }}
             className={textClass}
           >
             {part}
@@ -118,11 +123,11 @@ export default function SentenceArrangement({
     [minigame.metaData],
   );
 
-  const userRole = useUserStore((state) => state.user?.role);
+  const userRole = useUserStore(state => state.user?.role);
 
   const { mutate: triggerCreateMinigameLog } = useCreateMinigameLog();
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-  const [feedback, setFeedback] = useState("");
+  const [feedback, setFeedback] = useState('');
   // Track color indices for each part
   const [colorIndices, setColorIndices] = useState<number[]>([]);
   // Track color indices for answer parts
@@ -150,7 +155,7 @@ export default function SentenceArrangement({
   // Initialize game state
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
+      'hardwareBackPress',
       () => true,
     );
 
@@ -181,12 +186,12 @@ export default function SentenceArrangement({
       try {
         const score = isCorrect ? 1 : 0;
 
-        console.log("Sentence Rearrangement Game Over");
-        if (userRole === "Pupil") {
+        console.log('Sentence Rearrangement Game Over');
+        if (userRole === 'Pupil') {
           const minigameLog = gameOver({ answers, score });
 
           if (!minigameLog) {
-            throw Error("Minigame Log is null");
+            throw Error('Minigame Log is null');
           }
 
           triggerCreateMinigameLog({
@@ -201,7 +206,7 @@ export default function SentenceArrangement({
         }, 500);
       } catch (error) {
         console.error(
-          "Error during sentence arrangement game over logic: ",
+          'Error during sentence arrangement game over logic: ',
           error,
         );
       }
@@ -237,14 +242,14 @@ export default function SentenceArrangement({
 
         if (JSON.stringify(newAnswer) === JSON.stringify(correctAnswer)) {
           CorrectSound.play();
-          setFeedback("Correct! Great job!");
+          setFeedback('Correct! Great job!');
           setIsCorrect(true);
-          await new Promise((res) => setTimeout(res, 500));
+          await new Promise(res => setTimeout(res, 500));
         } else {
           IncorrectSound.play();
-          setFeedback("Try again!");
+          setFeedback('Try again!');
           setIsCorrect(false);
-          await new Promise((res) => setTimeout(res, 500));
+          await new Promise(res => setTimeout(res, 500));
           decrementLives();
           resetCurrentAnswer();
           setParts(sentenceArrangementData.parts);
@@ -254,7 +259,7 @@ export default function SentenceArrangement({
           );
           setAnswerColorIndices([]);
           setIsCorrect(null);
-          setTimeout(() => setFeedback(""), 1500);
+          setTimeout(() => setFeedback(''), 1500);
         }
       }
     },
@@ -301,17 +306,17 @@ export default function SentenceArrangement({
   // Style classes based on correctness
   const borderClass =
     isCorrect === true
-      ? "border-green-500"
+      ? 'border-green-500'
       : isCorrect === false
-        ? "border-red-500"
-        : "border-gray-300";
+        ? 'border-red-500'
+        : 'border-gray-300';
 
   const textClass =
     isCorrect === true
-      ? "text-green-500"
+      ? 'text-green-500'
       : isCorrect === false
-        ? "text-red-500"
-        : "";
+        ? 'text-red-500'
+        : '';
 
   // Memoize the parts list to prevent unnecessary re-renders
   const partsList = React.useMemo(() => {
@@ -332,9 +337,9 @@ export default function SentenceArrangement({
     padding: 16,
     borderWidth: 2,
     borderColor:
-      isCorrect === null ? "#e0e0e0" : isCorrect ? "#22c55e" : "#ef4444",
+      isCorrect === null ? '#e0e0e0' : isCorrect ? '#22c55e' : '#ef4444',
     borderRadius: 16,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: '#f9f9f9',
     marginVertical: 16,
   };
 
@@ -362,7 +367,7 @@ export default function SentenceArrangement({
             {feedback ? (
               <Animated.Text
                 entering={FadeIn.duration(300)}
-                className={`text-center font-bold text-lg ${isCorrect ? "text-green-500" : "text-red-500"}`}
+                className={`text-center font-poppins-bold text-lg ${isCorrect ? 'text-green-500' : 'text-red-500'}`}
               >
                 {feedback}
               </Animated.Text>

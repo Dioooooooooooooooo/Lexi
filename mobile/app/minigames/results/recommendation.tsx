@@ -1,10 +1,10 @@
-import BackHeader from "@/components/BackHeader";
-import ReadingContent from "@/components/ReadingContent";
-import { Button } from "@/components/ui/button";
-import { Redirect, router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { ScrollView, View, Text } from "react-native";
-import { ReadingContentType } from "@/models/ReadingContent";
+import BackHeader from '@/components/BackHeader';
+import ReadingContent from '@/components/ReadingContent';
+import { Button } from '@/components/ui/button';
+import { Redirect, router, useLocalSearchParams } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, View, Text } from 'react-native';
+import { ReadingContentType } from '@/models/ReadingContent';
 
 export default function Recommendation() {
   const { data } = useLocalSearchParams();
@@ -26,13 +26,13 @@ export default function Recommendation() {
         <BackHeader />
 
         <View className="items-center space-y-4 mt-6">
-          <Text className="text-[24px] font-bold text-center">
+          <Text className="text-[24px] font-poppins-bold text-center">
             Try reading this next!
           </Text>
 
           <View className="w-full bg-white rounded-xl p-4 shadow-md m-5 flex flex-col">
             <ReadingContent
-              type={"Recommended"}
+              type={'Recommended'}
               id={recommendation.id}
               content={recommendation.content}
               title={recommendation.title}
@@ -49,7 +49,7 @@ export default function Recommendation() {
       <View className="p-5">
         <Button
           className="bg-difficultyBlue m-5 mb-24 shadow-main"
-          onPress={() => router.replace("/home")}
+          onPress={() => router.replace('/home')}
         >
           <Text>Finish</Text>
         </Button>

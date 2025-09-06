@@ -1,22 +1,22 @@
-import React, { useContext, useState } from "react";
-import { router, useLocalSearchParams } from "expo-router";
-import { useRegisterFormContext } from "./_layout";
-import { checkUserExist } from "@/services/UserService";
-import { validateField } from "@/utils/utils";
+import React, { useContext, useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useRegisterFormContext } from './_layout';
+import { checkUserExist } from '@/services/UserService';
+import { validateField } from '@/utils/utils';
 
-import { View, ScrollView, TouchableOpacity } from "react-native";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Text } from "~/components/ui/text";
-import BackHeader from "@/components/BackHeader";
+import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import BackHeader from '@/components/BackHeader';
 
 export default function Step2() {
   const { fromProviderAuth } = useLocalSearchParams();
   const [formErrors, setFormErrors] = useState<Record<string, any>>({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const {
@@ -30,22 +30,22 @@ export default function Step2() {
     let form = fromProviderAuth ? providerRegisterForm : registerForm;
 
     const newErrors: any = {};
-    Object.keys(form).forEach((field) => {
+    Object.keys(form).forEach(field => {
       const error = validateField(
         field,
         form[field as keyof typeof form],
-        form
+        form,
       );
-      if (error == "") return;
+      if (error == '') return;
       newErrors[field] = error;
     });
 
     if (Object.keys(newErrors).length === 0 && fromProviderAuth) {
       if (
-        (await checkUserExist("username", providerRegisterForm.username))
+        (await checkUserExist('username', providerRegisterForm.username))
           .statusCode === 409
       ) {
-        newErrors["username"] = "Username is already taken.";
+        newErrors['username'] = 'Username is already taken.';
       }
     }
     setFormErrors(newErrors);
@@ -53,11 +53,11 @@ export default function Step2() {
     if (Object.keys(newErrors).length === 0) {
       if (fromProviderAuth) {
         router.push({
-          pathname: "/signup3",
-          params: { fromProviderAuth: "true" },
+          pathname: '/signup3',
+          params: { fromProviderAuth: 'true' },
         });
       } else {
-        router.push("/signup3");
+        router.push('/signup3');
       }
     }
   };
@@ -68,7 +68,9 @@ export default function Step2() {
         <BackHeader />
 
         <View className="flex gap-4 justify-around">
-          <Text className="text-2xl font-bold">Tell Us About Yourself!</Text>
+          <Text className="text-2xl font-poppins-bold">
+            Tell Us About Yourself!
+          </Text>
 
           {/* Username Field */}
           {fromProviderAuth && (
@@ -154,7 +156,7 @@ export default function Step2() {
             handleStep();
           }}
         >
-          <Text className="text-white text-md font-bold">Continue</Text>
+          <Text className="text-white text-md font-poppins-bold">Continue</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

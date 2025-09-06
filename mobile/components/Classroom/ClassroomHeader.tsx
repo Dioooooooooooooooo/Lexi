@@ -1,6 +1,7 @@
-import React from "react";
-import { View, Text, Image } from "react-native";
-import BackHeader from "../BackHeader";
+import React from 'react';
+import { View, Image } from 'react-native';
+import { Text } from '@/components/ui/text';
+import BackHeader from '../BackHeader';
 
 interface ClassroomDetailsProp {
   name: string;
@@ -16,11 +17,13 @@ export default function ClassroomHeader({
       <View className="flex flex-row justify-between items-center px-4 h-full">
         <BackHeader />
         <View>
-          <Text className="text-[22px] font-bold leading-tight">{name}</Text>
+          <Text className="text-[22px] font-poppins-bold leading-tight">
+            {name}
+          </Text>
           <Text selectable={true}>{joinCode}</Text>
         </View>
         <Image
-          source={require("@/assets/images/Juicy/Office-desk.png")}
+          source={require('@/assets/images/Juicy/Office-desk.png')}
           resizeMode="contain"
           className="h-64 w-64"
         />

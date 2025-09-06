@@ -1,40 +1,40 @@
-import { ScrollView, TouchableOpacity, View } from "react-native";
-import { Text } from "@/components/ui/text";
-import { Button } from "@/components/ui/button";
-import { useGlobalStore } from "@/stores/globalStore";
-import { validateField } from "@/utils/utils";
-import { useState } from "react";
-import React from "react";
-import Toast from "react-native-toast-message";
-import BackHeader from "@/components/BackHeader";
-import { Eye, EyeOff, KeyRound } from "lucide-react-native";
-import { Input } from "@/components/ui/input";
-import { useUserStore } from "@/stores/userStore";
-import { router } from "expo-router";
-import LoadingScreenForm from "@/components/LoadingScreenForm";
+import { ScrollView, TouchableOpacity, View } from 'react-native';
+
+import { Button } from '@/components/ui/button';
+import { useGlobalStore } from '@/stores/globalStore';
+import { validateField } from '@/utils/utils';
+import { useState } from 'react';
+import React from 'react';
+import Toast from 'react-native-toast-message';
+import BackHeader from '@/components/BackHeader';
+import { Eye, EyeOff, KeyRound } from 'lucide-react-native';
+import { Input } from '@/components/ui/input';
+import { useUserStore } from '@/stores/userStore';
+import { router } from 'expo-router';
+import LoadingScreenForm from '@/components/LoadingScreenForm';
 
 export default function ChangePassword() {
-  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
-  const isLoading = useGlobalStore((state) => state.isLoading);
+  const setIsLoading = useGlobalStore(state => state.setIsLoading);
+  const isLoading = useGlobalStore(state => state.isLoading);
   // Add local state for form and formErrors
   const [form, setForm] = useState({
-    currentPassword: "",
-    password: "",
-    confirmPassword: "",
+    currentPassword: '',
+    password: '',
+    confirmPassword: '',
   });
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const updateProfile = useUserStore((state) => state.updateProfile);
+  const updateProfile = useUserStore(state => state.updateProfile);
 
   const handleChangePassword = async () => {
     setIsLoading(true);
     try {
       const newErrors: any = {};
-      Object.keys(form).forEach((field) => {
+      Object.keys(form).forEach(field => {
         const error = validateField(field, form[field], form);
-        if (error === "") return;
+        if (error === '') return;
         newErrors[field] = error;
       });
 
@@ -43,15 +43,15 @@ export default function ChangePassword() {
 
       await updateProfile(form);
       Toast.show({
-        type: "success",
-        text1: "Password Changed",
+        type: 'success',
+        text1: 'Password Changed',
       });
 
       router.back();
     } catch (error: any) {
       Toast.show({
-        type: "error",
-        text1: "Change Password Failed",
+        type: 'error',
+        text1: 'Change Password Failed',
         text2: error.message,
       });
     } finally {
@@ -73,7 +73,7 @@ export default function ChangePassword() {
                     size={20}
                     color="#888"
                     style={{
-                      position: "absolute",
+                      position: 'absolute',
                       left: 10,
                       top: 12,
                       zIndex: 1,
@@ -94,7 +94,7 @@ export default function ChangePassword() {
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => setShowCurrentPassword((prev) => !prev)}
+                  onPress={() => setShowCurrentPassword(prev => !prev)}
                   className="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 p-0 text-muted-foreground"
                 >
                   {showCurrentPassword ? (
@@ -120,7 +120,7 @@ export default function ChangePassword() {
                     size={20}
                     color="#888"
                     style={{
-                      position: "absolute",
+                      position: 'absolute',
                       left: 10,
                       top: 12,
                       zIndex: 1,
@@ -141,7 +141,7 @@ export default function ChangePassword() {
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => setShowNewPassword((prev) => !prev)}
+                  onPress={() => setShowNewPassword(prev => !prev)}
                   className="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 p-0 text-muted-foreground"
                 >
                   {showNewPassword ? (
@@ -165,7 +165,7 @@ export default function ChangePassword() {
                     size={20}
                     color="#888"
                     style={{
-                      position: "absolute",
+                      position: 'absolute',
                       left: 10,
                       top: 12,
                       zIndex: 1,
@@ -186,7 +186,7 @@ export default function ChangePassword() {
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => setShowConfirmPassword((prev) => !prev)}
+                  onPress={() => setShowConfirmPassword(prev => !prev)}
                   className="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 p-0 text-muted-foreground"
                 >
                   {showConfirmPassword ? (

@@ -1,10 +1,11 @@
-import React, { memo } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { ReadingContentType } from "@/models/ReadingContent";
-import { useReadingContentStore } from "@/stores/readingContentStore";
-import { useRouter } from "expo-router";
-import { useGetCoverFromGDrive } from "@/hooks/useExtractDriveFileId";
+import React, { memo } from 'react';
+import { View, Image, TouchableOpacity } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { Ionicons } from '@expo/vector-icons';
+import { ReadingContentType } from '@/models/ReadingContent';
+import { useReadingContentStore } from '@/stores/readingContentStore';
+import { useRouter } from 'expo-router';
+import { useGetCoverFromGDrive } from '@/hooks/useExtractDriveFileId';
 
 interface BookCardProps {
   book: ReadingContentType;
@@ -12,11 +13,11 @@ interface BookCardProps {
 
 function BookCard({ book, selected }: BookCardProps & { selected?: boolean }) {
   const setSelectedContent = useReadingContentStore(
-    (state) => state.setSelectedContent
+    state => state.setSelectedContent,
   );
   const imageUrl = useGetCoverFromGDrive(book.cover);
 
-  const screenWidth = require("react-native").Dimensions.get("window").width;
+  const screenWidth = require('react-native').Dimensions.get('window').width;
   const cardWidth = screenWidth / 3;
   var isSelected = false;
 
@@ -34,7 +35,7 @@ function BookCard({ book, selected }: BookCardProps & { selected?: boolean }) {
     <TouchableOpacity
       activeOpacity={0.7}
       className={`m-1 rounded-xl overflow-hidden ${
-        selected ? "border-2 border-blue-500" : "border border-lightGray"
+        selected ? 'border-2 border-blue-500' : 'border border-lightGray'
       }`}
       style={{
         width: cardWidth,
@@ -44,7 +45,7 @@ function BookCard({ book, selected }: BookCardProps & { selected?: boolean }) {
       <Image
         source={{ uri: imageUrl }}
         style={{
-          width: "100%",
+          width: '100%',
           height: 120,
           borderTopLeftRadius: 12,
           borderTopRightRadius: 12,
@@ -52,10 +53,10 @@ function BookCard({ book, selected }: BookCardProps & { selected?: boolean }) {
         resizeMode="cover"
       />
       <View style={{ padding: 8 }}>
-        <Text numberOfLines={2} style={{ fontWeight: "bold", fontSize: 14 }}>
+        <Text numberOfLines={2} style={{ fontWeight: 'bold', fontSize: 14 }}>
           {book.title}
         </Text>
-        <Text numberOfLines={1} style={{ color: "#666", fontSize: 12 }}>
+        <Text numberOfLines={1} style={{ color: '#666', fontSize: 12 }}>
           {book.author}
         </Text>
       </View>

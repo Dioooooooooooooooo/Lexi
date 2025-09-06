@@ -8,7 +8,8 @@ import { Input } from '@/components/ui/input';
 import { TextArea } from '@/components/ui/textarea';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { View, Image, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { Text } from '@/components/ui/text';
 import BookCard from '@/components/Classroom/BookCard';
 import { useReadingContentStore } from '@/stores/readingContentStore';
 import { MinigameType } from '@/models/Minigame';
@@ -61,7 +62,9 @@ export default function createactivity() {
           <View className="p-8">
             <BackHeader />
             <View className="py-8">
-              <Text className="text-[22px] font-bold">Create New Activity</Text>
+              <Text className="text-[22px] font-poppins-bold">
+                Create New Activity
+              </Text>
               <View className="flex justify-center items-center mt-4">
                 {selectedContent && <BookCard book={selectedContent} />}
               </View>

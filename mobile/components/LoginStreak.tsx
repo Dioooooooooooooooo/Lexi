@@ -1,13 +1,14 @@
-import { getLoginStreak, recordLoginStreak } from "@/services/UserService";
-import { useUserStore } from "@/stores/userStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Modal, Dimensions } from "react-native";
+import { getLoginStreak, recordLoginStreak } from '@/services/UserService';
+import { useUserStore } from '@/stores/userStore';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
+import { Text } from '@/components/ui/text';
+import { View, TouchableOpacity, Modal, Dimensions } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 interface LoginStreakProps {
   isVisible: boolean;
@@ -15,17 +16,17 @@ interface LoginStreakProps {
   activeWeekdays: boolean[];
 }
 
-const WEEKDAYS = ["M", "T", "W", "T", "F", "S", "S"];
-const { width, height } = Dimensions.get("window");
+const WEEKDAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const { width, height } = Dimensions.get('window');
 
 const LoginStreak: React.FC<LoginStreakProps> = ({ isVisible, onClose }) => {
   const scale = useSharedValue(0.8);
   const opacity = useSharedValue(0);
-  const streak = useUserStore((state) => state.streak);
-  const setStreak = useUserStore((state) => state.setStreak);
+  const streak = useUserStore(state => state.streak);
+  const setStreak = useUserStore(state => state.setStreak);
 
   const [activeWeekdays, setActiveWeekdays] = useState<boolean[]>(
-    Array(7).fill(false)
+    Array(7).fill(false),
   );
   const queryClient = useQueryClient();
 
@@ -37,18 +38,18 @@ const LoginStreak: React.FC<LoginStreakProps> = ({ isVisible, onClose }) => {
   const { mutateAsync: recordLoginStreakMutation } = useMutation({
     mutationFn: recordLoginStreak,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["loginStreak"] });
+      queryClient.invalidateQueries({ queryKey: ['loginStreak'] });
     },
   });
 
   const loginStreakCount = async () => {
     try {
-      return await recordLoginStreakMutation().then((response) => {
-        console.log("Login streak count: ", response);
+      return await recordLoginStreakMutation().then(response => {
+        console.log('Login streak count: ', response);
         setStreak(response.currentStreak);
       });
     } catch (error) {
-      console.error("Error fetching login streak: ", error);
+      console.error('Error fetching login streak: ', error);
     }
   };
 
@@ -96,9 +97,9 @@ const LoginStreak: React.FC<LoginStreakProps> = ({ isVisible, onClose }) => {
       <View
         style={{
           flex: 1,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-          justifyContent: "center",
-          alignItems: "center",
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <Animated.View
@@ -106,10 +107,10 @@ const LoginStreak: React.FC<LoginStreakProps> = ({ isVisible, onClose }) => {
             {
               width: 320,
               height: 500,
-              backgroundColor: "#FEFDF8",
+              backgroundColor: '#FEFDF8',
               borderRadius: 16,
-              alignItems: "center",
-              shadowColor: "#000",
+              alignItems: 'center',
+              shadowColor: '#000',
               shadowOffset: { width: 0, height: 2 },
               shadowOpacity: 0.25,
               shadowRadius: 3.84,
@@ -124,42 +125,33 @@ const LoginStreak: React.FC<LoginStreakProps> = ({ isVisible, onClose }) => {
           <Text
             style={{
               fontSize: 70,
-              fontWeight: "bold",
-              color: "#2D1832", // Dark purple color
+              fontWeight: 'bold',
+              color: '#2D1832', // Dark purple color
             }}
           >
             {streak}
           </Text>
 
           {/* Day streak text */}
-          <Text
-            style={{
-              fontSize: 24,
-              fontWeight: "500",
-              color: "#2D1832",
-              marginBottom: 30,
-            }}
-          >
-            day streak
-          </Text>
+          <Text className="font-poppins-bold text-2xl">day streak</Text>
 
           {/* Calendar container */}
           <View
             style={{
-              width: "100%",
-              backgroundColor: "white",
+              width: '100%',
+              backgroundColor: 'white',
               borderRadius: 16,
               padding: 14,
               marginBottom: 20,
               borderWidth: 1,
-              borderColor: "#E5E5E5",
+              borderColor: '#E5E5E5',
             }}
           >
             {/* Weekday labels */}
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
+                flexDirection: 'row',
+                justifyContent: 'space-between',
                 marginBottom: 8,
               }}
             >
@@ -170,11 +162,11 @@ const LoginStreak: React.FC<LoginStreakProps> = ({ isVisible, onClose }) => {
                     key={`label-${index}`}
                     style={{
                       width: 28,
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      color: isToday ? "#FFCD37" : "#888",
+                      textAlign: 'center',
+                      color: isToday ? '#FFCD37' : '#888',
                       fontSize: isToday ? 16 : 14,
                     }}
+                    className="font-poppins-bold"
                   >
                     {day}
                   </Text>
@@ -185,8 +177,8 @@ const LoginStreak: React.FC<LoginStreakProps> = ({ isVisible, onClose }) => {
             {/* Circles for days */}
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}
             >
               {activeWeekdays.map((isActive, index) => (
@@ -196,9 +188,9 @@ const LoginStreak: React.FC<LoginStreakProps> = ({ isVisible, onClose }) => {
                     width: 28,
                     height: 28,
                     borderRadius: 14,
-                    backgroundColor: isActive ? "#FFCD4D" : "#E5E5E5",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    backgroundColor: isActive ? '#FFCD4D' : '#E5E5E5',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}
                 />
               ))}
@@ -206,36 +198,28 @@ const LoginStreak: React.FC<LoginStreakProps> = ({ isVisible, onClose }) => {
           </View>
 
           {/* Instructions text */}
-          <Text
-            style={{
-              fontSize: 14,
-              textAlign: "center",
-              color: "#555",
-              marginBottom: 30,
-            }}
-          >
-            Read everyday to keep your streak,{"\n"}
-            skipping a day resets it!
+          <Text className="text-center ">
+            Read everyday to keep your streak, skipping a day resets it!
           </Text>
 
           {/* Continue button */}
           <TouchableOpacity
             style={{
-              backgroundColor: "#FFCD4D",
+              backgroundColor: '#FFCD4D',
               paddingVertical: 14,
               borderRadius: 8,
-              width: "100%",
-              alignItems: "center",
-              marginTop: "auto",
+              width: '100%',
+              alignItems: 'center',
+              marginTop: 'auto',
             }}
             activeOpacity={0.7}
             onPress={onClose}
           >
             <Text
               style={{
-                fontWeight: "bold",
+                fontWeight: 'bold',
                 fontSize: 16,
-                color: "#2D1832",
+                color: '#2D1832',
               }}
             >
               Continue

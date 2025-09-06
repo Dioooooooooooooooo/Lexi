@@ -6,10 +6,12 @@ import { useClassroomStore } from '@/stores/classroomStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Image, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { Text } from '@/components/ui/text';
 
 export default function JoinClassroom() {
   const [joinCode, setJoinCode] = useState('');
+  const [error, setError] = useState('');
   const setSelectedClassroom = useClassroomStore(
     state => state.setSelectedClassroom,
   );
@@ -28,7 +30,9 @@ export default function JoinClassroom() {
         <View>
           <BackHeader />
           <View className="py-8">
-            <Text className="font-bold text-[22px]">Join Classroom</Text>
+            <Text className="font-poppins-bold text-[22px]">
+              Join Classroom
+            </Text>
             <Input
               placeholder="Enter Classroom Code..."
               className="my-3"
@@ -37,6 +41,7 @@ export default function JoinClassroom() {
                 setJoinCode(joinCode);
               }}
             ></Input>
+            <Text className="text-red-500">{error}</Text>
           </View>
         </View>
       </ScrollView>
@@ -44,7 +49,12 @@ export default function JoinClassroom() {
       <View className="p-5">
         <Button
           className="bg-yellowOrange m-5 mb-24 shadow-main"
+          variant="default"
           onPress={async () => {
+            if (joinCode.length <= 6) {
+              setError('Please enter a valid classroom code.');
+              return;
+            }
             try {
               const response = await joinClassroomMutation(joinCode);
               const classroom = response.data;
@@ -53,10 +63,11 @@ export default function JoinClassroom() {
               router.replace(`/classroom/${classroom.id}`);
             } catch (error) {
               console.error('Error joining classroom:', error);
+              setError(`Classroom with ${joinCode} does not exist.`);
             }
           }}
         >
-          <Text>Finish</Text>
+          <Text className="font-semibold">Finish</Text>
         </Button>
       </View>
     </View>

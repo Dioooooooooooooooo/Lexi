@@ -1,9 +1,10 @@
-import { useSentenceRearrangementMiniGameStore } from "@/stores/miniGameStore";
-import { arrange, bubble } from "@/types/bubble";
-import { MessageTypeEnum, personEnum } from "@/types/enum";
-import React, { useEffect, useState } from "react";
-import { View, Image, Text, TouchableOpacity } from "react-native";
-import { makeBubble } from "@/utils/makeBubble";
+import { useSentenceRearrangementMiniGameStore } from '@/stores/miniGameStore';
+import { arrange, bubble } from '@/types/bubble';
+import { MessageTypeEnum, personEnum } from '@/types/enum';
+import React, { useEffect, useState } from 'react';
+import { View, Image, TouchableOpacity } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { makeBubble } from '@/utils/makeBubble';
 
 const SentenceArrangementBtn = ({
   text,
@@ -56,10 +57,10 @@ const SentenceArrangementBubble = ({
   useEffect(() => {
     if (currentAnswer.length === partsblocks.length) {
       let bubble;
-      if (correctAnswer === currentAnswer.join("")) {
-        bubble = makeBubble("That's correct!", "", personEnum.Game);
+      if (correctAnswer === currentAnswer.join('')) {
+        bubble = makeBubble("That's correct!", '', personEnum.Game);
       } else {
-        bubble = makeBubble("Aww, try again next time!", "", personEnum.Game);
+        bubble = makeBubble('Aww, try again next time!', '', personEnum.Game);
       }
 
       setTimeout(() => onPress(bubble, MessageTypeEnum.STORY), 500);
@@ -68,14 +69,14 @@ const SentenceArrangementBubble = ({
     }
   }, [currentAnswer]);
 
-  console.log("parts", parts);
-  console.log("current", currentAnswer);
+  console.log('parts', parts);
+  console.log('current', currentAnswer);
   return (
     <View>
       {/* answers bubble */}
       <View className="flex-row gap-2 items-end">
         <Image
-          source={require("@/assets/images/storyIcons/narrator.png")}
+          source={require('@/assets/images/storyIcons/narrator.png')}
           className="rounded-full"
           style={{ width: 32, height: 32 }}
           resizeMode="contain"

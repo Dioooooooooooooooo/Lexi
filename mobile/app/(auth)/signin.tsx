@@ -12,10 +12,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Components
 import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { Eye, EyeOff, Mail, KeyRound } from 'lucide-react-native';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
-import { Text } from '~/components/ui/text';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
@@ -203,7 +203,7 @@ const SignIn = () => {
               handleLogin();
             }}
           >
-            <Text className="text-black text-md font-bold">Log In</Text>
+            <Text className="text-black text-md font-poppins-bold">Log In</Text>
           </TouchableOpacity>
 
           {/* TEMPORARY TEST BUTTON FOR BACKEND CONNECTION */}
@@ -213,7 +213,7 @@ const SignIn = () => {
               testBackendConnection();
             }}
           >
-            <Text className="text-white text-md font-bold">
+            <Text className="text-white text-md font-poppins-bold">
               🧪 Test Backend Connection
             </Text>
           </TouchableOpacity>
@@ -223,7 +223,7 @@ const SignIn = () => {
           >
             <View className="flex flex-row">
               <Text>Don't have an account?</Text>
-              <Text className="color-orange underline font-bold px-2">
+              <Text className="color-orange underline font-poppins-bold px-2">
                 Sign Up
               </Text>
             </View>

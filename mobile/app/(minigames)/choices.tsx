@@ -2,7 +2,8 @@ import { Choice, useChoicesGameStore } from '@/stores/miniGameStore';
 import { bubble, choice } from '@/types/bubble';
 import { MessageTypeEnum, personEnum } from '@/types/enum';
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacity, Image } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { makeBubble } from '@/utils/makeBubble';
 
 const ChoicesBubble = ({

@@ -1,5 +1,6 @@
-import React from "react";
-import { View, Text, ActivityIndicator, Modal, StatusBar } from "react-native";
+import React from 'react';
+import { View, ActivityIndicator, Modal, StatusBar } from 'react-native';
+import { Text } from '@/components/ui/text';
 
 interface LoadingScreenProps {
   visible?: boolean;
@@ -9,7 +10,7 @@ interface LoadingScreenProps {
 
 const LoadingScreen: React.FC<LoadingScreenProps> = ({
   visible = true,
-  message = "Give us a moment...",
+  message = 'Give us a moment...',
   overlay = false,
 }) => {
   if (overlay) {
@@ -23,9 +24,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
         <View
           style={{
             flex: 1,
-            backgroundColor: "#ffffff",
-            justifyContent: "center",
-            alignItems: "center",
+            backgroundColor: '#ffffff',
+            justifyContent: 'center',
+            alignItems: 'center',
             paddingHorizontal: 20,
           }}
         >
@@ -35,9 +36,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
             style={{
               marginTop: 24,
               fontSize: 18,
-              color: "#6B9BD2",
-              textAlign: "center",
-              fontWeight: "400",
+              color: '#6B9BD2',
+              textAlign: 'center',
+              fontWeight: '400',
             }}
           >
             {message}
@@ -53,15 +54,15 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
     <View
       style={{
         flex: 1,
-        backgroundColor: "#ffffff",
+        backgroundColor: '#ffffff',
       }}
     >
       <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
       <View
         style={{
           flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: 'center',
+          alignItems: 'center',
           paddingHorizontal: 20,
         }}
       >
@@ -70,9 +71,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
           style={{
             marginTop: 24,
             fontSize: 18,
-            color: "#6B9BD2",
-            textAlign: "center",
-            fontWeight: "400",
+            color: '#6B9BD2',
+            textAlign: 'center',
+            fontWeight: '400',
           }}
         >
           {message}

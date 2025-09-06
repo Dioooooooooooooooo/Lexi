@@ -1,31 +1,32 @@
-import BackHeader from "@/components/BackHeader";
-import React, { useContext, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { TextArea } from "@/components/ui/textarea";
-import { router } from "expo-router";
-import { View, Image, TouchableOpacity, Text, ScrollView } from "react-native";
-import { Input } from "~/components/ui/input";
-import { Description } from "@rn-primitives/dialog";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createClassroom } from "@/services/ClassroomService";
-import { useClassroomStore } from "@/stores/classroomStore";
+import BackHeader from '@/components/BackHeader';
+import React, { useContext, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { TextArea } from '@/components/ui/textarea';
+import { router } from 'expo-router';
+import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { Input } from '~/components/ui/input';
+import { Description } from '@rn-primitives/dialog';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createClassroom } from '@/services/ClassroomService';
+import { useClassroomStore } from '@/stores/classroomStore';
 
 export default function CreateClassroom() {
-  console.log("hmmmmm?");
+  console.log('hmmmmm?');
   const setSelectedClassroom = useClassroomStore(
-    (state) => state.setSelectedClassroom
+    state => state.setSelectedClassroom,
   );
 
   const queryClient = useQueryClient();
   const [classroomForm, setClassroomForm] = useState({
-    name: "",
-    description: "",
+    name: '',
+    description: '',
   });
 
   const { mutateAsync: createClassroomMutation } = useMutation({
     mutationFn: createClassroom,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["classroomsData"] });
+      queryClient.invalidateQueries({ queryKey: ['classroomsData'] });
     },
   });
 
@@ -35,7 +36,9 @@ export default function CreateClassroom() {
         <View>
           <BackHeader />
           <View className="py-8">
-            <Text className="font-bold text-[22px]">Create Classroom</Text>
+            <Text className="font-poppins-bold text-[22px]">
+              Create Classroom
+            </Text>
             <Input
               placeholder="Classroom Name..."
               className="my-3"
@@ -67,7 +70,7 @@ export default function CreateClassroom() {
               setSelectedClassroom(classroom);
               router.replace(`/classroom/${classroom.id}`);
             } catch (error) {
-              console.error("Error creating classroom:", error);
+              console.error('Error creating classroom:', error);
             }
           }}
         >

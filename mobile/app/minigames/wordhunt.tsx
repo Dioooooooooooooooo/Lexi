@@ -1,20 +1,20 @@
-import { BackHandler, Pressable, ScrollView, Text, View } from "react-native";
-import React, { useCallback, useEffect } from "react";
+import { BackHandler, Pressable, ScrollView, Text, View } from 'react-native';
+import React, { useCallback, useEffect } from 'react';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
   withSequence,
   withTiming,
-} from "react-native-reanimated";
-import { CorrectSound, IncorrectSound } from "@/utils/sounds";
-import { Progress } from "@/components/ui/progress";
-import { Heart } from "lucide-react-native";
-import { useWordHuntMinigameStore } from "@/stores/miniGameStore";
-import { useMiniGameStore } from "@/stores/miniGameStore";
-import { Minigame, MinigameType } from "@/models/Minigame";
-import { useCreateMinigameLog } from "@/services/minigameService";
-import { useUserStore } from "@/stores/userStore";
+} from 'react-native-reanimated';
+import { CorrectSound, IncorrectSound } from '@/utils/sounds';
+import { Progress } from '@/components/ui/progress';
+import { Heart } from 'lucide-react-native';
+import { useWordHuntMinigameStore } from '@/stores/miniGameStore';
+import { useMiniGameStore } from '@/stores/miniGameStore';
+import { Minigame, MinigameType } from '@/models/Minigame';
+import { useCreateMinigameLog } from '@/services/minigameService';
+import { useUserStore } from '@/stores/userStore';
 
 function WordHuntBtn({
   word,
@@ -51,10 +51,10 @@ function WordHuntBtn({
         disabled={disabled}
         className={`items-center justify-center rounded-xl p-3 shadow-md ${
           isCorrect
-            ? "bg-greenCorrect"
+            ? 'bg-greenCorrect'
             : isIncorrect
-              ? "bg-redIncorrect"
-              : "bg-white"
+              ? 'bg-redIncorrect'
+              : 'bg-white'
         }`}
         style={{
           width: 92,
@@ -64,7 +64,7 @@ function WordHuntBtn({
         <Text
           numberOfLines={1}
           adjustsFontSizeToFit
-          className="font-bold text-lg text-center text-gray-800"
+          className="font-poppins-bold text-lg text-center text-gray-800"
         >
           {word}
         </Text>
@@ -81,7 +81,7 @@ export default function WordHunt({
   nextGame: () => void;
 }) {
   const { mutate: triggerCreateMinigameLog } = useCreateMinigameLog();
-  const userRole = useUserStore((state) => state.user?.role);
+  const userRole = useUserStore(state => state.user?.role);
 
   const {
     correctAnswers,
@@ -107,7 +107,7 @@ export default function WordHunt({
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
+      'hardwareBackPress',
       () => true,
     );
 
@@ -144,14 +144,14 @@ export default function WordHunt({
     if (correctAnswers.length === 0) return;
     if (
       lives <= 0 ||
-      correctAnswers.every((item) => correctAttempts.includes(item))
+      correctAnswers.every(item => correctAttempts.includes(item))
     ) {
       try {
         const score = correctAttempts.length;
 
-        console.log("Word Hunt Game Over");
+        console.log('Word Hunt Game Over');
 
-        if (userRole === "Pupil") {
+        if (userRole === 'Pupil') {
           const minigameLog = gameOver({
             score,
             correctAttempts,
@@ -160,7 +160,7 @@ export default function WordHunt({
           });
 
           if (!minigameLog) {
-            throw Error("Minigame Log is null");
+            throw Error('Minigame Log is null');
           }
 
           triggerCreateMinigameLog({
@@ -174,7 +174,7 @@ export default function WordHunt({
           resetGameState();
         }, 500);
       } catch (error) {
-        console.error("Error during Word Hunt game over logic: ", error);
+        console.error('Error during Word Hunt game over logic: ', error);
       }
     }
   }, [lives, correctAttempts]);

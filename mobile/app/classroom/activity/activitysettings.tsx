@@ -10,9 +10,9 @@ import { useClassroomStore } from '@/stores/classroomStore';
 import { useReadingAssignmentStore } from '@/stores/readingAssignmentStore';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
+import { Text } from '@/components/ui/text';
 import {
   View,
-  Text,
   Image,
   TouchableOpacity,
   ScrollView,
@@ -113,7 +113,9 @@ export default function activitysettings() {
               </View>
 
               <View className="flex flex-row items-center">
-                <Text className="font-bold">Switch activity to active?</Text>
+                <Text className="font-poppins-bold">
+                  Switch activity to active?
+                </Text>
                 <View style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}>
                   <Switch
                     onValueChange={activityStatus}

@@ -1,12 +1,12 @@
-import React, { memo, useEffect, useState, useCallback, useRef } from "react";
-import { router } from "expo-router";
+import React, { memo, useEffect, useState, useCallback, useRef } from 'react';
+import { router } from 'expo-router';
 import {
   useRecommendedStories,
   useStories,
-} from "@/services/ReadingMaterialService";
-import ReadingContent from "@/components/ReadingContent";
-import { useFocusEffect } from "@react-navigation/native";
-import { ReadingContentType } from "@/models/ReadingContent";
+} from '@/services/ReadingMaterialService';
+import ReadingContent from '@/components/ReadingContent';
+import { useFocusEffect } from '@react-navigation/native';
+import { ReadingContentType } from '@/models/ReadingContent';
 
 //Components
 import {
@@ -17,36 +17,36 @@ import {
   TouchableOpacity,
   View,
   Pressable,
-} from "react-native";
-import { Text } from "~/components/ui/text";
+} from 'react-native';
+import { Text } from '@/components/ui/text';
 
-import { useUserStore } from "@/stores/userStore";
-import { useReadingContentStore } from "@/stores/readingContentStore";
-import { HeaderSearchBar } from "@/components/HeaderSearchBar";
+import { useUserStore } from '@/stores/userStore';
+import { useReadingContentStore } from '@/stores/readingContentStore';
+import { HeaderSearchBar } from '@/components/HeaderSearchBar';
 
 function HomeScreen() {
   const { data: stories, isLoading: isStoriesLoading } = useStories();
   const [showStreak, setShowStreakModal] = useState(false);
-  const user = useUserStore((state) => state.user);
+  const user = useUserStore(state => state.user);
   const { data: recommendations } = useRecommendedStories(
-    user?.role === "Pupil" // ADDED: only pupils get recommendations
+    user?.role === 'Pupil', // ADDED: only pupils get recommendations
   );
-  const lastLoginStreak = useUserStore((state) => state.lastLoginStreak);
-  const setLastLoginStreak = useUserStore((state) => state.setLastLoginStreak);
+  const lastLoginStreak = useUserStore(state => state.lastLoginStreak);
+  const setLastLoginStreak = useUserStore(state => state.setLastLoginStreak);
   const setSelectedContent = useReadingContentStore(
-    (state) => state.setSelectedContent
+    state => state.setSelectedContent,
   );
 
   // Search state
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    const today = new Date().toISOString().split("T")[0];
-    console.log("TODAY", today, "LOGINTREAKS:", lastLoginStreak);
-    if (today !== lastLoginStreak && user?.role === "Pupil") {
+    const today = new Date().toISOString().split('T')[0];
+    console.log('TODAY', today, 'LOGINTREAKS:', lastLoginStreak);
+    if (today !== lastLoginStreak && user?.role === 'Pupil') {
       const timer = setTimeout(() => {
         setShowStreakModal(true);
         setLastLoginStreak(today);
@@ -58,7 +58,7 @@ function HomeScreen() {
 
   const performSearch = useCallback(
     (query: string) => {
-      if (query.trim() === "") {
+      if (query.trim() === '') {
         setSearchResults([]);
         setIsSearching(false);
         return;
@@ -68,7 +68,7 @@ function HomeScreen() {
 
       setIsSearching(true);
 
-      const filtered = stories.filter((story) => {
+      const filtered = stories.filter(story => {
         const matchesTitle = story.title
           .toLowerCase()
           .includes(query.trim().toLowerCase());
@@ -76,7 +76,7 @@ function HomeScreen() {
           ?.toLowerCase()
           .includes(query.trim().toLowerCase());
         const matchesGenre = story.genres?.some((genre: string) =>
-          genre.toLowerCase().includes(query.trim().toLowerCase())
+          genre.toLowerCase().includes(query.trim().toLowerCase()),
         );
 
         return matchesTitle || matchesAuthor || matchesGenre;
@@ -85,7 +85,7 @@ function HomeScreen() {
       setSearchResults(filtered);
       setIsSearching(false);
     },
-    [stories]
+    [stories],
   );
 
   useEffect(() => {
@@ -93,7 +93,7 @@ function HomeScreen() {
       clearTimeout(searchTimeoutRef.current);
     }
 
-    if (searchQuery.trim() === "") {
+    if (searchQuery.trim() === '') {
       setSearchResults([]);
       setIsSearching(false);
       return;
@@ -113,25 +113,25 @@ function HomeScreen() {
   useFocusEffect(
     useCallback(() => {
       return () => {
-        setSearchQuery("");
+        setSearchQuery('');
         setSearchResults([]);
       };
-    }, [])
+    }, []),
   );
 
-  const streak = useUserStore((state) => state.streak);
+  const streak = useUserStore(state => state.streak);
   const activeWeekdays = [true, true, true, false, false, false, false];
 
   const [screenWidth, setScreenWidth] = useState(
-    Dimensions.get("window").width
+    Dimensions.get('window').width,
   );
 
   useEffect(() => {
     const dimensionHandler = Dimensions.addEventListener(
-      "change",
+      'change',
       ({ window }) => {
         setScreenWidth(window.width);
-      }
+      },
     );
 
     return () => {
@@ -140,18 +140,18 @@ function HomeScreen() {
   }, []);
 
   const handleSearchFocus = () => {
-    console.log("Search focused");
+    console.log('Search focused');
   };
 
   const handleSearchBlur = () => {
-    console.log("Search blur");
+    console.log('Search blur');
   };
 
   const handleResultPress = (item: ReadingContentType) => {
-    console.log("Item selected:", item.id);
+    console.log('Item selected:', item.id);
 
     setSelectedContent(item);
-    setSearchQuery("");
+    setSearchQuery('');
     setSearchResults([]);
 
     router.push(`/content/${item.id}`);
@@ -162,7 +162,7 @@ function HomeScreen() {
   };
 
   const handleClearSearch = () => {
-    setSearchQuery("");
+    setSearchQuery('');
     setSearchResults([]);
     Keyboard.dismiss();
   };
@@ -170,7 +170,7 @@ function HomeScreen() {
   const imageWidth = Math.min(200, screenWidth * 0.4);
   const imageHeight = imageWidth;
 
-  const showSearchResults = searchQuery.trim() !== "";
+  const showSearchResults = searchQuery.trim() !== '';
 
   return (
     <View style={{ flex: 1 }}>
@@ -179,7 +179,7 @@ function HomeScreen() {
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
       >
-        <View style={{ position: "relative" }}>
+        <View style={{ position: 'relative' }}>
           <HeaderSearchBar
             user={user}
             streak={streak}
@@ -199,18 +199,18 @@ function HomeScreen() {
         {showSearchResults && (
           <View className="flex-1 w-full p-4">
             <View className="mb-4">
-              <Text className="text-lg font-semibold text-gray-600">
+              <Text className="text-lg font-poppins-semibold text-gray-600">
                 {isSearching
-                  ? "Searching..."
+                  ? 'Searching...'
                   : `${searchResults.length} result${
-                      searchResults.length !== 1 ? "s" : ""
+                      searchResults.length !== 1 ? 's' : ''
                     } for "${searchQuery}"`}
               </Text>
             </View>
 
             {isSearching ? (
               <View className="flex-1 items-center justify-center py-8">
-                <Text className="text-gray-500">Searching...</Text>
+                <Text className="text-gray-500 ">Searching...</Text>
               </View>
             ) : searchResults.length > 0 ? (
               <View className="flex flex-col gap-4">
@@ -233,10 +233,10 @@ function HomeScreen() {
               </View>
             ) : (
               <View className="flex-1 items-center justify-center py-8">
-                <Text className="text-gray-500 text-center">
+                <Text className="text-gray-500  text-center">
                   No stories found matching "{searchQuery}"
                 </Text>
-                <Text className="text-gray-400 text-center mt-2 text-sm">
+                <Text className="text-gray-400 text-center  mt-2 text-sm">
                   Try different keywords or check spelling
                 </Text>
               </View>
@@ -257,17 +257,17 @@ function HomeScreen() {
                   adjustsFontSizeToFit
                   style={{
                     padding: 12,
+                    fontFamily: 'Poppins-Bold',
                     fontSize: screenWidth < 400 ? 24 : 30,
-                    fontWeight: "bold",
-                    flexWrap: "wrap",
+                    flexWrap: 'wrap',
                   }}
-                  className="text-black"
+                  className="text-black font-poppins-bold"
                 >
                   Ready for a Journey?
                 </Text>
               </View>
               <Image
-                source={require("@/assets/images/woman-reading-2.png")}
+                source={require('@/assets/images/woman-reading-2.png')}
                 style={{
                   width: imageWidth,
                   height: imageHeight,
@@ -275,16 +275,19 @@ function HomeScreen() {
                 resizeMode="contain"
               />
             </View>
-            {user?.role === "Pupil" && (
+            {user?.role === 'Pupil' && (
               <View className="flex-1  w-full h-60 p-4">
-                <Text className="text-2xl px-4 font-bold">Recommended</Text>
+                <Text className="text-2xl px-4 font-poppins-bold">
+                  Recommended
+                </Text>
+
                 <ScrollView horizontal={true}>
                   {recommendations &&
                     recommendations.length > 0 &&
                     recommendations.map((r, index) => (
                       <View className="w-[90vw]" key={index}>
                         <ReadingContent
-                          type={"Recommended"}
+                          type={'Recommended'}
                           id={r.id}
                           content={r.content}
                           title={r.title}
@@ -301,13 +304,13 @@ function HomeScreen() {
             )}
 
             <View className="flex-1 gap-4 w-full p-8">
-              <Text className="text-2xl font-bold">Explore</Text>
+              <Text className="text-2xl font-poppins-bold">Explore</Text>
               {isStoriesLoading && <Text>Loading stories...</Text>}
               <View className="flex flex-row justify-between flex-wrap">
                 {!isStoriesLoading &&
                 Array.isArray(stories) &&
                 stories?.length > 0
-                  ? stories?.map((item) => (
+                  ? stories?.map(item => (
                       <View key={item.id}>
                         <ReadingContent
                           type="ScrollView"
@@ -323,7 +326,7 @@ function HomeScreen() {
                       </View>
                     ))
                   : !isStoriesLoading && (
-                      <Text className="text-gray-500">
+                      <Text className="text-gray-500 ">
                         No stories available.
                       </Text>
                     )}

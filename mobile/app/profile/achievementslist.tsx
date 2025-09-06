@@ -1,12 +1,12 @@
-import { AchievementDisplay } from "@/components/AchievementDisplay";
-import BackHeader from "@/components/BackHeader";
-import { Text } from "@/components/ui/text";
-import { Achievement } from "@/models/Achievement";
-import { useMiniGameStore } from "@/stores/miniGameStore";
-import { StyleSheet, ScrollView, View, Image } from "react-native";
+import { AchievementDisplay } from '@/components/AchievementDisplay';
+import BackHeader from '@/components/BackHeader';
+import { Text } from '@/components/ui/text';
+import { Achievement } from '@/models/Achievement';
+import { useMiniGameStore } from '@/stores/miniGameStore';
+import { StyleSheet, ScrollView, View, Image } from 'react-native';
 
 export default function achievementslist() {
-  const achievements = useMiniGameStore((state) => state.achievements);
+  const achievements = useMiniGameStore(state => state.achievements);
 
   return (
     <ScrollView className="bg-white">
@@ -16,11 +16,11 @@ export default function achievementslist() {
         </View>
         <View className="flex flex-row p-5">
           <View className="flex flex-col">
-            <Text className="text-[22px] font-bold">Achievements</Text>
+            <Text className="text-[22px] font-poppins-bold">Achievements</Text>
             <Text>Great Job!</Text>
           </View>
           <Image
-            source={require("@/assets/images/Juicy/Girl-party.png")}
+            source={require('@/assets/images/Juicy/Girl-party.png')}
             alt="Girl party"
             className="h-32"
           />

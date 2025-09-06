@@ -110,7 +110,7 @@ export function SetMinigameDropdown({
 
   return (
     <View className="flex flex-row items-center">
-      <Text className="font-bold mr-2">Set Minigame?</Text>
+      <Text className="font-poppins-bold mr-2">Set Minigame?</Text>
       <View className="flex flex-1">
         <Menu
           visible={visible}

@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
-import { Text } from "@/components/ui/text";
+import React, { useRef, useEffect, useState } from 'react';
+
 import {
   ScrollView,
   View,
@@ -13,11 +13,11 @@ import {
   TouchableWithoutFeedback,
   InteractionManager,
   NativeModules,
-} from "react-native";
-import SearchBar, { SearchBarRef } from "@/components/Classroom/SearchBar";
-import { Pupil } from "@/services/ClassroomService";
-import { Ionicons } from "@expo/vector-icons";
-import { displayPupilName, getRandomColor } from "@/utils/utils";
+} from 'react-native';
+import SearchBar, { SearchBarRef } from '@/components/Classroom/SearchBar';
+import { Pupil } from '@/services/ClassroomService';
+import { Ionicons } from '@expo/vector-icons';
+import { displayPupilName, getRandomColor } from '@/utils/utils';
 
 type AddPupilModalProps = {
   searchText: string;
@@ -35,9 +35,9 @@ type AddPupilModalProps = {
   onClose: () => void;
 };
 
-const { height, width } = Dimensions.get("window");
+const { height, width } = Dimensions.get('window');
 
-if (Platform.OS === "android") {
+if (Platform.OS === 'android') {
   if (Platform.Version >= 21) {
     if (NativeModules.AndroidKeyboardAdjust) {
       NativeModules.AndroidKeyboardAdjust.setAdjustNothing();
@@ -47,37 +47,37 @@ if (Platform.OS === "android") {
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
     zIndex: 1000,
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   backdrop: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    ...(Platform.OS === "ios"
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    ...(Platform.OS === 'ios'
       ? {
-          backdropFilter: "blur(5px)",
+          backdropFilter: 'blur(5px)',
         }
       : {}),
   },
   modalView: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: "90%",
-    backgroundColor: "white",
+    height: '90%',
+    backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: -3,
@@ -87,52 +87,52 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   handleContainer: {
-    width: "100%",
-    alignItems: "center",
+    width: '100%',
+    alignItems: 'center',
     paddingTop: 12,
     paddingBottom: 8,
   },
   handle: {
     width: 40,
     height: 5,
-    backgroundColor: "#DEDEDE",
+    backgroundColor: '#DEDEDE',
     borderRadius: 3,
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#EFEFEF",
+    borderBottomColor: '#EFEFEF',
   },
   headerTitleContainer: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
   },
   headerTitle: {
     fontSize: 17,
-    fontWeight: "600",
-    color: "#101010",
-    textAlign: "center",
+    fontWeight: '600',
+    color: '#101010',
+    textAlign: 'center',
   },
   cancelButtonContainer: {
     minWidth: 50,
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   cancelButton: {
     fontSize: 16,
-    color: "#2e1e39",
+    color: '#2e1e39',
   },
   addButtonContainer: {
     minWidth: 50,
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
   },
   addButton: {
     fontSize: 16,
-    color: "#2e1e39",
-    fontWeight: "600",
+    color: '#2e1e39',
+    fontWeight: '600',
   },
   searchContainer: {
     padding: 10,
@@ -148,116 +148,116 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   selectedPupilItem: {
-    alignItems: "center",
+    alignItems: 'center',
     width: 80,
     marginHorizontal: 4,
   },
   avatarContainer: {
-    position: "relative",
+    position: 'relative',
   },
   avatar: {
     height: 60,
     width: 60,
     borderRadius: 30,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   avatarText: {
-    color: "white",
+    color: 'white',
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   removeButton: {
-    position: "absolute",
+    position: 'absolute',
     top: -4,
     right: -4,
-    backgroundColor: "#D3D3D3",
+    backgroundColor: '#D3D3D3',
     borderRadius: 999,
     padding: 4,
     zIndex: 10,
   },
   pupilFirstName: {
-    color: "#000",
-    textAlign: "center",
+    color: '#000',
+    textAlign: 'center',
     marginTop: 4,
     fontSize: 12,
   },
   pupilLastName: {
-    color: "#000",
-    textAlign: "center",
+    color: '#000',
+    textAlign: 'center',
     fontSize: 12,
   },
   suggestedLabel: {
     fontSize: 16,
-    color: "#777",
-    fontWeight: "500",
+    color: '#777',
+    fontWeight: '500',
     paddingHorizontal: 16,
     marginBottom: 8,
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   scrollView: {
     flex: 1,
     maxHeight: height * 0.25,
   },
   pupilItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingVertical: 12,
     paddingHorizontal: 16,
   },
   pupilInfoContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   pupilAvatar: {
     height: 44,
     width: 44,
     borderRadius: 22,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginRight: 12,
   },
   pupilAvatarText: {
-    color: "white",
-    fontWeight: "bold",
+    color: 'white',
+    fontWeight: 'bold',
     fontSize: 16,
   },
   pupilName: {
     fontSize: 16,
-    color: "#000",
-    fontWeight: "500",
+    color: '#000',
+    fontWeight: '500',
   },
   selectionCircle: {
     height: 26,
     width: 26,
     borderRadius: 13,
     borderWidth: 1.5,
-    borderColor: "#999",
-    justifyContent: "center",
-    alignItems: "center",
+    borderColor: '#999',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   selectionCircleSelected: {
-    backgroundColor: "transparent",
-    borderColor: "#000",
+    backgroundColor: 'transparent',
+    borderColor: '#000',
   },
   divider: {
     height: 1,
-    backgroundColor: "#EFEFEF",
+    backgroundColor: '#EFEFEF',
     marginLeft: 72,
     marginRight: 16,
   },
   noResultsContainer: {
     padding: 16,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   noResultsText: {
-    color: "#777",
+    color: '#777',
     fontSize: 16,
   },
 });
@@ -281,22 +281,22 @@ export default function AddPupilModal({
   const [translateY] = useState(new Animated.Value(height));
 
   const keyboardDidShow = () => {
-    console.log("Keyboard did show jake angel");
+    console.log('Keyboard did show jake angel');
   };
 
   const keyboardDidHide = () => {
-    console.log("Keyboard did hide jake angel");
+    console.log('Keyboard did hide jake angel');
   };
 
   useEffect(() => {
     const keyboardWillShowListener = Keyboard.addListener(
-      Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow",
-      keyboardDidShow
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      keyboardDidShow,
     );
 
     const keyboardWillHideListener = Keyboard.addListener(
-      Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
-      keyboardDidHide
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      keyboardDidHide,
     );
 
     Animated.timing(translateY, {
@@ -347,7 +347,7 @@ export default function AddPupilModal({
           {
             transform: [{ translateY }],
             bottom: 0,
-            position: "absolute",
+            position: 'absolute',
             zIndex: 9999,
           },
         ]}
@@ -394,7 +394,7 @@ export default function AddPupilModal({
             onClearPress={() => {
               isClearing.current = true;
               Keyboard.dismiss();
-              setSearchText("");
+              setSearchText('');
 
               setTimeout(() => {
                 isClearing.current = false;
@@ -413,13 +413,13 @@ export default function AddPupilModal({
                 keyboardShouldPersistTaps="always"
                 keyboardDismissMode="none"
               >
-                {selectedPupils.map((pupil) => {
+                {selectedPupils.map(pupil => {
                   const avatarColor = getRandomColor(
-                    (pupil.firstName || "") + (pupil.lastName || "")
+                    (pupil.firstName || '') + (pupil.lastName || ''),
                   );
 
-                  const initials = `${pupil.firstName?.charAt(0) || ""}${
-                    pupil.lastName?.charAt(0) || ""
+                  const initials = `${pupil.firstName?.charAt(0) || ''}${
+                    pupil.lastName?.charAt(0) || ''
                   }`;
 
                   return (
@@ -438,7 +438,7 @@ export default function AddPupilModal({
                         <TouchableOpacity
                           style={styles.removeButton}
                           onPress={() =>
-                            handleRemoveSelectedPupil(pupil.id || "")
+                            handleRemoveSelectedPupil(pupil.id || '')
                           }
                           hitSlop={{
                             top: 10,
@@ -487,16 +487,16 @@ export default function AddPupilModal({
             >
               {filteredPupils.length > 0 ? (
                 <>
-                  {filteredPupils.map((pupil) => {
+                  {filteredPupils.map(pupil => {
                     const avatarColor = getRandomColor(
-                      (pupil.firstName || "") + (pupil.lastName || "")
+                      (pupil.firstName || '') + (pupil.lastName || ''),
                     );
 
-                    const initials = `${pupil.firstName?.charAt(0) || ""}${
-                      pupil.lastName?.charAt(0) || ""
+                    const initials = `${pupil.firstName?.charAt(0) || ''}${
+                      pupil.lastName?.charAt(0) || ''
                     }`;
                     const isSelected = selectedPupils.some(
-                      (p) => p.id === pupil.id
+                      p => p.id === pupil.id,
                     );
 
                     return (

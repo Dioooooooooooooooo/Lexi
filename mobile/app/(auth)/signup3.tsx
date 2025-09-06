@@ -1,17 +1,17 @@
-import { useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
-import Toast from "react-native-toast-message";
+import { useLocalSearchParams } from 'expo-router';
+import React, { useState } from 'react';
+import Toast from 'react-native-toast-message';
 
-import { router } from "expo-router";
-import { useRegisterFormContext } from "./_layout";
+import { router } from 'expo-router';
+import { useRegisterFormContext } from './_layout';
 
-import { useAuthStore } from "@/stores/authStore";
-import { useGlobalStore } from "@/stores/globalStore";
-import { useUserStore } from "@/stores/userStore";
+import { useAuthStore } from '@/stores/authStore';
+import { useGlobalStore } from '@/stores/globalStore';
+import { useUserStore } from '@/stores/userStore';
 
-import BackHeader from "@/components/BackHeader";
-import { Image, ScrollView, TouchableOpacity, View } from "react-native";
-import { Text } from "~/components/ui/text";
+import BackHeader from '@/components/BackHeader';
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Text } from '@/components/ui/text';
 
 export default function Step3() {
   const { fromProviderAuth } = useLocalSearchParams();
@@ -23,12 +23,12 @@ export default function Step3() {
     setProviderRegisterForm,
   } = useRegisterFormContext();
 
-  const updateProfile = useUserStore((state) => state.updateProfile);
+  const updateProfile = useUserStore(state => state.updateProfile);
 
-  const signup = useAuthStore((state) => state.signup);
+  const signup = useAuthStore(state => state.signup);
 
   const [isInvalid, setIsInvalid] = useState(false);
-  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
+  const setIsLoading = useGlobalStore(state => state.setIsLoading);
 
   const handleStep = async () => {
     const form = fromProviderAuth ? providerRegisterForm : registerForm;
@@ -45,20 +45,20 @@ export default function Step3() {
       } else {
         await signup(form); // Added missing await keyword!
       }
-      if (form.role === "Pupil") {
-        router.push("/signup4");
+      if (form.role === 'Pupil') {
+        router.push('/signup4');
       } else {
         Toast.show({
-          type: "success",
-          text1: "Registration Success",
+          type: 'success',
+          text1: 'Registration Success',
         });
-        router.push("/home");
+        router.push('/home');
       }
     } catch (error: any) {
       Toast.show({
-        type: "error",
-        text1: "Registration Failed.",
-        text2: error.message || "Unknown error occurred",
+        type: 'error',
+        text1: 'Registration Failed.',
+        text2: error.message || 'Unknown error occurred',
       });
     } finally {
       setIsLoading(false);
@@ -70,62 +70,62 @@ export default function Step3() {
       <View className="flex-1 gap-2 p-8 h-full justify-around">
         <BackHeader />
         <View>
-          <Text className="text-3xl font-bold">What role are you?</Text>
+          <Text className="text-3xl font-poppins-bold">What role are you?</Text>
         </View>
 
         <View className="flex gap-6">
           <TouchableOpacity
             className={`flex flex-col gap-4 items-center justify-center py-4 rounded-xl ${
-              registerForm.role === "Teacher" ||
-              providerRegisterForm.role === "Teacher"
-                ? "border-yellowOrange border-4 border-b-8"
-                : "border-lightGray border-2"
+              registerForm.role === 'Teacher' ||
+              providerRegisterForm.role === 'Teacher'
+                ? 'border-yellowOrange border-4 border-b-8'
+                : 'border-lightGray border-2'
             } border-b-4`}
             onPress={() => {
               if (fromProviderAuth) {
                 setProviderRegisterForm({
                   ...providerRegisterForm,
-                  role: "Teacher",
+                  role: 'Teacher',
                 });
               } else {
-                setRegisterForm({ ...registerForm, role: "Teacher" });
+                setRegisterForm({ ...registerForm, role: 'Teacher' });
               }
             }}
           >
             <Image
-              source={require("@/assets/images/roles/teacher.png")}
+              source={require('@/assets/images/roles/teacher.png')}
               // style={{ width: "100%", height: "100%" }}
               resizeMode="contain"
               alt=""
             />
-            <Text className="text-xl font-bold">Teacher</Text>
+            <Text className="text-xl font-poppins-bold">Teacher</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             className={`flex flex-col gap-4 items-center justify-center py-4 rounded-xl ${
-              registerForm.role === "Pupil" ||
-              providerRegisterForm.role === "Pupil"
-                ? "border-yellowOrange border-4 border-b-8"
-                : "border-lightGray border-2"
+              registerForm.role === 'Pupil' ||
+              providerRegisterForm.role === 'Pupil'
+                ? 'border-yellowOrange border-4 border-b-8'
+                : 'border-lightGray border-2'
             } border-b-4`}
             onPress={() => {
               if (fromProviderAuth) {
                 setProviderRegisterForm({
                   ...providerRegisterForm,
-                  role: "Pupil",
+                  role: 'Pupil',
                 });
               } else {
-                setRegisterForm({ ...registerForm, role: "Pupil" });
+                setRegisterForm({ ...registerForm, role: 'Pupil' });
               }
             }}
           >
             <Image
-              source={require("@/assets/images/roles/student.png")}
+              source={require('@/assets/images/roles/student.png')}
               // style={{ width: "100%", height: "100%" }}
               resizeMode="contain"
               alt=""
             />
-            <Text className="text-xl font-bold">Pupil</Text>
+            <Text className="text-xl font-poppins-bold">Pupil</Text>
           </TouchableOpacity>
           <TouchableOpacity
             className="bg-yellowOrange border border-dropShadowColor rounded-xl border-b-4 p-3 items-center"
@@ -133,7 +133,9 @@ export default function Step3() {
               handleStep();
             }}
           >
-            <Text className="text-black text-base font-bold">Continue</Text>
+            <Text className="text-black text-base font-poppins-bold">
+              Continue
+            </Text>
           </TouchableOpacity>
         </View>
         {isInvalid && (

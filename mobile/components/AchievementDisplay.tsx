@@ -1,6 +1,6 @@
-import { Text } from "@/components/ui/text";
-import { useGetCoverFromGDrive } from "@/hooks/useExtractDriveFileId";
-import { View, Image } from "react-native";
+import { Text } from '@/components/ui/text';
+import { useGetCoverFromGDrive } from '@/hooks/useExtractDriveFileId';
+import { View, Image } from 'react-native';
 
 export function AchievementDisplay({
   title,
@@ -19,7 +19,7 @@ export function AchievementDisplay({
         <Image source={{ uri: imageUrl }} className="h-[30px] w-[30px] mr-4 " />
       )}
       <View>
-        <Text className="font-bold text-lg">{title}</Text>
+        <Text className="font-poppins-bold text-lg">{title}</Text>
         <Text className="text-sm" numberOfLines={1} adjustsFontSizeToFit>
           {description}
         </Text>

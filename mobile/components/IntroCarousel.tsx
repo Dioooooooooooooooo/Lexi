@@ -1,16 +1,16 @@
-import { Circle } from "lucide-react-native";
-import { useState } from "react";
+import { Circle } from 'lucide-react-native';
+import { useState } from 'react';
 import {
   Dimensions,
   ScrollView,
   View,
   Image,
-  Text,
   NativeScrollEvent,
   NativeSyntheticEvent,
-} from "react-native";
+} from 'react-native';
+import { Text } from '@/components/ui/text';
 
-const { width: screenWidth } = Dimensions.get("window");
+const { width: screenWidth } = Dimensions.get('window');
 
 interface CarouselItem {
   text: string;
@@ -52,9 +52,9 @@ const IntroCarousel = ({ data }: IntroCarouselProps) => {
 
             <View>
               <Text
-                className="text-2xl font-bold leading-relaxed"
+                className="text-2xl font-poppins-bold leading-relaxed"
                 style={{
-                  flexWrap: "wrap",
+                  flexWrap: 'wrap',
                   paddingHorizontal: 20,
                 }}
               >
@@ -71,7 +71,7 @@ const IntroCarousel = ({ data }: IntroCarouselProps) => {
           <View
             key={index}
             className={`w-3 h-3 rounded-full mx-2 ${
-              index === activeIndex ? "bg-yellowOrange" : "bg-lightGray"
+              index === activeIndex ? 'bg-yellowOrange' : 'bg-lightGray'
             }`}
           />
         ))}
