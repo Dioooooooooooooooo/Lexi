@@ -12,7 +12,7 @@ const ChoicesBubble = ({
   onPress,
 }: {
   question: string;
-  choices: Choice[];
+  choices: any[];
   onPress: (msg: bubble, msgType: MessageTypeEnum) => void;
 }) => {
   const [isPressed, setIsPressed] = useState(false);

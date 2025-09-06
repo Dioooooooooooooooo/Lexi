@@ -69,7 +69,7 @@ export default function activity() {
       <View>
         <ClassroomHeader
           name={`${selectedClassroom?.name}`}
-          joinCode={`${selectedClassroom?.joinCode}`}
+          joinCode={`${selectedClassroom?.join_code}`}
         />
         <View className="p-8">
           <View className="flex flex-row">

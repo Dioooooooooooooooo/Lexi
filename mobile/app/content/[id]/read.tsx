@@ -14,6 +14,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { minigameProvider } from './minigameHandler';
+import { Message } from '@/types/message';
 
 const iconMap: Record<string, any> = {
   Story: require('@/assets/images/storyIcons/narrator.png'),
@@ -27,18 +28,13 @@ export function getIconSource(icon: string) {
   return iconMap[icon] || iconMap['Story'];
 }
 
-type Message = {
-  id: number;
-  type: MessageTypeEnum;
-  payload: bubble | choice | arrange;
-};
-
 const Read = () => {
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [chunkIndex, setChunkIndex] = useState(0);
   const [word, setWord] = useState<string | null>(null);
   const { data, isLoading } = useDictionary(word || '');
   const bubbleCount = useRef(0);
+  const minigameCount = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
   const { height: screenHeight } = useWindowDimensions();
   const selectedContent = useReadingContentStore(
@@ -63,35 +59,11 @@ const Read = () => {
         const match = chunk.match(/^\[(\w*)\](.+)|^(\$[A-Z]+\$)/s);
         if (!match) return null;
         const [, person, text] = match;
-        // if (chunk.includes('$MINIGAME')) {
-        //   const choicesBubble: Message = {
-        //     id: bubbleCount.current++,
-        //     type: MessageTypeEnum.CHOICES,
-        //     payload: {
-        //       question: 'r u sure fr?',
-        //       choices: [
-        //         { choice: 'basin', answer: true },
-        //         { choice: 'BAWAL', answer: false },
-        //         { choice: 'duka nako', answer: false },
-        //       ],
-        //       explanation: 'taysa',
-        //     },
-        //   };
-        //   return choicesBubble;
-        // } else if (chunk.includes('$MINIGAME_2$')) {
-        //   return {
-        //     id: bubbleCount.current++,
-        //     type: MessageTypeEnum.ARRANGE,
-        //     payload: {
-        //       correctAnswer: ['The spiders', 'were busy', 'last night frfr.'],
-        //       parts: ['last night frfr.', 'The spiders', 'were busy'],
-        //       explanation: 'hwaw',
-        //     },
-        //   } satisfies Message;
-        // }
-
         if (chunk.includes('$MINIGAME')) {
-          minigameProvider();
+          return minigameProvider(
+            minigameCount.current++,
+            bubbleCount.current++,
+          );
         }
 
         return {
@@ -217,6 +189,7 @@ const Read = () => {
                     msg.type === MessageTypeEnum.CHOICES
                     ? (() => {
                         const choicesPayload = msg.payload as choice;
+                        console.log(choicesPayload, 'huehuehui');
 
                         return (
                           <ChoicesBubble
@@ -229,10 +202,11 @@ const Read = () => {
                     : msg.type === MessageTypeEnum.ARRANGE
                       ? (() => {
                           const arrangePayload = msg.payload as arrange;
+                          console.log(arrangePayload, ':OOO');
 
                           return (
                             <SentenceArrangementBubble
-                              correctAnswer={arrangePayload.correctAnswer.join(
+                              correctAnswer={arrangePayload.correct_answer.join(
                                 '',
                               )}
                               partsblocks={arrangePayload.parts}
