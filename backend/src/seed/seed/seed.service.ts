@@ -4,6 +4,12 @@ import { Kysely } from 'kysely';
 import CompleteData from '../data/all_complete_data.json';
 import Achievements from '../data/achievements.json';
 import { ReadabilityService } from '@/app/reading-materials/readibility.service';
+import { Minigame, MinigameType } from '@/database/schemas';
+import { instanceToPlain } from 'class-transformer';
+import {
+  MinigameEnt,
+  WordsFromLettersGame,
+} from '@/app/minigames/entities/minigame.entity';
 
 const Genres = new Set<string>([
   'Adventure',
@@ -55,20 +61,21 @@ export class SeedService {
     const genreIdMap = new Map<string, string>();
     for (const gen of Genres) {
       const genre = await this.db
-        .insertInto('public.genres')
-        .values({ name: gen, created_at: new Date() })
-        .returning(['id', 'name'])
+        .selectFrom('public.genres')
+        .select(['id', 'name'])
+        .where('name', '=', gen)
         .executeTakeFirst();
-
-      // If inserted, use returned id; otherwise, fetch existing id
+      
+      // If existing, use returned id; otherwise, create  new genre
       if (genre) {
         genreIdMap.set(genre.name, genre.id);
       } else {
         const existing = await this.db
-          .selectFrom('public.genres')
-          .select(['id', 'name'])
-          .where('name', '=', gen)
+          .insertInto('public.genres')
+          .values({ name: gen, created_at: new Date() })
+          .returning(['id', 'name'])
           .executeTakeFirst();
+
         if (existing) genreIdMap.set(existing.name, existing.id);
       }
     }
@@ -106,13 +113,58 @@ export class SeedService {
         }
       }
 
-      for (const wfl of material.minigames.WordsFromLetters) {
-        await this.db.insertInto('public.minigames').values({
-          reading_material_id: readingMatId,
-        });
-      }
+      const wordsFromLetters = this.CreateMinigamesList(
+        material.minigames.WordsFromLetters,
+        MinigameType.WordsFromLetters,
+        readingMatId,
+      );
+
+      await this.db
+        .insertInto('public.minigames')
+        .values([...wordsFromLetters])
+        .execute();
     }
     console.log('Reading Materials Seeding Finished');
+  }
+
+  CreateMinigamesList(
+    items: object[],
+    minigameType: MinigameType,
+    readingMaterialID: string,
+  ) {
+    const maxScores = this.getMaxScore(minigameType, items);
+    return items.map((minigame, index) => {
+      const { part_num, ...rest } = minigame as any;
+
+      return {
+        reading_material_id: readingMaterialID,
+        minigame_type: minigameType,
+        part_num: part_num,
+        max_score: maxScores[index],
+        metadata: JSON.stringify(rest),
+      };
+    });
+  }
+
+  getMaxScore(minigameType: MinigameType, items: object[]): number[] {
+    const maxScores = [];
+
+    items.forEach(minigame => {
+      let score = 0;
+      switch (minigameType) {
+        case MinigameType.Choices:
+        case MinigameType.SentenceRearrangement:
+          score = 1;
+          break;
+        case MinigameType.WordsFromLetters:
+          const wfl = minigame as WordsFromLettersGame;
+          score = wfl.words.length;
+          break;
+      }
+      maxScores.push(score);
+    });
+
+    return maxScores;
   }
 
   async AchievementSeed() {
