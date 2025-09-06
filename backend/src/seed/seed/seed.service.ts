@@ -65,7 +65,7 @@ export class SeedService {
         .select(['id', 'name'])
         .where('name', '=', gen)
         .executeTakeFirst();
-      
+
       // If existing, use returned id; otherwise, create  new genre
       if (genre) {
         genreIdMap.set(genre.name, genre.id);
@@ -119,10 +119,33 @@ export class SeedService {
         readingMatId,
       );
 
-      await this.db
+      let sentenceRearrangement = [];
+      if (material.minigames.SentenceRearrangement) {
+        sentenceRearrangement = this.CreateMinigamesList(
+          material.minigames.SentenceRearrangement,
+          MinigameType.SentenceRearrangement,
+          readingMatId,
+        );
+      }
+
+      let choices = [];
+      if (material.minigames.Choices) {
+        const choices = this.CreateMinigamesList(
+          material.minigames.Choices,
+          MinigameType.Choices,
+          readingMatId,
+        );
+      }
+
+      const mgcount = await this.db
         .insertInto('public.minigames')
-        .values([...wordsFromLetters])
+        .values([...wordsFromLetters, ...sentenceRearrangement, ...choices])
+        .returning('id')
         .execute();
+
+      console.log(
+        `Successfully created RM: ${material.title} with minigames: ${mgcount.length}`,
+      );
     }
     console.log('Reading Materials Seeding Finished');
   }

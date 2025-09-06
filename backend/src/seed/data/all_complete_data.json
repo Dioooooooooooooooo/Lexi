@@ -864,6 +864,89 @@
             "mense"
           ]
         }
+      ],
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Chameleons",
+            "use color changes",
+            "to hide from danger"
+          ],
+          "parts": ["use color changes", "to hide from danger", "Chameleons"],
+          "explanation": "Chameleons change color as a way of hiding themselves."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["Chameleons in trees", "are often", "green"],
+          "parts": ["green", "are often", "Chameleons in trees"],
+          "explanation": "Tree-dwelling chameleons usually appear green to blend with leaves."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["Desert chameleons", "usually appear", "brown"],
+          "parts": ["usually appear", "Desert chameleons", "brown"],
+          "explanation": "Chameleons in desert regions are often brown to match their environment."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "Why do chameleons often appear green when living in trees?",
+          "choices": [
+            {
+              "choice": "To blend in with their leafy surroundings",
+              "answer": true
+            },
+            {
+              "choice": "Because all chameleons are naturally green",
+              "answer": false
+            },
+            {
+              "choice": "To scare away predators with their color",
+              "answer": false
+            }
+          ],
+          "explanation": "Tree-dwelling chameleons often appear green to camouflage themselves among leaves."
+        },
+        {
+          "part_num": 1,
+          "question": "What color do chameleons in desert lands usually turn?",
+          "choices": [
+            {
+              "choice": "Blue",
+              "answer": false
+            },
+            {
+              "choice": "Brown",
+              "answer": true
+            },
+            {
+              "choice": "Yellow",
+              "answer": false
+            }
+          ],
+          "explanation": "Desert-dwelling chameleons are usually brown to blend with sand and soil."
+        },
+        {
+          "part_num": 1,
+          "question": "Besides hiding, what is another reason chameleons change color?",
+          "choices": [
+            {
+              "choice": "To keep warm",
+              "answer": true
+            },
+            {
+              "choice": "To grow faster",
+              "answer": false
+            },
+            {
+              "choice": "To find food",
+              "answer": false
+            }
+          ],
+          "explanation": "Chameleons also change colors to regulate their body temperature."
+        }
       ]
     }
   },
@@ -2311,6 +2394,101 @@
             "pence"
           ]
         }
+      ],
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "The Philippine Eagle",
+            "became",
+            "the national bird"
+          ],
+          "parts": ["became", "the national bird", "The Philippine Eagle"],
+          "explanation": "The passage explains that the Philippine Eagle replaced the maya as the national bird."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "It",
+            "is one of",
+            "the largest eagles in the world"
+          ],
+          "parts": ["the largest eagles in the world", "is one of", "It"],
+          "explanation": "The passage describes the Philippine Eagle as among the three largest and strongest eagles in the world."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Hunting and deforestation",
+            "caused",
+            "their population to dwindle"
+          ],
+          "parts": [
+            "their population to dwindle",
+            "caused",
+            "Hunting and deforestation"
+          ],
+          "explanation": "The passage states that these human activities reduced the number of eagles."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "Why is the Philippine Eagle considered endangered?",
+          "choices": [
+            {
+              "choice": "Because of hunting and deforestation",
+              "answer": true
+            },
+            {
+              "choice": "Because they cannot fly well",
+              "answer": false
+            },
+            {
+              "choice": "Because they eat only rare animals",
+              "answer": false
+            }
+          ],
+          "explanation": "The passage explains that hunting and deforestation caused their numbers to decrease."
+        },
+        {
+          "part_num": 1,
+          "question": "What bird did the Philippine Eagle replace as the national bird?",
+          "choices": [
+            {
+              "choice": "The maya",
+              "answer": true
+            },
+            {
+              "choice": "The parrot",
+              "answer": false
+            },
+            {
+              "choice": "The peacock",
+              "answer": false
+            }
+          ],
+          "explanation": "The Philippine Eagle was declared the national bird, replacing the maya."
+        },
+        {
+          "part_num": 1,
+          "question": "How are scientists trying to increase the number of Philippine Eagles?",
+          "choices": [
+            {
+              "choice": "By breeding them in captivity",
+              "answer": true
+            },
+            {
+              "choice": "By feeding them more prey",
+              "answer": false
+            },
+            {
+              "choice": "By moving them to other countries",
+              "answer": false
+            }
+          ],
+          "explanation": "Scientists are attempting to save the species by breeding them in captivity."
+        }
       ]
     }
   },
@@ -3330,6 +3508,176 @@
           "letters": ["d", "a", "m", "a", "g", "e", "d"],
           "words": ["adage", "maaed", "madge", "gamed"]
         }
+      ],
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Coral reefs",
+            "are like",
+            "beautiful gardens underwater"
+          ],
+          "parts": ["beautiful gardens underwater", "are like", "Coral reefs"],
+          "explanation": "The passage compares coral reefs to beautiful gardens under the sea."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Millions of fish",
+            "find homes",
+            "in coral reefs"
+          ],
+          "parts": ["in coral reefs", "find homes", "Millions of fish"],
+          "explanation": "Coral reefs serve as homes for many fish."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["Small fish", "hide", "from larger predators"],
+          "parts": ["from larger predators", "Small fish", "hide"],
+          "explanation": "The passage explains that coral reefs protect small fish from predators."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Coral reefs",
+            "are like",
+            "beautiful gardens underwater"
+          ],
+          "parts": ["beautiful gardens underwater", "are like", "Coral reefs"],
+          "explanation": "The passage compares coral reefs to beautiful gardens under the sea."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Millions of fish",
+            "find homes",
+            "in coral reefs"
+          ],
+          "parts": ["in coral reefs", "find homes", "Millions of fish"],
+          "explanation": "Coral reefs serve as homes for many fish."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": ["Small fish", "hide", "from larger predators"],
+          "parts": ["from larger predators", "Small fish", "hide"],
+          "explanation": "The passage explains that coral reefs protect small fish from predators."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "Why are coral reefs important to small fish?",
+          "choices": [
+            {
+              "choice": "Because they provide shelter from predators",
+              "answer": true
+            },
+            {
+              "choice": "Because they make water less salty",
+              "answer": false
+            },
+            {
+              "choice": "Because they help fish swim faster",
+              "answer": false
+            }
+          ],
+          "explanation": "The passage says that coral reefs allow small fish to hide from larger predator fish."
+        },
+        {
+          "part_num": 1,
+          "question": "What do coral reefs resemble according to the passage?",
+          "choices": [
+            {
+              "choice": "Beautiful underground gardens",
+              "answer": true
+            },
+            {
+              "choice": "Mountains of stone",
+              "answer": false
+            },
+            {
+              "choice": "Large caves",
+              "answer": false
+            }
+          ],
+          "explanation": "The passage compares coral reefs to beautiful underground gardens in the sea."
+        },
+        {
+          "part_num": 1,
+          "question": "Why do millions of fish live in coral reefs?",
+          "choices": [
+            {
+              "choice": "Because reefs provide a safe sanctuary",
+              "answer": true
+            },
+            {
+              "choice": "Because reefs produce food for humans",
+              "answer": false
+            },
+            {
+              "choice": "Because reefs are the deepest parts of the ocean",
+              "answer": false
+            }
+          ],
+          "explanation": "The passage states that millions of fish live in reefs because they provide a safe sanctuary."
+        },
+        {
+          "part_num": 2,
+          "question": "Why are coral reefs important to small fish?",
+          "choices": [
+            {
+              "choice": "Because they provide shelter from predators",
+              "answer": true
+            },
+            {
+              "choice": "Because they make water less salty",
+              "answer": false
+            },
+            {
+              "choice": "Because they help fish swim faster",
+              "answer": false
+            }
+          ],
+          "explanation": "The passage says that coral reefs allow small fish to hide from larger predator fish."
+        },
+        {
+          "part_num": 2,
+          "question": "What do coral reefs resemble according to the passage?",
+          "choices": [
+            {
+              "choice": "Beautiful underground gardens",
+              "answer": true
+            },
+            {
+              "choice": "Mountains of stone",
+              "answer": false
+            },
+            {
+              "choice": "Large caves",
+              "answer": false
+            }
+          ],
+          "explanation": "The passage compares coral reefs to beautiful underground gardens in the sea."
+        },
+        {
+          "part_num": 2,
+          "question": "Why do millions of fish live in coral reefs?",
+          "choices": [
+            {
+              "choice": "Because reefs provide a safe sanctuary",
+              "answer": true
+            },
+            {
+              "choice": "Because reefs produce food for humans",
+              "answer": false
+            },
+            {
+              "choice": "Because reefs are the deepest parts of the ocean",
+              "answer": false
+            }
+          ],
+          "explanation": "The passage states that millions of fish live in reefs because they provide a safe sanctuary."
+        }
       ]
     }
   },
@@ -4145,6 +4493,105 @@
           "part_num": 10,
           "letters": ["a", "l", "e", "r", "t"],
           "words": ["artel", "taler", "ratel", "later", "alter", "alert"]
+        }
+      ],
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "A yawn",
+            "often shows",
+            "that a person feels drowsy"
+          ],
+          "parts": ["that a person feels drowsy", "often shows", "A yawn"],
+          "explanation": "This paraphrases the idea that yawning commonly happens when someone is sleepy."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "People may yawn",
+            "out of boredom,",
+            "not only from fatigue"
+          ],
+          "parts": [
+            "not only from fatigue",
+            "out of boredom,",
+            "People may yawn"
+          ],
+          "explanation": "The sentence reframes that boredom can also lead to yawning, not just tiredness."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Seeing someone yawn",
+            "can trigger",
+            "another person to yawn too"
+          ],
+          "parts": [
+            "another person to yawn too",
+            "can trigger",
+            "Seeing someone yawn"
+          ],
+          "explanation": "This restates the idea of yawns spreading from one person to another."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "Which situation best explains why a group might start yawning after one person does?",
+          "choices": [
+            {
+              "choice": "Yawns can spread from one person to others nearby",
+              "answer": true
+            },
+            {
+              "choice": "Spicy food makes everyone yawn at the same time",
+              "answer": false
+            },
+            {
+              "choice": "The room instantly loses all oxygen",
+              "answer": false
+            }
+          ],
+          "explanation": "The concept of contagious yawning explains why people yawn after seeing someone else yawn."
+        },
+        {
+          "part_num": 1,
+          "question": "Besides feeling drowsy, what feeling can also lead to yawning?",
+          "choices": [
+            {
+              "choice": "Boredom",
+              "answer": true
+            },
+            {
+              "choice": "Excitement",
+              "answer": false
+            },
+            {
+              "choice": "Thirst",
+              "answer": false
+            }
+          ],
+          "explanation": "The passage notes that boredom can also cause a person to yawn."
+        },
+        {
+          "part_num": 1,
+          "question": "What does a yawn usually signal about the body?",
+          "choices": [
+            {
+              "choice": "Lower alertness and a need for rest",
+              "answer": true
+            },
+            {
+              "choice": "Immediate hunger",
+              "answer": false
+            },
+            {
+              "choice": "A cold environment",
+              "answer": false
+            }
+          ],
+          "explanation": "Yawning commonly indicates reduced alertness related to sleepiness."
         }
       ]
     }
@@ -6011,6 +6458,101 @@
             "poort"
           ]
         }
+      ],
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Hearing a joke",
+            "commonly makes",
+            "people burst into laughter"
+          ],
+          "parts": [
+            "people burst into laughter",
+            "commonly makes",
+            "Hearing a joke"
+          ],
+          "explanation": "This conveys that laughter naturally follows when something is amusing."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "A good laugh",
+            "can lift our mood",
+            "when we feel down"
+          ],
+          "parts": ["when we feel down", "can lift our mood", "A good laugh"],
+          "explanation": "It restates that laughter helps us feel better when we are sad or worried."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Laughing",
+            "helps the body",
+            "loosen up and unwind"
+          ],
+          "parts": ["loosen up and unwind", "helps the body", "Laughing"],
+          "explanation": "This paraphrases the health benefit: laughter relaxes the body."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "Why might watching a funny movie improve someone\u2019s mood?",
+          "choices": [
+            {
+              "choice": "Laughter can ease feelings of sadness or worry",
+              "answer": true
+            },
+            {
+              "choice": "It adds more homework to focus on",
+              "answer": false
+            },
+            {
+              "choice": "It raises body temperature enough to stop sadness",
+              "answer": false
+            }
+          ],
+          "explanation": "The passage suggests laughter helps people feel better emotionally."
+        },
+        {
+          "part_num": 1,
+          "question": "Which statement describes laughter\u2019s effect on the body?",
+          "choices": [
+            {
+              "choice": "It promotes relaxation",
+              "answer": true
+            },
+            {
+              "choice": "It increases muscle tension",
+              "answer": false
+            },
+            {
+              "choice": "It quickly dehydrates the body",
+              "answer": false
+            }
+          ],
+          "explanation": "Laughter is described as relaxing, not tensing or dehydrating."
+        },
+        {
+          "part_num": 1,
+          "question": "When do people most naturally laugh?",
+          "choices": [
+            {
+              "choice": "When they encounter something amusing",
+              "answer": true
+            },
+            {
+              "choice": "When they count silently to ten",
+              "answer": false
+            },
+            {
+              "choice": "When they hold their breath",
+              "answer": false
+            }
+          ],
+          "explanation": "Laughter is a natural response to seeing or hearing something funny."
+        }
       ]
     }
   },
@@ -6024,6 +6566,66 @@
     "word_count": 162,
     "passage": "[]Anger is often viewed as harmful. []It does not only affect the person feeling this anger but those around him or her. []As these feelings get stronger, changes occur in our body. []Our faces turn red and carry a frown. Our teeth are clenched and our hands are closed tight. []Our breathing becomes heavy and this makes our heart beat faster. []Our shoulder and neck muscles become stiff and our blood pressure begins to rise. []All these things happen because our body is preparing for something. []It is preparing for action. []$MINIGAME_1$[]However, this action does not have to be harmful. []People are often guilty about feeling angry. []But, anger can be viewed positively. []Feelings of anger tell you that something is not right and that something needs to change. []The challenge lies in making sure that actions resulting from anger will help rather than harm. []$MINIGAME_2$[]Expressing our feelings can help others understand the source of our anger rather than fear its consequences.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": ["Anger", "makes the heart", "beat more quickly"],
+          "parts": ["makes the heart", "Anger", "beat more quickly"],
+          "explanation": "The passage describes how anger speeds up a person’s heartbeat."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "When someone is angry",
+            "the body",
+            "prepares to fight"
+          ],
+          "parts": ["the body", "prepares to fight", "When someone is angry"],
+          "explanation": "The body reacts to anger by tightening muscles and getting ready to fight."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Uncontrolled anger",
+            "can result",
+            "in violent actions"
+          ],
+          "parts": ["in violent actions", "Uncontrolled anger", "can result"],
+          "explanation": "The passage warns that anger may lead to violence if not managed."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "How does anger affect the body?",
+          "choices": [
+            { "choice": "It makes the heart beat faster", "answer": true },
+            { "choice": "It lowers blood pressure", "answer": false },
+            { "choice": "It causes the body to fall asleep", "answer": false }
+          ],
+          "explanation": "The text says anger speeds up heartbeat and breathing."
+        },
+        {
+          "part_num": 1,
+          "question": "What physical change happens when someone is angry?",
+          "choices": [
+            { "choice": "Muscles become tight", "answer": true },
+            { "choice": "The person starts laughing", "answer": false },
+            { "choice": "Muscles grow weaker", "answer": false }
+          ],
+          "explanation": "The passage notes that anger makes the muscles tense."
+        },
+        {
+          "part_num": 1,
+          "question": "What might happen if anger is not controlled?",
+          "choices": [
+            { "choice": "It can lead to violence", "answer": true },
+            { "choice": "It always leads to happiness", "answer": false },
+            { "choice": "It has no effect at all", "answer": false }
+          ],
+          "explanation": "The passage explains uncontrolled anger may turn into violence."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -7761,6 +8363,68 @@
     "word_count": 141,
     "passage": "[]We often say \"Sweet dreams,\" but have you ever wondered why we dream? []Some say that dreaming is our brain's way of exercising. []While we sleep, our brain may be testing the connections and pathways to see if they are working well. []Others believe that dreaming is our brain's way of sorting out problems. Problems that have not been addressed during the day are sometimes resolved in our sleep. []$MINIGAME_1$[]Yet another explanation is that dreaming is our brain's way of fixing and organizing all the information we have. []While sleeping, our brains have a chance to sort out the information that we want to keep from the stuff we no longer want. []Still another idea is that dreams are just another form of thinking. []$MINIGAME_2$[]Will we ever get to know the answer to this question? []Maybe we should sleep on it.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": ["Dreams", "are like", "stories in our sleep"],
+          "parts": ["stories in our sleep", "Dreams", "are like"],
+          "explanation": "Dreams are described as pictures or stories made by our minds at night."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["Dreams", "can be", "funny, scary, or strange"],
+          "parts": ["funny, scary, or strange", "Dreams", "can be"],
+          "explanation": "The passage lists different types of dreams."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Scientists believe",
+            "dreaming",
+            "helps process feelings"
+          ],
+          "parts": ["dreaming", "helps process feelings", "Scientists believe"],
+          "explanation": "The passage states that dreaming helps the brain process emotions and thoughts."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What are dreams compared to in the passage?",
+          "choices": [
+            {
+              "choice": "Pictures or stories created in sleep",
+              "answer": true
+            },
+            { "choice": "Television shows we watch at night", "answer": false },
+            { "choice": "Books we read before bed", "answer": false }
+          ],
+          "explanation": "The passage compares dreams to stories or pictures in our sleep."
+        },
+        {
+          "part_num": 1,
+          "question": "What kinds of dreams might people have?",
+          "choices": [
+            { "choice": "Funny, scary, or strange ones", "answer": true },
+            { "choice": "Only boring and plain ones", "answer": false },
+            { "choice": "Always happy ones", "answer": false }
+          ],
+          "explanation": "The text explains that dreams can be funny, scary, or unusual."
+        },
+        {
+          "part_num": 1,
+          "question": "According to scientists, why are dreams important?",
+          "choices": [
+            {
+              "choice": "They help the brain sort thoughts and emotions",
+              "answer": true
+            },
+            { "choice": "They predict the future", "answer": false },
+            { "choice": "They make us sleep longer", "answer": false }
+          ],
+          "explanation": "Dreams are said to help our brain process what we think and feel."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -9084,6 +9748,224 @@
     "word_count": 137,
     "passage": "[]The pieces of rocks that come from outer space have three names: meteor, meteorite, and meteoroid. []A meteoroid is a piece of matter moving in space. []It moves as fast as 40 miles a second. It may be large or small. []Most meteoroids are smaller than a grain of sand. []$MINIGAME_1$[]As a meteoroid comes into the air near the earth, it catches fire. []Most meteoroids burn up before they hit the earth. []The flash of light from the burning meteoroid is called a meteor. []$MINIGAME_2$[]If a piece of meteoroid falls to the ground, it is called a meteorite. []People have studied these rocks for many years. []They wanted to research ways to keep meteoroids from making holes in spacecrafts. Thick walls may help. []$MINIGAME_3$[]Or perhaps spacecrafts can be covered with a metal skin that will seal itself.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Space rocks",
+            "burn in the sky",
+            "and appear as meteors"
+          ],
+          "parts": ["burn in the sky", "and appear as meteors", "Space rocks"],
+          "explanation": "The passage explains that space rocks look like meteors when they burn in the atmosphere."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "A meteorite",
+            "is a space rock",
+            "that lands on Earth"
+          ],
+          "parts": ["that lands on Earth", "is a space rock", "A meteorite"],
+          "explanation": "Meteors that survive the fall are called meteorites."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "A meteor",
+            "is seen",
+            "as a bright streak of light"
+          ],
+          "parts": ["as a bright streak of light", "is seen", "A meteor"],
+          "explanation": "The burning of a rock is observed as a streak of light in the sky."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Meteorites",
+            "help scientists",
+            "understand the solar system"
+          ],
+          "parts": [
+            "understand the solar system",
+            "Meteorites",
+            "help scientists"
+          ],
+          "explanation": "The passage says scientists study meteorites to learn about space."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "By examining meteorites",
+            "researchers find",
+            "their age and materials"
+          ],
+          "parts": [
+            "their age and materials",
+            "By examining meteorites",
+            "researchers find"
+          ],
+          "explanation": "Meteorites reveal their age and what they are made of."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Clues about planets",
+            "and distant stars",
+            "come from meteorites"
+          ],
+          "parts": [
+            "and distant stars",
+            "come from meteorites",
+            "Clues about planets"
+          ],
+          "explanation": "Meteorites provide important knowledge about other celestial bodies."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Large meteorites",
+            "can cause",
+            "serious destruction on Earth"
+          ],
+          "parts": [
+            "serious destruction on Earth",
+            "Large meteorites",
+            "can cause"
+          ],
+          "explanation": "Big meteorites can damage the planet when they hit."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "A giant meteorite",
+            "may have caused",
+            "the dinosaurs to disappear"
+          ],
+          "parts": [
+            "the dinosaurs to disappear",
+            "may have caused",
+            "A giant meteorite"
+          ],
+          "explanation": "Scientists think a meteorite led to dinosaur extinction."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Meteorite impacts",
+            "sometimes change",
+            "life on Earth forever"
+          ],
+          "parts": [
+            "life on Earth forever",
+            "sometimes change",
+            "Meteorite impacts"
+          ],
+          "explanation": "The text suggests meteorites can drastically affect life on Earth."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What happens when space rocks enter the atmosphere?",
+          "choices": [
+            { "choice": "They burn and become meteors", "answer": true },
+            { "choice": "They freeze and turn into ice", "answer": false },
+            { "choice": "They bounce back into space", "answer": false }
+          ],
+          "explanation": "Burning rocks create meteors in the sky."
+        },
+        {
+          "part_num": 1,
+          "question": "When does a meteor become a meteorite?",
+          "choices": [
+            { "choice": "When it reaches Earth’s surface", "answer": true },
+            { "choice": "When it explodes in the air", "answer": false },
+            { "choice": "When it vanishes in the clouds", "answer": false }
+          ],
+          "explanation": "Meteorites are meteors that survive the fall."
+        },
+        {
+          "part_num": 1,
+          "question": "How do people usually see meteors?",
+          "choices": [
+            {
+              "choice": "As bright streaks of light in the sky",
+              "answer": true
+            },
+            { "choice": "As dark shadows on the ground", "answer": false },
+            { "choice": "As large objects floating in water", "answer": false }
+          ],
+          "explanation": "Meteors appear as glowing streaks when rocks burn."
+        },
+
+        {
+          "part_num": 2,
+          "question": "Why do scientists study meteorites?",
+          "choices": [
+            { "choice": "To learn about the solar system", "answer": true },
+            { "choice": "To use them for jewelry", "answer": false },
+            { "choice": "To melt them for fuel", "answer": false }
+          ],
+          "explanation": "Meteorites give scientists knowledge about space."
+        },
+        {
+          "part_num": 2,
+          "question": "What information can meteorites reveal?",
+          "choices": [
+            { "choice": "Their age and composition", "answer": true },
+            { "choice": "The names of planets", "answer": false },
+            { "choice": "The speed of light", "answer": false }
+          ],
+          "explanation": "Meteorites show how old they are and what materials they contain."
+        },
+        {
+          "part_num": 2,
+          "question": "What do meteorites give clues about?",
+          "choices": [
+            { "choice": "Planets and stars", "answer": true },
+            { "choice": "Rivers and forests", "answer": false },
+            { "choice": "Mountains and oceans", "answer": false }
+          ],
+          "explanation": "They provide information about celestial bodies."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What can happen if a large meteorite hits Earth?",
+          "choices": [
+            { "choice": "It can cause massive destruction", "answer": true },
+            { "choice": "It makes the Earth spin faster", "answer": false },
+            { "choice": "It creates new oceans instantly", "answer": false }
+          ],
+          "explanation": "The passage explains that meteorites can cause serious damage."
+        },
+        {
+          "part_num": 3,
+          "question": "What do some scientists believe caused the dinosaurs’ extinction?",
+          "choices": [
+            { "choice": "A giant meteorite impact", "answer": true },
+            { "choice": "A shortage of food", "answer": false },
+            { "choice": "Too much rainfall", "answer": false }
+          ],
+          "explanation": "A meteorite impact is one theory about dinosaur extinction."
+        },
+        {
+          "part_num": 3,
+          "question": "Why are meteorite impacts important in Earth’s history?",
+          "choices": [
+            {
+              "choice": "They can change life on Earth drastically",
+              "answer": true
+            },
+            { "choice": "They always make the Earth colder", "answer": false },
+            { "choice": "They create new continents", "answer": false }
+          ],
+          "explanation": "The passage says meteorites can forever change life on Earth."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -9991,6 +10873,199 @@
     "word_count": 140,
     "passage": "[]Beetles can adapt to any kind of environment. []They can be found crawling, burrowing, flying, and swimming on every part of the earth except the ocean. []Why do beetles survive well on our planet? []First, they have tough compact bodies. []These help them hide, find food, and lay eggs in places where other insects could never go. []$MINIGAME_1$[]Almost all beetles have tough front wings which are colorful and carry beautiful patterns. []These wings also act as suit of armor to protect the beetles' transparent hind wings which are used for flying. []$MINIGAME_2$[]Beetles have mouth parts designed for chewing different food. []They eat other insects, animal dung, and even cloth. They also feed on the bark, leaves, flowers, and fruits of any kind of plant. []They can even chew around the stems of poisonous plants to let the deadly sap drain.[]$MINIGAME_3$",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Beetles",
+            "have hard shells",
+            "that protect their backs"
+          ],
+          "parts": ["that protect their backs", "Beetles", "have hard shells"],
+          "explanation": "Beetles are described as insects with strong protective shells."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["Beetles", "live", "almost everywhere on Earth"],
+          "parts": ["almost everywhere on Earth", "Beetles", "live"],
+          "explanation": "The passage highlights beetles’ wide distribution."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Some beetles",
+            "help plants",
+            "by eating harmful pests"
+          ],
+          "parts": ["by eating harmful pests", "Some beetles", "help plants"],
+          "explanation": "Certain beetles protect crops by feeding on pests."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Beetles",
+            "have been studied",
+            "for many centuries"
+          ],
+          "parts": ["for many centuries", "Beetles", "have been studied"],
+          "explanation": "The text mentions beetles have been observed for hundreds of years."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Beetles",
+            "belong to",
+            "one of the largest animal groups"
+          ],
+          "parts": ["one of the largest animal groups", "Beetles", "belong to"],
+          "explanation": "Beetles are one of the largest groups of animals."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Thousands",
+            "of beetle species",
+            "exist worldwide"
+          ],
+          "parts": ["exist worldwide", "Thousands", "of beetle species"],
+          "explanation": "The passage says beetles include thousands of species."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Some beetles",
+            "are used",
+            "in scientific research"
+          ],
+          "parts": ["in scientific research", "Some beetles", "are used"],
+          "explanation": "The passage states beetles can be useful in research."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "People",
+            "admire beetles",
+            "for their colorful shells"
+          ],
+          "parts": ["for their colorful shells", "People", "admire beetles"],
+          "explanation": "Beetles are sometimes valued for their bright shells."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Beetles",
+            "provide benefits",
+            "to humans in many ways"
+          ],
+          "parts": ["to humans in many ways", "Beetles", "provide benefits"],
+          "explanation": "The text says beetles can be helpful in different ways."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What feature makes beetles stand out from many other insects?",
+          "choices": [
+            {
+              "choice": "They have hard shells on their backs",
+              "answer": true
+            },
+            { "choice": "They have feathers", "answer": false },
+            { "choice": "They always glow at night", "answer": false }
+          ],
+          "explanation": "Beetles are identified by their protective back shells."
+        },
+        {
+          "part_num": 1,
+          "question": "Where can beetles be found?",
+          "choices": [
+            { "choice": "In almost every part of the world", "answer": true },
+            { "choice": "Only in deserts", "answer": false },
+            { "choice": "Only in oceans", "answer": false }
+          ],
+          "explanation": "The passage says beetles live almost everywhere."
+        },
+        {
+          "part_num": 1,
+          "question": "How do some beetles help plants?",
+          "choices": [
+            { "choice": "By eating harmful insects", "answer": true },
+            { "choice": "By watering them daily", "answer": false },
+            { "choice": "By carrying seeds to new places", "answer": false }
+          ],
+          "explanation": "Some beetles help crops by eating pests."
+        },
+
+        {
+          "part_num": 2,
+          "question": "How long have people been studying beetles?",
+          "choices": [
+            { "choice": "For hundreds of years", "answer": true },
+            { "choice": "For only ten years", "answer": false },
+            { "choice": "Since last month", "answer": false }
+          ],
+          "explanation": "The passage says beetles have been studied for centuries."
+        },
+        {
+          "part_num": 2,
+          "question": "Why are beetles considered one of the largest animal groups?",
+          "choices": [
+            { "choice": "They include thousands of species", "answer": true },
+            { "choice": "They are heavier than mammals", "answer": false },
+            { "choice": "They live longer than birds", "answer": false }
+          ],
+          "explanation": "Beetles are extremely diverse, with thousands of species."
+        },
+        {
+          "part_num": 2,
+          "question": "What does the passage say about beetle diversity?",
+          "choices": [
+            {
+              "choice": "There are thousands of different species",
+              "answer": true
+            },
+            { "choice": "There is only one type of beetle", "answer": false },
+            { "choice": "They are all identical in color", "answer": false }
+          ],
+          "explanation": "Beetles are diverse, with many species worldwide."
+        },
+
+        {
+          "part_num": 3,
+          "question": "How are beetles used in science?",
+          "choices": [
+            { "choice": "Some are studied in research", "answer": true },
+            { "choice": "They are used as fuel", "answer": false },
+            { "choice": "They are taught to sing", "answer": false }
+          ],
+          "explanation": "The text explains beetles can be used in research."
+        },
+        {
+          "part_num": 3,
+          "question": "Why do some people admire beetles?",
+          "choices": [
+            { "choice": "Because of their colorful shells", "answer": true },
+            { "choice": "Because they can talk", "answer": false },
+            { "choice": "Because they glow like lamps", "answer": false }
+          ],
+          "explanation": "Beetles are admired for their beautiful shells."
+        },
+        {
+          "part_num": 3,
+          "question": "What does the passage say about beetles’ usefulness?",
+          "choices": [
+            {
+              "choice": "They can benefit humans in different ways",
+              "answer": true
+            },
+            { "choice": "They are only harmful to crops", "answer": false },
+            { "choice": "They have no value to people", "answer": false }
+          ],
+          "explanation": "Beetles can be helpful in science and admired for beauty."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -11049,6 +12124,254 @@
     "word_count": 141,
     "passage": "[]Many things around us move at different rates. []Glaciers, which are frozen rivers of snow, move less than one foot in a day. []A box turtle travels about ten feet per minute, while a snail travels five inches per hour. []$MINIGAME_1$[]A chimney swift flies almost ninety miles per hour. []This is the fastest speed recorded for any living creature. []$MINIGAME_2$[]A hydroplane skims across the top of the water at nearly 300 miles an hour. []Some racing cars travel more than 500 miles per hour. []The wind in a tornado may move at 600 miles per hour but sound waves are faster with a speed of up to 740 miles per hour. []$MINIGAME_3$[]The Earth moves around the sun at 67,000 miles per hour. []At 186,000 miles per second, light is faster! []Science has yet to discover anything that would surpass this speed.[]$MINIGAME_4$",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": ["Cheetahs", "are the fastest", "animals on land"],
+          "parts": ["animals on land", "Cheetahs", "are the fastest"],
+          "explanation": "The text says cheetahs are the fastest land animals."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["A cheetah", "can run", "up to 70 miles per hour"],
+          "parts": ["up to 70 miles per hour", "A cheetah", "can run"],
+          "explanation": "The passage describes the cheetah’s top speed."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Their speed",
+            "lasts only",
+            "for short distances"
+          ],
+          "parts": ["for short distances", "Their speed", "lasts only"],
+          "explanation": "Cheetahs can only maintain high speeds briefly."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": ["Cheetahs", "chase prey", "like antelopes"],
+          "parts": ["chase prey", "Cheetahs", "like antelopes"],
+          "explanation": "The passage says cheetahs use speed to hunt antelopes."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "They sneak close",
+            "before",
+            "sprinting after animals"
+          ],
+          "parts": ["before", "sprinting after animals", "They sneak close"],
+          "explanation": "Cheetahs approach quietly before sprinting to hunt."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Their hunting method",
+            "is to stalk",
+            "and then dash quickly"
+          ],
+          "parts": [
+            "and then dash quickly",
+            "Their hunting method",
+            "is to stalk"
+          ],
+          "explanation": "They stalk prey, then sprint to catch it."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Cheetahs",
+            "cannot run",
+            "at full speed for long"
+          ],
+          "parts": ["at full speed for long", "Cheetahs", "cannot run"],
+          "explanation": "The text says cheetahs tire quickly at top speed."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": ["After chasing", "they must", "rest and recover"],
+          "parts": ["rest and recover", "After chasing", "they must"],
+          "explanation": "Cheetahs need rest after high-speed runs."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Running too fast",
+            "makes cheetahs",
+            "tired quickly"
+          ],
+          "parts": ["tired quickly", "Running too fast", "makes cheetahs"],
+          "explanation": "The passage explains they tire soon after sprinting."
+        },
+
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "Young cheetahs",
+            "watch their mothers",
+            "to learn hunting skills"
+          ],
+          "parts": [
+            "watch their mothers",
+            "to learn hunting skills",
+            "Young cheetahs"
+          ],
+          "explanation": "The text says cubs learn by observing mothers hunt."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "Cubs",
+            "practice chasing",
+            "small animals to improve"
+          ],
+          "parts": ["Cubs", "practice chasing", "small animals to improve"],
+          "explanation": "Young cheetahs train by chasing smaller prey."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "They",
+            "get better at hunting",
+            "through practice"
+          ],
+          "parts": ["They", "get better at hunting", "through practice"],
+          "explanation": "The passage explains young cheetahs improve by practicing."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "How fast can a cheetah run?",
+          "choices": [
+            { "choice": "Up to 70 miles per hour", "answer": true },
+            { "choice": "Up to 20 miles per hour", "answer": false },
+            { "choice": "Over 200 miles per hour", "answer": false }
+          ],
+          "explanation": "Cheetahs can sprint at about 70 mph for short bursts."
+        },
+        {
+          "part_num": 1,
+          "question": "What makes cheetahs special compared to other animals?",
+          "choices": [
+            { "choice": "They are the fastest land animals", "answer": true },
+            { "choice": "They can fly short distances", "answer": false },
+            { "choice": "They never get tired", "answer": false }
+          ],
+          "explanation": "The passage says cheetahs are the fastest animals on land."
+        },
+        {
+          "part_num": 1,
+          "question": "For how long can cheetahs maintain top speed?",
+          "choices": [
+            { "choice": "Only for short distances", "answer": true },
+            { "choice": "For many hours", "answer": false },
+            { "choice": "Until they fall asleep", "answer": false }
+          ],
+          "explanation": "Their speed is limited to short bursts."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What do cheetahs usually hunt?",
+          "choices": [
+            { "choice": "Antelopes and similar prey", "answer": true },
+            { "choice": "Whales in the ocean", "answer": false },
+            { "choice": "Birds in the sky", "answer": false }
+          ],
+          "explanation": "The passage says cheetahs chase antelopes."
+        },
+        {
+          "part_num": 2,
+          "question": "How do cheetahs begin their hunt?",
+          "choices": [
+            { "choice": "By sneaking close to prey", "answer": true },
+            { "choice": "By roaring loudly first", "answer": false },
+            { "choice": "By chasing from far away", "answer": false }
+          ],
+          "explanation": "They stalk prey quietly before sprinting."
+        },
+        {
+          "part_num": 2,
+          "question": "What is the final step of their hunting method?",
+          "choices": [
+            { "choice": "A fast sprint to catch prey", "answer": true },
+            { "choice": "Building a trap", "answer": false },
+            { "choice": "Digging a hole", "answer": false }
+          ],
+          "explanation": "Cheetahs rely on a quick dash to secure prey."
+        },
+
+        {
+          "part_num": 3,
+          "question": "Why can’t cheetahs keep running at top speed?",
+          "choices": [
+            { "choice": "They get tired quickly", "answer": true },
+            { "choice": "They prefer to walk slowly", "answer": false },
+            { "choice": "They lose interest in chasing", "answer": false }
+          ],
+          "explanation": "The text says they tire quickly after sprinting."
+        },
+        {
+          "part_num": 3,
+          "question": "What do cheetahs do after chasing prey?",
+          "choices": [
+            { "choice": "They rest and recover", "answer": true },
+            {
+              "choice": "They start another hunt immediately",
+              "answer": false
+            },
+            { "choice": "They swim to cool off", "answer": false }
+          ],
+          "explanation": "Cheetahs need to rest after high-speed chases."
+        },
+        {
+          "part_num": 3,
+          "question": "What limits the cheetah’s hunting style?",
+          "choices": [
+            {
+              "choice": "Their speed can only be used briefly",
+              "answer": true
+            },
+            { "choice": "They cannot see their prey clearly", "answer": false },
+            { "choice": "They forget where prey is hiding", "answer": false }
+          ],
+          "explanation": "Their fast sprints cannot be sustained for long."
+        },
+
+        {
+          "part_num": 4,
+          "question": "How do young cheetahs learn to hunt?",
+          "choices": [
+            { "choice": "By watching their mothers", "answer": true },
+            { "choice": "By reading about hunting", "answer": false },
+            { "choice": "By being taught by lions", "answer": false }
+          ],
+          "explanation": "The passage says cubs learn by observing their mothers."
+        },
+        {
+          "part_num": 4,
+          "question": "What do young cheetahs practice on?",
+          "choices": [
+            { "choice": "Chasing small animals", "answer": true },
+            { "choice": "Fishing in rivers", "answer": false },
+            { "choice": "Climbing tall trees", "answer": false }
+          ],
+          "explanation": "They train by chasing small prey until they improve."
+        },
+        {
+          "part_num": 4,
+          "question": "How do cubs get better at hunting?",
+          "choices": [
+            { "choice": "Through practice over time", "answer": true },
+            { "choice": "By running without food", "answer": false },
+            { "choice": "By sleeping more often", "answer": false }
+          ],
+          "explanation": "They improve by practicing hunting repeatedly."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -12081,6 +13404,222 @@
     "word_count": 139,
     "passage": "[]There are rocks in our Solar System that never flocked together to form planets. []Larger ones called asteroids gather in the Asteroid Belt, a strip found between Mars and Jupiter. []Some asteroids don't move along this belt but have paths that bring them close to the earth. []These are called Apollo Asteroids. []$MINIGAME_1$[]There may be half a million asteroids whose diameters are bigger than one kilometer. []The largest asteroid is over 1000 kilometers across. []It is speculated that many asteroids were once larger but they collided with each other and became small fragments. []$MINIGAME_2$[]Unlike asteroids, meteoroids are small rocky bodies, that are scattered in space and do not orbit the sun. []They cross the Earth's orbit and are often seen burning up in the Earth's atmosphere at night. []$MINIGAME_3$[]The faint flashes of light they make are called shooting stars.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Asteroids",
+            "are big rocks",
+            "that travel around the sun"
+          ],
+          "parts": ["that travel around the sun", "Asteroids", "are big rocks"],
+          "explanation": "The text explains that asteroids are rocky objects orbiting the sun."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Asteroids",
+            "are smaller than planets",
+            "but bigger than meteors"
+          ],
+          "parts": [
+            "but bigger than meteors",
+            "Asteroids",
+            "are smaller than planets"
+          ],
+          "explanation": "The passage compares the sizes of asteroids, planets, and meteors."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Most asteroids",
+            "are located",
+            "between Mars and Jupiter"
+          ],
+          "parts": [
+            "between Mars and Jupiter",
+            "Most asteroids",
+            "are located"
+          ],
+          "explanation": "The asteroid belt lies between Mars and Jupiter."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": ["Sometimes", "asteroids come", "close to Earth"],
+          "parts": ["asteroids come", "close to Earth", "Sometimes"],
+          "explanation": "The passage says asteroids occasionally pass near Earth."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": ["Scientists", "keep watch", "to check for danger"],
+          "parts": ["keep watch", "to check for danger", "Scientists"],
+          "explanation": "Scientists monitor asteroids to see if they pose a risk."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Asteroids",
+            "can be a risk",
+            "if they approach Earth"
+          ],
+          "parts": ["Asteroids", "can be a risk", "if they approach Earth"],
+          "explanation": "Asteroids that come close might threaten Earth."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": ["Long ago", "large asteroids", "struck the Earth"],
+          "parts": ["large asteroids", "struck the Earth", "Long ago"],
+          "explanation": "The text mentions that big asteroids hit Earth in the past."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Asteroid impacts",
+            "changed Earth’s surface",
+            "and its life"
+          ],
+          "parts": [
+            "changed Earth’s surface",
+            "and its life",
+            "Asteroid impacts"
+          ],
+          "explanation": "Impacts affected both the land and living things."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Collisions with asteroids",
+            "had major effects",
+            "on the planet"
+          ],
+          "parts": [
+            "on the planet",
+            "Collisions with asteroids",
+            "had major effects"
+          ],
+          "explanation": "The impacts shaped Earth’s history and environment."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What are asteroids?",
+          "choices": [
+            {
+              "choice": "Large rocky objects that orbit the sun",
+              "answer": true
+            },
+            { "choice": "Tiny drops of water in space", "answer": false },
+            { "choice": "Balls of fire floating near Earth", "answer": false }
+          ],
+          "explanation": "The text explains asteroids are rocks orbiting the sun."
+        },
+        {
+          "part_num": 1,
+          "question": "How are asteroids different from planets and meteors?",
+          "choices": [
+            {
+              "choice": "They are smaller than planets but bigger than meteors",
+              "answer": true
+            },
+            { "choice": "They are the same size as Earth", "answer": false },
+            {
+              "choice": "They are smaller than dust particles",
+              "answer": false
+            }
+          ],
+          "explanation": "The passage compares their size to planets and meteors."
+        },
+        {
+          "part_num": 1,
+          "question": "Where are most asteroids found?",
+          "choices": [
+            {
+              "choice": "In the belt between Mars and Jupiter",
+              "answer": true
+            },
+            { "choice": "In the middle of Earth’s oceans", "answer": false },
+            { "choice": "Floating above the North Pole", "answer": false }
+          ],
+          "explanation": "Most are in the asteroid belt between Mars and Jupiter."
+        },
+
+        {
+          "part_num": 2,
+          "question": "Why do scientists watch asteroids closely?",
+          "choices": [
+            { "choice": "To see if they might be dangerous", "answer": true },
+            { "choice": "To count how many are shiny", "answer": false },
+            {
+              "choice": "To see if they can turn into planets",
+              "answer": false
+            }
+          ],
+          "explanation": "Asteroids are monitored to ensure they aren’t a threat."
+        },
+        {
+          "part_num": 2,
+          "question": "What sometimes happens with asteroids?",
+          "choices": [
+            { "choice": "They pass close to Earth", "answer": true },
+            { "choice": "They fall into volcanoes", "answer": false },
+            { "choice": "They orbit around the moon", "answer": false }
+          ],
+          "explanation": "The passage says asteroids sometimes pass near Earth."
+        },
+        {
+          "part_num": 2,
+          "question": "What danger could asteroids pose?",
+          "choices": [
+            { "choice": "They might collide with Earth", "answer": true },
+            { "choice": "They could melt the sun", "answer": false },
+            {
+              "choice": "They could freeze the oceans instantly",
+              "answer": false
+            }
+          ],
+          "explanation": "Asteroids near Earth can become dangerous if they strike."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What happened in the past with large asteroids?",
+          "choices": [
+            { "choice": "They struck Earth", "answer": true },
+            { "choice": "They turned into new moons", "answer": false },
+            { "choice": "They vanished into the sun", "answer": false }
+          ],
+          "explanation": "The passage explains that large asteroids hit Earth long ago."
+        },
+        {
+          "part_num": 3,
+          "question": "What effects did asteroid impacts have?",
+          "choices": [
+            {
+              "choice": "They changed Earth’s surface and life",
+              "answer": true
+            },
+            { "choice": "They created the first humans", "answer": false },
+            { "choice": "They made Earth spin backwards", "answer": false }
+          ],
+          "explanation": "Collisions shaped the planet’s land and affected life."
+        },
+        {
+          "part_num": 3,
+          "question": "Why are asteroid impacts important in Earth’s history?",
+          "choices": [
+            { "choice": "They caused major changes on Earth", "answer": true },
+            {
+              "choice": "They always bring gold to the surface",
+              "answer": false
+            },
+            { "choice": "They turn deserts into oceans", "answer": false }
+          ],
+          "explanation": "Asteroid impacts had dramatic effects on Earth’s history."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -14682,6 +16221,62 @@
     "word_count": 43,
     "passage": "[]A seashell is a palace.[]Where many echoes dwell, and when I listen to them, I know them quite well.[]They are like the ocean's roar. Where the sea shells buried deep. []$MINIGAME_1$[]Learns why the sea is always salty, and spooky shadows creep.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "A palace",
+            "is a grand home",
+            "for kings or queens"
+          ],
+          "parts": ["for kings or queens", "A palace", "is a grand home"],
+          "explanation": "The passage explains that palaces are grand residences for royalty."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["Palaces", "are decorated", "with rich designs"],
+          "parts": ["Palaces", "are decorated", "with rich designs"],
+          "explanation": "The text says palaces are often filled with decoration."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["A palace", "shows", "wealth and power"],
+          "parts": ["shows", "A palace", "wealth and power"],
+          "explanation": "The passage states palaces symbolize wealth and power."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "Who usually lives in a palace?",
+          "choices": [
+            { "choice": "Kings or queens", "answer": true },
+            { "choice": "Farmers", "answer": false },
+            { "choice": "Fishermen", "answer": false }
+          ],
+          "explanation": "Palaces are royal residences."
+        },
+        {
+          "part_num": 1,
+          "question": "What are palaces often decorated with?",
+          "choices": [
+            { "choice": "Beautiful designs and treasures", "answer": true },
+            { "choice": "Simple wood and straw", "answer": false },
+            { "choice": "Nothing at all", "answer": false }
+          ],
+          "explanation": "The passage says palaces are filled with decorations and treasures."
+        },
+        {
+          "part_num": 1,
+          "question": "What do palaces represent?",
+          "choices": [
+            { "choice": "Wealth and power", "answer": true },
+            { "choice": "Sadness and loss", "answer": false },
+            { "choice": "Weakness and poverty", "answer": false }
+          ],
+          "explanation": "Palaces are symbols of wealth and power."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -15087,6 +16682,177 @@
     "word_count": 111,
     "passage": "[]She is little, she is dimpled.[]Her hair is yellow corn.[]On her cheeks are many smudges and her pinafore is torn. []Her eyes are dancing waters. []$MINIGAME_1$[]On a deep, midsummer day, yet her mouth will turn to pouting in a most capricious way. []But her laughter is as joyous as the little winds that run on amber feet across the seas of wheat fields in the sun. []And her laughter is as delightful as a carillon of bells in an ancient, wooded tower where a charming fairy dwells. []$MINIGAME_2$[]Hers is the laughter from the spirit. []Melodious and mild. []$MINIGAME_3$[]All the angels pause a moment. For the laughter of a child.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "A little girl",
+            "enjoyed reading",
+            "every single day"
+          ],
+          "parts": ["every single day", "A little girl", "enjoyed reading"],
+          "explanation": "The passage introduces the girl as someone who loved to read daily."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["She", "spent many hours", "with her books"],
+          "parts": ["She", "spent many hours", "with her books"],
+          "explanation": "She devoted hours of her day to reading."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["Her love", "for books", "filled her free time"],
+          "parts": ["Her love", "for books", "filled her free time"],
+          "explanation": "The passage emphasizes her constant interest in books."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "She imagined",
+            "lands far away",
+            "with magical creatures"
+          ],
+          "parts": ["lands far away", "She imagined", "with magical creatures"],
+          "explanation": "Her imagination carried her to magical worlds."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": ["Stories", "took her", "to unseen places"],
+          "parts": ["took her", "to unseen places", "Stories"],
+          "explanation": "Her books transported her to places she never visited in real life."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Her mind",
+            "created adventures",
+            "in distant lands"
+          ],
+          "parts": ["in distant lands", "Her mind", "created adventures"],
+          "explanation": "The text describes how she imagined adventures."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": ["The girl", "shared stories", "with her friends"],
+          "parts": ["with her friends", "The girl", "shared stories"],
+          "explanation": "She told her friends about her favorite tales."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Friends",
+            "gathered together",
+            "to listen and dream"
+          ],
+          "parts": ["to listen and dream", "Friends", "gathered together"],
+          "explanation": "Her friends joined her to listen to stories."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": ["Her tales", "helped friends", "dream together"],
+          "parts": ["dream together", "Her tales", "helped friends"],
+          "explanation": "The stories inspired dreams among her friends."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What did the little girl love to do?",
+          "choices": [
+            { "choice": "Read books every day", "answer": true },
+            { "choice": "Play video games all day", "answer": false },
+            { "choice": "Go fishing in the river", "answer": false }
+          ],
+          "explanation": "The passage says she loved reading books daily."
+        },
+        {
+          "part_num": 1,
+          "question": "How much time did she spend reading?",
+          "choices": [
+            { "choice": "Hours each day", "answer": true },
+            { "choice": "Only a few seconds", "answer": false },
+            { "choice": "Once a month", "answer": false }
+          ],
+          "explanation": "She spent hours daily with her books."
+        },
+        {
+          "part_num": 1,
+          "question": "What filled most of her free time?",
+          "choices": [
+            { "choice": "Her love of books", "answer": true },
+            { "choice": "Watching television", "answer": false },
+            { "choice": "Running in races", "answer": false }
+          ],
+          "explanation": "Reading was her main activity."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What kinds of things did she imagine?",
+          "choices": [
+            { "choice": "Magical creatures and faraway lands", "answer": true },
+            { "choice": "Numbers and math problems", "answer": false },
+            { "choice": "Cooking recipes", "answer": false }
+          ],
+          "explanation": "She dreamed about faraway places and magical beings."
+        },
+        {
+          "part_num": 2,
+          "question": "Where did her stories take her?",
+          "choices": [
+            { "choice": "To places she had never seen", "answer": true },
+            { "choice": "To her school every day", "answer": false },
+            { "choice": "To the local grocery store", "answer": false }
+          ],
+          "explanation": "Her imagination transported her to unknown places."
+        },
+        {
+          "part_num": 2,
+          "question": "How did books affect her mind?",
+          "choices": [
+            {
+              "choice": "They created adventures in her imagination",
+              "answer": true
+            },
+            { "choice": "They made her sleepy immediately", "answer": false },
+            { "choice": "They taught her how to cook", "answer": false }
+          ],
+          "explanation": "Books inspired her to imagine adventures."
+        },
+
+        {
+          "part_num": 3,
+          "question": "Who did the girl share her stories with?",
+          "choices": [
+            { "choice": "Her friends", "answer": true },
+            { "choice": "Her pets", "answer": false },
+            { "choice": "Her teachers", "answer": false }
+          ],
+          "explanation": "She told her stories to friends."
+        },
+        {
+          "part_num": 3,
+          "question": "What did her friends do when she told stories?",
+          "choices": [
+            { "choice": "They gathered to listen and dream", "answer": true },
+            { "choice": "They left to play outside", "answer": false },
+            { "choice": "They ignored her", "answer": false }
+          ],
+          "explanation": "Her friends listened and dreamed along with her."
+        },
+        {
+          "part_num": 3,
+          "question": "What effect did her stories have on her friends?",
+          "choices": [
+            { "choice": "They dreamed together", "answer": true },
+            { "choice": "They got scared and ran away", "answer": false },
+            { "choice": "They forgot about her", "answer": false }
+          ],
+          "explanation": "Her stories inspired her friends to dream together."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -15807,6 +17573,178 @@
     "word_count": 89,
     "passage": "[]The spiders were busy last night, from every fence and tree. []They hung their lacy webs for all the world to see. []The mist was busy too. []In the stillness of the night, it strung the spider webs with pearls to catch the morning light. []$MINIGAME_1$[]One spider wove a web like frost on a window pane. []Another one spun a single thread that looks like jeweled chain. []$MINIGAME_2$[]Motionless hang the webs, by the quiet sunbeam kissed. []A fairy world was made last night by the spiders and the mist.[]$MINIGAME_3$",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": ["Spiders", "produce silk", "to weave their webs"],
+          "parts": ["Spiders", "to weave their webs", "produce silk"],
+          "explanation": "The passage explains spiders spin silk to create webs."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["Spider silk", "is thin", "but very strong"],
+          "parts": ["but very strong", "is thin", "Spider silk"],
+          "explanation": "Silk is described as being light yet strong."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["Webs", "are made", "from spider silk"],
+          "parts": ["from spider silk", "Webs", "are made"],
+          "explanation": "The material spiders use is their silk."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Spiders",
+            "trap insects",
+            "using their sticky webs"
+          ],
+          "parts": ["Spiders", "trap insects", "using their sticky webs"],
+          "explanation": "The text says webs are used to catch bugs."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "The sticky threads",
+            "hold bugs",
+            "that fly into them"
+          ],
+          "parts": ["hold bugs", "The sticky threads", "that fly into them"],
+          "explanation": "Threads catch insects that land on the web."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": ["Webs", "provide food", "for spiders"],
+          "parts": ["for spiders", "Webs", "provide food"],
+          "explanation": "Webs serve as traps that give spiders meals."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": ["Some spiders", "make large", "round webs"],
+          "parts": ["round webs", "Some spiders", "make large"],
+          "explanation": "The passage explains that some spiders build big, circular webs."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Other spiders",
+            "create webs",
+            "that look messy and small"
+          ],
+          "parts": [
+            "Other spiders",
+            "create webs",
+            "that look messy and small"
+          ],
+          "explanation": "Some spiders spin untidy webs."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Each spider",
+            "has its own way",
+            "of making webs"
+          ],
+          "parts": ["Each spider", "has its own way", "of making webs"],
+          "explanation": "Every spider builds webs differently."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What material do spiders use to build webs?",
+          "choices": [
+            { "choice": "Silk they produce", "answer": true },
+            { "choice": "Plastic threads", "answer": false },
+            { "choice": "Leaves from trees", "answer": false }
+          ],
+          "explanation": "Spiders spin silk to make their webs."
+        },
+        {
+          "part_num": 1,
+          "question": "How is spider silk described?",
+          "choices": [
+            { "choice": "Thin but strong", "answer": true },
+            { "choice": "Heavy and weak", "answer": false },
+            { "choice": "Sticky and colorful", "answer": false }
+          ],
+          "explanation": "The passage says silk is thin yet very strong."
+        },
+        {
+          "part_num": 1,
+          "question": "What are webs made of?",
+          "choices": [
+            { "choice": "Spider silk", "answer": true },
+            { "choice": "Straw and grass", "answer": false },
+            { "choice": "Metal wires", "answer": false }
+          ],
+          "explanation": "Webs are created from silk spun by spiders."
+        },
+
+        {
+          "part_num": 2,
+          "question": "Why do spiders make webs?",
+          "choices": [
+            { "choice": "To catch insects for food", "answer": true },
+            { "choice": "To play in the wind", "answer": false },
+            { "choice": "To cover the ground", "answer": false }
+          ],
+          "explanation": "The passage explains webs are used to trap bugs."
+        },
+        {
+          "part_num": 2,
+          "question": "What happens when bugs fly into webs?",
+          "choices": [
+            { "choice": "They get stuck on sticky threads", "answer": true },
+            { "choice": "They bounce off unharmed", "answer": false },
+            { "choice": "They cut through the silk", "answer": false }
+          ],
+          "explanation": "The sticky silk traps insects."
+        },
+        {
+          "part_num": 2,
+          "question": "How do webs help spiders survive?",
+          "choices": [
+            { "choice": "They provide food by trapping prey", "answer": true },
+            { "choice": "They serve as toys", "answer": false },
+            { "choice": "They keep spiders warm", "answer": false }
+          ],
+          "explanation": "Webs are food-catching tools for spiders."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What kind of webs do some spiders make?",
+          "choices": [
+            { "choice": "Large round webs", "answer": true },
+            { "choice": "Metal-like chains", "answer": false },
+            { "choice": "Square brick patterns", "answer": false }
+          ],
+          "explanation": "Some spiders spin circular webs."
+        },
+        {
+          "part_num": 3,
+          "question": "How do other spiders’ webs look?",
+          "choices": [
+            { "choice": "Small and messy", "answer": true },
+            { "choice": "Perfectly square", "answer": false },
+            { "choice": "Shaped like triangles", "answer": false }
+          ],
+          "explanation": "Some spiders make messy, small webs."
+        },
+        {
+          "part_num": 3,
+          "question": "What does the passage say about how spiders build webs?",
+          "choices": [
+            { "choice": "Each spider has its own way", "answer": true },
+            { "choice": "They all build the same type", "answer": false },
+            { "choice": "They borrow webs from ants", "answer": false }
+          ],
+          "explanation": "Each species makes webs differently."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -16367,6 +18305,309 @@
     "word_count": 416,
     "passage": "[]I heard my happy little daughter sing a happy tune to what she was watching on TV. []A smile gave her the puffy cheeks and sparkling eyes as she focused her attention on it. [g1]\"Mother! do you like lambs?\", Jasmine asked me. []I put down my phone and glasses, then glanced at her. [g2]\"Of course. They are fluffy and adorable. Who wouldn't?\" I replied. [g1]\"But why bad men cut their fur?\" she asked. [g2]\"No, my child. Sheep or adult lamb's fur is used to make clothes. Don't worry, their fur usually grows back.\" I explained and reasoned with her. []$MINIGAME_1$[]Though she was hesitant, she agreed. []A soft, endearing aura filled the cream walls of the room. []The resounding of the fans spinning along with Jasmine's noticeable breathing, was very calming. []She finally took her first move and spun around gleefully. []She danced and sang along to the song of the birds and the stupendous rhythm of the trees as they swayed against their will. []She twirled and would make expressive poses as the song went on. []$MINIGAME_2$[]I sat back down at our table and took the newspaper. []I opened the gray, folded paper and read through the headlines. [g2]\"This is really boring.\" []I flipped another one, [g2]\"How did these students convert noise to electricity? if my old classmates were to use this, we would have infinite electricity.\"[g1]\"To see is to believe. is that true, mother?\" Jasmine sweetly asked. [g2]\"I believe so. Seeing something means it is true, so believe in it. Do you understand?\" I asked her, []She nodded.[]$MINIGAME_3$[g2]\"My dear, let me tell you something. A word and advice.\" []I pat her back and she only responded with a small \"sure\". []She sat down on the maroon sofa with intricate tiny flower designs. []I took a seat on the opposite to the sofa she was sitting on. [g2]\"Many are sacrificing just to give other people a better life. Let us appreciate them.\" []$MINIGAME_4$[]Jasmine blinked, before clasping her hands together. [g1]\"What do you mean?\" she asked.[g2]\"For example, sheep give us comfortable sweaters. Scientists invent and discover things for the development of our society. In battles, there are people who are brave enough to fight for their country. Just like your father. He was a brave man.\" []I ruffled her hair. []$MINIGAME_5$[]She smiled adoringly. [g1]\"I understand, mother. One day, I'll help you out, too!\" she exclaimed and hugged me. [g2]\"As you wish, my dear,\" I replied.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Jasmine",
+            "loved caring",
+            "for the plants in her garden"
+          ],
+          "parts": ["for the plants in her garden", "Jasmine", "loved caring"],
+          "explanation": "The passage introduces Jasmine as a gentle girl who cared for her plants."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "She",
+            "watered the plants",
+            "and watched them grow"
+          ],
+          "parts": ["She", "watered the plants", "and watched them grow"],
+          "explanation": "She enjoyed watering plants and seeing them grow."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": ["Gardening", "made Jasmine", "happy and peaceful"],
+          "parts": ["happy and peaceful", "Gardening", "made Jasmine"],
+          "explanation": "Caring for her plants gave her joy."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Her favorite plant",
+            "was a jasmine vine",
+            "with white flowers"
+          ],
+          "parts": [
+            "with white flowers",
+            "Her favorite plant",
+            "was a jasmine vine"
+          ],
+          "explanation": "The jasmine vine with white flowers was her favorite."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "The flowers",
+            "filled the air",
+            "with sweet fragrance"
+          ],
+          "parts": ["with sweet fragrance", "The flowers", "filled the air"],
+          "explanation": "The vine spread a pleasant smell."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "She",
+            "loved the jasmine",
+            "for its beauty and scent"
+          ],
+          "parts": ["She", "loved the jasmine", "for its beauty and scent"],
+          "explanation": "The jasmine was special to her for both its looks and fragrance."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Every morning",
+            "Jasmine greeted",
+            "her jasmine vine"
+          ],
+          "parts": ["her jasmine vine", "Every morning", "Jasmine greeted"],
+          "explanation": "She greeted her vine daily."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": ["She", "touched the blossoms", "with gentle care"],
+          "parts": ["She", "with gentle care", "touched the blossoms"],
+          "explanation": "The passage describes her touching the flowers gently."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Jasmine believed",
+            "the flowers listened",
+            "to her kind words"
+          ],
+          "parts": [
+            "Jasmine believed",
+            "to her kind words",
+            "the flowers listened"
+          ],
+          "explanation": "She thought the blossoms heard her voice."
+        },
+
+        {
+          "part_num": 4,
+          "correct_answer": ["One day", "a storm", "broke part of the vine"],
+          "parts": ["One day", "broke part of the vine", "a storm"],
+          "explanation": "The storm damaged her jasmine plant."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": ["Jasmine", "was sad", "about the broken vine"],
+          "parts": ["was sad", "about the broken vine", "Jasmine"],
+          "explanation": "She was upset when the vine broke."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "She carefully",
+            "tied the stem",
+            "to help it heal"
+          ],
+          "parts": ["She carefully", "tied the stem", "to help it heal"],
+          "explanation": "Jasmine tied the plant back gently after the storm."
+        },
+
+        {
+          "part_num": 5,
+          "correct_answer": [
+            "After days of care",
+            "the jasmine vine",
+            "bloomed again"
+          ],
+          "parts": ["the jasmine vine", "After days of care", "bloomed again"],
+          "explanation": "Her care helped the plant recover."
+        },
+        {
+          "part_num": 5,
+          "correct_answer": ["Its flowers", "were brighter", "than before"],
+          "parts": ["Its flowers", "were brighter", "than before"],
+          "explanation": "The blossoms returned with more beauty."
+        },
+        {
+          "part_num": 5,
+          "correct_answer": [
+            "Jasmine",
+            "smiled with joy",
+            "at the blooming vine"
+          ],
+          "parts": ["Jasmine", "smiled with joy", "at the blooming vine"],
+          "explanation": "She was happy when the plant recovered."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What did Jasmine enjoy doing every day?",
+          "choices": [
+            { "choice": "Caring for her garden plants", "answer": true },
+            { "choice": "Playing video games", "answer": false },
+            { "choice": "Riding horses", "answer": false }
+          ],
+          "explanation": "She loved tending to her plants daily."
+        },
+        {
+          "part_num": 1,
+          "question": "How did she spend hours in her garden?",
+          "choices": [
+            { "choice": "Watering and watching plants grow", "answer": true },
+            { "choice": "Sleeping under a tree", "answer": false },
+            { "choice": "Climbing fences", "answer": false }
+          ],
+          "explanation": "She enjoyed watering and watching them grow."
+        },
+        {
+          "part_num": 1,
+          "question": "What effect did gardening have on her?",
+          "choices": [
+            { "choice": "It made her happy and peaceful", "answer": true },
+            { "choice": "It made her angry", "answer": false },
+            { "choice": "It made her tired and bored", "answer": false }
+          ],
+          "explanation": "Caring for plants brought her joy."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What was Jasmine’s favorite plant?",
+          "choices": [
+            { "choice": "A jasmine vine with white flowers", "answer": true },
+            { "choice": "A tall oak tree", "answer": false },
+            { "choice": "A red rose bush", "answer": false }
+          ],
+          "explanation": "Her favorite was the jasmine vine."
+        },
+        {
+          "part_num": 2,
+          "question": "How did the jasmine flowers smell?",
+          "choices": [
+            { "choice": "Sweet and fragrant", "answer": true },
+            { "choice": "Like smoke", "answer": false },
+            { "choice": "Like nothing at all", "answer": false }
+          ],
+          "explanation": "The jasmine flowers gave off a sweet scent."
+        },
+        {
+          "part_num": 2,
+          "question": "Why did Jasmine love the vine?",
+          "choices": [
+            { "choice": "For its beauty and fragrance", "answer": true },
+            { "choice": "Because it gave her shade", "answer": false },
+            { "choice": "Because it grew tall like a tree", "answer": false }
+          ],
+          "explanation": "She admired both its looks and scent."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What did Jasmine do each morning with her vine?",
+          "choices": [
+            {
+              "choice": "She greeted it and touched its blossoms",
+              "answer": true
+            },
+            { "choice": "She cut off its flowers", "answer": false },
+            { "choice": "She ignored it", "answer": false }
+          ],
+          "explanation": "She treated the plant gently each day."
+        },
+        {
+          "part_num": 3,
+          "question": "What did she believe about the flowers?",
+          "choices": [
+            { "choice": "They listened to her kind words", "answer": true },
+            { "choice": "They could talk back", "answer": false },
+            { "choice": "They made music", "answer": false }
+          ],
+          "explanation": "She thought the flowers could hear her."
+        },
+        {
+          "part_num": 3,
+          "question": "How did she treat the blossoms?",
+          "choices": [
+            { "choice": "With gentle care", "answer": true },
+            { "choice": "With anger", "answer": false },
+            { "choice": "By ignoring them", "answer": false }
+          ],
+          "explanation": "She touched the flowers gently."
+        },
+
+        {
+          "part_num": 4,
+          "question": "What happened during the storm?",
+          "choices": [
+            { "choice": "Part of the vine broke", "answer": true },
+            { "choice": "The whole garden disappeared", "answer": false },
+            { "choice": "The vine grew faster", "answer": false }
+          ],
+          "explanation": "The storm damaged the jasmine vine."
+        },
+        {
+          "part_num": 4,
+          "question": "How did Jasmine feel about the broken vine?",
+          "choices": [
+            { "choice": "She was sad", "answer": true },
+            { "choice": "She was excited", "answer": false },
+            { "choice": "She was indifferent", "answer": false }
+          ],
+          "explanation": "The text says Jasmine was sad about the damage."
+        },
+        {
+          "part_num": 4,
+          "question": "What did she do to help the vine recover?",
+          "choices": [
+            { "choice": "She tied the stem back carefully", "answer": true },
+            { "choice": "She cut it down completely", "answer": false },
+            { "choice": "She ignored it", "answer": false }
+          ],
+          "explanation": "She tied the vine gently to help it heal."
+        },
+
+        {
+          "part_num": 5,
+          "question": "What happened after Jasmine cared for the vine?",
+          "choices": [
+            { "choice": "It bloomed again", "answer": true },
+            { "choice": "It dried up forever", "answer": false },
+            { "choice": "It turned into a tree", "answer": false }
+          ],
+          "explanation": "The vine bloomed after days of care."
+        },
+        {
+          "part_num": 5,
+          "question": "How did the flowers look after blooming again?",
+          "choices": [
+            { "choice": "Brighter than before", "answer": true },
+            { "choice": "Dull and faded", "answer": false },
+            { "choice": "Exactly the same as before", "answer": false }
+          ],
+          "explanation": "The flowers returned brighter than ever."
+        },
+        {
+          "part_num": 5,
+          "question": "How did Jasmine feel when the vine bloomed again?",
+          "choices": [
+            { "choice": "She smiled with joy", "answer": true },
+            { "choice": "She felt disappointed", "answer": false },
+            { "choice": "She ignored it", "answer": false }
+          ],
+          "explanation": "She was overjoyed to see the vine bloom again."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -20637,6 +22878,253 @@
     "word_count": 425,
     "passage": "[]As the brilliant red and orange light in the sky faded, the Owl's hooting echoed through the forest. []She was now ready to hunt. []When the soft glowing light appeared in the sky, the Owl began her sweet slumber while other animals in the forest started their daily activities. []One sunny day, the Owl dozed in the hollow of an old tree. The three blind mice passed by and joyfully sang. [g1]\"Stay away from here foolish mice, you have no respect,\" she angrily said. [b1]The mice stopped singing, disheartened, and went away. []$MINIGAME_1$ []Little Rabbit, who lived nearby, took out his drum that his parents gave him for his birthday. He was excited to try it. []He went out from his hole and started beating his drum in perfect rhythm, while he stomped his feet. [g1]Awakened and irritated, the Owl threw a twig at Little Rabbit. [g1]\"Hey, stay away from here, disgusting rabbit, you have no respect,\" she uttered. [g2]Saddened by the scolding of the Owl, Little Rabbit went away. []The five little monkeys were preparing for their sports competition in school. They had to strengthen their muscles. []They swung in the trees and happily screeched, gibbered and whooped. []They reached the old tree where the Owl was sleeping. Enraged with the noise, the Owl went out from her hole and stared angrily at the monkeys. [g1]\"Stay away from here, you are all annoying and inconsiderate,\" she shouted. [b2]The five little monkeys were hurt by the Owl's words, so they went away. []$MINIGAME_2$ []The same thing happened to every animal that passed by the old tree where the Owl slept. [g1]She drove everyone away and hurled them with nasty and harsh words. []Night time came. All animals in the forest went home to rest and sleep. []On the other hand, the Owl woke up to start her hunting activity. As she flew around the forest, her [g1]\"Hooooh hooooh!\" resonated in the quiet forest. []All animals woke up and went out of their homes. [b1]\"You're disgusting, you have no respect,\" the three blind mice exclaimed. [g2]\"You are foolish, you have no respect,\" the rabbit added. [b2]\"You are inconsiderate, you have no respect,\" the five monkeys shouted. []Other animals joined in cursing the Owl. [b1][g2][b2]\"Stay away from here, nasty Owl! Stay away from this forest,\" they yelled together. []Those offensively impolite words from the animals made her spirit low. [g1]She felt sad and guilty. She flew away and never came back to that forest anymore. []$MINIGAME_3$",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "An owl",
+            "lived in a tree",
+            "near the village",
+            "and scared smaller animals"
+          ],
+          "parts": [
+            "near the village",
+            "and scared smaller animals",
+            "lived in a tree",
+            "An owl"
+          ],
+          "explanation": "The owl lived close to people and frightened nearby creatures."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "The villagers",
+            "called the bird",
+            "the nasty owl",
+            "because of its loud hoots"
+          ],
+          "parts": [
+            "because of its loud hoots",
+            "the nasty owl",
+            "The villagers",
+            "called the bird"
+          ],
+          "explanation": "Its scary behavior earned it the name nasty owl."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "The owl’s hoots",
+            "were so loud",
+            "that animals",
+            "often ran away"
+          ],
+          "parts": [
+            "that animals",
+            "often ran away",
+            "The owl’s hoots",
+            "were so loud"
+          ],
+          "explanation": "Its hoots frightened smaller animals."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "One day",
+            "the owl",
+            "tried to scare",
+            "a group of rabbits"
+          ],
+          "parts": [
+            "One day",
+            "a group of rabbits",
+            "tried to scare",
+            "the owl"
+          ],
+          "explanation": "The owl attempted to frighten some rabbits."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "The rabbits",
+            "stood bravely",
+            "and did not",
+            "run away"
+          ],
+          "parts": ["The rabbits", "stood bravely", "and did not", "run away"],
+          "explanation": "The rabbits refused to be frightened."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Instead of fleeing",
+            "the rabbits",
+            "faced the owl",
+            "with courage"
+          ],
+          "parts": [
+            "Instead of fleeing",
+            "the rabbits",
+            "faced the owl",
+            "with courage"
+          ],
+          "explanation": "The rabbits confronted the owl bravely."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "The owl",
+            "flew away angrily",
+            "after failing",
+            "to scare the rabbits"
+          ],
+          "parts": [
+            "The owl",
+            "flew away angrily",
+            "after failing",
+            "to scare the rabbits"
+          ],
+          "explanation": "The owl left when the rabbits didn’t run."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "The villagers",
+            "cheered loudly",
+            "for the rabbits’ bravery"
+          ],
+          "parts": [
+            "The villagers",
+            "cheered loudly",
+            "for the rabbits’ bravery"
+          ],
+          "explanation": "The people were happy the rabbits stood strong."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "From then on",
+            "the owl",
+            "stopped bothering",
+            "the villagers and animals"
+          ],
+          "parts": [
+            "From then on",
+            "the owl",
+            "stopped bothering",
+            "the villagers and animals"
+          ],
+          "explanation": "The owl gave up troubling them after that event."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "Why was the owl called nasty?",
+          "choices": [
+            {
+              "choice": "Because it scared animals with loud hoots",
+              "answer": true
+            },
+            {
+              "choice": "Because it stole food from the villagers",
+              "answer": false
+            },
+            { "choice": "Because it stayed awake at night", "answer": false }
+          ],
+          "explanation": "The owl earned its name by frightening smaller animals."
+        },
+        {
+          "part_num": 1,
+          "question": "Where did the owl live?",
+          "choices": [
+            { "choice": "In a tree near the village", "answer": true },
+            { "choice": "Inside a cave", "answer": false },
+            { "choice": "On a mountain top", "answer": false }
+          ],
+          "explanation": "The owl made its home in a tree near people."
+        },
+        {
+          "part_num": 1,
+          "question": "How did the animals feel about the owl?",
+          "choices": [
+            { "choice": "They were afraid of its hoots", "answer": true },
+            { "choice": "They trusted it as a friend", "answer": false },
+            { "choice": "They followed it everywhere", "answer": false }
+          ],
+          "explanation": "The loud noises frightened smaller creatures."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What did the owl try to do one day?",
+          "choices": [
+            { "choice": "Frighten a group of rabbits", "answer": true },
+            { "choice": "Sing to the villagers", "answer": false },
+            { "choice": "Steal eggs from a nest", "answer": false }
+          ],
+          "explanation": "The owl tried to scare some rabbits."
+        },
+        {
+          "part_num": 2,
+          "question": "How did the rabbits react?",
+          "choices": [
+            { "choice": "They stood bravely and did not run", "answer": true },
+            { "choice": "They all hid underground", "answer": false },
+            { "choice": "They chased the owl away first", "answer": false }
+          ],
+          "explanation": "The rabbits refused to flee."
+        },
+        {
+          "part_num": 2,
+          "question": "What showed the rabbits’ courage?",
+          "choices": [
+            {
+              "choice": "They faced the owl instead of fleeing",
+              "answer": true
+            },
+            { "choice": "They sang loudly at night", "answer": false },
+            { "choice": "They built nests in trees", "answer": false }
+          ],
+          "explanation": "They were brave enough to stay put."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What happened after the rabbits stood firm?",
+          "choices": [
+            { "choice": "The owl flew away angrily", "answer": true },
+            { "choice": "The owl made friends with them", "answer": false },
+            { "choice": "The villagers chased the owl off", "answer": false }
+          ],
+          "explanation": "The owl left when it failed to scare them."
+        },
+        {
+          "part_num": 3,
+          "question": "How did the villagers react?",
+          "choices": [
+            {
+              "choice": "They cheered for the rabbits’ bravery",
+              "answer": true
+            },
+            { "choice": "They ignored the event", "answer": false },
+            { "choice": "They punished the rabbits", "answer": false }
+          ],
+          "explanation": "They celebrated the courage of the rabbits."
+        },
+        {
+          "part_num": 3,
+          "question": "What did the owl do after this event?",
+          "choices": [
+            { "choice": "It stopped bothering them", "answer": true },
+            { "choice": "It attacked the villagers", "answer": false },
+            { "choice": "It built a new web", "answer": false }
+          ],
+          "explanation": "From that day, the owl left them alone."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -23924,6 +26412,212 @@
     "word_count": 468,
     "passage": "[]Ming, the cat, gave birth to three adorable furry kittens. []The first one was pure white with blue eyes, the second was orange with some gray stripes and yellow eyes, and the third looked exactly like its mother, all black with emerald eyes. []She placed them inside the shoebox in the linen room. [b1]Doggie the dog came near her and sniffed her kittens. [g1]\"I am warning you Doggie. Never touch my children or else you will be in trouble,\" she uttered. [b1]Doggie went away, his tail curved between his legs. []$MINIGAME_1$ []The night was dark and quiet. Ming prowled through the attic and waited for any mouse to come out. []She was yearning for a fresh prey to regain her strength after giving birth. []Suddenly, she heard a squeak. A big mouse came out from its hole. [g1]She ran after it and grabbed its tail. [b2]\"Please, don't eat me. My children are waiting for my safe return. They are still too small and couldn't manage to live without a mother,\" the mouse begged. [g1]Ming's heart was touched by the mouse's words. She remembered her kittens and empathized with the mouse. []She unclenched her claws and the mouse ran away. []$MINIGAME_2$ []She stayed there the whole night, but no more mouse came out. Dawn came with the crowing of the roosters. []She smelled something from the kitchen. Her masters were preparing breakfast and she knew her regular supply of milk would be ready. []She licked the milk in the bowl until there was no more left. [g1]\"They might be hungry. I need to breastfeed them,\" she said, deciding to go back. []She hurried her steps, but when she looked at the box, it was empty. [g1]\"My kittens are missing, my kittens are missing!\" she let out an angry cry. []She angrily looked at Doggie who was still sleeping on some rugs, his body curled. [g1]Ming stiffened her rear legs and moved toward the dog. She growled and scratched the poor dog on its face. []Startled, [b1]Doggie woke up in pain and gave a deafening bark. []This fueled the cat's anger. [g1]She clawed and bit him. [b1]\"Stop! Stop!\" said the confused dog. [g1]\"I won't stop unless you show me my kittens!\" the cat shouted. [b1]\"But I...\" the dog tried to explain. []$MINIGAME_3$ []Suddenly, the purring of tiny kittens was heard. [g1]Ming stopped and followed the sound. []She peered through the slightly opened door and saw her master's children cuddling her kittens. [g1]She meowed. [g2]\"Oh, hello Ming, looking for your kittens? Here they are, we just borrowed them for a while!\" exclaimed one of the children. []$MINIGAME_4$",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "A mother cat",
+            "lived with",
+            "her three playful kittens"
+          ],
+          "parts": ["her three playful kittens", "A mother cat", "lived with"],
+          "explanation": "The passage introduces a mother cat and her kittens."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "The kittens",
+            "loved to run",
+            "and hide around the house"
+          ],
+          "parts": ["The kittens", "loved to run", "and hide around the house"],
+          "explanation": "They were playful, always running and hiding."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "They",
+            "spent their time",
+            "playing games together"
+          ],
+          "parts": ["They", "spent their time", "playing games together"],
+          "explanation": "The kittens filled their days with play."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "One day",
+            "the kittens",
+            "wandered outside",
+            "and got lost"
+          ],
+          "parts": [
+            "One day",
+            "the kittens",
+            "wandered outside",
+            "and got lost"
+          ],
+          "explanation": "The kittens left the house and lost their way."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "The mother cat",
+            "searched the garden",
+            "and the yard",
+            "to find them"
+          ],
+          "parts": [
+            "searched the garden",
+            "The mother cat",
+            "and the yard",
+            "to find them"
+          ],
+          "explanation": "She looked everywhere for her kittens."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "The kittens’ disappearance",
+            "made their mother",
+            "worried and restless"
+          ],
+          "parts": [
+            "The kittens’ disappearance",
+            "made their mother",
+            "worried and restless"
+          ],
+          "explanation": "She was upset that the kittens were missing."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "At last",
+            "the mother cat",
+            "found her kittens",
+            "under a bush"
+          ],
+          "parts": [
+            "the mother cat",
+            "At last",
+            "under a bush",
+            "found her kittens"
+          ],
+          "explanation": "She discovered them hiding in a bush."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "The kittens",
+            "were happy",
+            "to see their mother again"
+          ],
+          "parts": ["to see their mother again", "The kittens", "were happy"],
+          "explanation": "They were glad to be reunited with her."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": ["The family", "was together", "and full of joy"],
+          "parts": ["The family", "was together", "and full of joy"],
+          "explanation": "The family was reunited happily."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "How many kittens did the mother cat have?",
+          "choices": [
+            { "choice": "Three kittens", "answer": true },
+            { "choice": "One kitten", "answer": false },
+            { "choice": "Ten kittens", "answer": false }
+          ],
+          "explanation": "The passage says she had three playful kittens."
+        },
+        {
+          "part_num": 1,
+          "question": "What did the kittens enjoy doing?",
+          "choices": [
+            { "choice": "Running and hiding around the house", "answer": true },
+            { "choice": "Swimming in the river", "answer": false },
+            { "choice": "Flying like birds", "answer": false }
+          ],
+          "explanation": "They liked to play around the house."
+        },
+        {
+          "part_num": 1,
+          "question": "How did the kittens behave?",
+          "choices": [
+            { "choice": "They were playful", "answer": true },
+            { "choice": "They were always sleeping", "answer": false },
+            { "choice": "They never moved at all", "answer": false }
+          ],
+          "explanation": "The passage calls them playful."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What happened when the kittens went outside?",
+          "choices": [
+            { "choice": "They got lost", "answer": true },
+            { "choice": "They found treasure", "answer": false },
+            { "choice": "They met other cats", "answer": false }
+          ],
+          "explanation": "The kittens wandered off and became lost."
+        },
+        {
+          "part_num": 2,
+          "question": "What did the mother cat do?",
+          "choices": [
+            { "choice": "She searched everywhere for them", "answer": true },
+            { "choice": "She fell asleep", "answer": false },
+            { "choice": "She ignored their absence", "answer": false }
+          ],
+          "explanation": "The mother cat looked all around for her kittens."
+        },
+        {
+          "part_num": 2,
+          "question": "How did the mother cat feel?",
+          "choices": [
+            { "choice": "Worried", "answer": true },
+            { "choice": "Excited", "answer": false },
+            { "choice": "Unbothered", "answer": false }
+          ],
+          "explanation": "She was upset and restless because they were gone."
+        },
+
+        {
+          "part_num": 3,
+          "question": "Where did the mother find the kittens?",
+          "choices": [
+            { "choice": "Under a bush", "answer": true },
+            { "choice": "On the roof", "answer": false },
+            { "choice": "Inside a pond", "answer": false }
+          ],
+          "explanation": "The kittens were hiding under a bush."
+        },
+        {
+          "part_num": 3,
+          "question": "How did the kittens feel when they saw their mother?",
+          "choices": [
+            { "choice": "Happy", "answer": true },
+            { "choice": "Angry", "answer": false },
+            { "choice": "Sleepy", "answer": false }
+          ],
+          "explanation": "They were glad to be reunited with her."
+        },
+        {
+          "part_num": 3,
+          "question": "What was the family’s mood when reunited?",
+          "choices": [
+            { "choice": "Joyful", "answer": true },
+            { "choice": "Sad", "answer": false },
+            { "choice": "Still worried", "answer": false }
+          ],
+          "explanation": "The family was happy to be together again."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -26587,6 +29281,328 @@
     "word_count": 507,
     "passage": "[]There was a time in the history of the Lu Shing Empire when dragons lived in harmony with humans. []These winged, four-legged creatures were majestic, powerful, and wise. []Capable of breathing fire and hoarding treasures, they were more than just beasts—they were guardians, teachers, and companions. []The people of Lu Shing flourished under their protection, and peace blanketed the empire. []$MINIGAME_1$ []Among the many dragons, Drago stood out. With pinkish-red skin and light green scales that shimmered under the sun, he was both fierce and beautiful. []Drago served the emperor and was often seen flying over the imperial palace. []But most of all, he was dear to the emperor's daughter, Princess Celestine. []From the time she was a child, Drago had been her companion and protector. [g1]She loved to ride on his back, soaring over mountains, valleys, and hidden lakes. [][g1]\"Oh, Drago! I love you! We've been to many places, yet you haven't taken me to the place where other dragons hid the treasures. Can you take me there, please?\" [][b1]\"But, it's forbidden,\" Drago replied, his voice low and cautious. [][g1]\"Please Drago, I am just curious. Promise! I won't tell anyone,\" Celestine insisted, her eyes gleaming with excitement. [][b1]Drago sighed, his loyalty to the princess stronger than his fear. He agreed, unaware of the danger their journey would invite. []$MINIGAME_2$ []Unbeknownst to them, a soldier overheard the conversation and reported it to the emperor. [][b2]\"If I could have all those treasures, this empire would be the most powerful in the world. Everyone would worship me like a god!\" the emperor exclaimed with greed burning in his heart. []Without delay, he ordered his men to secretly follow his daughter and the dragon. []Drago and Celestine flew for hours, eventually reaching a hidden cave atop the Seventh Mountain, cloaked in mist and legend. []Inside, golden light gleamed from a mountain of treasure, guarded by an ancient dragon sleeping atop it. [][g1]\"This is incredible,\" whispered Celestine, her eyes wide with wonder. [][b1]\"Let’s go, Celestine. I would be in so much trouble if any of my kind finds out that I took you here,\" Drago said nervously, nudging her away. []Before they could leave, a thunder of footsteps echoed. The emperor and a battalion of soldiers stormed the cave. []Without mercy, they aimed their spears and arrows at the sleeping guardian. In moments, the dragon was dead. []$MINIGAME_3$ [][b1]Drago's eyes burned with rage. \"You fools!\" he roared and released a wave of fire toward the soldiers. []The emperor stepped back, shocked but not afraid. [b2]He raised his hand. [][g1]\"Drago, please stop. He is my father and they are my people,\" Celestine cried, her voice cracking with pain. [][b1]Drago hesitated, his heart torn. As he lowered his head in retreat, a dagger flew and struck his right eye. []The emperor had thrown it. []Roaring in agony, Drago unleashed a final breath of fire, engulfing the emperor in flames. []The soldiers responded with a rain of arrows. []Drago collapsed, his body lifeless beside the treasure he once vowed to protect. []The battle had ended, but so had the age of dragons. []$MINIGAME_4$ []News spread, and the remaining dragons left the Lu Shing Empire, never to return. []With them, the magic faded from the land. []Celestine buried Drago in the palace garden, beneath a quiet tree where they once shared stories. []She visited the grave every day, her heart heavy with guilt and grief. []Weeks passed. Then, one morning, she noticed a strange plant sprouting from the soil. []It had thick skin with pinkish-red hues and green scale-like ridges, just like Drago. []Intrigued, Celestine waited for the fruit to ripen. []When she finally tasted it, it was sweet—sweet like her friend, Drago. []She named it \"drago fruit\" in his memory. []Over time, it became known as dragon fruit. []To this day, many believe the spirit of Drago lives on in every fruit that grows, a reminder of the loyalty, love, and sacrifice that once bound dragons and humans in harmony.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Long ago",
+            "dragons and humans",
+            "lived together",
+            "in harmony"
+          ],
+          "parts": [
+            "in harmony",
+            "Long ago",
+            "lived together",
+            "dragons and humans"
+          ],
+          "explanation": "The story begins by describing a time of peace between dragons and people."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "The dragons",
+            "were guardians",
+            "teachers",
+            "and loyal companions"
+          ],
+          "parts": [
+            "teachers",
+            "The dragons",
+            "and loyal companions",
+            "were guardians"
+          ],
+          "explanation": "They were more than beasts; they protected and guided humans."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Under their care",
+            "the Lu Shing Empire",
+            "flourished",
+            "in lasting peace"
+          ],
+          "parts": [
+            "Under their care",
+            "the Lu Shing Empire",
+            "flourished",
+            "in lasting peace"
+          ],
+          "explanation": "The empire thrived under the guardianship of dragons."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Princess Celestine",
+            "asked Drago",
+            "to show her",
+            "the hidden treasure cave"
+          ],
+          "parts": [
+            "the hidden treasure cave",
+            "Princess Celestine",
+            "asked Drago",
+            "to show her"
+          ],
+          "explanation": "She wanted to see the secret treasures despite his warning."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Drago",
+            "hesitated at first",
+            "but gave in",
+            "to Celestine’s request"
+          ],
+          "parts": [
+            "hesitated at first",
+            "Drago",
+            "to Celestine’s request",
+            "but gave in"
+          ],
+          "explanation": "His loyalty made him agree to her wish."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "The princess",
+            "promised secrecy",
+            "if Drago",
+            "took her there"
+          ],
+          "parts": [
+            "if Drago",
+            "The princess",
+            "took her there",
+            "promised secrecy"
+          ],
+          "explanation": "She swore she wouldn’t tell anyone if he agreed."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "The emperor",
+            "followed them secretly",
+            "into the hidden cave",
+            "with his soldiers"
+          ],
+          "parts": [
+            "with his soldiers",
+            "The emperor",
+            "followed them secretly",
+            "into the hidden cave"
+          ],
+          "explanation": "The emperor ordered his men to follow Celestine and Drago."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "They attacked",
+            "the sleeping guardian dragon",
+            "without warning",
+            "and killed it"
+          ],
+          "parts": [
+            "the sleeping guardian dragon",
+            "They attacked",
+            "without warning",
+            "and killed it"
+          ],
+          "explanation": "The emperor’s army mercilessly slew the ancient dragon."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "The treasure cave",
+            "was filled",
+            "with golden light",
+            "and shining riches"
+          ],
+          "parts": [
+            "with golden light",
+            "The treasure cave",
+            "and shining riches",
+            "was filled"
+          ],
+          "explanation": "The hidden cave was full of gold and treasure."
+        },
+
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "Drago",
+            "was struck",
+            "by a dagger",
+            "thrown by the emperor"
+          ],
+          "parts": [
+            "by a dagger",
+            "was struck",
+            "Drago",
+            "thrown by the emperor"
+          ],
+          "explanation": "The emperor wounded Drago by striking his eye."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "In agony",
+            "Drago unleashed fire",
+            "that engulfed",
+            "the emperor"
+          ],
+          "parts": [
+            "the emperor",
+            "In agony",
+            "Drago unleashed fire",
+            "that engulfed"
+          ],
+          "explanation": "Drago’s final act destroyed the emperor."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "After his fall",
+            "the dragons",
+            "left the empire",
+            "and magic faded away"
+          ],
+          "parts": [
+            "After his fall",
+            "the dragons",
+            "left the empire",
+            "and magic faded away"
+          ],
+          "explanation": "When Drago died, the dragons abandoned the land."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "How were dragons described in the Lu Shing Empire?",
+          "choices": [
+            { "choice": "Majestic and wise guardians", "answer": true },
+            { "choice": "Wild and dangerous beasts", "answer": false },
+            { "choice": "Servants to humans", "answer": false }
+          ],
+          "explanation": "They were protectors and companions, not just beasts."
+        },
+        {
+          "part_num": 1,
+          "question": "What effect did dragons have on the empire?",
+          "choices": [
+            { "choice": "They brought peace and protection", "answer": true },
+            { "choice": "They caused fear and chaos", "answer": false },
+            { "choice": "They ruled over the humans", "answer": false }
+          ],
+          "explanation": "The empire flourished under their care."
+        },
+        {
+          "part_num": 1,
+          "question": "What was unique about dragons in this story?",
+          "choices": [
+            { "choice": "They were teachers and companions", "answer": true },
+            { "choice": "They could talk to trees", "answer": false },
+            { "choice": "They lived only in caves", "answer": false }
+          ],
+          "explanation": "They were guardians and friends to humans."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What did Princess Celestine want Drago to do?",
+          "choices": [
+            { "choice": "Take her to the treasure cave", "answer": true },
+            { "choice": "Teach her to breathe fire", "answer": false },
+            { "choice": "Show her how to ride another dragon", "answer": false }
+          ],
+          "explanation": "She wanted to see where treasures were hidden."
+        },
+        {
+          "part_num": 2,
+          "question": "Why was Drago hesitant?",
+          "choices": [
+            { "choice": "Because it was forbidden", "answer": true },
+            { "choice": "Because he was tired", "answer": false },
+            { "choice": "Because the emperor said yes", "answer": false }
+          ],
+          "explanation": "He feared breaking the rules of his kind."
+        },
+        {
+          "part_num": 2,
+          "question": "Why did Drago finally agree?",
+          "choices": [
+            { "choice": "He was loyal to Celestine", "answer": true },
+            { "choice": "He wanted treasure", "answer": false },
+            { "choice": "He wanted to trick the emperor", "answer": false }
+          ],
+          "explanation": "His devotion to her outweighed his fear."
+        },
+
+        {
+          "part_num": 3,
+          "question": "Who followed Drago and Celestine to the cave?",
+          "choices": [
+            { "choice": "The emperor and his soldiers", "answer": true },
+            { "choice": "Other dragons", "answer": false },
+            { "choice": "A group of villagers", "answer": false }
+          ],
+          "explanation": "The emperor wanted the treasure for himself."
+        },
+        {
+          "part_num": 3,
+          "question": "What happened to the guardian dragon?",
+          "choices": [
+            { "choice": "It was killed by the soldiers", "answer": true },
+            { "choice": "It flew away unharmed", "answer": false },
+            { "choice": "It gave them treasure", "answer": false }
+          ],
+          "explanation": "The soldiers attacked and killed it."
+        },
+        {
+          "part_num": 3,
+          "question": "What was inside the hidden cave?",
+          "choices": [
+            { "choice": "A mountain of treasure", "answer": true },
+            { "choice": "Only rocks and dust", "answer": false },
+            { "choice": "A secret village", "answer": false }
+          ],
+          "explanation": "The cave was full of golden riches."
+        },
+
+        {
+          "part_num": 4,
+          "question": "Who injured Drago with a dagger?",
+          "choices": [
+            { "choice": "The emperor", "answer": true },
+            { "choice": "Princess Celestine", "answer": false },
+            { "choice": "Another dragon", "answer": false }
+          ],
+          "explanation": "The emperor himself threw the dagger."
+        },
+        {
+          "part_num": 4,
+          "question": "What did Drago do before dying?",
+          "choices": [
+            { "choice": "Burned the emperor with fire", "answer": true },
+            { "choice": "Escaped into the mountains", "answer": false },
+            { "choice": "Buried the treasure", "answer": false }
+          ],
+          "explanation": "He destroyed the emperor in his final act."
+        },
+        {
+          "part_num": 4,
+          "question": "What happened to the dragons after Drago’s death?",
+          "choices": [
+            { "choice": "They left the empire", "answer": true },
+            { "choice": "They fought the soldiers", "answer": false },
+            { "choice": "They built a new palace", "answer": false }
+          ],
+          "explanation": "The dragons abandoned the land, and magic faded."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -33083,6 +36099,337 @@
     "word_count": 329,
     "passage": "[]Everyone went into the classroom as Teacher Stick Fish opened the door. []Seahorse, Goldfish, Clam, Oyster and the rest of the class occupied the first two rows. []Little Octopus, who was an eager learner, wanted to sit in front, but the nasty Goldfish drove her away. [b1]\"Stay away from us, weirdo,\" Goldfish uttered. []$MINIGAME_1$[]Everyone laughed and joined in teasing the poor octopus. [b2]\"Look at her bulbous head, it looks funny!\" added the mean Seahorse. [b3]\"Hey, how does it feel to have those arms? Are you not confused where is left and right?\" the Clam taunted. []But [g1]Little Octopus remembered her mother's words—that she should not pick fights in school and must stay friendly. []She said nothing and sat in the last row, alone. []$MINIGAME_2$ []Teacher Stick Fish began the class when suddenly an emergency bell rang. []The principal, Sea Turtle, swam around the school. [b5]\"The shark is coming! Proceed to the emergency hideout now!\" he announced. []$MINIGAME_3$[]But it was too late—the ravenous shark blocked their path, jaws wide open. []The nasty Goldfish, Seahorse, and other sea animals screamed, terrified of death. []Suddenly, [g1]Little Octopus bravely swam forward and squirted a cloud of ink, confusing the shark. []The beast fled, leaving the school safe. []\"Thank you for saving all of us,\" [b5]Mr. Sea Turtle said. [g2]\"You are indeed our hero, dear,\" Teacher Stick Fish added. []$MINIGAME_4$ []Her classmates gathered around [g1]Little Octopus and shook her arms. [b1][b2][b4]\"We're so sorry. We misjudged you. Thank you for saving our lives!\" they exclaimed.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "After Goldfish’s insult",
+            "the whole class",
+            "burst into laughter",
+            "and joined the teasing"
+          ],
+          "parts": [
+            "After Goldfish’s insult",
+            "the whole class",
+            "burst into laughter",
+            "and joined the teasing"
+          ],
+          "explanation": "This bridges the insult to the classmates mocking Little Octopus."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "The teasing",
+            "spread quickly",
+            "as Seahorse and Clam",
+            "added their own cruel jokes"
+          ],
+          "parts": [
+            "as Seahorse and Clam",
+            "The teasing",
+            "spread quickly",
+            "added their own cruel jokes"
+          ],
+          "explanation": "This connects Goldfish’s bullying to other classmates joining in."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Soon",
+            "the room was filled",
+            "with laughter and mockery",
+            "directed at Little Octopus"
+          ],
+          "parts": [
+            "with laughter and mockery",
+            "Soon",
+            "directed at Little Octopus",
+            "the room was filled"
+          ],
+          "explanation": "This shows how the situation escalated against her."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "In that moment",
+            "Little Octopus",
+            "remembered her mother’s advice",
+            "to remain calm and kind"
+          ],
+          "parts": [
+            "to remain calm and kind",
+            "In that moment",
+            "Little Octopus",
+            "remembered her mother’s advice"
+          ],
+          "explanation": "This connects the classmates’ cruelty to her choice to stay peaceful."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "She chose",
+            "not to argue",
+            "but instead",
+            "to sit quietly at the back"
+          ],
+          "parts": [
+            "to sit quietly at the back",
+            "She chose",
+            "not to argue",
+            "but instead"
+          ],
+          "explanation": "This transitions from the bullying to her silent response."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Her silence",
+            "showed strength",
+            "even as",
+            "she sat alone"
+          ],
+          "parts": [
+            "even as",
+            "Her silence",
+            "she sat alone",
+            "showed strength"
+          ],
+          "explanation": "This bridges her inner patience with the outward scene of isolation."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Suddenly",
+            "the calm classroom",
+            "was disrupted",
+            "by the ringing of the emergency bell"
+          ],
+          "parts": [
+            "Suddenly",
+            "the calm classroom",
+            "was disrupted",
+            "by the ringing of the emergency bell"
+          ],
+          "explanation": "This transitions from her silence to the sudden alarm."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "The principal",
+            "rushed through the school",
+            "warning everyone",
+            "about the shark’s approach"
+          ],
+          "parts": [
+            "about the shark’s approach",
+            "The principal",
+            "rushed through the school",
+            "warning everyone"
+          ],
+          "explanation": "This connects the alarm to the message about the shark."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Moments later",
+            "the shark appeared",
+            "blocking their escape",
+            "with its massive jaws"
+          ],
+          "parts": [
+            "blocking their escape",
+            "with its massive jaws",
+            "Moments later",
+            "the shark appeared"
+          ],
+          "explanation": "This bridges the warning to the shark’s sudden arrival."
+        },
+
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "At that moment",
+            "Little Octopus",
+            "swam forward bravely",
+            "to defend her classmates"
+          ],
+          "parts": [
+            "to defend her classmates",
+            "At that moment",
+            "swam forward bravely",
+            "Little Octopus"
+          ],
+          "explanation": "This connects the shark’s threat to her courageous action."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "Her ink cloud",
+            "confused the shark",
+            "and saved",
+            "the frightened students"
+          ],
+          "parts": [
+            "and saved",
+            "Her ink cloud",
+            "the frightened students",
+            "confused the shark"
+          ],
+          "explanation": "This bridges her bravery to the shark retreating."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "After the danger passed",
+            "her classmates",
+            "surrounded her",
+            "with thanks and apologies"
+          ],
+          "parts": [
+            "After the danger passed",
+            "her classmates",
+            "surrounded her",
+            "with thanks and apologies"
+          ],
+          "explanation": "This transitions the shark’s retreat into the classmates’ apology."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What did the other classmates do after Goldfish’s insult?",
+          "choices": [
+            {
+              "choice": "They laughed and joined in the teasing",
+              "answer": true
+            },
+            { "choice": "They told Goldfish to stop", "answer": false },
+            { "choice": "They stayed silent and ignored it", "answer": false }
+          ],
+          "explanation": "This bridges the insult to the classmates’ group mockery."
+        },
+        {
+          "part_num": 1,
+          "question": "Who added more cruel remarks after Goldfish?",
+          "choices": [
+            { "choice": "Seahorse and Clam", "answer": true },
+            { "choice": "Teacher Stick Fish", "answer": false },
+            { "choice": "Mr. Sea Turtle", "answer": false }
+          ],
+          "explanation": "Other students joined in the bullying."
+        },
+        {
+          "part_num": 1,
+          "question": "What was the mood in the classroom during the teasing?",
+          "choices": [
+            { "choice": "Filled with laughter and mockery", "answer": true },
+            { "choice": "Quiet and serious", "answer": false },
+            { "choice": "Calm and peaceful", "answer": false }
+          ],
+          "explanation": "The atmosphere turned mocking and unkind."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What advice did Little Octopus remember?",
+          "choices": [
+            { "choice": "To stay calm and not fight back", "answer": true },
+            { "choice": "To fight anyone who bullies her", "answer": false },
+            { "choice": "To leave school immediately", "answer": false }
+          ],
+          "explanation": "Her mother told her not to pick fights."
+        },
+        {
+          "part_num": 2,
+          "question": "What did she do instead of arguing?",
+          "choices": [
+            { "choice": "She sat quietly at the back", "answer": true },
+            { "choice": "She shouted at the bullies", "answer": false },
+            { "choice": "She went home early", "answer": false }
+          ],
+          "explanation": "She responded with patience, sitting alone."
+        },
+        {
+          "part_num": 2,
+          "question": "How did her silence show strength?",
+          "choices": [
+            {
+              "choice": "It proved she could stay calm under pressure",
+              "answer": true
+            },
+            { "choice": "It showed she was scared", "answer": false },
+            {
+              "choice": "It made her classmates respect her instantly",
+              "answer": false
+            }
+          ],
+          "explanation": "Her patience kept her strong despite teasing."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What disrupted the quiet classroom after she sat silently?",
+          "choices": [
+            { "choice": "The emergency bell rang", "answer": true },
+            { "choice": "Teacher Stick Fish gave a quiz", "answer": false },
+            { "choice": "Goldfish teased her again", "answer": false }
+          ],
+          "explanation": "The alarm warned of danger."
+        },
+        {
+          "part_num": 3,
+          "question": "Who warned the school about the shark?",
+          "choices": [
+            { "choice": "Principal Sea Turtle", "answer": true },
+            { "choice": "Teacher Stick Fish", "answer": false },
+            { "choice": "Clam", "answer": false }
+          ],
+          "explanation": "The principal announced the emergency."
+        },
+        {
+          "part_num": 3,
+          "question": "What blocked the students’ escape?",
+          "choices": [
+            { "choice": "A hungry shark with open jaws", "answer": true },
+            { "choice": "A wall of rocks", "answer": false },
+            { "choice": "A net set by fishermen", "answer": false }
+          ],
+          "explanation": "The shark appeared and blocked their path."
+        },
+
+        {
+          "part_num": 4,
+          "question": "Who bravely swam forward to face the shark?",
+          "choices": [
+            { "choice": "Little Octopus", "answer": true },
+            { "choice": "Goldfish", "answer": false },
+            { "choice": "Seahorse", "answer": false }
+          ],
+          "explanation": "Little Octopus defended her classmates."
+        },
+        {
+          "part_num": 4,
+          "question": "What did she use to confuse the shark?",
+          "choices": [
+            { "choice": "A cloud of ink", "answer": true },
+            { "choice": "A net", "answer": false },
+            { "choice": "Sharp shells", "answer": false }
+          ],
+          "explanation": "She squirted ink, saving everyone."
+        },
+        {
+          "part_num": 4,
+          "question": "What did her classmates do after she saved them?",
+          "choices": [
+            { "choice": "They thanked her and apologized", "answer": true },
+            { "choice": "They ignored her again", "answer": false },
+            { "choice": "They made more jokes", "answer": false }
+          ],
+          "explanation": "They realized her bravery and said sorry."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -35093,6 +38440,334 @@
     "word_count": 298,
     "passage": "[]Once, there was a poor young boy named Emmanuel. []He always loved going to church with his mom. []Since they were poor, he could not have the things he needed or eat the foods he wanted. [b1]Emmanuel always dreamt of living a comfortable life. []Every time he went to church, he prayed to be successful so he could buy all he needed. []$MINIGAME_1$[]Growing up, he studied hard and graduated with honors. []After college, Emmanuel was immediately hired as a manager. []He never forgot to thank the Lord for slowly granting his prayers. []$MINIGAME_2$[]Despite his position, he still worked hard until he owned a company of his own. []He became one of the richest people in the country. []But in living the life he dreamt of, he forgot the one who made it possible. []He had everything, yet he no longer thanked God. []A few months later, Emmanuel’s business slowly failed. []$MINIGAME_3$[]He got depressed and began blaming the Almighty Father. []It was not long until he realized it was because he had forgotten the Lord. []One day, with hands clasped together, he entered the church. []Tears fell as he knelt in front of the altar. []While crying deeply, [b2]he heard God’s voice: \"Go back to me, everything is temporary.\" []$MINIGAME_4$ []On that day, Emmanuel resubmitted himself to the Lord. []He realized he was nothing without the grace of God.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Despite their poverty",
+            "Emmanuel",
+            "kept praying",
+            "to achieve a better life"
+          ],
+          "parts": [
+            "Despite their poverty",
+            "Emmanuel",
+            "kept praying",
+            "to achieve a better life"
+          ],
+          "explanation": "This transitions from his hardships to his constant prayers for success."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Every visit to church",
+            "was a chance",
+            "for Emmanuel",
+            "to ask for blessings"
+          ],
+          "parts": [
+            "for Emmanuel",
+            "Every visit to church",
+            "was a chance",
+            "to ask for blessings"
+          ],
+          "explanation": "It bridges his poverty to his hopeful prayers."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "His dreams",
+            "pushed him",
+            "to study hard",
+            "and work for his future"
+          ],
+          "parts": [
+            "to study hard",
+            "His dreams",
+            "pushed him",
+            "and work for his future"
+          ],
+          "explanation": "This leads into him growing up and studying diligently."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Hard work",
+            "brought Emmanuel",
+            "graduation honors",
+            "and his first job"
+          ],
+          "parts": [
+            "graduation honors",
+            "Hard work",
+            "and his first job",
+            "brought Emmanuel"
+          ],
+          "explanation": "This connects his efforts to his career beginnings."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "He started",
+            "with gratitude",
+            "thanking the Lord",
+            "for answered prayers"
+          ],
+          "parts": [
+            "He started",
+            "with gratitude",
+            "for answered prayers",
+            "thanking the Lord"
+          ],
+          "explanation": "It transitions to his initial thankfulness."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "But as he rose",
+            "to greater success",
+            "he slowly forgot",
+            "to give thanks"
+          ],
+          "parts": [
+            "to greater success",
+            "he slowly forgot",
+            "But as he rose",
+            "to give thanks"
+          ],
+          "explanation": "This leads into his neglect of gratitude."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Wealth and pride",
+            "blinded Emmanuel",
+            "until his company",
+            "began to fail"
+          ],
+          "parts": [
+            "until his company",
+            "Wealth and pride",
+            "began to fail",
+            "blinded Emmanuel"
+          ],
+          "explanation": "This bridges his arrogance to his downfall."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "His business",
+            "crumbled slowly",
+            "leaving him",
+            "angry and hopeless"
+          ],
+          "parts": [
+            "leaving him",
+            "His business",
+            "crumbled slowly",
+            "angry and hopeless"
+          ],
+          "explanation": "It connects the loss of gratitude to the collapse of his success."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "When failure struck",
+            "he stopped thanking God",
+            "and instead",
+            "blamed Him"
+          ],
+          "parts": [
+            "and instead",
+            "blamed Him",
+            "When failure struck",
+            "he stopped thanking God"
+          ],
+          "explanation": "This transitions into his blame and depression."
+        },
+
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "In despair",
+            "Emmanuel returned",
+            "to the church",
+            "weeping before God"
+          ],
+          "parts": [
+            "In despair",
+            "weeping before God",
+            "to the church",
+            "Emmanuel returned"
+          ],
+          "explanation": "This bridges his depression to his act of repentance."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "Kneeling at the altar",
+            "he prayed",
+            "with tears",
+            "and open heart"
+          ],
+          "parts": [
+            "with tears",
+            "Kneeling at the altar",
+            "and open heart",
+            "he prayed"
+          ],
+          "explanation": "It transitions to his resubmission to God."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "God’s voice",
+            "reminded him",
+            "that all things",
+            "are temporary"
+          ],
+          "parts": [
+            "reminded him",
+            "God’s voice",
+            "that all things",
+            "are temporary"
+          ],
+          "explanation": "This leads into Emmanuel’s realization and return to gratitude."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What did Emmanuel pray for as a child?",
+          "choices": [
+            {
+              "choice": "To live a successful and comfortable life",
+              "answer": true
+            },
+            { "choice": "To stop going to school", "answer": false },
+            { "choice": "To never visit church again", "answer": false }
+          ],
+          "explanation": "This connects his poverty to his hopeful prayers."
+        },
+        {
+          "part_num": 1,
+          "question": "What did Emmanuel dream about?",
+          "choices": [
+            { "choice": "Living a better life", "answer": true },
+            { "choice": "Owning many pets", "answer": false },
+            { "choice": "Traveling the world immediately", "answer": false }
+          ],
+          "explanation": "His dream was to escape poverty."
+        },
+        {
+          "part_num": 1,
+          "question": "What habit did Emmanuel keep despite poverty?",
+          "choices": [
+            { "choice": "Going to church to pray", "answer": true },
+            { "choice": "Skipping school", "answer": false },
+            { "choice": "Complaining constantly", "answer": false }
+          ],
+          "explanation": "He found comfort in prayer."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What happened after Emmanuel worked hard?",
+          "choices": [
+            {
+              "choice": "He graduated with honors and got a job",
+              "answer": true
+            },
+            { "choice": "He gave up studying", "answer": false },
+            { "choice": "He moved to another country", "answer": false }
+          ],
+          "explanation": "This connects his hard work to early success."
+        },
+        {
+          "part_num": 2,
+          "question": "How did Emmanuel start his career?",
+          "choices": [
+            { "choice": "With gratitude and prayers", "answer": true },
+            { "choice": "By mocking others", "answer": false },
+            { "choice": "With greed for money", "answer": false }
+          ],
+          "explanation": "He was thankful at first."
+        },
+        {
+          "part_num": 2,
+          "question": "What did Emmanuel forget as he grew richer?",
+          "choices": [
+            { "choice": "To thank God", "answer": true },
+            { "choice": "To attend work meetings", "answer": false },
+            { "choice": "To study again", "answer": false }
+          ],
+          "explanation": "His pride made him forget gratitude."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What happened to Emmanuel’s company?",
+          "choices": [
+            { "choice": "It slowly failed", "answer": true },
+            { "choice": "It became the largest in the world", "answer": false },
+            { "choice": "It stayed strong forever", "answer": false }
+          ],
+          "explanation": "His business collapsed after forgetting God."
+        },
+        {
+          "part_num": 3,
+          "question": "How did Emmanuel react when he lost his wealth?",
+          "choices": [
+            { "choice": "He blamed God", "answer": true },
+            { "choice": "He celebrated his loss", "answer": false },
+            { "choice": "He moved away", "answer": false }
+          ],
+          "explanation": "He turned his pain into blame."
+        },
+        {
+          "part_num": 3,
+          "question": "What was the cause of his downfall?",
+          "choices": [
+            { "choice": "Forgetting to thank the Lord", "answer": true },
+            { "choice": "Too many workers", "answer": false },
+            { "choice": "Selling his company", "answer": false }
+          ],
+          "explanation": "Neglecting gratitude led to his failure."
+        },
+
+        {
+          "part_num": 4,
+          "question": "What did Emmanuel do after realizing his mistake?",
+          "choices": [
+            { "choice": "He returned to church and prayed", "answer": true },
+            { "choice": "He ignored his faith completely", "answer": false },
+            { "choice": "He left his country", "answer": false }
+          ],
+          "explanation": "He went back to the Lord."
+        },
+        {
+          "part_num": 4,
+          "question": "What did Emmanuel do at the altar?",
+          "choices": [
+            { "choice": "Knelt down and cried", "answer": true },
+            { "choice": "Made another business plan", "answer": false },
+            { "choice": "Gave a speech", "answer": false }
+          ],
+          "explanation": "He prayed with tears at the altar."
+        },
+        {
+          "part_num": 4,
+          "question": "What message did God give Emmanuel?",
+          "choices": [
+            { "choice": "Everything is temporary", "answer": true },
+            { "choice": "You will never succeed again", "answer": false },
+            { "choice": "Money is the only blessing", "answer": false }
+          ],
+          "explanation": "God reminded him of life’s impermanence."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -37074,6 +40749,337 @@
     "word_count": 383,
     "passage": "[]Reddy found a new owner after being displayed in the Show Room for a month. []Reddy was a sleek brand new red car. []She was the coolest car in town, with features no other cars had—remote start, stereos, parking cameras, anti-collision system, and a head-up display. []He looked around and thought the other cars were shabby. []While entering the subdivision, everyone greeted him. [g1]\"Hey, buddy! Welcome!\" honked Black Oldie, an old black car. [g2]\"You are the coolest car I've seen. Welcome!\" admired Bumblebee, the yellow car. [g3]\"Oh, welcome fella,\" greeted Silvery, the silver car puffing gray smoke. []But [b1]Reddy did not reply. [b1]\"I don't want to be friends with those ugly and shabby cars,\" he told himself. []$MINIGAME_1$ []While other cars bonded, Reddy stayed solitary. []His stereos gave him company, his looks gave him pride. []Every day, he sped recklessly, screeching down the road at full blast. []Other cars worried about his speeding, but knew he wouldn’t take advice. []$MINIGAME_2$[g1]\"One day, he will learn his lesson the hard way,\" Black Oldie muttered. []One night, Reddy went home drunk, wobbling on the road and almost hitting Bumblebee. [g2]\"Reddy, are you okay? Please drive slowly!\" the concerned yellow car said. []But Reddy yelled, [b1]\"You scruffy car, don't tell me what to do. I am far more high-tech than you!\" []$MINIGAME_3$ []Reddy ignored the flashing red warning on his dashboard. Dizzy and blurry-eyed, he lost control, spun, and crashed into a post. []His sleek body was left torn and unrecognizable. []The neighborhood cars gathered around, pitying him. [g2]\"Poor Reddy! If only he listened,\" Bumblebee said. [g3]\"This is what happens when you are too proud,\" Silvery muttered. [g1]\"Indeed, he learned his lesson the hard way,\" Black Oldie sighed.[]$MINIGAME_4$",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Although the other cars",
+            "welcomed Reddy warmly",
+            "he refused",
+            "to make friends"
+          ],
+          "parts": [
+            "Although the other cars",
+            "welcomed Reddy warmly",
+            "he refused",
+            "to make friends"
+          ],
+          "explanation": "This bridges from the neighbors greeting Reddy to his rejection of friendship."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Instead of replying",
+            "he told himself",
+            "the others were shabby",
+            "and not worth his time"
+          ],
+          "parts": [
+            "and not worth his time",
+            "Instead of replying",
+            "the others were shabby",
+            "he told himself"
+          ],
+          "explanation": "It shows how pride kept him from kindness."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Reddy’s pride",
+            "set him apart",
+            "from the friendly cars",
+            "in the neighborhood"
+          ],
+          "parts": [
+            "Reddy’s pride",
+            "set him apart",
+            "from the friendly cars",
+            "in the neighborhood"
+          ],
+          "explanation": "This connects the welcome scene to Reddy’s isolation."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "While others bonded",
+            "Reddy stayed alone",
+            "relying on his looks",
+            "and noisy music"
+          ],
+          "parts": [
+            "and noisy music",
+            "While others bonded",
+            "relying on his looks",
+            "Reddy stayed alone"
+          ],
+          "explanation": "This bridges from his rejection of others to his solitary pride."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Every day",
+            "he sped recklessly",
+            "down the streets",
+            "ignoring warnings"
+          ],
+          "parts": [
+            "ignoring warnings",
+            "Every day",
+            "he sped recklessly",
+            "down the streets"
+          ],
+          "explanation": "It connects his pride to his dangerous habits."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "The older cars",
+            "worried about him",
+            "but knew",
+            "he wouldn’t listen"
+          ],
+          "parts": [
+            "The older cars",
+            "worried about him",
+            "but knew",
+            "he wouldn’t listen"
+          ],
+          "explanation": "This leads into their concern about his reckless behavior."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "One night",
+            "Reddy drove home drunk",
+            "nearly crashing",
+            "into Bumblebee"
+          ],
+          "parts": [
+            "nearly crashing",
+            "One night",
+            "into Bumblebee",
+            "Reddy drove home drunk"
+          ],
+          "explanation": "This bridges from his reckless driving to the near accident."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Bumblebee",
+            "pleaded with Reddy",
+            "to slow down",
+            "and be careful"
+          ],
+          "parts": [
+            "to slow down",
+            "and be careful",
+            "Bumblebee",
+            "pleaded with Reddy"
+          ],
+          "explanation": "This connects Bumblebee’s concern to Reddy’s arrogance."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Reddy’s pride",
+            "made him shout",
+            "at his friend",
+            "and dismiss the warning"
+          ],
+          "parts": [
+            "at his friend",
+            "Reddy’s pride",
+            "made him shout",
+            "and dismiss the warning"
+          ],
+          "explanation": "This bridges Bumblebee’s concern to Reddy’s angry response."
+        },
+
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "Ignoring the warnings",
+            "Reddy spun out of control",
+            "and crashed",
+            "into a post"
+          ],
+          "parts": [
+            "into a post",
+            "Reddy spun out of control",
+            "and crashed",
+            "Ignoring the warnings"
+          ],
+          "explanation": "This bridges his pride to his final accident."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "His once sleek body",
+            "was torn apart",
+            "leaving him",
+            "unrecognizable"
+          ],
+          "parts": [
+            "His once sleek body",
+            "was torn apart",
+            "leaving him",
+            "unrecognizable"
+          ],
+          "explanation": "This transitions to the result of his crash."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "The neighborhood cars",
+            "gathered around",
+            "pitying him",
+            "for learning the lesson too late"
+          ],
+          "parts": [
+            "pitying him",
+            "The neighborhood cars",
+            "for learning the lesson too late",
+            "gathered around"
+          ],
+          "explanation": "This connects his downfall to the moral of the story."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "How did Reddy react to the warm greetings?",
+          "choices": [
+            {
+              "choice": "He ignored them and refused to be friends",
+              "answer": true
+            },
+            { "choice": "He greeted them back kindly", "answer": false },
+            { "choice": "He joined them immediately", "answer": false }
+          ],
+          "explanation": "This bridges the welcome scene to his isolation."
+        },
+        {
+          "part_num": 1,
+          "question": "What did Reddy think of the other cars?",
+          "choices": [
+            { "choice": "They were shabby and ugly", "answer": true },
+            { "choice": "They were wise and kind", "answer": false },
+            { "choice": "They were faster than him", "answer": false }
+          ],
+          "explanation": "This shows his prideful thoughts."
+        },
+        {
+          "part_num": 1,
+          "question": "What set Reddy apart from the others?",
+          "choices": [
+            { "choice": "His pride and refusal to connect", "answer": true },
+            { "choice": "His kindness to everyone", "answer": false },
+            { "choice": "His willingness to listen", "answer": false }
+          ],
+          "explanation": "His pride made him isolated."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What did Reddy do instead of bonding with the others?",
+          "choices": [
+            {
+              "choice": "He stayed alone with his music and pride",
+              "answer": true
+            },
+            { "choice": "He played games with them", "answer": false },
+            { "choice": "He helped them fix their engines", "answer": false }
+          ],
+          "explanation": "He isolated himself in arrogance."
+        },
+        {
+          "part_num": 2,
+          "question": "How did Reddy drive around town?",
+          "choices": [
+            { "choice": "Recklessly at full speed", "answer": true },
+            { "choice": "Slowly and carefully", "answer": false },
+            { "choice": "Only at night", "answer": false }
+          ],
+          "explanation": "He sped dangerously every day."
+        },
+        {
+          "part_num": 2,
+          "question": "What did the older cars think of Reddy?",
+          "choices": [
+            {
+              "choice": "They worried but knew he wouldn’t listen",
+              "answer": true
+            },
+            { "choice": "They admired his carefulness", "answer": false },
+            { "choice": "They ignored him completely", "answer": false }
+          ],
+          "explanation": "They saw his reckless pride."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What nearly happened when Reddy drove drunk?",
+          "choices": [
+            { "choice": "He almost hit Bumblebee", "answer": true },
+            { "choice": "He got lost in the forest", "answer": false },
+            { "choice": "He arrived safely", "answer": false }
+          ],
+          "explanation": "He nearly crashed into a friend."
+        },
+        {
+          "part_num": 3,
+          "question": "How did Bumblebee react?",
+          "choices": [
+            { "choice": "He begged Reddy to slow down", "answer": true },
+            { "choice": "He scolded Reddy harshly", "answer": false },
+            { "choice": "He ignored the danger", "answer": false }
+          ],
+          "explanation": "Bumblebee showed concern."
+        },
+        {
+          "part_num": 3,
+          "question": "How did Reddy respond to Bumblebee’s warning?",
+          "choices": [
+            { "choice": "He shouted angrily and insulted him", "answer": true },
+            { "choice": "He slowed down quietly", "answer": false },
+            { "choice": "He thanked him politely", "answer": false }
+          ],
+          "explanation": "Reddy’s arrogance made him reject help."
+        },
+
+        {
+          "part_num": 4,
+          "question": "What happened when Reddy ignored his dashboard warning?",
+          "choices": [
+            { "choice": "He crashed into a post", "answer": true },
+            { "choice": "He parked safely at home", "answer": false },
+            { "choice": "He joined the other cars", "answer": false }
+          ],
+          "explanation": "Ignoring warnings led to disaster."
+        },
+        {
+          "part_num": 4,
+          "question": "What did the crash do to Reddy?",
+          "choices": [
+            { "choice": "It destroyed his sleek body", "answer": true },
+            { "choice": "It made him shinier than before", "answer": false },
+            { "choice": "It turned him into a race car", "answer": false }
+          ],
+          "explanation": "His body was ruined in the crash."
+        },
+        {
+          "part_num": 4,
+          "question": "What lesson did the neighborhood cars see?",
+          "choices": [
+            { "choice": "That pride leads to downfall", "answer": true },
+            { "choice": "That speeding is always safe", "answer": false },
+            { "choice": "That Reddy was the fastest", "answer": false }
+          ],
+          "explanation": "They reflected on the moral of pride."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
