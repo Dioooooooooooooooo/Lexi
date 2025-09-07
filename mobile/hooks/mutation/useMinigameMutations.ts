@@ -1,51 +1,15 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { 
   MinigamesService,
   type PostMinigamesLogsSentenceRearrangementData,
   type PostMinigamesLogsChoicesData,
   type PostMinigamesLogsWordsFromLettersData,
-} from './requests';
-import { setupAuthToken, queryKeys } from './apiUtils';
+} from '../api/requests';
+import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
 // =============================================================================
-// MINIGAMES HOOKS
+// MINIGAME MUTATIONS - Data Modification Hooks
 // =============================================================================
-
-export const useRandomMinigamesByMaterial = (readingMaterialId: string) => {
-  return useQuery({
-    queryKey: queryKeys.minigames.randomByMaterial(readingMaterialId),
-    queryFn: async () => {
-      await setupAuthToken();
-      return MinigamesService.getMinigamesReadingmaterialsByReadingMaterialIdRandom({ readingMaterialId });
-    },
-    enabled: !!readingMaterialId,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
-};
-
-export const useRandomMinigamesBySession = (readingSessionId: string) => {
-  return useQuery({
-    queryKey: queryKeys.minigames.randomBySession(readingSessionId),
-    queryFn: async () => {
-      await setupAuthToken();
-      return MinigamesService.getMinigamesByReadingSessionIdRandom({ readingSessionId });
-    },
-    enabled: !!readingSessionId,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
-};
-
-export const useWordsFromLettersMinigame = (readingMaterialId: string) => {
-  return useQuery({
-    queryKey: queryKeys.minigames.wordsFromLetters(readingMaterialId),
-    queryFn: async () => {
-      await setupAuthToken();
-      return MinigamesService.getMinigamesByReadingMaterialIdWordsFromLetters({ readingMaterialId });
-    },
-    enabled: !!readingMaterialId,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
-};
 
 export const useCompleteMinigameSession = () => {
   const queryClient = useQueryClient();

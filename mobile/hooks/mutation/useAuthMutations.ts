@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
   AuthenticationService,
@@ -9,51 +9,25 @@ import {
   type PatchAuthMeData,
   type PostAuthChangePasswordData,
   type PostAuthLogoutData,
-} from './requests';
-import { setupAuthToken, queryKeys } from './apiUtils';
+} from '../api/requests';
+import { setupAuthToken, queryKeys } from '../api/apiUtils';
+import { transformRegistrationData } from '../utils/authTransformers';
 
 // =============================================================================
-// AUTH HOOKS
+// AUTH MUTATIONS - Data Modification Hooks
 // =============================================================================
-
-export const useAuthMe = () => {
-  return useQuery({
-    queryKey: queryKeys.auth.me(),
-    queryFn: async () => {
-      await setupAuthToken();
-      return AuthenticationService.getAuthMe();
-    },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    retry: (failureCount, error: any) => {
-      // Don't retry on 401 (unauthorized)
-      if (error?.status === 401) {
-        return false;
-      }
-      return failureCount < 3;
-    },
-  });
-};
-
-export const useVerifyToken = () => {
-  return useQuery({
-    queryKey: queryKeys.auth.verifyToken(),
-    queryFn: async () => {
-      await setupAuthToken();
-      return AuthenticationService.getAuthVerifyToken();
-    },
-    staleTime: 1 * 60 * 1000, // 1 minute
-    retry: false, // Don't retry token verification
-  });
-};
 
 export const useRegister = () => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: (data: PostAuthRegisterData) => AuthenticationService.postAuthRegister(data),
+    mutationFn: (formData: Record<string, any>) => {
+      const transformedData = transformRegistrationData(formData);
+      return AuthenticationService.postAuthRegister({ requestBody: transformedData });
+    },
     onSuccess: (data) => {
       // Set token in OpenAPI config
-      const token = (data as any)?.data?.access_token;
+      const token = (data as any)?.access_token;
       if (token) {
         OpenAPI.TOKEN = token;
         AsyncStorage.setItem('access_token', token);

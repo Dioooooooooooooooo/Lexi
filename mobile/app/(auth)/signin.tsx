@@ -1,25 +1,25 @@
+import { extractUser } from '@/models/User';
+import { login as apiLogin } from '@/services/AuthService';
+import { getProfile } from '@/services/UserService';
+import { useAuthStore } from '@/stores/authStore';
+import { useUserStore } from '@/stores/userStore';
+import { validateField } from '@/utils/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { useGlobalStore } from '~/stores/globalStore';
-import { router } from 'expo-router';
-import { useAuthStore } from '@/stores/authStore';
-import { validateField } from '@/utils/utils';
-import { getProfile } from '@/services/UserService';
-import { login as apiLogin } from '@/services/AuthService';
-import { extractUser } from '@/models/User';
-import { useUserStore } from '@/stores/userStore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Components
+import { Eye, EyeOff, KeyRound, Mail } from 'lucide-react-native';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { Eye, EyeOff, Mail, KeyRound } from 'lucide-react-native';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 import { Text } from '~/components/ui/text';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import BackHeader from '@/components/BackHeader';
+import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const SignIn = () => {
   const setUser = useUserStore.getState().setUser;

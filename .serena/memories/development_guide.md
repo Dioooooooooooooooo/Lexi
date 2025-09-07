@@ -41,6 +41,45 @@ pnpm test               # Must pass
 pnpm build              # Must compile
 ```
 
+## Hook Architecture (Updated)
+
+### New TanStack Query Structure
+```
+mobile/hooks/
+├── api/
+│   ├── requests/        # Auto-generated OpenAPI client
+│   └── apiUtils.ts      # Query keys and auth setup
+├── mutation/
+│   ├── useAuthMutations.ts     # Login, register, logout
+│   ├── useClassroomMutations.ts # Create, update, delete
+│   ├── useMinigameMutations.ts  # Log completions
+│   └── usePupilMutations.ts     # Profile updates
+├── query/
+│   ├── useAuthQueries.ts        # Profile, token verification
+│   ├── useClassroomQueries.ts   # List, detail queries
+│   ├── useMinigameQueries.ts    # Random minigames
+│   └── usePupilQueries.ts       # Leaderboard, user lookup
+├── utils/
+│   └── authTransformers.ts      # UI ↔ API data transformation
+└── index.ts                     # Centralized exports
+```
+
+### Data Transformation Pattern
+- **UI Forms**: camelCase (`firstName`, `lastName`, `confirmPassword`)
+- **API Expects**: snake_case (`first_name`, `last_name`, `confirm_password`)
+- **Solution**: Transform in utils before API calls
+
+### Import Patterns
+```typescript
+// New centralized imports
+import { useRegister, useLogin } from '@/hooks';
+import { useClassrooms, useCreateClassroom } from '@/hooks';
+import { usePupilMe, useUpdatePupilProfile } from '@/hooks';
+
+// Data transformation (internal use)
+import { transformRegistrationData } from '@/hooks/utils/authTransformers';
+```
+
 ## Task Completion Checklist
 
 ### ✅ Every Code Task Must:
@@ -55,19 +94,10 @@ pnpm build              # Must compile
 - Error states handled gracefully
 - TypeScript strict compliance
 - No console.log in production code
+- Follow TanStack Query patterns (separate query/mutation files)
 
 ## Git & Commits
 - **Format**: Conventional commits (`feat:`, `fix:`, `docs:`)
 - **Scope**: Include module when relevant
 - **Branches**: `feature/`, `fix/`, `docs/`, `refactor/`
 - **Migration**: Update `API_MIGRATION_PROGRESS.md` when applicable
-
-## Import Patterns
-```typescript
-// Backend - absolute imports
-import { AuthService } from '@/app/auth/auth.service';
-
-// Mobile - generated hooks
-import { useLogin, useAuthMe } from '@/lib/hooks/useAuthHooks';
-import { useClassrooms } from '@/lib/hooks/useClassroomsHooks';
-```

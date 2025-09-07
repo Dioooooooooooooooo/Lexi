@@ -8,12 +8,13 @@ import { useUserStore } from "./userStore";
 
 import { getProfile } from "@/services/UserService";
 import {
-  signUp as apiSignUp,
   refreshAccessToken,
   signInWithFacebook,
   signInWithGoogle,
   tokenAuth,
 } from "../services/AuthService";
+import { AuthenticationService } from "../hooks/api/requests";
+import { transformRegistrationData } from "../hooks/utils/authTransformers";
 
 type AuthStore = {
   signup: (registerForm: Record<string, any>) => void;
@@ -28,16 +29,18 @@ export const useAuthStore = create<AuthStore>()(
     (set) => ({
       signup: async (registerForm: Record<string, any>) => {
         try {
-          let response = await apiSignUp(registerForm);
+          const transformedData = transformRegistrationData(registerForm);
+          const response = await AuthenticationService.postAuthRegister({ 
+            requestBody: transformedData 
+          });
 
-          await AsyncStorage.setItem("accessToken", response.data.access_token);
-          await AsyncStorage.setItem(
-            "refreshToken",
-            response.data.refresh_token
-          );
+          await AsyncStorage.setItem("access_token", response.access_token);
+          if (response.refresh_token) {
+            await AsyncStorage.setItem("refresh_token", response.refresh_token);
+          }
 
-          response = await getProfile();
-          const user = extractUser(response.data);
+          const profileResponse = await getProfile();
+          const user = extractUser(profileResponse.data);
           setUser(user);
         } catch (error: any) {
           throw Error(
@@ -47,8 +50,8 @@ export const useAuthStore = create<AuthStore>()(
       },
       logout: async () => {
         setUser(null);
-        await AsyncStorage.removeItem("accessToken");
-        await AsyncStorage.removeItem("refreshToken");
+        await AsyncStorage.removeItem("access_token");
+        await AsyncStorage.removeItem("refresh_token");
       },
 
       providerAuth: async (provider: number) => {
@@ -78,9 +81,9 @@ export const useAuthStore = create<AuthStore>()(
               return;
           }
 
-          await AsyncStorage.setItem("accessToken", response.data.accessToken);
+          await AsyncStorage.setItem("access_token", response.data.accessToken);
           await AsyncStorage.setItem(
-            "refreshToken",
+            "refresh_token",
             response.data.refreshToken.token
           );
 
