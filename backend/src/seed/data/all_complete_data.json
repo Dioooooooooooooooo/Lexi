@@ -43520,6 +43520,334 @@
     "word_count": 616,
     "passage": "[]Archie lay on his bed with his cell phone in hand. []His thumbs tapped quickly as rainbow-colored lights flickered on his face. []He was playing Mobile Legends. [b4]\"An ally has been slain! All troops deployed!\" the phone sounded. [b1]\"Yehey! I won! I won!\" Archie shouted. []It seemed winning the game was his greatest achievement. []$MINIGAME_1$ []Every day after school, Archie locked himself in his room, playing until midnight or dawn. []The next day, he was late for school, uninterested in lessons. [b2]The teacher thought he was listening, but his mind was full of gunfire and shouts from the game.[]During recess, Archie played instead of eating. []Sometimes, he skipped classes to go home and play. []$MINIGAME_2$[]His mother was called many times about his failing grades, but she didn’t know how to stop him. []One night, an argument erupted. [g1]\"Archie, turn that off and go to sleep!\" his mother demanded. [b1]\"I need to finish this, mom,\" Archie insisted. [g1]\"No! Give that cell phone to me!\" she said angrily. []But Archie slammed the door and locked it. []Stunned, his mother cried. [g1]\"What happened to my son?\" she muttered. []$MINIGAME_3$ []Past midnight, she peeked in—Archie was still playing. []The phone vibrated with a blinding light. []Characters from Mobile Legends came out and fought in the room. []Archie screamed. [b1]\"Mother, help me! They’re real! They want to kill me!\" he trembled. [g1]\"Archie, wake up. You are dreaming,\" she said, touching his face. [b1]\"I don’t want to die, mom. Please help me,\" he whispered. []Archie was burning with fever. His mother rushed him to the hospital. []$MINIGAME_4$ []The doctor diagnosed him with gaming addiction, a compulsive disorder that harms life. []His health had declined from skipped meals, stress, and no sleep. []The doctor advised his mother how to help Archie recover. []The journey would be long and hard, but she was determined to save her son.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "After winning a match",
+            "Archie felt",
+            "like it was",
+            "his greatest achievement"
+          ],
+          "parts": [
+            "Archie felt",
+            "After winning a match",
+            "his greatest achievement",
+            "like it was"
+          ],
+          "explanation": "This connects the joy of winning to his growing obsession."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Soon",
+            "video games",
+            "became more important",
+            "than school or sleep"
+          ],
+          "parts": [
+            "Soon",
+            "video games",
+            "became more important",
+            "than school or sleep"
+          ],
+          "explanation": "This bridges his excitement to the start of addiction."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Day after day",
+            "his routine",
+            "revolved around",
+            "Mobile Legends"
+          ],
+          "parts": [
+            "his routine",
+            "revolved around",
+            "Day after day",
+            "Mobile Legends"
+          ],
+          "explanation": "It transitions from his first win to his daily obsession."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "His constant playing",
+            "affected his studies",
+            "making him",
+            "late and distracted"
+          ],
+          "parts": [
+            "His constant playing",
+            "affected his studies",
+            "making him",
+            "late and distracted"
+          ],
+          "explanation": "This bridges his late nights to his school troubles."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Teachers noticed",
+            "that Archie’s mind",
+            "was full of the game",
+            "instead of lessons"
+          ],
+          "parts": [
+            "Teachers noticed",
+            "that Archie’s mind",
+            "was full of the game",
+            "instead of lessons"
+          ],
+          "explanation": "This connects his gaming to classroom struggles."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Skipping meals and classes",
+            "became normal",
+            "as the game",
+            "controlled his time"
+          ],
+          "parts": [
+            "Skipping meals and classes",
+            "became normal",
+            "as the game",
+            "controlled his time"
+          ],
+          "explanation": "This leads into his worsening habits."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Arguments at home",
+            "grew louder",
+            "as Archie",
+            "chose gaming over family"
+          ],
+          "parts": [
+            "Arguments at home",
+            "grew louder",
+            "as Archie",
+            "chose gaming over family"
+          ],
+          "explanation": "This bridges the school issues to family conflict."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "His mother",
+            "pleaded with him",
+            "to stop playing",
+            "and rest"
+          ],
+          "parts": [
+            "His mother",
+            "pleaded with him",
+            "to stop playing",
+            "and rest"
+          ],
+          "explanation": "This transitions into their heated confrontation."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "But Archie’s anger",
+            "closed the door",
+            "leaving his mother",
+            "in tears"
+          ],
+          "parts": [
+            "But Archie’s anger",
+            "closed the door",
+            "leaving his mother",
+            "in tears"
+          ],
+          "explanation": "This connects his refusal to the heartbreak of his mother."
+        },
+
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "That night",
+            "the game blurred",
+            "into a nightmare",
+            "with characters coming alive"
+          ],
+          "parts": [
+            "That night",
+            "the game blurred",
+            "into a nightmare",
+            "with characters coming alive"
+          ],
+          "explanation": "This bridges the family fight to the surreal vision."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "Archie screamed",
+            "thinking the heroes",
+            "were trying",
+            "to kill him"
+          ],
+          "parts": [
+            "Archie screamed",
+            "thinking the heroes",
+            "were trying",
+            "to kill him"
+          ],
+          "explanation": "This transitions to his terrifying dream."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "When his mother woke him",
+            "he was burning with fever",
+            "and rushed",
+            "to the hospital"
+          ],
+          "parts": [
+            "When his mother woke him",
+            "he was burning with fever",
+            "and rushed",
+            "to the hospital"
+          ],
+          "explanation": "This connects the nightmare to his diagnosis."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What did Archie feel after winning Mobile Legends?",
+          "choices": [
+            {
+              "choice": "That it was his greatest achievement",
+              "answer": true
+            },
+            { "choice": "That it was just a waste of time", "answer": false },
+            { "choice": "That school was more important", "answer": false }
+          ],
+          "explanation": "His excitement fueled the addiction."
+        },
+        {
+          "part_num": 1,
+          "question": "What became Archie’s daily habit?",
+          "choices": [
+            { "choice": "Playing Mobile Legends for hours", "answer": true },
+            { "choice": "Helping his mom at home", "answer": false },
+            { "choice": "Studying all night", "answer": false }
+          ],
+          "explanation": "He played until midnight or dawn."
+        },
+        {
+          "part_num": 1,
+          "question": "What did Archie value most at this stage?",
+          "choices": [
+            { "choice": "Winning games", "answer": true },
+            { "choice": "Attending church", "answer": false },
+            { "choice": "Eating meals with family", "answer": false }
+          ],
+          "explanation": "Gaming became his top priority."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What effect did gaming have on Archie’s school life?",
+          "choices": [
+            { "choice": "He became late and distracted", "answer": true },
+            { "choice": "He became a top student", "answer": false },
+            { "choice": "He started teaching classmates", "answer": false }
+          ],
+          "explanation": "His addiction harmed his studies."
+        },
+        {
+          "part_num": 2,
+          "question": "What filled Archie’s mind during class?",
+          "choices": [
+            { "choice": "Gunfire and shouts from the game", "answer": true },
+            { "choice": "His teacher’s lessons", "answer": false },
+            { "choice": "Plans for family vacations", "answer": false }
+          ],
+          "explanation": "He couldn’t focus on school."
+        },
+        {
+          "part_num": 2,
+          "question": "What did Archie sometimes skip just to play?",
+          "choices": [
+            { "choice": "Meals and classes", "answer": true },
+            { "choice": "Sports with friends", "answer": false },
+            { "choice": "Watching TV", "answer": false }
+          ],
+          "explanation": "Gaming took priority over health and school."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What did Archie’s mother ask him to do?",
+          "choices": [
+            { "choice": "Turn off the phone and sleep", "answer": true },
+            { "choice": "Keep playing quietly", "answer": false },
+            { "choice": "Join her in a game", "answer": false }
+          ],
+          "explanation": "She wanted him to rest."
+        },
+        {
+          "part_num": 3,
+          "question": "How did Archie respond to his mom’s request?",
+          "choices": [
+            { "choice": "He refused and locked the door", "answer": true },
+            { "choice": "He gave her the phone immediately", "answer": false },
+            { "choice": "He promised to sleep soon", "answer": false }
+          ],
+          "explanation": "He chose anger over listening."
+        },
+        {
+          "part_num": 3,
+          "question": "How did his mother feel afterward?",
+          "choices": [
+            { "choice": "She cried, heartbroken", "answer": true },
+            { "choice": "She laughed at him", "answer": false },
+            { "choice": "She joined him in playing", "answer": false }
+          ],
+          "explanation": "She felt helpless and sad."
+        },
+
+        {
+          "part_num": 4,
+          "question": "What strange event happened past midnight?",
+          "choices": [
+            {
+              "choice": "Game characters appeared in his room",
+              "answer": true
+            },
+            { "choice": "He suddenly aced his exams", "answer": false },
+            { "choice": "His teacher came to visit", "answer": false }
+          ],
+          "explanation": "His dream blurred into reality."
+        },
+        {
+          "part_num": 4,
+          "question": "What was Archie’s condition when his mom woke him?",
+          "choices": [
+            { "choice": "He had a fever", "answer": true },
+            { "choice": "He was perfectly fine", "answer": false },
+            { "choice": "He was playing calmly", "answer": false }
+          ],
+          "explanation": "His body suffered from addiction."
+        },
+        {
+          "part_num": 4,
+          "question": "What did the doctor diagnose Archie with?",
+          "choices": [
+            { "choice": "Gaming addiction", "answer": true },
+            { "choice": "A broken bone", "answer": false },
+            { "choice": "Seasonal allergies", "answer": false }
+          ],
+          "explanation": "His compulsive disorder harmed his health."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -47834,6 +48162,305 @@
     "word_count": 466,
     "passage": "[]It was a normal morning for everybody in town. The children played in the backyard and the adults enjoyed a warm plate of breakfast. Despite the good weather and happy children, one child chose to stay inside the house. []She sat on her bed and stared at a pile of papers in front of her—all of them marked failed. She began to weep. All of a sudden, she stood up and picked the papers. Enraged, she ripped every piece of paper, one by one. [g1]\"This is horrible! My parents shouldn't know about my poor performance in school!\" []$MINIGAME_1$[]She continued to sob and threw the pieces of paper in the trash bin. [g2]\"Marian, it's time for breakfast! Please get out of your room and eat,\" a voice called to her. [g1]\"But Mother, I wish to study,\" Marian insisted. []$MINIGAME_2$[g2]\"No buts. Just take your breakfast, honey,\" her mother replied. []Marian pouted, but she had no choice but to obey. [b1]\"Good morning, Marian,\" Mr. Andrada greeted. [b1]\"I hope you are doing well, my dear.\" []Mrs. Andrada placed three plates of pancake on the table. [g1]\"I am, Mother,\" Marian replied. [b1]\"How is school, dear?\" her father asked. []She froze in fear. [g2]\"What's the matter, Marian? Is there anything wrong?\" her concerned mother patted the table softly, looking at Marian with caring eyes. []\"Is this my punishment for slacking off? I shouldn't have played with other kids too much,\" she thought to herself. []$MINIGAME_3$ [b1]\"Marian Andrada. Is there something wrong?\" Her father slammed his hands on the table, which frightened Marian. [g2]\"Darling, let her think,\" her mother caressed her father's coarse hands. []Marian gathered courage to tell the truth to her parents. [g1]\"Mother, Father... I failed in our quarterly exam.\" []The words finally escaped her mouth, guilt rushing over her as her parents' eyes widened. []$MINIGAME_4$[g1]\"Uum, I'm sorry, for I have disappointed you,\" Marian pled. []The poor young lady expected the worst. Her parents had been very strict with her lately. Surely there was a consequence. [b1]\"Young lady, this is disappointing to hear.\" []She was right, but something unexpected happened. [b1]\"But we understand. You were always in your room, studying your lessons. Of course, you won't have time to meet people. That worried us a lot. So when you asked to play with your friends, I was glad. Glad that you are willing to engage with the others,\" her father explained. []$MINIGAME_5$[]Marian beamed. [g1]\"I am so lucky to be your daughter.\" [b1]\"We love you dear!\" her father exclaimed. [g2]\"No matter what happens, we will love you from the bottom of our heart. Remember that,\" her mother assured her. []She hugged her parents as tight as she could. Now, Marian had more reason to study and do better in school.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "question": "What did Archie feel after winning Mobile Legends?",
+          "choices": [
+            {
+              "choice": "That it was his greatest achievement",
+              "answer": true
+            },
+            { "choice": "That it was just a waste of time", "answer": false },
+            { "choice": "That school was more important", "answer": false }
+          ],
+          "explanation": "His excitement fueled the addiction."
+        },
+        {
+          "part_num": 1,
+          "question": "What became Archie’s daily habit?",
+          "choices": [
+            { "choice": "Playing Mobile Legends for hours", "answer": true },
+            { "choice": "Helping his mom at home", "answer": false },
+            { "choice": "Studying all night", "answer": false }
+          ],
+          "explanation": "He played until midnight or dawn."
+        },
+        {
+          "part_num": 1,
+          "question": "What did Archie value most at this stage?",
+          "choices": [
+            { "choice": "Winning games", "answer": true },
+            { "choice": "Attending church", "answer": false },
+            { "choice": "Eating meals with family", "answer": false }
+          ],
+          "explanation": "Gaming became his top priority."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What effect did gaming have on Archie’s school life?",
+          "choices": [
+            { "choice": "He became late and distracted", "answer": true },
+            { "choice": "He became a top student", "answer": false },
+            { "choice": "He started teaching classmates", "answer": false }
+          ],
+          "explanation": "His addiction harmed his studies."
+        },
+        {
+          "part_num": 2,
+          "question": "What filled Archie’s mind during class?",
+          "choices": [
+            { "choice": "Gunfire and shouts from the game", "answer": true },
+            { "choice": "His teacher’s lessons", "answer": false },
+            { "choice": "Plans for family vacations", "answer": false }
+          ],
+          "explanation": "He couldn’t focus on school."
+        },
+        {
+          "part_num": 2,
+          "question": "What did Archie sometimes skip just to play?",
+          "choices": [
+            { "choice": "Meals and classes", "answer": true },
+            { "choice": "Sports with friends", "answer": false },
+            { "choice": "Watching TV", "answer": false }
+          ],
+          "explanation": "Gaming took priority over health and school."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What did Archie’s mother ask him to do?",
+          "choices": [
+            { "choice": "Turn off the phone and sleep", "answer": true },
+            { "choice": "Keep playing quietly", "answer": false },
+            { "choice": "Join her in a game", "answer": false }
+          ],
+          "explanation": "She wanted him to rest."
+        },
+        {
+          "part_num": 3,
+          "question": "How did Archie respond to his mom’s request?",
+          "choices": [
+            { "choice": "He refused and locked the door", "answer": true },
+            { "choice": "He gave her the phone immediately", "answer": false },
+            { "choice": "He promised to sleep soon", "answer": false }
+          ],
+          "explanation": "He chose anger over listening."
+        },
+        {
+          "part_num": 3,
+          "question": "How did his mother feel afterward?",
+          "choices": [
+            { "choice": "She cried, heartbroken", "answer": true },
+            { "choice": "She laughed at him", "answer": false },
+            { "choice": "She joined him in playing", "answer": false }
+          ],
+          "explanation": "She felt helpless and sad."
+        },
+
+        {
+          "part_num": 4,
+          "question": "What strange event happened past midnight?",
+          "choices": [
+            {
+              "choice": "Game characters appeared in his room",
+              "answer": true
+            },
+            { "choice": "He suddenly aced his exams", "answer": false },
+            { "choice": "His teacher came to visit", "answer": false }
+          ],
+          "explanation": "His dream blurred into reality."
+        },
+        {
+          "part_num": 4,
+          "question": "What was Archie’s condition when his mom woke him?",
+          "choices": [
+            { "choice": "He had a fever", "answer": true },
+            { "choice": "He was perfectly fine", "answer": false },
+            { "choice": "He was playing calmly", "answer": false }
+          ],
+          "explanation": "His body suffered from addiction."
+        },
+        {
+          "part_num": 4,
+          "question": "What did the doctor diagnose Archie with?",
+          "choices": [
+            { "choice": "Gaming addiction", "answer": true },
+            { "choice": "A broken bone", "answer": false },
+            { "choice": "Seasonal allergies", "answer": false }
+          ],
+          "explanation": "His compulsive disorder harmed his health."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What did Marian do with her failed papers?",
+          "choices": [
+            { "choice": "She ripped them into pieces", "answer": true },
+            { "choice": "She proudly showed them", "answer": false },
+            { "choice": "She gave them to her classmates", "answer": false }
+          ],
+          "explanation": "She destroyed the evidence of failure."
+        },
+        {
+          "part_num": 1,
+          "question": "Why did Marian hide her papers?",
+          "choices": [
+            {
+              "choice": "She feared disappointing her parents",
+              "answer": true
+            },
+            { "choice": "She wanted to recycle them", "answer": false },
+            { "choice": "She wanted to rewrite them", "answer": false }
+          ],
+          "explanation": "Her fear drove her actions."
+        },
+        {
+          "part_num": 1,
+          "question": "What emotion filled Marian at the start?",
+          "choices": [
+            { "choice": "Fear and guilt", "answer": true },
+            { "choice": "Happiness and pride", "answer": false },
+            { "choice": "Excitement and joy", "answer": false }
+          ],
+          "explanation": "She was ashamed of her poor performance."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What did Marian’s mother ask her to do?",
+          "choices": [
+            { "choice": "Come eat breakfast", "answer": true },
+            { "choice": "Rip more papers", "answer": false },
+            { "choice": "Go back to bed", "answer": false }
+          ],
+          "explanation": "Her mother wanted her at the table."
+        },
+        {
+          "part_num": 2,
+          "question": "What excuse did Marian give?",
+          "choices": [
+            { "choice": "She said she wanted to study", "answer": true },
+            { "choice": "She said she was tired", "answer": false },
+            { "choice": "She said she wasn’t hungry", "answer": false }
+          ],
+          "explanation": "She tried to cover her guilt."
+        },
+        {
+          "part_num": 2,
+          "question": "What did she eventually do?",
+          "choices": [
+            {
+              "choice": "Obey and join her family for breakfast",
+              "answer": true
+            },
+            { "choice": "Stay in her room all day", "answer": false },
+            { "choice": "Run away from home", "answer": false }
+          ],
+          "explanation": "She reluctantly sat at the table."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What did her parents ask about at breakfast?",
+          "choices": [
+            { "choice": "Her performance in school", "answer": true },
+            { "choice": "Her favorite food", "answer": false },
+            { "choice": "Her weekend plans", "answer": false }
+          ],
+          "explanation": "This made her nervous."
+        },
+        {
+          "part_num": 3,
+          "question": "What made her father suspicious?",
+          "choices": [
+            { "choice": "Her silence", "answer": true },
+            { "choice": "Her laughter", "answer": false },
+            { "choice": "Her smiling too much", "answer": false }
+          ],
+          "explanation": "Her quietness revealed worry."
+        },
+        {
+          "part_num": 3,
+          "question": "Who gave Marian courage to speak?",
+          "choices": [
+            { "choice": "Her mother’s gentle concern", "answer": true },
+            { "choice": "Her classmates", "answer": false },
+            { "choice": "Her father’s anger", "answer": false }
+          ],
+          "explanation": "Her mother softened the moment."
+        },
+
+        {
+          "part_num": 4,
+          "question": "What truth did Marian finally admit?",
+          "choices": [
+            { "choice": "That she failed her exam", "answer": true },
+            { "choice": "That she cheated on a test", "answer": false },
+            { "choice": "That she lost her homework", "answer": false }
+          ],
+          "explanation": "She confessed her failure."
+        },
+        {
+          "part_num": 4,
+          "question": "How did she feel after admitting the truth?",
+          "choices": [
+            { "choice": "Guilty and afraid of punishment", "answer": true },
+            { "choice": "Proud and excited", "answer": false },
+            { "choice": "Relieved and joyful immediately", "answer": false }
+          ],
+          "explanation": "She expected anger from her parents."
+        },
+        {
+          "part_num": 4,
+          "question": "What did Marian apologize for?",
+          "choices": [
+            { "choice": "Disappointing her parents", "answer": true },
+            { "choice": "Breaking the plates", "answer": false },
+            { "choice": "Playing too much outside", "answer": false }
+          ],
+          "explanation": "She felt guilty for failing."
+        },
+
+        {
+          "part_num": 5,
+          "question": "How did Marian’s parents respond?",
+          "choices": [
+            { "choice": "With love and understanding", "answer": true },
+            { "choice": "With harsh punishment", "answer": false },
+            { "choice": "With total silence", "answer": false }
+          ],
+          "explanation": "They chose compassion over anger."
+        },
+        {
+          "part_num": 5,
+          "question": "What did her father explain?",
+          "choices": [
+            {
+              "choice": "That they valued her happiness more than grades",
+              "answer": true
+            },
+            {
+              "choice": "That she could stop studying forever",
+              "answer": false
+            },
+            { "choice": "That she should never play again", "answer": false }
+          ],
+          "explanation": "He explained their true concern."
+        },
+        {
+          "part_num": 5,
+          "question": "How did Marian feel after hearing her parents?",
+          "choices": [
+            { "choice": "Lucky and loved", "answer": true },
+            { "choice": "Even more afraid", "answer": false },
+            { "choice": "Angry and upset", "answer": false }
+          ],
+          "explanation": "She felt gratitude and relief."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -51248,6 +51875,246 @@
     "word_count": 440,
     "passage": "[]There was once a young boy who was the son of a poor farmer. He helped his father till a small parcel of land they were renting. But drought came and dried all their crops.[b1]\"It's hopeless! This drought will continue for months. We cannot wait that long or else we will die from hunger!\" the father exclaimed.[g1]\"Why not sell our goat and use the money from it in starting a business? That goat has no use to our farm anymore,\" his mother interrupted.[b2]\"That's a nice idea mother!\" the boy said.[b2]\"We can buy a sack of salt from Aling Thelma and sell it at retail in the nearby town.\" [] And so the frail, poor goat was sold and the young boy's family bought a sack of salt in the hope that they can have a new source of income until the drought was over.  The young boy, together with his father, went to the nearby town to start their luck on new-found business.[b2]\"Salt for sale! Salt for sale! Only ten pesos per pack,\" shouted the young boy while they trudged the rough road. []$MINIGAME_1$ [] From afar, the boy saw kids of his age joyfully running after one another. They were happy and clothed in neat and presentable clothes. He looked at his shirt. It was sweaty and dirty. [b2]\"Papa, if we sell this sack of salt, can I buy new clothes for myself?\" he asked. [b1]\"Of course son, you can buy new clothes if you work hard,\" his father replied. [] They continued walking until they reached a busy street. They finally reached their destination and started calling out customers. But nobody came to buy.  They ate lunch with just rice and a dash of salt. The boy asked again, []$MINIGAME_2$[b2]\"Papa, if we sell all the salt in this sack, can I have a meal in that restaurant?\"[b1]\"Of course dear, you can dine in that restaurant if you work hard,\" his father said. [] Determined, the boy carried ten packs of salt and went around the town calling out customers.  But then, it started to drizzle. People ran for shelter. The boy slipped after bumping into an old man. The salt packs scattered and dissolved in the rain.  Devastated but kind, the boy helped the old man get up. [b2]\"Don't worry sir, I still have a chance tomorrow.\" []$MINIGAME_3$ []\"Please keep this pouch, young boy! Put in here all the money you earn from selling salt,\" the old man said. []The day ended with no sale. But when the boy returned and shouted again the next day, coins magically filled the pouch one for every call. [b2]\"It's a magic pouch!\" he exclaimed.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "The boy",
+            "walked beside his father",
+            "calling out",
+            "to sell their salt"
+          ],
+          "parts": [
+            "The boy",
+            "walked beside his father",
+            "calling out",
+            "to sell their salt"
+          ],
+          "explanation": "This connects the family’s decision to sell salt to their efforts on the road."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Though tired",
+            "he shouted eagerly",
+            "hoping someone",
+            "would buy their salt"
+          ],
+          "parts": [
+            "Though tired",
+            "he shouted eagerly",
+            "hoping someone",
+            "would buy their salt"
+          ],
+          "explanation": "This bridges the rough walk to his determination to earn."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "The small family",
+            "hoped to survive",
+            "the drought",
+            "through this new business"
+          ],
+          "parts": [
+            "The small family",
+            "hoped to survive",
+            "the drought",
+            "through this new business"
+          ],
+          "explanation": "This transitions their hunger into hope for the future."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "At the busy street",
+            "they tried to sell",
+            "but no one",
+            "came to buy"
+          ],
+          "parts": [
+            "At the busy street",
+            "they tried to sell",
+            "but no one",
+            "came to buy"
+          ],
+          "explanation": "This bridges their hope into disappointment at the market."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "They ate lunch",
+            "with nothing",
+            "but rice",
+            "and salt"
+          ],
+          "parts": ["They ate lunch", "with nothing", "but rice", "and salt"],
+          "explanation": "This connects their failed sales to their simple meal."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "The boy",
+            "dreamed of tasting",
+            "a real meal",
+            "in the restaurant nearby"
+          ],
+          "parts": [
+            "The boy",
+            "dreamed of tasting",
+            "a real meal",
+            "in the restaurant nearby"
+          ],
+          "explanation": "This transitions into his wish to enjoy a proper meal."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "The drizzle",
+            "spoiled the salt",
+            "and scattered it",
+            "on the wet ground"
+          ],
+          "parts": [
+            "The drizzle",
+            "spoiled the salt",
+            "and scattered it",
+            "on the wet ground"
+          ],
+          "explanation": "This bridges from his determination to the accident with the old man."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Despite his loss",
+            "the boy",
+            "helped the old man",
+            "stand up"
+          ],
+          "parts": [
+            "Despite his loss",
+            "the boy",
+            "helped the old man",
+            "stand up"
+          ],
+          "explanation": "This connects his kindness to the old man’s gratitude."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "In return",
+            "the old man",
+            "handed him",
+            "a mysterious pouch"
+          ],
+          "parts": [
+            "In return",
+            "the old man",
+            "handed him",
+            "a mysterious pouch"
+          ],
+          "explanation": "This transitions into the magical gift he would soon discover."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What did the boy and his father try to sell?",
+          "choices": [
+            { "choice": "Salt in small packs", "answer": true },
+            { "choice": "Vegetables from their farm", "answer": false },
+            { "choice": "Fish from the river", "answer": false }
+          ],
+          "explanation": "They invested their goat money into salt to resell."
+        },
+        {
+          "part_num": 1,
+          "question": "What gave the family hope despite the drought?",
+          "choices": [
+            {
+              "choice": "Starting a new salt-selling business",
+              "answer": true
+            },
+            { "choice": "Borrowing money from neighbors", "answer": false },
+            { "choice": "Moving to another town", "answer": false }
+          ],
+          "explanation": "The salt trade was their survival plan."
+        },
+        {
+          "part_num": 1,
+          "question": "How did the boy promote their goods?",
+          "choices": [
+            { "choice": "By shouting 'Salt for sale!'", "answer": true },
+            { "choice": "By posting signs", "answer": false },
+            { "choice": "By going door to door silently", "answer": false }
+          ],
+          "explanation": "He called out while walking the road."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What happened when they tried selling at the busy street?",
+          "choices": [
+            { "choice": "Nobody came to buy", "answer": true },
+            { "choice": "They immediately sold out", "answer": false },
+            { "choice": "They got chased away", "answer": false }
+          ],
+          "explanation": "Their first attempt failed."
+        },
+        {
+          "part_num": 2,
+          "question": "What did the family eat for lunch?",
+          "choices": [
+            { "choice": "Rice with just salt", "answer": true },
+            { "choice": "A restaurant meal", "answer": false },
+            { "choice": "Fresh vegetables", "answer": false }
+          ],
+          "explanation": "They could only afford rice and salt."
+        },
+        {
+          "part_num": 2,
+          "question": "What did the boy wish for after failing to sell?",
+          "choices": [
+            { "choice": "To eat at the restaurant", "answer": true },
+            { "choice": "To buy more goats", "answer": false },
+            { "choice": "To play with the town kids", "answer": false }
+          ],
+          "explanation": "He dreamed of tasting real food."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What ruined the boy’s packs of salt?",
+          "choices": [
+            { "choice": "Rain during a drizzle", "answer": true },
+            { "choice": "Thieves stealing them", "answer": false },
+            { "choice": "Dropping them in a river", "answer": false }
+          ],
+          "explanation": "The salt dissolved in the rain."
+        },
+        {
+          "part_num": 3,
+          "question": "What did the boy do after bumping into the old man?",
+          "choices": [
+            { "choice": "Helped him up kindly", "answer": true },
+            { "choice": "Ignored him and left", "answer": false },
+            { "choice": "Yelled at him angrily", "answer": false }
+          ],
+          "explanation": "He showed kindness even when upset."
+        },
+        {
+          "part_num": 3,
+          "question": "What gift did the old man give the boy?",
+          "choices": [
+            { "choice": "A magic pouch", "answer": true },
+            { "choice": "A bag of gold", "answer": false },
+            { "choice": "A sack of rice", "answer": false }
+          ],
+          "explanation": "The pouch would later reveal its magic."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -53876,6 +54743,174 @@
     "word_count": 139,
     "passage": "[]What happened to our modern parents? You can hardly find them at home. Nowadays, parents are always at work rather than spending time with their children. []Around the dining table, both children and parents are busy with their cellphones. No more talking, no more exchanging stories. []$MINIGAME_1$ []Parents these days no longer take the time to discipline their children. They reason out that they are tired trying to make ends meet or that children have rights too. []This is why we have a generation of disobedient, disrespectful and lazy kids. [b1]\"But the newbie parents are not supposed to be blamed for the decline of discipline among our young,\" one elder said. []In our time, our parents were not afraid to spank us. Our TV hours were closely monitored. []We were taught to respect our elders and eat what was served in front of us. []$MINIGAME_2$",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Around the table",
+            "families sit together",
+            "but their phones",
+            "keep them apart"
+          ],
+          "parts": [
+            "Around the table",
+            "families sit together",
+            "but their phones",
+            "keep them apart"
+          ],
+          "explanation": "This bridges the image of everyone on phones to the lack of family interaction."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Meals that once",
+            "were full of stories",
+            "are now silent",
+            "because of gadgets"
+          ],
+          "parts": [
+            "Meals that once",
+            "were full of stories",
+            "are now silent",
+            "because of gadgets"
+          ],
+          "explanation": "This connects the dining scene to a lack of conversation."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Phones",
+            "replace conversations",
+            "leading to",
+            "distance at home"
+          ],
+          "parts": [
+            "Phones",
+            "replace conversations",
+            "leading to",
+            "distance at home"
+          ],
+          "explanation": "This transitions into the theme of weakening family bonds."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "In the past",
+            "parents enforced rules",
+            "teaching respect",
+            "and discipline"
+          ],
+          "parts": [
+            "In the past",
+            "parents enforced rules",
+            "teaching respect",
+            "and discipline"
+          ],
+          "explanation": "This bridges the elder’s view of stricter parenting."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Older generations",
+            "were taught",
+            "to obey elders",
+            "and follow house rules"
+          ],
+          "parts": [
+            "Older generations",
+            "were taught",
+            "to obey elders",
+            "and follow house rules"
+          ],
+          "explanation": "This connects memories of discipline to children’s upbringing."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Comparing then and now",
+            "shows how parenting",
+            "shifted from strictness",
+            "to leniency"
+          ],
+          "parts": [
+            "Comparing then and now",
+            "shows how parenting",
+            "shifted from strictness",
+            "to leniency"
+          ],
+          "explanation": "This transitions into the contrast between old and modern parents."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What keeps families distracted at the dining table?",
+          "choices": [
+            { "choice": "Cellphones", "answer": true },
+            { "choice": "Television only", "answer": false },
+            { "choice": "Board games", "answer": false }
+          ],
+          "explanation": "Phones have replaced conversation during meals."
+        },
+        {
+          "part_num": 1,
+          "question": "What is missing around the table in modern families?",
+          "choices": [
+            { "choice": "Talking and exchanging stories", "answer": true },
+            { "choice": "Food", "answer": false },
+            { "choice": "Parents completely", "answer": false }
+          ],
+          "explanation": "Instead of stories, families focus on screens."
+        },
+        {
+          "part_num": 1,
+          "question": "What has technology replaced in family life?",
+          "choices": [
+            { "choice": "Conversations", "answer": true },
+            { "choice": "Homework", "answer": false },
+            { "choice": "House chores", "answer": false }
+          ],
+          "explanation": "Phones lead to less talking at home."
+        },
+
+        {
+          "part_num": 2,
+          "question": "How did parents in the past discipline children?",
+          "choices": [
+            {
+              "choice": "By setting strict rules and even spanking",
+              "answer": true
+            },
+            {
+              "choice": "By letting them do whatever they wanted",
+              "answer": false
+            },
+            { "choice": "By ignoring them completely", "answer": false }
+          ],
+          "explanation": "The past emphasized discipline and structure."
+        },
+        {
+          "part_num": 2,
+          "question": "What values were children taught in earlier generations?",
+          "choices": [
+            { "choice": "Respect for elders", "answer": true },
+            { "choice": "Unlimited TV time", "answer": false },
+            { "choice": "Skipping meals", "answer": false }
+          ],
+          "explanation": "Older generations valued respect and obedience."
+        },
+        {
+          "part_num": 2,
+          "question": "What shift is seen between old and modern parenting?",
+          "choices": [
+            { "choice": "From strictness to leniency", "answer": true },
+            { "choice": "From kindness to cruelty", "answer": false },
+            { "choice": "From silence to storytelling", "answer": false }
+          ],
+          "explanation": "The passage contrasts stricter parents with lenient modern ones."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -55754,6 +56789,244 @@
     "word_count": 241,
     "passage": "[]Perhaps love is like a resting place, a shelter from the storm. It exists to give you comfort, it is there to keep you warm. []And in those times of trouble when you are most alone, the memory of love will bring you home. [g1]\"Perhaps love is like a window, perhaps an open door,\" whispered a voice. []It invites you to come closer, it wants to show you more. []$MINIGAME_1$ []And even if you lose yourself and don't know what to do, the memory of love will see you through. []Love to some is like a cloud, to some as strong as steel. []For some a way of living, for some a way to feel. [b1]\"And some say love is holding on, and some say letting go. And some say love is everything, and some say they don't know,\" another voice replied. []Perhaps love is like the ocean, full of conflict, full of pain. []Like a fire when it's cold outside, thunder when it rains. []$MINIGAME_2$ []If I should live forever, and all my dreams come true, my memories of love will be of you. []Some say love is holding on, and some say letting go. []Perhaps love is like the mountains, full of conflict, full of change. []If I should live forever, and all my dreams come true, my memories of love will be of you. []$MINIGAME_3$",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Love",
+            "opens doors",
+            "inviting you",
+            "to discover more"
+          ],
+          "parts": ["Love", "opens doors", "inviting you", "to discover more"],
+          "explanation": "This bridges the first metaphor of love as shelter to the idea of love as an invitation."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Like a window",
+            "love offers",
+            "a new view",
+            "of life"
+          ],
+          "parts": ["Like a window", "love offers", "a new view", "of life"],
+          "explanation": "This connects the passage’s poetic shift into imagery."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "It calls you",
+            "to come closer",
+            "showing truths",
+            "you may not see alone"
+          ],
+          "parts": [
+            "It calls you",
+            "to come closer",
+            "showing truths",
+            "you may not see alone"
+          ],
+          "explanation": "This transitions into love guiding through struggles."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Love",
+            "can be strong",
+            "like steel",
+            "yet fragile like a cloud"
+          ],
+          "parts": [
+            "Love",
+            "can be strong",
+            "like steel",
+            "yet fragile like a cloud"
+          ],
+          "explanation": "This bridges metaphors of strength and fragility."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "For some",
+            "love is a way of living",
+            "while for others",
+            "it is only a feeling"
+          ],
+          "parts": [
+            "For some",
+            "love is a way of living",
+            "while for others",
+            "it is only a feeling"
+          ],
+          "explanation": "This transitions between different views of love."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Love can be",
+            "as wide as the ocean",
+            "full of conflict",
+            "and deep with pain"
+          ],
+          "parts": [
+            "Love can be",
+            "as wide as the ocean",
+            "full of conflict",
+            "and deep with pain"
+          ],
+          "explanation": "This connects the metaphors of the ocean, fire, and storm."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Even if life",
+            "lasted forever",
+            "the memories of love",
+            "would remain eternal"
+          ],
+          "parts": [
+            "Even if life",
+            "lasted forever",
+            "the memories of love",
+            "would remain eternal"
+          ],
+          "explanation": "This bridges dreams of forever to love as a memory."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Love",
+            "is remembered",
+            "through the people",
+            "we hold dear"
+          ],
+          "parts": [
+            "Love",
+            "is remembered",
+            "through the people",
+            "we hold dear"
+          ],
+          "explanation": "This transitions from abstract metaphors to personal reflection."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "No matter the form",
+            "love becomes",
+            "the memory",
+            "that guides us home"
+          ],
+          "parts": [
+            "No matter the form",
+            "love becomes",
+            "the memory",
+            "that guides us home"
+          ],
+          "explanation": "This closes the passage by tying love to remembrance."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What does love invite us to do, like a window or door?",
+          "choices": [
+            { "choice": "Come closer and discover more", "answer": true },
+            { "choice": "Stay distant and closed off", "answer": false },
+            { "choice": "Forget everything", "answer": false }
+          ],
+          "explanation": "The imagery shows love opening paths."
+        },
+        {
+          "part_num": 1,
+          "question": "How is love like a window?",
+          "choices": [
+            { "choice": "It offers a new view of life", "answer": true },
+            { "choice": "It blocks you from seeing outside", "answer": false },
+            { "choice": "It hides everything", "answer": false }
+          ],
+          "explanation": "A window gives perspective and clarity."
+        },
+        {
+          "part_num": 1,
+          "question": "What does love call us to do?",
+          "choices": [
+            { "choice": "Come closer and see truths", "answer": true },
+            { "choice": "Run away quickly", "answer": false },
+            { "choice": "Close the door", "answer": false }
+          ],
+          "explanation": "Love encourages intimacy and openness."
+        },
+
+        {
+          "part_num": 2,
+          "question": "How can love be both strong and fragile?",
+          "choices": [
+            {
+              "choice": "It is like steel and also like a cloud",
+              "answer": true
+            },
+            { "choice": "It is always unchanging", "answer": false },
+            { "choice": "It is only weak", "answer": false }
+          ],
+          "explanation": "Love holds dual qualities."
+        },
+        {
+          "part_num": 2,
+          "question": "For some people, what is love?",
+          "choices": [
+            { "choice": "A way of living", "answer": true },
+            { "choice": "Only about money", "answer": false },
+            { "choice": "Completely unnecessary", "answer": false }
+          ],
+          "explanation": "The poem notes different views of love."
+        },
+        {
+          "part_num": 2,
+          "question": "How is love like the ocean?",
+          "choices": [
+            {
+              "choice": "It is vast, full of conflict and pain",
+              "answer": true
+            },
+            { "choice": "It is always calm and quiet", "answer": false },
+            { "choice": "It is completely dry", "answer": false }
+          ],
+          "explanation": "The ocean represents love’s depth and turbulence."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What remains eternal, even if life ends?",
+          "choices": [
+            { "choice": "The memories of love", "answer": true },
+            { "choice": "Money and possessions", "answer": false },
+            { "choice": "Fear and loneliness", "answer": false }
+          ],
+          "explanation": "Love is remembered beyond life."
+        },
+        {
+          "part_num": 3,
+          "question": "Where do memories of love often come from?",
+          "choices": [
+            { "choice": "From the people we cherish", "answer": true },
+            { "choice": "From books only", "answer": false },
+            { "choice": "From strangers we never knew", "answer": false }
+          ],
+          "explanation": "Love is tied to our loved ones."
+        },
+        {
+          "part_num": 3,
+          "question": "What guides us home according to the poem?",
+          "choices": [
+            { "choice": "The memory of love", "answer": true },
+            { "choice": "Anger and conflict", "answer": false },
+            { "choice": "Loneliness", "answer": false }
+          ],
+          "explanation": "Love brings comfort and direction."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -56523,6 +57796,263 @@
     "word_count": 238,
     "passage": "[]Folks, I want to tell you of this I know, rich of lofty ideas and as famous as you. She dares to move the heaven's bow, if obviously you ignore her though. []Her aura lingers as warm as summer breeze, her kissable and inquisitive lips are as red as roses. []$MINIGAME_1$ []As black as ebony her curly hair is freeze, as far as the twilight years, in stature, she grows. []Her eyes spark azure like the sky after the passing storm. [g1]\"As pure as an angel her intentions, if you will consider,\" one admirer said softly. []Her hands are as smooth as satin when you touch its form, but as hot as firecracker on the thirty-first of December. []Have I told you her temper is as quick as lightning in the eastern sky? She explodes like a volcano; oftentimes screaming in fear. []$MINIGAME_2$ []As heavy as rain when you heard her cry, but her laughter is such sweet music to my ear. []She is as strong-willed as a bull in the grazing land, striving to get what she wants, grasping it tight. []Yet, as soft as marshmallow when you grab her hand, and as sweet as chocolates when she embraces you right. [b1]\"For me, she is such an extraordinary creature to see,\" another voice declared. []Radiating in the outside is her inner beauty. Regardless of her flaws, forever special she will be. []$MINIGAME_3$ []Come what may, she will always be the child in me.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Her hair",
+            "flows dark as ebony",
+            "while her stature",
+            "reaches toward twilight years"
+          ],
+          "parts": [
+            "Her hair",
+            "flows dark as ebony",
+            "while her stature",
+            "reaches toward twilight years"
+          ],
+          "explanation": "Bridges the warm aura and lips to the description of hair and growth."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "From her radiant presence",
+            "the poem shifts",
+            "to her black curls",
+            "and graceful growth"
+          ],
+          "parts": [
+            "From her radiant presence",
+            "the poem shifts",
+            "to her black curls",
+            "and graceful growth"
+          ],
+          "explanation": "Shows the transition from aura and lips to her hair and form."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "The child described",
+            "is now seen",
+            "with ebony hair",
+            "and a growing stature"
+          ],
+          "parts": [
+            "The child described",
+            "is now seen",
+            "with ebony hair",
+            "and a growing stature"
+          ],
+          "explanation": "Transitions into the next vivid imagery."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Her laughter",
+            "is sweet as music",
+            "yet her cry",
+            "is heavy like rain"
+          ],
+          "parts": [
+            "Her laughter",
+            "is sweet as music",
+            "yet her cry",
+            "is heavy like rain"
+          ],
+          "explanation": "Links temper and fears to contrasts of joy and sadness."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "From fiery temper",
+            "to tender emotions",
+            "the poem turns",
+            "to her tears and smiles"
+          ],
+          "parts": [
+            "From fiery temper",
+            "to tender emotions",
+            "the poem turns",
+            "to her tears and smiles"
+          ],
+          "explanation": "Connects descriptions of quick anger to gentler moods."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "The verses shift",
+            "from stormy images",
+            "to softer sounds",
+            "of laughter and tears"
+          ],
+          "parts": [
+            "The verses shift",
+            "from stormy images",
+            "to softer sounds",
+            "of laughter and tears"
+          ],
+          "explanation": "Bridges storm-like temper to gentleness."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Her inner beauty",
+            "shines beyond flaws",
+            "making her",
+            "forever special"
+          ],
+          "parts": [
+            "Her inner beauty",
+            "shines beyond flaws",
+            "making her",
+            "forever special"
+          ],
+          "explanation": "Leads into the conclusion about her extraordinary spirit."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Despite imperfections",
+            "she remains radiant",
+            "and will always be",
+            "the child within"
+          ],
+          "parts": [
+            "Despite imperfections",
+            "she remains radiant",
+            "and will always be",
+            "the child within"
+          ],
+          "explanation": "Connects contrasts to the final reflection."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "The closing thought",
+            "reveals she is cherished",
+            "not for perfection",
+            "but for her essence"
+          ],
+          "parts": [
+            "The closing thought",
+            "reveals she is cherished",
+            "not for perfection",
+            "but for her essence"
+          ],
+          "explanation": "Bridges praise to the ultimate revelation."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What description follows the imagery of aura and lips?",
+          "choices": [
+            {
+              "choice": "Her ebony hair and growth in stature",
+              "answer": true
+            },
+            { "choice": "Her hands turning rough", "answer": false },
+            { "choice": "Her laughter in the fields", "answer": false }
+          ],
+          "explanation": "The next stanza describes her dark hair and growth."
+        },
+        {
+          "part_num": 1,
+          "question": "Which feature is emphasized after lips as red as roses?",
+          "choices": [
+            { "choice": "Her black curly hair", "answer": true },
+            { "choice": "Her voice like thunder", "answer": false },
+            { "choice": "Her gentle laughter", "answer": false }
+          ],
+          "explanation": "The poem transitions to her hair and appearance."
+        },
+        {
+          "part_num": 1,
+          "question": "How does the poem shift after describing her aura?",
+          "choices": [
+            {
+              "choice": "It moves to her hair and physical growth",
+              "answer": true
+            },
+            { "choice": "It describes her cooking skills", "answer": false },
+            { "choice": "It turns to her future career", "answer": false }
+          ],
+          "explanation": "The stanza links aura to physical description."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What contrast is made after describing her temper?",
+          "choices": [
+            { "choice": "Her cry and laughter", "answer": true },
+            { "choice": "Her cooking and sewing", "answer": false },
+            { "choice": "Her gardening skills", "answer": false }
+          ],
+          "explanation": "The imagery turns from temper to emotions."
+        },
+        {
+          "part_num": 2,
+          "question": "Which emotions are highlighted in the next lines?",
+          "choices": [
+            {
+              "choice": "Crying like rain and laughing like music",
+              "answer": true
+            },
+            { "choice": "Anger like storms only", "answer": false },
+            { "choice": "Calmness like silence", "answer": false }
+          ],
+          "explanation": "The lines portray contrasts of crying and laughter."
+        },
+        {
+          "part_num": 2,
+          "question": "How does the tone change after fiery descriptions?",
+          "choices": [
+            {
+              "choice": "It shifts to tender and sweet emotions",
+              "answer": true
+            },
+            { "choice": "It becomes focused on punishment", "answer": false },
+            { "choice": "It discusses school lessons", "answer": false }
+          ],
+          "explanation": "The stanza softens to crying and laughter."
+        },
+
+        {
+          "part_num": 3,
+          "question": "What follows the description of her will and sweetness?",
+          "choices": [
+            {
+              "choice": "Her inner beauty and being forever special",
+              "answer": true
+            },
+            { "choice": "Her dislike for her friends", "answer": false },
+            { "choice": "Her hunger for chocolate", "answer": false }
+          ],
+          "explanation": "The conclusion praises her inner beauty."
+        },
+        {
+          "part_num": 3,
+          "question": "How is she described despite her flaws?",
+          "choices": [
+            { "choice": "Forever radiant and special", "answer": true },
+            { "choice": "Unworthy of attention", "answer": false },
+            { "choice": "Always in despair", "answer": false }
+          ],
+          "explanation": "Her beauty shines beyond imperfection."
+        },
+        {
+          "part_num": 3,
+          "question": "What final realization does the speaker share?",
+          "choices": [
+            { "choice": "She will always be the child within", "answer": true },
+            { "choice": "She will grow into a stranger", "answer": false },
+            { "choice": "She is forgotten over time", "answer": false }
+          ],
+          "explanation": "The poem ends by affirming her lasting place in the self."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -58932,6 +60462,417 @@
     "word_count": 862,
     "passage": "[]I started for school very late that morning and was in great dread of a scolding, especially because M. Hamel had said that he would question us on principles, and I did not know the first word about them. []For a moment I thought of running away and spending the day outdoors. It was so warm, so bright! The birds were chirping at the edge of the woods; and in the open field back of the sawmill the Prussian soldiers were drilling. []$MINIGAME_1$ []It was all much more tempting than the rule for participles, but I had the strength to resist, and hurried off to school. []When I passed the town hall there was a crowd in front of the bulletin board. For the last two years all our bad news had come from there—the lost battles, the draft, the orders of the commanding officer. [b1]\"What can be the matter now?\" I thought to myself, without stopping. []Then, as I hurried by as fast as I could go, the blacksmith Watcher, who was there with his apprentice reading the bulletin, called after me: [g1]\"Don't go so fast, bub; you'll get to your school in plenty of time!\" []I thought he was making fun of me, and reached M. Hamel's little garden all out of breath. []$MINIGAME_2$ []Usually, when the school began, there was a great bustle—the opening and closing of desks, lessons repeated in unison, very loud, with our hands over our ears to understand better, and the teacher's ruler rapping on the table. But now it was all so still! []Through the window I saw my classmates already in their places, and M. Hamel walking up and down with his terrible iron ruler under his arm. []I had to open the door and go in before everybody. You can imagine how I blushed and how frightened I was. But nothing happened. [g2]\"Go to your place quickly, little Franz. We were beginning without you,\" M. Hamel said kindly. []Not till then, when I had gotten a little over my fright, did I see that our teacher had on his beautiful green coat, his frilled shirt, and the little black silk cap that he never wore except on inspection and prize days. []$MINIGAME_3$ []Besides, the whole school seemed so strange and solemn. The village people sat quietly like ourselves; old Hauser, with his three-cornered hat, the former mayor, the former postmaster and several others. Everybody looked sad. []Hauser had brought an old primer, thumbed at the edge, and held it open on his knees with his great spectacles lying across the pages. []While I was wondering, M. Hamel mounted his chair and in a grave, gentle tone said: [b2]\"My children, this is the last lesson I shall give you. The order has come from Berlin to teach only German in the schools of Alsace and Lorraine. The new master comes to-morrow. This is your last French lesson. I want you to be very attentive.\" []What a thunderclap these words were to me! []$MINIGAME_4$ []My books, that had seemed such a nuisance a while ago, so heavy to carry—my grammar and my history of the saints—were old friends now that I couldn't give up. []And M. Hamel, too; the idea that he was going away, that I should never see him again, made me forget all about his ruler and how cranky he was. []Poor man! It was in honor of this last lesson that he had put on his fine Sunday clothes, and now I understood why the old men of the village were sitting there. []It was their way of thanking him for forty years of faithful service and of showing respect for the country that was theirs no more. []While I was thinking, I heard my name called. It was my turn to recite. Oh, what would I not have given to be able to say the dreadful rule for the participle all through, very loud and clear, and without one mistake? []$MINIGAME_5$ []But I got mixed up on the first words and stood there, holding on to my desk, my heart beating, and not daring to look up.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Though tempted by sunshine",
+            "the narrator resisted",
+            "and hurried to",
+            "his classroom"
+          ],
+          "parts": [
+            "Though tempted by sunshine",
+            "the narrator resisted",
+            "and hurried to",
+            "his classroom"
+          ],
+          "explanation": "Bridges between outdoor temptations and the decision to go to school."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Fields and birds",
+            "were inviting",
+            "but duty",
+            "called him back"
+          ],
+          "parts": [
+            "Fields and birds",
+            "were inviting",
+            "but duty",
+            "called him back"
+          ],
+          "explanation": "Connects the outdoor imagery to his choice of school."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Running away",
+            "seemed easier",
+            "but conscience",
+            "led him to school"
+          ],
+          "parts": [
+            "Running away",
+            "seemed easier",
+            "but conscience",
+            "led him to school"
+          ],
+          "explanation": "Transition from avoidance to responsibility."
+        },
+
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "The usual bustle",
+            "was missing",
+            "replaced by",
+            "an eerie silence"
+          ],
+          "parts": [
+            "The usual bustle",
+            "was missing",
+            "replaced by",
+            "an eerie silence"
+          ],
+          "explanation": "Leads into the solemn classroom atmosphere."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Instead of noise",
+            "the school opened",
+            "with quiet faces",
+            "and solemnity"
+          ],
+          "parts": [
+            "Instead of noise",
+            "the school opened",
+            "with quiet faces",
+            "and solemnity"
+          ],
+          "explanation": "Bridges the lively usual setting with today’s quietness."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Franz entered",
+            "to find calmness",
+            "instead of chaos",
+            "and strict M. Hamel waiting"
+          ],
+          "parts": [
+            "Franz entered",
+            "to find calmness",
+            "instead of chaos",
+            "and strict M. Hamel waiting"
+          ],
+          "explanation": "Transitions to describe the solemn setting."
+        },
+
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "The villagers’ presence",
+            "signaled respect",
+            "for the last lesson",
+            "ever to be taught"
+          ],
+          "parts": [
+            "The villagers’ presence",
+            "signaled respect",
+            "for the last lesson",
+            "ever to be taught"
+          ],
+          "explanation": "Introduces the solemnity and significance of the gathering."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Old men and officials",
+            "sat quietly",
+            "to honor",
+            "their language and teacher"
+          ],
+          "parts": [
+            "Old men and officials",
+            "sat quietly",
+            "to honor",
+            "their language and teacher"
+          ],
+          "explanation": "Transitions into M. Hamel’s announcement."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "The atmosphere",
+            "was strange",
+            "because it marked",
+            "a farewell to French"
+          ],
+          "parts": [
+            "The atmosphere",
+            "was strange",
+            "because it marked",
+            "a farewell to French"
+          ],
+          "explanation": "Connects the scene to the revelation."
+        },
+
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "The news",
+            "hit Franz",
+            "like a thunderclap",
+            "changing his view of school"
+          ],
+          "parts": [
+            "The news",
+            "hit Franz",
+            "like a thunderclap",
+            "changing his view of school"
+          ],
+          "explanation": "Bridges from announcement to Franz’s emotions."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "Suddenly",
+            "books once hated",
+            "became treasures",
+            "he wished to keep"
+          ],
+          "parts": [
+            "Suddenly",
+            "books once hated",
+            "became treasures",
+            "he wished to keep"
+          ],
+          "explanation": "Transitions into his newfound appreciation."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "Even strict Hamel",
+            "appeared kind",
+            "as Franz realized",
+            "the value of learning"
+          ],
+          "parts": [
+            "Even strict Hamel",
+            "appeared kind",
+            "as Franz realized",
+            "the value of learning"
+          ],
+          "explanation": "Bridges cranky teacher to a beloved figure."
+        },
+
+        {
+          "part_num": 5,
+          "correct_answer": [
+            "When called to recite",
+            "Franz wished",
+            "he had learned",
+            "his grammar better"
+          ],
+          "parts": [
+            "When called to recite",
+            "Franz wished",
+            "he had learned",
+            "his grammar better"
+          ],
+          "explanation": "Transitions to his regret during the recitation."
+        },
+        {
+          "part_num": 5,
+          "correct_answer": [
+            "Facing the class",
+            "Franz trembled",
+            "realizing too late",
+            "the importance of study"
+          ],
+          "parts": [
+            "Facing the class",
+            "Franz trembled",
+            "realizing too late",
+            "the importance of study"
+          ],
+          "explanation": "Bridges the announcement to Franz’s turn."
+        },
+        {
+          "part_num": 5,
+          "correct_answer": [
+            "His failure to recite",
+            "made his heart race",
+            "and filled him",
+            "with sorrow and regret"
+          ],
+          "parts": [
+            "His failure to recite",
+            "made his heart race",
+            "and filled him",
+            "with sorrow and regret"
+          ],
+          "explanation": "Connects to the moment of standing frozen."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What temptation did Franz face before school?",
+          "choices": [
+            {
+              "choice": "Enjoying the sunshine and birds outside",
+              "answer": true
+            },
+            { "choice": "Visiting a neighbor’s house", "answer": false },
+            { "choice": "Going to play at the town hall", "answer": false }
+          ],
+          "explanation": "He was drawn to the outdoors but chose school instead."
+        },
+        {
+          "part_num": 1,
+          "question": "What did Franz decide to do despite being tempted?",
+          "choices": [
+            { "choice": "He went to school anyway", "answer": true },
+            { "choice": "He ran away to the forest", "answer": false },
+            { "choice": "He joined the Prussian soldiers", "answer": false }
+          ],
+          "explanation": "Franz resisted temptation and went to class."
+        },
+        {
+          "part_num": 1,
+          "question": "What did the bulletin board at the town hall usually bring?",
+          "choices": [
+            { "choice": "Bad news about battles and orders", "answer": true },
+            { "choice": "Announcements of festivals", "answer": false },
+            { "choice": "Invitations to parties", "answer": false }
+          ],
+          "explanation": "The board was known for announcing bad news."
+        },
+
+        {
+          "part_num": 2,
+          "question": "What was unusual about the classroom that day?",
+          "choices": [
+            {
+              "choice": "It was quiet and solemn instead of noisy",
+              "answer": true
+            },
+            { "choice": "There were no students at all", "answer": false },
+            { "choice": "The teacher was absent", "answer": false }
+          ],
+          "explanation": "The usual bustle was replaced with silence."
+        },
+        {
+          "part_num": 2,
+          "question": "How did M. Hamel greet Franz when he arrived late?",
+          "choices": [
+            { "choice": "Kindly and gently", "answer": true },
+            { "choice": "With anger and shouting", "answer": false },
+            { "choice": "By ignoring him completely", "answer": false }
+          ],
+          "explanation": "M. Hamel spoke kindly instead of scolding."
+        },
+        {
+          "part_num": 2,
+          "question": "What was different about M. Hamel’s appearance?",
+          "choices": [
+            { "choice": "He wore his fine Sunday clothes", "answer": true },
+            { "choice": "He was dressed like a soldier", "answer": false },
+            { "choice": "He wore farmer’s overalls", "answer": false }
+          ],
+          "explanation": "He dressed formally for the last lesson."
+        },
+
+        {
+          "part_num": 3,
+          "question": "Who joined the children in the classroom that day?",
+          "choices": [
+            { "choice": "Villagers and elders", "answer": true },
+            { "choice": "Traveling merchants", "answer": false },
+            { "choice": "Prussian soldiers", "answer": false }
+          ],
+          "explanation": "The villagers came to honor M. Hamel and the French language."
+        },
+        {
+          "part_num": 3,
+          "question": "What announcement did M. Hamel make?",
+          "choices": [
+            { "choice": "This was their last French lesson", "answer": true },
+            { "choice": "The school would close for summer", "answer": false },
+            { "choice": "Exams were canceled", "answer": false }
+          ],
+          "explanation": "He revealed it was the last lesson in French."
+        },
+        {
+          "part_num": 3,
+          "question": "Why did the villagers attend the class?",
+          "choices": [
+            {
+              "choice": "To show respect for M. Hamel and their language",
+              "answer": true
+            },
+            { "choice": "To scold the children for laziness", "answer": false },
+            { "choice": "To celebrate a festival", "answer": false }
+          ],
+          "explanation": "It was their way of honoring him and French culture."
+        },
+
+        {
+          "part_num": 4,
+          "question": "How did Franz feel after hearing the news?",
+          "choices": [
+            { "choice": "Shocked, like struck by thunder", "answer": true },
+            { "choice": "Relieved school was ending", "answer": false },
+            { "choice": "Excited about learning German", "answer": false }
+          ],
+          "explanation": "He was deeply shaken by the announcement."
+        },
+        {
+          "part_num": 4,
+          "question": "How did Franz’s view of his books change?",
+          "choices": [
+            { "choice": "They became dear treasures to him", "answer": true },
+            { "choice": "He still hated them", "answer": false },
+            { "choice": "He wanted to throw them away", "answer": false }
+          ],
+          "explanation": "Suddenly, his books felt precious."
+        },
+        {
+          "part_num": 4,
+          "question": "Why had the villagers dressed formally?",
+          "choices": [
+            { "choice": "To honor M. Hamel for his service", "answer": true },
+            { "choice": "To celebrate a wedding", "answer": false },
+            { "choice": "To welcome a German teacher", "answer": false }
+          ],
+          "explanation": "They respected M. Hamel’s 40 years of teaching."
+        },
+
+        {
+          "part_num": 5,
+          "question": "What task was Franz asked to do?",
+          "choices": [
+            { "choice": "Recite the rule of participles", "answer": true },
+            { "choice": "Read a history book", "answer": false },
+            { "choice": "Write a farewell note", "answer": false }
+          ],
+          "explanation": "He was called to recite grammar rules."
+        },
+        {
+          "part_num": 5,
+          "question": "How did Franz perform when called to recite?",
+          "choices": [
+            { "choice": "He got mixed up and nervous", "answer": true },
+            { "choice": "He recited perfectly", "answer": false },
+            { "choice": "He refused to try", "answer": false }
+          ],
+          "explanation": "He faltered at the beginning."
+        },
+        {
+          "part_num": 5,
+          "question": "What did Franz regret in that moment?",
+          "choices": [
+            { "choice": "Not studying harder before", "answer": true },
+            { "choice": "Not playing outside instead", "answer": false },
+            { "choice": "Not moving away from Alsace", "answer": false }
+          ],
+          "explanation": "He wished he had prepared better for lessons."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -65551,6 +67492,253 @@
     "word_count": 212,
     "passage": "[]Christopher considered himself quite an adventurous person. He enjoyed exploring unknown places and camping in the woods behind his house. []Now and then, Christopher managed to persuade one of his friends to camp out with him, but most of them preferred indoor activities. [b1]\"I wish I had some friends who liked the outdoors as much as I do,\" Christopher thought. []His mother had suggested several times that he join the Boy Scouts. [g1]\"Maybe they go camping,\" she offered. []$MINIGAME_1$ [][b2]\"I thought about that, but the only place I see the Boy Scouts is in the cafeteria after school,\" Christopher replied. [b2]\"I don't want to sit around the cafeteria all afternoon.\" []His mother shook her head. [g2]\"Suit yourself,\" she said. []A few weeks later, Christopher passed through the school cafeteria while the Boy Scouts were having one of their meetings. []The boys were sitting in small groups, talking excitedly and referring to their manuals. []$MINIGAME_2$ [][b3]\"Probably discussing some new Boy-Scout rule,\" Christopher thought, but he slowed down as he was passing one of the tables. []He heard one of the Scouts say: [g3]\"We'll need cables, too, and helmets. I think we can rent them at the wilderness store downtown.\" []Another Scout exclaimed: [b4]\"I never knew it took so much equipment to go rock climbing!\" []$MINIGAME_3$",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Christopher’s mom",
+            "suggested the Boy Scouts",
+            "as a place",
+            "for outdoor-loving friends"
+          ],
+          "parts": [
+            "Christopher’s mom",
+            "suggested the Boy Scouts",
+            "as a place",
+            "for outdoor-loving friends"
+          ],
+          "explanation": "Advice sometimes feels ordinary, yet it may point toward life-changing paths."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "He wished",
+            "for companions",
+            "who shared",
+            "his love for the outdoors"
+          ],
+          "parts": [
+            "He wished",
+            "for companions",
+            "who shared",
+            "his love for the outdoors"
+          ],
+          "explanation": "Loneliness often deepens our longing for true companionship."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "His mother",
+            "believed the Scouts",
+            "could give him",
+            "the friendship he sought"
+          ],
+          "parts": [
+            "His mother",
+            "believed the Scouts",
+            "could give him",
+            "the friendship he sought"
+          ],
+          "explanation": "A parent’s guidance often springs from a quiet hope for their child’s happiness."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Passing the cafeteria",
+            "Christopher noticed",
+            "the Scouts gathered",
+            "in excited groups"
+          ],
+          "parts": [
+            "Passing the cafeteria",
+            "Christopher noticed",
+            "the Scouts gathered",
+            "in excited groups"
+          ],
+          "explanation": "Sometimes what we overlook reveals its value when seen in a new light."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Their conversations",
+            "were filled",
+            "with energy",
+            "and shared purpose"
+          ],
+          "parts": [
+            "Their conversations",
+            "were filled",
+            "with energy",
+            "and shared purpose"
+          ],
+          "explanation": "The energy of community can be felt even from a distance."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "The cafeteria",
+            "buzzed with Scouts",
+            "discussing plans",
+            "that drew Christopher’s curiosity"
+          ],
+          "parts": [
+            "The cafeteria",
+            "buzzed with Scouts",
+            "discussing plans",
+            "that drew Christopher’s curiosity"
+          ],
+          "explanation": "Curiosity is often sparked when we hear voices full of passion."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Christopher overheard",
+            "their talk of equipment",
+            "needed for climbing",
+            "and felt intrigued"
+          ],
+          "parts": [
+            "Christopher overheard",
+            "their talk of equipment",
+            "needed for climbing",
+            "and felt intrigued"
+          ],
+          "explanation": "Discovery often begins with simply listening to others."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "They spoke",
+            "of cables and helmets",
+            "for rock climbing",
+            "in the wilderness"
+          ],
+          "parts": [
+            "They spoke",
+            "of cables and helmets",
+            "for rock climbing",
+            "in the wilderness"
+          ],
+          "explanation": "Details of preparation reveal the seriousness of their adventure."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Christopher realized",
+            "the Scouts were not boring",
+            "but ready",
+            "for real adventures"
+          ],
+          "parts": [
+            "Christopher realized",
+            "the Scouts were not boring",
+            "but ready",
+            "for real adventures"
+          ],
+          "explanation": "His view of them shifted as he glimpsed their daring spirit."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What solution did Christopher’s mom suggest for his wish?",
+          "choices": [
+            { "choice": "Join the Boy Scouts", "answer": true },
+            { "choice": "Play video games", "answer": false },
+            { "choice": "Make new friends at the library", "answer": false }
+          ],
+          "explanation": "Her suggestion carried the promise of new friendships."
+        },
+        {
+          "part_num": 1,
+          "question": "Why did Christopher’s mother bring up the Scouts?",
+          "choices": [
+            { "choice": "She thought they liked camping too", "answer": true },
+            { "choice": "She wanted him to study more", "answer": false },
+            { "choice": "She wanted him to stop exploring", "answer": false }
+          ],
+          "explanation": "She recognized a group that shared his interests."
+        },
+        {
+          "part_num": 1,
+          "question": "What was Christopher longing for at the start?",
+          "choices": [
+            { "choice": "Friends who loved the outdoors", "answer": true },
+            { "choice": "More indoor activities", "answer": false },
+            { "choice": "To stop camping altogether", "answer": false }
+          ],
+          "explanation": "His heart sought companions who shared his passion."
+        },
+        {
+          "part_num": 2,
+          "question": "What did Christopher see when passing the cafeteria?",
+          "choices": [
+            { "choice": "Scouts talking excitedly", "answer": true },
+            { "choice": "An empty room", "answer": false },
+            { "choice": "Teachers eating lunch", "answer": false }
+          ],
+          "explanation": "Their gathering caught his attention."
+        },
+        {
+          "part_num": 2,
+          "question": "What were the Scouts doing in the cafeteria?",
+          "choices": [
+            {
+              "choice": "Meeting in small groups with manuals",
+              "answer": true
+            },
+            { "choice": "Playing board games", "answer": false },
+            { "choice": "Practicing songs", "answer": false }
+          ],
+          "explanation": "They were actively engaged in planning."
+        },
+        {
+          "part_num": 2,
+          "question": "How did Christopher feel as he passed the Scouts?",
+          "choices": [
+            { "choice": "Curious about their excitement", "answer": true },
+            { "choice": "Bored by their activities", "answer": false },
+            { "choice": "Afraid to walk near them", "answer": false }
+          ],
+          "explanation": "The excitement around them stirred his curiosity."
+        },
+        {
+          "part_num": 3,
+          "question": "What did Christopher overhear from the Scouts?",
+          "choices": [
+            {
+              "choice": "Talk about cables and helmets for climbing",
+              "answer": true
+            },
+            { "choice": "Plans for cafeteria games", "answer": false },
+            { "choice": "Stories about movies", "answer": false }
+          ],
+          "explanation": "Their discussion revealed outdoor adventure plans."
+        },
+        {
+          "part_num": 3,
+          "question": "What activity were the Scouts planning?",
+          "choices": [
+            { "choice": "Rock climbing", "answer": true },
+            { "choice": "Fishing trip", "answer": false },
+            { "choice": "Basketball game", "answer": false }
+          ],
+          "explanation": "Their plans revolved around climbing outdoors."
+        },
+        {
+          "part_num": 3,
+          "question": "What did Christopher realize about the Scouts?",
+          "choices": [
+            {
+              "choice": "They were preparing for real adventures",
+              "answer": true
+            },
+            { "choice": "They only liked cafeteria talks", "answer": false },
+            { "choice": "They disliked the outdoors", "answer": false }
+          ],
+          "explanation": "He began to see them as bold and adventurous."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -68054,6 +70242,418 @@
     "word_count": 788,
     "passage": "[]At the heart of Barangay Quirino, Solano, Nueva Vizcaya, in a place popularly known as \"Diamond,\" lived the family of Mang Ricardo and Aling Maring with their children Christine, Catherine, and Christian. []They migrated in 2014 after their place had been damaged by a strong typhoon. []$MINIGAME_1$ []They lived in an old stock room which Mang Ricardo just repaired. He earned a living by doing simple car repairs while his wife accepted laundry work. []One morning, Christine asked her mother if she may continue her studies. [b1]\"Nanay, may I still go to school here?\" she asked. []Aling Maring looked at her and quietly entered the house, opening a small shoe box with some coins in it. Day by day, she had been saving. []$MINIGAME_2$ []Christine went to the next house to watch television. On the screen, she saw the most popular fast food store in town, filled with delicious food, mascots, and a play area. []It had always been her dream to eat inside and play there, though she knew her parents could not afford it. []The next morning, Aling Maring brought her children to school and enrolled them. []Christine made new friends and impressed her teacher with her responsibility and kindness. []$MINIGAME_3$ []One afternoon, in their English class, the teacher asked her pupils to write a short paragraph about their wishes this holiday season. []Christine wrote: [g1]\"Every child longs to receive expensive gifts and visit malls, but mine is a simple wish. I want to visit the fast food store in town with my brother and sister.\" []Her teacher paused, touched by her words. [b2]\"This is a very nice girl. How can I make her happy?\" she thought. []$MINIGAME_4$ []December 19 came, and during the class program, the teacher handed Christine a letter: she would pick up her and her siblings on December 24. []Excited, the children woke up early that morning and met their teacher. They rode in a tricycle, and Christine’s eyes sparkled as they stopped in front of the store she had always dreamed of. []They entered, ordered food, and watched the giant mascots. [g2]\"Happy holiday to all of you. I hope you liked my simple gift,\" the teacher said, handing them new clothes as well. []$MINIGAME_5$ []Christine prayed with a great smile. [b3]\"Thank you Holy Creator for bringing us wonderful people this special holiday,\" she said joyfully.",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "After the storm",
+            "Christine’s family",
+            "moved into Diamond",
+            "to start anew"
+          ],
+          "parts": [
+            "After the storm",
+            "Christine’s family",
+            "moved into Diamond",
+            "to start anew"
+          ],
+          "explanation": "New places often carry the weight of loss and the hope of renewal."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "The typhoon",
+            "forced Christine’s family",
+            "to leave their home",
+            "and seek refuge"
+          ],
+          "parts": [
+            "The typhoon",
+            "forced Christine’s family",
+            "to leave their home",
+            "and seek refuge"
+          ],
+          "explanation": "Tragedy can uproot lives but also plant the seeds of fresh beginnings."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Christine’s parents",
+            "found shelter",
+            "for their children",
+            "in a new town"
+          ],
+          "parts": [
+            "Christine’s parents",
+            "found shelter",
+            "for their children",
+            "in a new town"
+          ],
+          "explanation": "Even in hardship, parents strive to secure safety for their family."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Her mother’s savings",
+            "in a small shoebox",
+            "were meant",
+            "to keep Christine in school"
+          ],
+          "parts": [
+            "Her mother’s savings",
+            "in a small shoebox",
+            "were meant",
+            "to keep Christine in school"
+          ],
+          "explanation": "Love often hides in the quietest forms of sacrifice."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Every coin",
+            "her mother saved",
+            "was a step",
+            "toward Christine’s education"
+          ],
+          "parts": [
+            "Every coin",
+            "her mother saved",
+            "was a step",
+            "toward Christine’s education"
+          ],
+          "explanation": "Small acts done with persistence can shape a brighter future."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Christine’s dream",
+            "of studying again",
+            "was supported",
+            "by her mother’s effort"
+          ],
+          "parts": [
+            "Christine’s dream",
+            "of studying again",
+            "was supported",
+            "by her mother’s effort"
+          ],
+          "explanation": "Dreams take root when nurtured by someone else’s care."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Despite poverty",
+            "Christine impressed her teacher",
+            "with responsibility",
+            "and kindness"
+          ],
+          "parts": [
+            "Despite poverty",
+            "Christine impressed her teacher",
+            "with responsibility",
+            "and kindness"
+          ],
+          "explanation": "True worth is measured less by wealth and more by character."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Christine",
+            "stood out in class",
+            "because of her",
+            "thoughtful nature"
+          ],
+          "parts": [
+            "Christine",
+            "stood out in class",
+            "because of her",
+            "thoughtful nature"
+          ],
+          "explanation": "Sometimes, gentleness and responsibility shine brighter than brilliance."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "Her teacher",
+            "saw a girl",
+            "whose spirit",
+            "outweighed her struggles"
+          ],
+          "parts": [
+            "Her teacher",
+            "saw a girl",
+            "whose spirit",
+            "outweighed her struggles"
+          ],
+          "explanation": "Teachers often notice the quiet resilience in their students."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "Her holiday wish",
+            "was not for toys",
+            "but for a visit",
+            "to the fast food store"
+          ],
+          "parts": [
+            "Her holiday wish",
+            "was not for toys",
+            "but for a visit",
+            "to the fast food store"
+          ],
+          "explanation": "Simple desires can reveal the purest joys."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "Christine wrote",
+            "about her dream",
+            "to share a meal",
+            "with her siblings"
+          ],
+          "parts": [
+            "Christine wrote",
+            "about her dream",
+            "to share a meal",
+            "with her siblings"
+          ],
+          "explanation": "Wishes from the heart often center on loved ones."
+        },
+        {
+          "part_num": 4,
+          "correct_answer": [
+            "Instead of gifts",
+            "Christine longed",
+            "for an experience",
+            "with her family"
+          ],
+          "parts": [
+            "Instead of gifts",
+            "Christine longed",
+            "for an experience",
+            "with her family"
+          ],
+          "explanation": "What she valued most was time spent together."
+        },
+        {
+          "part_num": 5,
+          "correct_answer": [
+            "On Christmas Eve",
+            "Christine’s dream",
+            "finally came true",
+            "with her siblings beside her"
+          ],
+          "parts": [
+            "On Christmas Eve",
+            "Christine’s dream",
+            "finally came true",
+            "with her siblings beside her"
+          ],
+          "explanation": "The best memories are made when dreams are shared with family."
+        },
+        {
+          "part_num": 5,
+          "correct_answer": [
+            "Their teacher",
+            "surprised them",
+            "with food and gifts",
+            "during the holiday"
+          ],
+          "parts": [
+            "Their teacher",
+            "surprised them",
+            "with food and gifts",
+            "during the holiday"
+          ],
+          "explanation": "Generosity can transform a child’s holiday into a lifelong memory."
+        },
+        {
+          "part_num": 5,
+          "correct_answer": [
+            "Christine prayed",
+            "with a grateful heart",
+            "thanking God",
+            "for her blessings"
+          ],
+          "parts": [
+            "Christine prayed",
+            "with a grateful heart",
+            "thanking God",
+            "for her blessings"
+          ],
+          "explanation": "Gratitude turns moments into treasures."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "Why did Christine’s family move to Diamond?",
+          "choices": [
+            {
+              "choice": "Their place was destroyed by a typhoon",
+              "answer": true
+            },
+            {
+              "choice": "They wanted to live closer to relatives",
+              "answer": false
+            },
+            { "choice": "They bought a new mansion", "answer": false }
+          ],
+          "explanation": "Nature’s force pushed them into a new chapter."
+        },
+        {
+          "part_num": 1,
+          "question": "Where did Christine’s family settle after the typhoon?",
+          "choices": [
+            { "choice": "In Diamond, Barangay Quirino", "answer": true },
+            { "choice": "In a distant city", "answer": false },
+            { "choice": "In their old rebuilt home", "answer": false }
+          ],
+          "explanation": "They chose a modest home where they could start again."
+        },
+        {
+          "part_num": 1,
+          "question": "What was the family’s situation in Diamond?",
+          "choices": [
+            { "choice": "Living in a repaired stock room", "answer": true },
+            { "choice": "Owning a large house", "answer": false },
+            { "choice": "Renting an apartment", "answer": false }
+          ],
+          "explanation": "They made do with whatever shelter was available."
+        },
+        {
+          "part_num": 2,
+          "question": "What did Christine’s mother keep in the shoebox?",
+          "choices": [
+            { "choice": "Her savings in coins", "answer": true },
+            { "choice": "Letters from relatives", "answer": false },
+            { "choice": "Christine’s report cards", "answer": false }
+          ],
+          "explanation": "The coins represented her quiet dedication."
+        },
+        {
+          "part_num": 2,
+          "question": "Why was the shoebox important?",
+          "choices": [
+            {
+              "choice": "It held the money for Christine’s schooling",
+              "answer": true
+            },
+            { "choice": "It kept their family photos", "answer": false },
+            { "choice": "It stored clothes", "answer": false }
+          ],
+          "explanation": "Within it lay the hope for education."
+        },
+        {
+          "part_num": 2,
+          "question": "What did Christine’s mother hope to achieve with her savings?",
+          "choices": [
+            { "choice": "To enroll Christine in school", "answer": true },
+            { "choice": "To buy holiday gifts", "answer": false },
+            { "choice": "To repair their house", "answer": false }
+          ],
+          "explanation": "Her savings were meant to secure her child’s learning."
+        },
+        {
+          "part_num": 3,
+          "question": "How did Christine’s teacher see her?",
+          "choices": [
+            { "choice": "As a responsible and kind student", "answer": true },
+            { "choice": "As lazy and distracted", "answer": false },
+            { "choice": "As someone only interested in games", "answer": false }
+          ],
+          "explanation": "Her teacher admired her character."
+        },
+        {
+          "part_num": 3,
+          "question": "What quality made Christine stand out?",
+          "choices": [
+            { "choice": "Her kindness and responsibility", "answer": true },
+            { "choice": "Her fashionable clothes", "answer": false },
+            { "choice": "Her loud voice", "answer": false }
+          ],
+          "explanation": "It was her heart, not her wealth, that impressed others."
+        },
+        {
+          "part_num": 3,
+          "question": "Why was her teacher touched?",
+          "choices": [
+            { "choice": "Christine’s sincerity", "answer": true },
+            { "choice": "Christine’s wealth", "answer": false },
+            { "choice": "Christine’s test scores", "answer": false }
+          ],
+          "explanation": "Sincerity often moves people more deeply than anything else."
+        },
+        {
+          "part_num": 4,
+          "question": "What did Christine write about in her holiday wish?",
+          "choices": [
+            {
+              "choice": "Eating at the fast food store with her siblings",
+              "answer": true
+            },
+            { "choice": "Owning new toys", "answer": false },
+            { "choice": "Visiting another country", "answer": false }
+          ],
+          "explanation": "Her wish reflected love for her siblings."
+        },
+        {
+          "part_num": 4,
+          "question": "How was Christine’s wish different from her classmates’?",
+          "choices": [
+            {
+              "choice": "She wanted something simple and heartfelt",
+              "answer": true
+            },
+            { "choice": "She wanted the most expensive gift", "answer": false },
+            { "choice": "She wanted a video game console", "answer": false }
+          ],
+          "explanation": "Her wish revealed her humility and care."
+        },
+        {
+          "part_num": 4,
+          "question": "Why did the teacher pause after reading Christine’s wish?",
+          "choices": [
+            { "choice": "It touched her deeply", "answer": true },
+            { "choice": "It was too long", "answer": false },
+            { "choice": "It was incomplete", "answer": false }
+          ],
+          "explanation": "The words carried a kind of innocence that moved her."
+        },
+        {
+          "part_num": 5,
+          "question": "What gift did the teacher give Christine and her siblings?",
+          "choices": [
+            {
+              "choice": "A meal at the fast food store and new clothes",
+              "answer": true
+            },
+            { "choice": "A trip to the movies", "answer": false },
+            { "choice": "A set of books", "answer": false }
+          ],
+          "explanation": "The teacher granted her simple but heartfelt wish."
+        },
+        {
+          "part_num": 5,
+          "question": "How did Christine feel after receiving the gift?",
+          "choices": [
+            { "choice": "Grateful and joyful", "answer": true },
+            { "choice": "Angry it wasn’t more", "answer": false },
+            { "choice": "Embarrassed to be noticed", "answer": false }
+          ],
+          "explanation": "Her prayer of thanks reflected her gratitude."
+        },
+        {
+          "part_num": 5,
+          "question": "What did Christine do after her holiday dream came true?",
+          "choices": [
+            { "choice": "She prayed and gave thanks", "answer": true },
+            { "choice": "She asked for more gifts", "answer": false },
+            { "choice": "She stayed silent", "answer": false }
+          ],
+          "explanation": "Her final act was one of humility and thankfulness."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
@@ -73114,6 +75714,246 @@
     "word_count": 116,
     "passage": "[]As we arrived at the gargantuan house we heard the concert of screaming children. []I came in and my nose started sniffing like a dog smelling the great big turkey. []We started to say our greetings, the length of great speeches. []$MINIGAME_1$ []After what felt like an eternity, the food was finally ready. First I saw the Himalayas of turkey and ham. []Next came the hills of mashed potatoes you could snowboard down. []The giant bumps of bread rolls tasted like they were made by the best chef. []$MINIGAME_2$ []Then came the oceans of macaroni, stretching left and right. []After the feast fit for a king was done, I was stuffed like a turkey. []$MINIGAME_3$",
     "minigames": {
+      "SentenceRearrangement": [
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "After greetings",
+            "everyone waited",
+            "for the feast",
+            "to finally begin"
+          ],
+          "parts": [
+            "After greetings",
+            "everyone waited",
+            "for the feast",
+            "to finally begin"
+          ],
+          "explanation": "The anticipation of food makes its arrival feel even richer."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "The long introductions",
+            "gave way",
+            "to hunger",
+            "and eager glances at the table"
+          ],
+          "parts": [
+            "The long introductions",
+            "gave way",
+            "to hunger",
+            "and eager glances at the table"
+          ],
+          "explanation": "Hunger always grows when patience is stretched thin."
+        },
+        {
+          "part_num": 1,
+          "correct_answer": [
+            "Before eating",
+            "they exchanged speeches",
+            "and warm words",
+            "around the room"
+          ],
+          "parts": [
+            "Before eating",
+            "they exchanged speeches",
+            "and warm words",
+            "around the room"
+          ],
+          "explanation": "Celebrations often begin with connection before the feast."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "The table",
+            "filled with food",
+            "from turkey and ham",
+            "to bread and potatoes"
+          ],
+          "parts": [
+            "The table",
+            "filled with food",
+            "from turkey and ham",
+            "to bread and potatoes"
+          ],
+          "explanation": "Abundance reflects not just cooking, but care and tradition."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "First came",
+            "the turkey and ham",
+            "followed by",
+            "mountains of potatoes"
+          ],
+          "parts": [
+            "First came",
+            "the turkey and ham",
+            "followed by",
+            "mountains of potatoes"
+          ],
+          "explanation": "The centerpiece of the meal always arrives first."
+        },
+        {
+          "part_num": 2,
+          "correct_answer": [
+            "Then followed",
+            "bread rolls and sides",
+            "adding variety",
+            "to the grand spread"
+          ],
+          "parts": [
+            "Then followed",
+            "bread rolls and sides",
+            "adding variety",
+            "to the grand spread"
+          ],
+          "explanation": "A feast grows more inviting with each new dish placed down."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "After eating",
+            "the speaker felt",
+            "completely stuffed",
+            "like the turkey itself"
+          ],
+          "parts": [
+            "After eating",
+            "the speaker felt",
+            "completely stuffed",
+            "like the turkey itself"
+          ],
+          "explanation": "Fullness can feel overwhelming but also joyful after a great feast."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "The meal ended",
+            "with bellies full",
+            "and laughter",
+            "echoing in the room"
+          ],
+          "parts": [
+            "The meal ended",
+            "with bellies full",
+            "and laughter",
+            "echoing in the room"
+          ],
+          "explanation": "Laughter often crowns the end of a shared meal."
+        },
+        {
+          "part_num": 3,
+          "correct_answer": [
+            "The feast",
+            "left everyone",
+            "satisfied",
+            "and content"
+          ],
+          "parts": ["The feast", "left everyone", "satisfied", "and content"],
+          "explanation": "Satisfaction is the truest sign of a celebration’s success."
+        }
+      ],
+      "Choices": [
+        {
+          "part_num": 1,
+          "question": "What happened before the food was served?",
+          "choices": [
+            { "choice": "Long greetings and speeches", "answer": true },
+            { "choice": "Games were played", "answer": false },
+            { "choice": "Everyone left the house", "answer": false }
+          ],
+          "explanation": "Celebration began with words rather than plates."
+        },
+        {
+          "part_num": 1,
+          "question": "Why did the family wait before eating?",
+          "choices": [
+            { "choice": "Because of tradition and greetings", "answer": true },
+            { "choice": "The food was still raw", "answer": false },
+            { "choice": "They were too full already", "answer": false }
+          ],
+          "explanation": "Tradition shaped the rhythm of the day."
+        },
+        {
+          "part_num": 1,
+          "question": "What filled the room before the meal?",
+          "choices": [
+            { "choice": "Greetings and speeches", "answer": true },
+            { "choice": "The smell of pizza", "answer": false },
+            { "choice": "Music from a band", "answer": false }
+          ],
+          "explanation": "Voices and stories created the atmosphere."
+        },
+        {
+          "part_num": 2,
+          "question": "Which foods appeared first on the table?",
+          "choices": [
+            { "choice": "Turkey and ham", "answer": true },
+            { "choice": "Fish and rice", "answer": false },
+            { "choice": "Pizza and pasta", "answer": false }
+          ],
+          "explanation": "The classics defined the holiday feast."
+        },
+        {
+          "part_num": 2,
+          "question": "What kind of meal was described?",
+          "choices": [
+            { "choice": "A feast with plenty of food", "answer": true },
+            { "choice": "A simple snack", "answer": false },
+            { "choice": "An empty table", "answer": false }
+          ],
+          "explanation": "The table symbolized abundance."
+        },
+        {
+          "part_num": 2,
+          "question": "Which comfort foods joined the main dishes?",
+          "choices": [
+            { "choice": "Mashed potatoes and bread rolls", "answer": true },
+            { "choice": "Noodles and dumplings", "answer": false },
+            { "choice": "Cakes and pies", "answer": false }
+          ],
+          "explanation": "Side dishes completed the feast’s richness."
+        },
+
+        {
+          "part_num": 3,
+          "question": "How did the speaker feel after the feast?",
+          "choices": [
+            { "choice": "Stuffed like a turkey", "answer": true },
+            { "choice": "Still very hungry", "answer": false },
+            { "choice": "Too tired to eat anything", "answer": false }
+          ],
+          "explanation": "The meal left a playful sense of fullness and humor."
+        },
+        {
+          "part_num": 3,
+          "question": "What image was used to describe the speaker’s fullness?",
+          "choices": [
+            {
+              "choice": "Being stuffed like the turkey itself",
+              "answer": true
+            },
+            { "choice": "Floating like a balloon", "answer": false },
+            { "choice": "Running like a river", "answer": false }
+          ],
+          "explanation": "The comparison lightened the tone of the holiday ending."
+        },
+        {
+          "part_num": 3,
+          "question": "What does the ending of the poem suggest about the holiday?",
+          "choices": [
+            {
+              "choice": "That celebration brings both joy and a heavy stomach",
+              "answer": true
+            },
+            { "choice": "That the day was disappointing", "answer": false },
+            { "choice": "That no food was served", "answer": false }
+          ],
+          "explanation": "The close combines laughter, family warmth, and satisfied appetites."
+        }
+      ],
       "WordsFromLetters": [
         {
           "part_num": 10,
