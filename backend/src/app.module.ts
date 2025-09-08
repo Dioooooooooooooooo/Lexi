@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -19,6 +19,12 @@ import configuration from './configuration/configuration';
 import { DatabaseModule } from './database/database.module';
 import { SeedModule } from './seed/seed.module';
 
+import { CacheModule } from '@nestjs/cache-manager';
+import { createKeyv } from '@keyv/redis';
+import { Keyv } from '@keyv/redis';
+import { CacheableMemory } from 'cacheable';
+import { DictionaryModule } from './app/dictionary/dictionary.module';
+
 @Module({
   imports: [
     ThrottlerModule.forRoot({
@@ -33,6 +39,23 @@ import { SeedModule } from './seed/seed.module';
       isGlobal: true,
       load: [configuration],
     }),
+
+    CacheModule.registerAsync({
+      isGlobal: true,
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => {
+        return {
+          stores: [
+            new Keyv({
+              store: new CacheableMemory({ ttl: 60000, lruSize: 5000 }),
+            }),
+            createKeyv(config.get<string>('REDIS_URI')),
+          ],
+        };
+      },
+    }),
+
     DatabaseModule,
     EmailModule,
     AuthModule,
@@ -47,6 +70,7 @@ import { SeedModule } from './seed/seed.module';
     ActivityModule,
     UserModule,
     ActivityLogsModule,
+    DictionaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
