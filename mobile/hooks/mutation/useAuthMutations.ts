@@ -23,15 +23,23 @@ export const useRegister = () => {
   return useMutation({
     mutationFn: (formData: Record<string, any>) => {
       const transformedData = transformRegistrationData(formData);
-      return AuthenticationService.postAuthRegister({ requestBody: transformedData });
+      return AuthenticationService.postAuthRegister({ 
+        requestBody: transformedData 
+      });
     },
-    onSuccess: (data) => {
-      // Set token in OpenAPI config
-      const token = (data as any)?.access_token;
-      if (token) {
-        OpenAPI.TOKEN = token;
-        AsyncStorage.setItem('access_token', token);
+    onSuccess: async (response) => {
+      // Response already has user data (AuthResponseDto)
+      await AsyncStorage.setItem('access_token', response.access_token);
+      if (response.refresh_token) {
+        await AsyncStorage.setItem('refresh_token', response.refresh_token);
       }
+      
+      // Set token in OpenAPI config
+      OpenAPI.TOKEN = response.access_token;
+      
+      // Use the user data that's already in the response
+      queryClient.setQueryData(queryKeys.auth.me(), response.user);
+      
       // Invalidate auth queries
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
     },
@@ -45,15 +53,29 @@ export const useLogin = () => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: (data: PostAuthLoginData) => AuthenticationService.postAuthLogin(data),
-    onSuccess: (data) => {
-      // Set token in OpenAPI config
-      const token = (data as any)?.data?.access_token;
-      if (token) {
-        OpenAPI.TOKEN = token;
-        AsyncStorage.setItem('access_token', token);
+    mutationFn: (credentials: { email: string; password: string }) => {
+      const data: PostAuthLoginData = {
+        requestBody: {
+          email: credentials.email,
+          password: credentials.password,
+        },
+      };
+      return AuthenticationService.postAuthLogin(data);
+    },
+    onSuccess: async (response) => {
+      const data = (response as any)?.data;
+      
+      // Store tokens
+      if (data?.access_token) {
+        await AsyncStorage.setItem('access_token', data.access_token);
+        OpenAPI.TOKEN = data.access_token;
       }
-      // Invalidate auth queries
+      
+      if (data?.refresh_token) {
+        await AsyncStorage.setItem('refresh_token', data.refresh_token);
+      }
+      
+      // Invalidate to trigger user query (login doesn't return user data)
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
     },
     onError: (error: any) => {
@@ -136,6 +158,52 @@ export const useLogout = () => {
       OpenAPI.TOKEN = undefined;
       AsyncStorage.removeItem('access_token');
       queryClient.clear();
+    },
+  });
+};
+
+// =============================================================================
+// PROVIDER AUTH MUTATIONS - TODO: Implement these to replace authStore.providerAuth()
+// =============================================================================
+
+export const useGoogleLogin = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async () => {
+      // TODO: Implement Google OAuth login flow
+      // 1. Call signInWithGoogle()
+      // 2. Call tokenAuth(0, token)
+      // 3. Return response
+      throw new Error('Google login not implemented yet');
+    },
+    onSuccess: async (response) => {
+      // TODO: Store tokens and set user data like other auth mutations
+      console.log('Google login success - TODO: implement');
+    },
+    onError: (error: any) => {
+      console.error('Google login failed:', error);
+    },
+  });
+};
+
+export const useFacebookLogin = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async () => {
+      // TODO: Implement Facebook OAuth login flow
+      // 1. Call signInWithFacebook()
+      // 2. Call tokenAuth(1, token)
+      // 3. Return response
+      throw new Error('Facebook login not implemented yet');
+    },
+    onSuccess: async (response) => {
+      // TODO: Store tokens and set user data like other auth mutations
+      console.log('Facebook login success - TODO: implement');
+    },
+    onError: (error: any) => {
+      console.error('Facebook login failed:', error);
     },
   });
 };

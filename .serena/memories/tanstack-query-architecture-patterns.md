@@ -57,69 +57,167 @@ mobile/hooks/
 │   ├── types.gen.ts
 │   └── schemas.gen.ts
 ├── mutation/               # ALL POST/PUT/PATCH/DELETE operations
-│   ├── useLoginMutation.ts
-│   ├── useSignupMutation.ts
-│   ├── useLogoutMutation.ts
-│   ├── useUpdateProfileMutation.ts
-│   └── useCreatePostMutation.ts
+│   ├── useAuthMutations.ts
+│   ├── useClassroomMutations.ts
+│   └── usePupilMutations.ts
 ├── query/                  # ALL GET operations
-│   ├── useCurrentUser.ts
-│   ├── usePosts.ts
-│   └── useProfile.ts
+│   ├── useAuthQueries.ts
+│   ├── useClassroomQueries.ts
+│   └── usePupilQueries.ts
 └── utils/                  # Transformers and helpers
     └── authTransformers.ts
 ```
 
 **MANDATORY: Every API call MUST go through these hooks**
 
-#### Example Mutation (Authentication)
+## 🚨 MUTATION BEST PRACTICES
 
+### Single Responsibility Principle
+
+**CRITICAL**: Each mutation should perform ONE operation only. 
+
+**❌ WRONG - Multiple API calls in one mutation**:
 ```typescript
-// hooks/mutation/useLoginMutation.ts
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AuthenticationService } from '../api/services.gen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { router } from 'expo-router';
-
-export const useLoginMutation = () => {
-  const queryClient = useQueryClient();
-
+// DON'T DO THIS
+export const useLogin = () => {
   return useMutation({
-    mutationFn: (credentials: LoginDto) =>
-      AuthenticationService.postAuthLogin({ requestBody: credentials }),
-
-    onSuccess: async response => {
-      // Store tokens
-      await AsyncStorage.setItem('access_token', response.access_token);
-      await AsyncStorage.setItem('refresh_token', response.refresh_token);
-
-      // Update query cache
-      queryClient.setQueryData(['user'], response.user);
-
-      // Navigate
-      router.replace('/home');
-    },
-
-    onError: error => {
-      // Error handling
-      Toast.show({ type: 'error', text1: error.message });
-    },
+    mutationFn: async (credentials) => {
+      const loginResponse = await AuthenticationService.postAuthLogin(credentials);
+      // ❌ Making another API call in the same mutation
+      const userResponse = await AuthenticationService.getAuthMe();
+      return { ...loginResponse, user: userResponse };
+    }
   });
 };
 ```
 
-#### Example Query
-
+**✅ CORRECT - Single focused mutation**:
 ```typescript
-// hooks/query/useCurrentUser.ts
-import { useQuery } from '@tanstack/react-query';
-import { AuthenticationService } from '../api/services.gen';
+export const useLogin = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (credentials: LoginDto) =>
+      AuthenticationService.postAuthLogin({ requestBody: credentials }),
+    
+    onSuccess: async (response) => {
+      // Store tokens
+      await AsyncStorage.setItem('access_token', response.access_token);
+      await AsyncStorage.setItem('refresh_token', response.refresh_token);
+      
+      // If response includes user data, use it
+      if (response.user) {
+        queryClient.setQueryData(['user'], response.user);
+      } else {
+        // Otherwise, invalidate user query to trigger refetch
+        queryClient.invalidateQueries({ queryKey: ['user'] });
+      }
+    }
+  });
+};
+```
 
-export const useCurrentUser = () => {
-  return useQuery({
-    queryKey: ['user'],
-    queryFn: () => AuthenticationService.getAuthMe(),
-    staleTime: 5 * 60 * 1000, // 5 minutes
+### Three Options for Getting Related Data
+
+#### Option 1: Backend Returns Complete Data (BEST)
+```typescript
+// If backend returns user with login response
+// Response: { access_token, refresh_token, user }
+onSuccess: (response) => {
+  queryClient.setQueryData(['user'], response.user);
+}
+```
+
+#### Option 2: Trigger Separate Query
+```typescript
+// Let TanStack Query handle fetching user data
+onSuccess: () => {
+  queryClient.invalidateQueries({ queryKey: ['user'] });
+  // Component uses useCurrentUser() query
+}
+```
+
+#### Option 3: Component Orchestration
+```typescript
+function LoginScreen() {
+  const loginMutation = useLogin();
+  const { refetch: refetchUser } = useCurrentUser();
+  
+  const handleLogin = async (credentials) => {
+    await loginMutation.mutateAsync(credentials);
+    await refetchUser(); // Component decides when to fetch
+  };
+}
+```
+
+### Why Multiple API Calls in One Mutation is Wrong
+
+1. **Violates single responsibility** - Login should only login
+2. **Complex error handling** - Which call failed? Partial success?
+3. **Poor separation of concerns** - Mixing auth with data fetching
+4. **Against TanStack Query patterns** - Backend should return needed data
+
+## Authentication Implementation Examples
+
+### Registration Mutation (CORRECT)
+```typescript
+export const useRegister = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (formData: Record<string, any>) => {
+      const transformedData = transformRegistrationData(formData);
+      return AuthenticationService.postAuthRegister({ 
+        requestBody: transformedData 
+      });
+    },
+    onSuccess: async (response) => {
+      // Use data returned by backend
+      await AsyncStorage.setItem('access_token', response.access_token);
+      await AsyncStorage.setItem('refresh_token', response.refresh_token);
+      
+      // Backend returns user with registration
+      if (response.user) {
+        queryClient.setQueryData(['user'], response.user);
+      }
+      
+      queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
+    }
+  });
+};
+```
+
+### Login Mutation (CORRECT)
+```typescript
+export const useLogin = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (credentials: { email: string; password: string }) => {
+      const data: PostAuthLoginData = {
+        requestBody: {
+          email: credentials.email,
+          password: credentials.password,
+        },
+      };
+      return AuthenticationService.postAuthLogin(data);
+    },
+    onSuccess: async (response) => {
+      const data = response?.data;
+      
+      // Store tokens
+      if (data?.access_token) {
+        await AsyncStorage.setItem('access_token', data.access_token);
+        OpenAPI.TOKEN = data.access_token;
+      }
+      
+      if (data?.refresh_token) {
+        await AsyncStorage.setItem('refresh_token', data.refresh_token);
+      }
+      
+      // Invalidate to trigger user query
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+    }
   });
 };
 ```
@@ -188,14 +286,19 @@ export const useUIStore = create<UIStore>(set => ({
 
 ```typescript
 // screens/LoginScreen.tsx
-import { useLoginMutation } from '@/hooks/mutation/useLoginMutation';
+import { useLogin } from '@/hooks/mutation/useAuthMutations';
+import { useCurrentUser } from '@/hooks/query/useAuthQueries';
 
 function LoginScreen() {
-  const loginMutation = useLoginMutation();
-
+  const loginMutation = useLogin();
+  const { data: user } = useCurrentUser(); // Will refetch after login
+  
   const handleLogin = formData => {
-    // Components ONLY call TanStack Query hooks
-    loginMutation.mutate(formData);
+    loginMutation.mutate(formData, {
+      onSuccess: () => {
+        router.replace('/home');
+      }
+    });
   };
 
   return (
@@ -234,52 +337,16 @@ If migrating from old architecture:
 
 ### Create These Hooks:
 
-- [ ] `useLoginMutation.ts` - Replaces authStore.login()
-- [ ] `useSignupMutation.ts` - Replaces authStore.signup()
-- [ ] `useLogoutMutation.ts` - Replaces authStore.logout()
-- [ ] `useCurrentUser.ts` - Replaces getProfile()
+- [ ] `useLogin` - Replaces authStore.login()
+- [ ] `useRegister` - Replaces authStore.signup()
+- [ ] `useLogout` - Replaces authStore.logout()
+- [ ] `useCurrentUser` - Replaces getProfile()
 
 ### Update Components:
 
-- [ ] Replace all `authStore.login()` with `useLoginMutation()`
-- [ ] Replace all `authStore.signup()` with `useSignupMutation()`
+- [ ] Replace all `authStore.login()` with `useLogin()`
+- [ ] Replace all `authStore.signup()` with `useRegister()`
 - [ ] Replace all store API calls with TanStack Query hooks
-
-## Authentication Flow (Complete Example)
-
-### 1. Signup Mutation
-
-```typescript
-// hooks/mutation/useSignupMutation.ts
-export const useSignupMutation = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (formData: SignupForm) => {
-      const transformed = transformRegistrationData(formData);
-      return AuthenticationService.postAuthRegister({
-        requestBody: transformed,
-      });
-    },
-    onSuccess: async response => {
-      await AsyncStorage.setItem('access_token', response.access_token);
-      await AsyncStorage.setItem('refresh_token', response.refresh_token);
-      queryClient.setQueryData(['user'], response.user);
-      router.push('/onboarding');
-    },
-  });
-};
-```
-
-### 2. Component Usage
-
-```typescript
-function SignupScreen() {
-  const signupMutation = useSignupMutation();
-
-  return <Form onSubmit={data => signupMutation.mutate(data)} />;
-}
-```
 
 ## Query Client Configuration
 
@@ -380,6 +447,7 @@ When generating code for this architecture:
 8. **Token storage happens in mutation onSuccess, not stores**
 9. **User data lives in query cache, not stores**
 10. **If it talks to the server, it goes through TanStack Query**
+11. **EACH MUTATION DOES ONE THING** - No chaining unrelated API calls
 
 ## Validation Questions
 
@@ -390,6 +458,8 @@ Before implementing, ask yourself:
 - Does every API call go through TanStack Query? (Should be YES)
 - Is authentication handled by mutations? (Should be YES)
 - Are tokens stored in mutation callbacks? (Should be YES)
+- Does each mutation do ONE thing only? (Should be YES)
+- Am I making multiple unrelated API calls in one mutation? (Should be NO)
 
 ## Final Notes
 
@@ -401,3 +471,5 @@ This architecture is:
 - **Simpler than hybrid approaches** - one pattern for everything
 
 There are **NO special cases** where stores should call APIs directly. If you think you found one, you're wrong - use TanStack Query.
+
+**Mutations should be simple and focused** - if you need additional data after a mutation, either get it from the backend response or use a separate query.
