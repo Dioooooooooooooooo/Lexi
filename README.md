@@ -67,7 +67,7 @@ pnpm dev:mobile     # Expo dev server
 - **Framework**: Expo + React Native
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS (NativeWind)
-- **State**: Zustand + Tanstack Query
+- **State**: TanStack Query (ALL server state) + Zustand (UI state only)
 - **Navigation**: Expo Router
 
 **Key Features:**
@@ -87,11 +87,12 @@ pnpm dev:mobile     # Expo dev server
 # 2. Generate OpenAPI spec from code
 pnpm openapi:spec
 
-# 3. Generate type-safe React Native client
+# 3. Generate type-safe API client in mobile/hooks/api/
 pnpm openapi:client
 
-# 4. Use generated Tanstack Query hooks in React Native
-# 5. Always in sync - no manual API maintenance! 🎉
+# 4. Create TanStack Query hooks wrapping the generated client
+# 5. Use hooks directly in components (NEVER import services)
+# 6. Always in sync - no manual API maintenance! 🎉
 ```
 
 ## 🛠️ Development Commands
@@ -148,7 +149,7 @@ pnpm openapi:docs     # Generate both spec and client
 
 1. **Backend**: Implement NestJS endpoint with Swagger decorators
 2. **Generate**: Create API client automatically
-3. **Frontend**: Use generated Tanstack Query hooks
+3. **Frontend**: Create and use TanStack Query hooks (mutations/queries)
 4. **Test**: Verify functionality end-to-end
 5. **Deploy**: Ship with confidence
 
@@ -183,8 +184,8 @@ pnpm test:mobile          # React Native component tests
 ### Mobile Stack
 
 - **Expo** - React Native development platform
-- **Tanstack Query** - Data fetching/caching
-- **Zustand** - State management
+- **TanStack Query** - ALL server state (mutations & queries)
+- **Zustand** - UI state ONLY (theme, modals, etc.)
 - **NativeWind** - Tailwind CSS for React Native
 - **React Navigation** - Screen navigation
 
