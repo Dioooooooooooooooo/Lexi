@@ -5,7 +5,7 @@ import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { useRegisterFormContext } from "./_layout";
 
-import { useAuthStore } from "@/stores/authStore";
+import { useRegister, useUpdateProfile } from "@/hooks/mutation/useAuthMutations";
 import { useGlobalStore } from "@/stores/globalStore";
 import { useUserStore } from "@/stores/userStore";
 
@@ -23,9 +23,9 @@ export default function Step3() {
     setProviderRegisterForm,
   } = useRegisterFormContext();
 
-  const updateProfile = useUserStore((state) => state.updateProfile);
-
-  const signup = useAuthStore((state) => state.signup);
+  // Use TanStack Query mutations instead of store methods
+  const registerMutation = useRegister();
+  const updateProfileMutation = useUpdateProfile();
 
   const [isInvalid, setIsInvalid] = useState(false);
   const setIsLoading = useGlobalStore((state) => state.setIsLoading);
@@ -41,10 +41,13 @@ export default function Step3() {
 
     try {
       if (fromProviderAuth) {
-        await updateProfile(form);
+        // For provider auth, update the profile
+        await updateProfileMutation.mutateAsync(form);
       } else {
-        await signup(form); // Added missing await keyword!
+        // For regular registration, use the register mutation
+        await registerMutation.mutateAsync(form);
       }
+      
       if (form.role === "Pupil") {
         router.push("/signup4");
       } else {
