@@ -15,7 +15,10 @@
       "mcp__serena__insert_after_symbol",
       "mcp__serena__replace_symbol_body",
       "Bash(pnpm add:*)",
-      "Read(e:\\photos\\another photos\\Screenshots/**)"
+      "Read(e:\\photos\\another photos\\Screenshots/**)",
+      "Bash(rm:*)",
+      "Bash(npx expo start:*)",
+      "Bash(pnpm install:*)"
     ],
     "deny": [],
     "ask": []
