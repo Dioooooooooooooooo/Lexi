@@ -25,21 +25,27 @@ export const queryKeys = {
     all: ['pupils'] as const,
     me: () => [...queryKeys.pupils.all, 'me'] as const,
     leaderboard: () => [...queryKeys.pupils.all, 'leaderboard'] as const,
-    byUsername: (username: string) => [...queryKeys.pupils.all, 'by-username', username] as const,
-    leaderboardById: (id: string) => [...queryKeys.pupils.all, 'leaderboard', id] as const,
+    byUsername: (username: string) =>
+      [...queryKeys.pupils.all, 'by-username', username] as const,
+    leaderboardById: (id: string) =>
+      [...queryKeys.pupils.all, 'leaderboard', id] as const,
   },
   // Classrooms keys
   classrooms: {
     all: ['classrooms'] as const,
     list: () => [...queryKeys.classrooms.all, 'list'] as const,
-    detail: (id: string) => [...queryKeys.classrooms.all, 'detail', id] as const,
+    detail: (id: string) =>
+      [...queryKeys.classrooms.all, 'detail', id] as const,
   },
   // Minigames keys
   minigames: {
     all: ['minigames'] as const,
-    randomByMaterial: (materialId: string) => [...queryKeys.minigames.all, 'random-by-material', materialId] as const,
-    randomBySession: (sessionId: string) => [...queryKeys.minigames.all, 'random-by-session', sessionId] as const,
-    wordsFromLetters: (materialId: string) => [...queryKeys.minigames.all, 'words-from-letters', materialId] as const,
+    randomByMaterial: (materialId: string) =>
+      [...queryKeys.minigames.all, 'random-by-material', materialId] as const,
+    randomBySession: (sessionId: string) =>
+      [...queryKeys.minigames.all, 'random-by-session', sessionId] as const,
+    wordsFromLetters: (materialId: string) =>
+      [...queryKeys.minigames.all, 'words-from-letters', materialId] as const,
   },
 } as const;
 

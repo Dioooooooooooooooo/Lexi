@@ -1,9 +1,11 @@
+import { useLogin } from '@/hooks/mutation/useAuthMutations';
+import { useAuthMe } from '@/hooks/query/useAuthQueries';
+import { useAuthStore } from '@/stores/authStore';
+import { validateField } from '@/utils/utils';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { useGlobalStore } from '~/stores/globalStore';
-import { router } from 'expo-router';
-import { useAuthStore } from '@/stores/authStore';
-import { validateField } from '@/utils/utils';
 import { getProfile } from '@/services/UserService';
 import { login as apiLogin } from '@/services/AuthService';
 import { extractUser } from '@/models/User';
@@ -11,18 +13,25 @@ import { useUserStore } from '@/stores/userStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Components
+import { Eye, EyeOff, KeyRound, Mail } from 'lucide-react-native';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { Eye, EyeOff, Mail, KeyRound } from 'lucide-react-native';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import BackHeader from '@/components/BackHeader';
+import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const SignIn = () => {
-  const setUser = useUserStore.getState().setUser;
+  // const setUser = useUserStore.getState().setUser;
+
+  // Use TanStack Query mutations and queries
+  const loginMutation = useLogin();
+  const { refetch: refetchUser } = useAuthMe();
+
+  // TODO: Replace with useGoogleLogin() and useFacebookLogin() mutations
+  // For now, keep using authStore.providerAuth
   const providerAuth = useAuthStore(state => state.providerAuth);
   const setIsLoading = useGlobalStore(state => state.setIsLoading);
 
@@ -38,13 +47,18 @@ const SignIn = () => {
     // password: "",
   });
 
-  // TEST FUNCTION FOR BACKEND CONNECTION
+  // TEST FUNCTION FOR BACKEND CONNECTION - Using TanStack Query mutation
   const testBackendConnection = async () => {
     setIsLoading(true);
     try {
       console.log('Testing backend connection...');
-      const response = await apiLogin('test@example.com', 'test123456');
-      console.log('Backend connection success:', response);
+      // const response = await apiLogin('test@example.com', 'test123456');
+
+      await loginMutation.mutateAsync({
+        email: 'test@example.com',
+        password: 'test123456',
+      });
+      console.log('Backend connection success');
 
       Toast.show({
         type: 'success',
@@ -69,6 +83,7 @@ const SignIn = () => {
   });
 
   const handleLogin = async () => {
+    // Validate form
     const newErrors: any = {};
     Object.keys(form).forEach(field => {
       const error = validateField(field, form[field as keyof typeof form]);
@@ -82,24 +97,58 @@ const SignIn = () => {
     }
 
     setIsLoading(true);
+  //   try {
+  //     let response = await apiLogin(form.email, form.password);
+  //     await AsyncStorage.setItem('accessToken', response.data.access_token);
+  //     await AsyncStorage.setItem('refreshToken', response.data.refresh_token);
+
+  //     response = await getProfile();
+
+  //     const userData = response.data;
+
+  //     if (userData) {
+  //       const user = extractUser(response.data);
+  //       setUser(user);
+  //       Toast.show({
+  //         type: 'success',
+  //         text1: 'Authentication Success',
+  //       });
+  //       router.replace('/home');
+  //     } else {
+  //       router.push({
+  //         pathname: '/signup3',
+  //         params: { fromProviderAuth: 'false' },
+  //       });
+  //     }
+  //   } catch (error: any) {
+  //     Toast.show({
+  //       type: 'error',
+  //       text1: 'Authentication Failed',
+  //       text2: error.message,
+  //     });
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
     try {
-      let response = await apiLogin(form.email, form.password);
-      await AsyncStorage.setItem('accessToken', response.data.access_token);
-      await AsyncStorage.setItem('refreshToken', response.data.refresh_token);
+      // Use TanStack Query mutation for login
+      await loginMutation.mutateAsync({
+        email: form.email,
+        password: form.password,
+      });
 
-      response = await getProfile();
+      // After successful login, fetch user data
+      const userResult = await refetchUser();
 
-      const userData = response.data;
-
-      if (userData) {
-        const user = extractUser(response.data);
-        setUser(user);
+      if (userResult.data) {
         Toast.show({
           type: 'success',
           text1: 'Authentication Success',
         });
         router.replace('/home');
       } else {
+        // No user profile found, redirect to complete signup
         router.push({
           pathname: '/signup3',
           params: { fromProviderAuth: 'false' },
