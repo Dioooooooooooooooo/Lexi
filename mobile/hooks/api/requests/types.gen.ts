@@ -83,14 +83,11 @@ export type AuthResponseDto = {
 };
 
 export type ErrorResponseDto = {
-    /**
-     * Status of the response
-     */
-    status: string;
-    /**
-     * Error message
-     */
     message: string;
+    /**
+     * Detailed error, if any
+     */
+    error?: string;
 };
 
 export type LoginDto = {
@@ -106,15 +103,23 @@ export type LoginDto = {
 
 export type SuccessResponseDto = {
     /**
-     * Success message
+     * Response status
      */
+    status: string;
     message: string;
     /**
-     * Returned data payload
+     * Response data
      */
     data: {
         [key: string]: unknown;
     };
+};
+
+export type GoogleExchangeTokenDto = {
+    /**
+     * Google ID Token
+     */
+    id_token: string;
 };
 
 export type RefreshTokenDto = {
@@ -198,8 +203,127 @@ export type CreateClassroomDto = {
     description: string;
 };
 
+export type EnrollPupilDto = {
+    /**
+     * Classroom Id
+     */
+    classroom_id: string;
+    /**
+     * Array of Pupil Ids
+     */
+    pupil_ids: Array<(unknown[])>;
+};
+
+export type UnEnrollPupilDto = {
+    /**
+     * Classroom Id
+     */
+    classroom_id: string;
+    /**
+     * Array of Pupil Ids
+     */
+    pupil_ids: Array<(unknown[])>;
+};
+
+export type JoinClassroomDto = {
+    /**
+     * Classroom Code
+     */
+    code: string;
+};
+
+export type LeaveClassroomDto = {
+    /**
+     * Classroom Id
+     */
+    classroom_id: string;
+};
+
 export type UpdateClassroomDto = {
-    [key: string]: unknown;
+    /**
+     * Classroom Name
+     */
+    name?: string;
+    /**
+     * Classroom Name
+     */
+    description?: string;
+};
+
+export type CreateWordsFromLettersGame = {
+    /**
+     * Reading Material Id
+     */
+    reading_material_id: string;
+    /**
+     * Part number of where the minigame appears in the story. Always 10 for WordsFromLetters.
+     */
+    part_num: number;
+    /**
+     * Contains the letters needed in creating words.
+     */
+    letters: Array<(string)>;
+    /**
+     * Words that can be created from the letters list.
+     */
+    words: Array<(string)>;
+};
+
+export type ChoicesObject = {
+    /**
+     * Choice text
+     */
+    choice: string;
+    /**
+     * Whether this choice is correct
+     */
+    answer: boolean;
+};
+
+export type CreateChoicesGame = {
+    /**
+     * Reading Material Id
+     */
+    reading_material_id: string;
+    /**
+     * Part number of where the minigame appears in the story.
+     */
+    part_num: number;
+    /**
+     * Question
+     */
+    question: string;
+    /**
+     * List of choices.
+     */
+    choices: Array<ChoicesObject>;
+    /**
+     * Explanation of the answer.
+     */
+    explanation: string;
+};
+
+export type CreateSentenceRearrangementGame = {
+    /**
+     * Reading Material Id
+     */
+    reading_material_id: string;
+    /**
+     * Part number of where the minigame appears in the story.
+     */
+    part_num: number;
+    /**
+     * List of correct answers.
+     */
+    correct_answer: Array<(string)>;
+    /**
+     * Sentence parts
+     */
+    parts: Array<(string)>;
+    /**
+     * Explanation of the answer.
+     */
+    explanation: string;
 };
 
 export type CreateMinigameLogDto = {
@@ -219,6 +343,93 @@ export type CreateMinigameLogDto = {
      * Minigame Result in JSON format
      */
     result: string;
+};
+
+export type CreateReadingSessionDto = {
+    /**
+     * Reading material id
+     */
+    reading_material_id: string;
+};
+
+export type UpdateReadingSessionDto = {
+    /**
+     * Completion percentage of the reading session
+     */
+    completion_percentage: number;
+};
+
+export type CreateReadingMaterialDto = {
+    /**
+     * Source of the reading material
+     */
+    is_deped: boolean;
+    /**
+     * Title of the reading material
+     */
+    title: string;
+    /**
+     * Author of the reading material
+     */
+    author: string;
+    /**
+     * Description of the reading material
+     */
+    description: string;
+    /**
+     * Grade level for which the reading material is suitable
+     */
+    grade_level: number;
+    /**
+     * Cover link image URL for the reading material
+     */
+    cover: string;
+    /**
+     * List of genre for the reading material
+     */
+    genres: Array<(string)>;
+    /**
+     * Content of the reading material
+     */
+    content: string;
+};
+
+export type CreateGenreDto = {
+    /**
+     * Name of the genre
+     */
+    name: string;
+};
+
+export type CreateActivityDTO = {
+    /**
+     * Activity Name
+     */
+    title: string;
+    /**
+     * Description on what the activity is about
+     */
+    description?: string;
+    reading_material_id: string;
+};
+
+export type UpdateActivityDTO = {
+    /**
+     * Activity Name
+     */
+    title?: string;
+    /**
+     * Description on what the activity is about
+     */
+    description?: string;
+    reading_material_id?: string;
+};
+
+export type CreateActivityLogDto = {
+    /**
+     * Minigame log Id
+     */
+    minigame_log_id: string;
 };
 
 export type GetResponse = unknown;
@@ -242,6 +453,12 @@ export type PostAuthLoginData = {
 };
 
 export type PostAuthLoginResponse = SuccessResponseDto;
+
+export type PostAuthGoogleTokenData = {
+    requestBody: GoogleExchangeTokenDto;
+};
+
+export type PostAuthGoogleTokenResponse = SuccessResponseDto;
 
 export type PostAuthRefreshData = {
     /**
@@ -317,27 +534,6 @@ export type GetAuthVerifyTokenResponse = {
     user?: UserResponseDto;
 };
 
-export type GetAuthDebugLoginByEmailData = {
-    email: string;
-};
-
-export type GetAuthDebugLoginByEmailResponse = unknown;
-
-export type GetAuthDebugDbResponse = unknown;
-
-export type GetAuthCheckUserData = {
-    /**
-     * Type of field to check (email or username)
-     */
-    fieldType: 'email' | 'username';
-    /**
-     * Value to check
-     */
-    fieldValue: string;
-};
-
-export type GetAuthCheckUserResponse = SuccessResponseDto;
-
 export type GetAuthProfileResponse = UserResponseDto;
 
 export type GetPupilsMeResponse = SuccessResponseDto;
@@ -351,26 +547,47 @@ export type PatchPupilsMeData = {
 
 export type PatchPupilsMeResponse = SuccessResponseDto;
 
-export type GetPupilsLeaderboardResponse = SuccessResponseDto;
-
-export type GetPupilsLeaderboardByPupilIdResponse = SuccessResponseDto;
-
 export type GetPupilsByUsernameData = {
     username: string;
 };
 
 export type GetPupilsByUsernameResponse = SuccessResponseDto;
 
+export type GetPupilsLeaderboardResponse = SuccessResponseDto;
+
+export type GetPupilsLeaderboardByPupilIdResponse = SuccessResponseDto;
+
 export type PostClassroomsData = {
-    /**
-     * Create classroom data
-     */
     requestBody: CreateClassroomDto;
 };
 
-export type PostClassroomsResponse = SuccessResponseDto;
+export type PostClassroomsResponse = unknown;
 
 export type GetClassroomsResponse = unknown;
+
+export type PostClassroomsEnrollData = {
+    requestBody: EnrollPupilDto;
+};
+
+export type PostClassroomsEnrollResponse = unknown;
+
+export type PostClassroomsUnenrollData = {
+    requestBody: UnEnrollPupilDto;
+};
+
+export type PostClassroomsUnenrollResponse = unknown;
+
+export type PostClassroomsJoinData = {
+    requestBody: JoinClassroomDto;
+};
+
+export type PostClassroomsJoinResponse = unknown;
+
+export type PostClassroomsLeaveData = {
+    requestBody: LeaveClassroomDto;
+};
+
+export type PostClassroomsLeaveResponse = unknown;
 
 export type GetClassroomsByIdData = {
     id: string;
@@ -390,6 +607,24 @@ export type DeleteClassroomsByIdData = {
 };
 
 export type DeleteClassroomsByIdResponse = unknown;
+
+export type PostMinigamesWordsFromLettersData = {
+    requestBody: CreateWordsFromLettersGame;
+};
+
+export type PostMinigamesWordsFromLettersResponse = unknown;
+
+export type PostMinigamesChoicesData = {
+    requestBody: CreateChoicesGame;
+};
+
+export type PostMinigamesChoicesResponse = unknown;
+
+export type PostMinigamesSentenceRearrangementData = {
+    requestBody: CreateSentenceRearrangementGame;
+};
+
+export type PostMinigamesSentenceRearrangementResponse = unknown;
 
 export type GetMinigamesReadingmaterialsByReadingMaterialIdRandomData = {
     readingMaterialId: string;
@@ -432,6 +667,163 @@ export type PostMinigamesLogsWordsFromLettersData = {
 };
 
 export type PostMinigamesLogsWordsFromLettersResponse = unknown;
+
+export type PostReadingSessionsData = {
+    requestBody: CreateReadingSessionDto;
+};
+
+export type PostReadingSessionsResponse = unknown;
+
+export type GetReadingSessionsResponse = unknown;
+
+export type GetReadingSessionsByIdData = {
+    id: string;
+};
+
+export type GetReadingSessionsByIdResponse = unknown;
+
+export type PatchReadingSessionsByIdData = {
+    id: string;
+    requestBody: UpdateReadingSessionDto;
+};
+
+export type PatchReadingSessionsByIdResponse = unknown;
+
+export type DeleteReadingSessionsByIdData = {
+    id: string;
+};
+
+export type DeleteReadingSessionsByIdResponse = unknown;
+
+export type PostReadingMaterialsData = {
+    requestBody: CreateReadingMaterialDto;
+};
+
+export type PostReadingMaterialsResponse = unknown;
+
+export type GetReadingMaterialsResponse = unknown;
+
+export type GetReadingMaterialsRecommendationsResponse = unknown;
+
+export type GetReadingMaterialsByIdData = {
+    id: string;
+};
+
+export type GetReadingMaterialsByIdResponse = unknown;
+
+export type PostGenresData = {
+    requestBody: CreateGenreDto;
+};
+
+export type PostGenresResponse = unknown;
+
+export type GetGenresResponse = unknown;
+
+export type GetAchievementsResponse = unknown;
+
+export type PostAchievementsPupilByPupilIdAchievementByAchievementNameData = {
+    achievementName: string;
+    pupilId: string;
+};
+
+export type PostAchievementsPupilByPupilIdAchievementByAchievementNameResponse = unknown;
+
+export type GetAchievementsPupilsByPupilIdData = {
+    pupilId: string;
+};
+
+export type GetAchievementsPupilsByPupilIdResponse = unknown;
+
+export type DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdData = {
+    achievementId: string;
+    pupilId: string;
+};
+
+export type DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdResponse = unknown;
+
+export type DeleteAchievementsByIdData = {
+    id: string;
+};
+
+export type DeleteAchievementsByIdResponse = unknown;
+
+export type PostClassroomsByClassroomIdActivityData = {
+    classroomId: string;
+    requestBody: CreateActivityDTO;
+};
+
+export type PostClassroomsByClassroomIdActivityResponse = unknown;
+
+export type GetClassroomsByClassroomIdActivityData = {
+    classroomId: string;
+};
+
+export type GetClassroomsByClassroomIdActivityResponse = unknown;
+
+export type GetClassroomsByClassroomIdActivityByActivityIdData = {
+    activityId: string;
+};
+
+export type GetClassroomsByClassroomIdActivityByActivityIdResponse = unknown;
+
+export type PatchClassroomsByClassroomIdActivityByActivityIdData = {
+    activityId: string;
+    requestBody: UpdateActivityDTO;
+};
+
+export type PatchClassroomsByClassroomIdActivityByActivityIdResponse = unknown;
+
+export type DeleteClassroomsByClassroomIdActivityByActivityIdData = {
+    activityId: string;
+};
+
+export type DeleteClassroomsByClassroomIdActivityByActivityIdResponse = unknown;
+
+export type PutUserMeStreakResponse = unknown;
+
+export type GetUserMeStreakResponse = unknown;
+
+export type PostUserMeSessionsResponse = unknown;
+
+export type GetUserMeSessionsResponse = unknown;
+
+export type PutUserMeSessionsBySessionIdData = {
+    sessionId: string;
+};
+
+export type PutUserMeSessionsBySessionIdResponse = unknown;
+
+export type GetUserSearchData = {
+    query: string;
+    role: string;
+};
+
+export type GetUserSearchResponse = unknown;
+
+export type PostClassroomActivityLogsByActivityIdData = {
+    activityId: string;
+    requestBody: CreateActivityLogDto;
+};
+
+export type PostClassroomActivityLogsByActivityIdResponse = unknown;
+
+export type GetClassroomActivityLogsByActivityIdData = {
+    activityId: string;
+};
+
+export type GetClassroomActivityLogsByActivityIdResponse = unknown;
+
+export type GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsData = {
+    classroomId: string;
+};
+
+export type GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsResponse = unknown;
+
+export type GetDictionaryDictionaryByWordData = {
+    word: string;
+};
+
+export type GetDictionaryDictionaryByWordResponse = unknown;
 
 export type $OpenApiTs = {
     '/': {
@@ -483,6 +875,14 @@ export type $OpenApiTs = {
                  * Invalid credentials
                  */
                 401: ErrorResponseDto;
+            };
+        };
+    };
+    '/auth/google/token': {
+        post: {
+            req: PostAuthGoogleTokenData;
+            res: {
+                200: SuccessResponseDto;
             };
         };
     };
@@ -634,40 +1034,6 @@ export type $OpenApiTs = {
             };
         };
     };
-    '/auth/debug-login/{email}': {
-        get: {
-            req: GetAuthDebugLoginByEmailData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/auth/debug-db': {
-        get: {
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/auth/check-user': {
-        get: {
-            req: GetAuthCheckUserData;
-            res: {
-                /**
-                 * Field is available
-                 */
-                200: SuccessResponseDto;
-                /**
-                 * Invalid field type or missing parameters
-                 */
-                400: ErrorResponseDto;
-                /**
-                 * Field already exists
-                 */
-                409: ErrorResponseDto;
-            };
-        };
-    };
     '/auth/profile': {
         get: {
             res: {
@@ -709,6 +1075,21 @@ export type $OpenApiTs = {
             };
         };
     };
+    '/pupils/{username}': {
+        get: {
+            req: GetPupilsByUsernameData;
+            res: {
+                /**
+                 * Pupil profile successfully fetched
+                 */
+                201: SuccessResponseDto;
+                /**
+                 * Invalid credentials
+                 */
+                401: ErrorResponseDto;
+            };
+        };
+    };
     '/pupils/leaderboard': {
         get: {
             res: {
@@ -737,38 +1118,48 @@ export type $OpenApiTs = {
             };
         };
     };
-    '/pupils/{username}': {
-        get: {
-            req: GetPupilsByUsernameData;
-            res: {
-                /**
-                 * Pupil profile successfully fetched
-                 */
-                201: SuccessResponseDto;
-                /**
-                 * Invalid credentials
-                 */
-                401: ErrorResponseDto;
-            };
-        };
-    };
     '/classrooms': {
         post: {
             req: PostClassroomsData;
             res: {
-                /**
-                 * Classroom created successfully
-                 */
-                200: SuccessResponseDto;
-                /**
-                 * Invalid or missing token
-                 */
-                401: ErrorResponseDto;
+                201: unknown;
             };
         };
         get: {
             res: {
                 200: unknown;
+            };
+        };
+    };
+    '/classrooms/enroll': {
+        post: {
+            req: PostClassroomsEnrollData;
+            res: {
+                201: unknown;
+            };
+        };
+    };
+    '/classrooms/unenroll': {
+        post: {
+            req: PostClassroomsUnenrollData;
+            res: {
+                201: unknown;
+            };
+        };
+    };
+    '/classrooms/join': {
+        post: {
+            req: PostClassroomsJoinData;
+            res: {
+                201: unknown;
+            };
+        };
+    };
+    '/classrooms/leave': {
+        post: {
+            req: PostClassroomsLeaveData;
+            res: {
+                201: unknown;
             };
         };
     };
@@ -789,6 +1180,30 @@ export type $OpenApiTs = {
             req: DeleteClassroomsByIdData;
             res: {
                 200: unknown;
+            };
+        };
+    };
+    '/minigames/wordsFromLetters': {
+        post: {
+            req: PostMinigamesWordsFromLettersData;
+            res: {
+                201: unknown;
+            };
+        };
+    };
+    '/minigames/choices': {
+        post: {
+            req: PostMinigamesChoicesData;
+            res: {
+                201: unknown;
+            };
+        };
+    };
+    '/minigames/sentenceRearrangement': {
+        post: {
+            req: PostMinigamesSentenceRearrangementData;
+            res: {
+                201: unknown;
             };
         };
     };
@@ -845,6 +1260,223 @@ export type $OpenApiTs = {
             req: PostMinigamesLogsWordsFromLettersData;
             res: {
                 201: unknown;
+            };
+        };
+    };
+    '/reading-sessions': {
+        post: {
+            req: PostReadingSessionsData;
+            res: {
+                201: unknown;
+            };
+        };
+        get: {
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/reading-sessions/{id}': {
+        get: {
+            req: GetReadingSessionsByIdData;
+            res: {
+                200: unknown;
+            };
+        };
+        patch: {
+            req: PatchReadingSessionsByIdData;
+            res: {
+                200: unknown;
+            };
+        };
+        delete: {
+            req: DeleteReadingSessionsByIdData;
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/reading-materials': {
+        post: {
+            req: PostReadingMaterialsData;
+            res: {
+                201: unknown;
+            };
+        };
+        get: {
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/reading-materials/recommendations': {
+        get: {
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/reading-materials/{id}': {
+        get: {
+            req: GetReadingMaterialsByIdData;
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/genres': {
+        post: {
+            req: PostGenresData;
+            res: {
+                201: unknown;
+            };
+        };
+        get: {
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/achievements': {
+        get: {
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/achievements/pupil/{pupilId}/achievement/{achievementName}': {
+        post: {
+            req: PostAchievementsPupilByPupilIdAchievementByAchievementNameData;
+            res: {
+                201: unknown;
+            };
+        };
+    };
+    '/achievements/pupils/{pupilId}': {
+        get: {
+            req: GetAchievementsPupilsByPupilIdData;
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/achievements/pupils/{pupilId}/achievements/{achievementId}': {
+        delete: {
+            req: DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdData;
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/achievements/{id}': {
+        delete: {
+            req: DeleteAchievementsByIdData;
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/classrooms/{classroomId}/activity': {
+        post: {
+            req: PostClassroomsByClassroomIdActivityData;
+            res: {
+                201: unknown;
+            };
+        };
+        get: {
+            req: GetClassroomsByClassroomIdActivityData;
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/classrooms/{classroomId}/activity/{activityId}': {
+        get: {
+            req: GetClassroomsByClassroomIdActivityByActivityIdData;
+            res: {
+                200: unknown;
+            };
+        };
+        patch: {
+            req: PatchClassroomsByClassroomIdActivityByActivityIdData;
+            res: {
+                200: unknown;
+            };
+        };
+        delete: {
+            req: DeleteClassroomsByClassroomIdActivityByActivityIdData;
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/user/me/streak': {
+        put: {
+            res: {
+                200: unknown;
+            };
+        };
+        get: {
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/user/me/sessions': {
+        post: {
+            res: {
+                201: unknown;
+            };
+        };
+        get: {
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/user/me/sessions/{sessionId}': {
+        put: {
+            req: PutUserMeSessionsBySessionIdData;
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/user/search': {
+        get: {
+            req: GetUserSearchData;
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/classroom/activity-logs/{activityId}': {
+        post: {
+            req: PostClassroomActivityLogsByActivityIdData;
+            res: {
+                201: unknown;
+            };
+        };
+        get: {
+            req: GetClassroomActivityLogsByActivityIdData;
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/classroom/activity-logs/{activityId}/classroom/{classroomId}/activity-logs': {
+        get: {
+            req: GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsData;
+            res: {
+                200: unknown;
+            };
+        };
+    };
+    '/dictionary/dictionary/{word}': {
+        get: {
+            req: GetDictionaryDictionaryByWordData;
+            res: {
+                200: unknown;
             };
         };
     };

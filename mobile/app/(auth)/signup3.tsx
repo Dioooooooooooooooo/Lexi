@@ -1,17 +1,19 @@
-import { useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
-import Toast from "react-native-toast-message";
+import { useLocalSearchParams } from 'expo-router';
+import React, { useState } from 'react';
+import Toast from 'react-native-toast-message';
 
-import { router } from "expo-router";
-import { useRegisterFormContext } from "./_layout";
+import { router } from 'expo-router';
+import { useRegisterFormContext } from './_layout';
 
-import { useRegister, useUpdateProfile } from "@/hooks/mutation/useAuthMutations";
-import { useGlobalStore } from "@/stores/globalStore";
-import { useUserStore } from "@/stores/userStore";
+import {
+  useRegister,
+  useUpdateProfile,
+} from '@/hooks/mutation/useAuthMutations';
+import { useGlobalStore } from '@/stores/globalStore';
 
-import BackHeader from "@/components/BackHeader";
-import { Image, ScrollView, TouchableOpacity, View } from "react-native";
-import { Text } from "~/components/ui/text";
+import BackHeader from '@/components/BackHeader';
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Text } from '~/components/ui/text';
 
 export default function Step3() {
   const { fromProviderAuth } = useLocalSearchParams();
@@ -28,7 +30,7 @@ export default function Step3() {
   const updateProfileMutation = useUpdateProfile();
 
   const [isInvalid, setIsInvalid] = useState(false);
-  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
+  const setIsLoading = useGlobalStore(state => state.setIsLoading);
 
   const handleStep = async () => {
     const form = fromProviderAuth ? providerRegisterForm : registerForm;
@@ -42,26 +44,26 @@ export default function Step3() {
     try {
       if (fromProviderAuth) {
         // For provider auth, update the profile
-        await updateProfileMutation.mutateAsync(form);
+        await updateProfileMutation.mutateAsync({ requestBody: form });
       } else {
         // For regular registration, use the register mutation
         await registerMutation.mutateAsync(form);
       }
-      
-      if (form.role === "Pupil") {
-        router.push("/signup4");
+
+      if (form.role === 'Pupil') {
+        router.push('/signup4');
       } else {
         Toast.show({
-          type: "success",
-          text1: "Registration Success",
+          type: 'success',
+          text1: 'Registration Success',
         });
-        router.push("/home");
+        router.push('/home');
       }
     } catch (error: any) {
       Toast.show({
-        type: "error",
-        text1: "Registration Failed.",
-        text2: error.message || "Unknown error occurred",
+        type: 'error',
+        text1: 'Registration Failed.',
+        text2: error.message || 'Unknown error occurred',
       });
     } finally {
       setIsLoading(false);
@@ -79,24 +81,24 @@ export default function Step3() {
         <View className="flex gap-6">
           <TouchableOpacity
             className={`flex flex-col gap-4 items-center justify-center py-4 rounded-xl ${
-              registerForm.role === "Teacher" ||
-              providerRegisterForm.role === "Teacher"
-                ? "border-yellowOrange border-4 border-b-8"
-                : "border-lightGray border-2"
+              registerForm.role === 'Teacher' ||
+              providerRegisterForm.role === 'Teacher'
+                ? 'border-yellowOrange border-4 border-b-8'
+                : 'border-lightGray border-2'
             } border-b-4`}
             onPress={() => {
               if (fromProviderAuth) {
                 setProviderRegisterForm({
                   ...providerRegisterForm,
-                  role: "Teacher",
+                  role: 'Teacher',
                 });
               } else {
-                setRegisterForm({ ...registerForm, role: "Teacher" });
+                setRegisterForm({ ...registerForm, role: 'Teacher' });
               }
             }}
           >
             <Image
-              source={require("@/assets/images/roles/teacher.png")}
+              source={require('@/assets/images/roles/teacher.png')}
               // style={{ width: "100%", height: "100%" }}
               resizeMode="contain"
               alt=""
@@ -106,24 +108,24 @@ export default function Step3() {
 
           <TouchableOpacity
             className={`flex flex-col gap-4 items-center justify-center py-4 rounded-xl ${
-              registerForm.role === "Pupil" ||
-              providerRegisterForm.role === "Pupil"
-                ? "border-yellowOrange border-4 border-b-8"
-                : "border-lightGray border-2"
+              registerForm.role === 'Pupil' ||
+              providerRegisterForm.role === 'Pupil'
+                ? 'border-yellowOrange border-4 border-b-8'
+                : 'border-lightGray border-2'
             } border-b-4`}
             onPress={() => {
               if (fromProviderAuth) {
                 setProviderRegisterForm({
                   ...providerRegisterForm,
-                  role: "Pupil",
+                  role: 'Pupil',
                 });
               } else {
-                setRegisterForm({ ...registerForm, role: "Pupil" });
+                setRegisterForm({ ...registerForm, role: 'Pupil' });
               }
             }}
           >
             <Image
-              source={require("@/assets/images/roles/student.png")}
+              source={require('@/assets/images/roles/student.png')}
               // style={{ width: "100%", height: "100%" }}
               resizeMode="contain"
               alt=""

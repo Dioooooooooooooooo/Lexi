@@ -163,12 +163,21 @@ retry: (failureCount, error) => {
 
 ## Migration Status
 
-### ✅ Completed
+### ✅ Completed (Updated 2025-01-12)
 - Hook architecture implemented and organized
 - All authentication flows migrated
 - Complete classroom management
 - Full student/pupil functionality  
-- All minigame operations
+- All minigame operations (including new creation hooks)
+- **NEW:** Server health monitoring hooks
+- **NEW:** Achievements system hooks (get/add/remove pupil achievements)
+- **NEW:** Activities management hooks (classroom activities CRUD)
+- **NEW:** User profile hooks (streaks, sessions, search)
+- **NEW:** Activity logging hooks
+- **NEW:** Dictionary lookup hooks
+- **NEW:** Reading sessions management (full CRUD)
+- **NEW:** Reading materials + recommendations hooks
+- **NEW:** Genre management hooks
 - Comprehensive error handling
 - Automatic cache invalidation
 - Type-safe end-to-end

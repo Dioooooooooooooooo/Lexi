@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { GetResponse, GetHealthResponse, PostAuthRegisterData, PostAuthRegisterResponse, PostAuthLoginData, PostAuthLoginResponse, PostAuthRefreshData, PostAuthRefreshResponse, PostAuthForgotPasswordData, PostAuthForgotPasswordResponse, PostAuthResetPasswordData, PostAuthResetPasswordResponse, PostAuthRequestEmailVerificationResponse, GetAuthVerifyEmailData, GetAuthVerifyEmailResponse, GetAuthMeResponse, PatchAuthMeData, PatchAuthMeResponse, PostAuthChangePasswordData, PostAuthChangePasswordResponse, PostAuthLogoutData, PostAuthLogoutResponse, GetAuthVerifyTokenResponse, GetAuthDebugLoginByEmailData, GetAuthDebugLoginByEmailResponse, GetAuthDebugDbResponse, GetAuthCheckUserData, GetAuthCheckUserResponse, GetAuthProfileResponse, GetPupilsMeResponse, PatchPupilsMeData, PatchPupilsMeResponse, GetPupilsLeaderboardResponse, GetPupilsLeaderboardByPupilIdResponse, GetPupilsByUsernameData, GetPupilsByUsernameResponse, PostClassroomsData, PostClassroomsResponse, GetClassroomsResponse, GetClassroomsByIdData, GetClassroomsByIdResponse, PatchClassroomsByIdData, PatchClassroomsByIdResponse, DeleteClassroomsByIdData, DeleteClassroomsByIdResponse, GetMinigamesReadingmaterialsByReadingMaterialIdRandomData, GetMinigamesReadingmaterialsByReadingMaterialIdRandomResponse, GetMinigamesByReadingSessionIdRandomData, GetMinigamesByReadingSessionIdRandomResponse, GetMinigamesByReadingMaterialIdWordsFromLettersData, GetMinigamesByReadingMaterialIdWordsFromLettersResponse, PostMinigamesByReadingSessionIdCompleteData, PostMinigamesByReadingSessionIdCompleteResponse, PostMinigamesLogsSentenceRearrangementData, PostMinigamesLogsSentenceRearrangementResponse, PostMinigamesLogsChoicesData, PostMinigamesLogsChoicesResponse, PostMinigamesLogsWordsFromLettersData, PostMinigamesLogsWordsFromLettersResponse } from './types.gen';
+import type { GetResponse, GetHealthResponse, PostAuthRegisterData, PostAuthRegisterResponse, PostAuthLoginData, PostAuthLoginResponse, PostAuthGoogleTokenData, PostAuthGoogleTokenResponse, PostAuthRefreshData, PostAuthRefreshResponse, PostAuthForgotPasswordData, PostAuthForgotPasswordResponse, PostAuthResetPasswordData, PostAuthResetPasswordResponse, PostAuthRequestEmailVerificationResponse, GetAuthVerifyEmailData, GetAuthVerifyEmailResponse, GetAuthMeResponse, PatchAuthMeData, PatchAuthMeResponse, PostAuthChangePasswordData, PostAuthChangePasswordResponse, PostAuthLogoutData, PostAuthLogoutResponse, GetAuthVerifyTokenResponse, GetAuthProfileResponse, GetPupilsMeResponse, PatchPupilsMeData, PatchPupilsMeResponse, GetPupilsByUsernameData, GetPupilsByUsernameResponse, GetPupilsLeaderboardResponse, GetPupilsLeaderboardByPupilIdResponse, PostClassroomsData, PostClassroomsResponse, GetClassroomsResponse, PostClassroomsEnrollData, PostClassroomsEnrollResponse, PostClassroomsUnenrollData, PostClassroomsUnenrollResponse, PostClassroomsJoinData, PostClassroomsJoinResponse, PostClassroomsLeaveData, PostClassroomsLeaveResponse, GetClassroomsByIdData, GetClassroomsByIdResponse, PatchClassroomsByIdData, PatchClassroomsByIdResponse, DeleteClassroomsByIdData, DeleteClassroomsByIdResponse, PostMinigamesWordsFromLettersData, PostMinigamesWordsFromLettersResponse, PostMinigamesChoicesData, PostMinigamesChoicesResponse, PostMinigamesSentenceRearrangementData, PostMinigamesSentenceRearrangementResponse, GetMinigamesReadingmaterialsByReadingMaterialIdRandomData, GetMinigamesReadingmaterialsByReadingMaterialIdRandomResponse, GetMinigamesByReadingSessionIdRandomData, GetMinigamesByReadingSessionIdRandomResponse, GetMinigamesByReadingMaterialIdWordsFromLettersData, GetMinigamesByReadingMaterialIdWordsFromLettersResponse, PostMinigamesByReadingSessionIdCompleteData, PostMinigamesByReadingSessionIdCompleteResponse, PostMinigamesLogsSentenceRearrangementData, PostMinigamesLogsSentenceRearrangementResponse, PostMinigamesLogsChoicesData, PostMinigamesLogsChoicesResponse, PostMinigamesLogsWordsFromLettersData, PostMinigamesLogsWordsFromLettersResponse, PostReadingSessionsData, PostReadingSessionsResponse, GetReadingSessionsResponse, GetReadingSessionsByIdData, GetReadingSessionsByIdResponse, PatchReadingSessionsByIdData, PatchReadingSessionsByIdResponse, DeleteReadingSessionsByIdData, DeleteReadingSessionsByIdResponse, PostReadingMaterialsData, PostReadingMaterialsResponse, GetReadingMaterialsResponse, GetReadingMaterialsRecommendationsResponse, GetReadingMaterialsByIdData, GetReadingMaterialsByIdResponse, PostGenresData, PostGenresResponse, GetGenresResponse, GetAchievementsResponse, PostAchievementsPupilByPupilIdAchievementByAchievementNameData, PostAchievementsPupilByPupilIdAchievementByAchievementNameResponse, GetAchievementsPupilsByPupilIdData, GetAchievementsPupilsByPupilIdResponse, DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdData, DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdResponse, DeleteAchievementsByIdData, DeleteAchievementsByIdResponse, PostClassroomsByClassroomIdActivityData, PostClassroomsByClassroomIdActivityResponse, GetClassroomsByClassroomIdActivityData, GetClassroomsByClassroomIdActivityResponse, GetClassroomsByClassroomIdActivityByActivityIdData, GetClassroomsByClassroomIdActivityByActivityIdResponse, PatchClassroomsByClassroomIdActivityByActivityIdData, PatchClassroomsByClassroomIdActivityByActivityIdResponse, DeleteClassroomsByClassroomIdActivityByActivityIdData, DeleteClassroomsByClassroomIdActivityByActivityIdResponse, PutUserMeStreakResponse, GetUserMeStreakResponse, PostUserMeSessionsResponse, GetUserMeSessionsResponse, PutUserMeSessionsBySessionIdData, PutUserMeSessionsBySessionIdResponse, GetUserSearchData, GetUserSearchResponse, PostClassroomActivityLogsByActivityIdData, PostClassroomActivityLogsByActivityIdResponse, GetClassroomActivityLogsByActivityIdData, GetClassroomActivityLogsByActivityIdResponse, GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsData, GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsResponse, GetDictionaryDictionaryByWordData, GetDictionaryDictionaryByWordResponse } from './types.gen';
 
 export class HealthService {
     /**
@@ -70,6 +70,22 @@ export class AuthenticationService {
                 400: 'Invalid input data',
                 401: 'Invalid credentials'
             }
+        });
+    }
+    
+    /**
+     * Exchange Google id_token for app tokens
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns SuccessResponseDto
+     * @throws ApiError
+     */
+    public static postAuthGoogleToken(data: PostAuthGoogleTokenData): CancelablePromise<PostAuthGoogleTokenResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/auth/google/token',
+            body: data.requestBody,
+            mediaType: 'application/json'
         });
     }
     
@@ -261,61 +277,6 @@ export class AuthenticationService {
     }
     
     /**
-     * Debug login issues
-     * Check if user and auth provider exist for debugging
-     * @param data The data for the request.
-     * @param data.email
-     * @returns unknown
-     * @throws ApiError
-     */
-    public static getAuthDebugLoginByEmail(data: GetAuthDebugLoginByEmailData): CancelablePromise<GetAuthDebugLoginByEmailResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/auth/debug-login/{email}',
-            path: {
-                email: data.email
-            }
-        });
-    }
-    
-    /**
-     * Debug database connection
-     * Check if database tables exist and are accessible
-     * @returns unknown
-     * @throws ApiError
-     */
-    public static getAuthDebugDb(): CancelablePromise<GetAuthDebugDbResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/auth/debug-db'
-        });
-    }
-    
-    /**
-     * Check if user exists
-     * Check if a user exists by email or username
-     * @param data The data for the request.
-     * @param data.fieldType Type of field to check (email or username)
-     * @param data.fieldValue Value to check
-     * @returns SuccessResponseDto Field is available
-     * @throws ApiError
-     */
-    public static getAuthCheckUser(data: GetAuthCheckUserData): CancelablePromise<GetAuthCheckUserResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/auth/check-user',
-            query: {
-                fieldType: data.fieldType,
-                fieldValue: data.fieldValue
-            },
-            errors: {
-                400: 'Invalid field type or missing parameters',
-                409: 'Field already exists'
-            }
-        });
-    }
-    
-    /**
      * @deprecated
      * Get user profile (legacy)
      * Retrieve the authenticated user profile information - use /auth/me instead
@@ -370,36 +331,6 @@ export class PupilsService {
     }
     
     /**
-     * Get global pupil leaderboard
-     * @returns SuccessResponseDto Global pupil leaderboard successfully fetched
-     * @throws ApiError
-     */
-    public static getPupilsLeaderboard(): CancelablePromise<GetPupilsLeaderboardResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/pupils/leaderboard',
-            errors: {
-                401: 'Invalid credentials'
-            }
-        });
-    }
-    
-    /**
-     * Get pupil leaderboard by pupil ID
-     * @returns SuccessResponseDto Pupil leaderboard successfully fetched
-     * @throws ApiError
-     */
-    public static getPupilsLeaderboardByPupilId(): CancelablePromise<GetPupilsLeaderboardByPupilIdResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/pupils/leaderboard/{pupilId}',
-            errors: {
-                401: 'Invalid credentials'
-            }
-        });
-    }
-    
-    /**
      * Get public pupil profile
      * @param data The data for the request.
      * @param data.username
@@ -419,15 +350,43 @@ export class PupilsService {
         });
     }
     
+    /**
+     * Get global pupil leaderboard
+     * @returns SuccessResponseDto Global pupil leaderboard successfully fetched
+     * @throws ApiError
+     */
+    public static getPupilsLeaderboard(): CancelablePromise<GetPupilsLeaderboardResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/pupils/leaderboard',
+            errors: {
+                401: 'Invalid credentials'
+            }
+        });
+    }
+    
+    /**
+     * @returns SuccessResponseDto Pupil leaderboard successfully fetched
+     * @throws ApiError
+     */
+    public static getPupilsLeaderboardByPupilId(): CancelablePromise<GetPupilsLeaderboardByPupilIdResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/pupils/leaderboard/{pupilId}',
+            errors: {
+                401: 'Invalid credentials'
+            }
+        });
+    }
+    
 }
 
 export class ClassroomsService {
     /**
-     * Create classroom
-     * Create classroom with its name and description
+     * Create a classroom
      * @param data The data for the request.
-     * @param data.requestBody Create classroom data
-     * @returns SuccessResponseDto Classroom created successfully
+     * @param data.requestBody
+     * @returns unknown
      * @throws ApiError
      */
     public static postClassrooms(data: PostClassroomsData): CancelablePromise<PostClassroomsResponse> {
@@ -435,14 +394,12 @@ export class ClassroomsService {
             method: 'POST',
             url: '/classrooms',
             body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                401: 'Invalid or missing token'
-            }
+            mediaType: 'application/json'
         });
     }
     
     /**
+     * Find classrooms
      * @returns unknown
      * @throws ApiError
      */
@@ -454,6 +411,71 @@ export class ClassroomsService {
     }
     
     /**
+     * Enroll pupils
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postClassroomsEnroll(data: PostClassroomsEnrollData): CancelablePromise<PostClassroomsEnrollResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/classrooms/enroll',
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * Unenroll pupils
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postClassroomsUnenroll(data: PostClassroomsUnenrollData): CancelablePromise<PostClassroomsUnenrollResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/classrooms/unenroll',
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * Join classroom by code
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postClassroomsJoin(data: PostClassroomsJoinData): CancelablePromise<PostClassroomsJoinResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/classrooms/join',
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * Leave classroom
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postClassroomsLeave(data: PostClassroomsLeaveData): CancelablePromise<PostClassroomsLeaveResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/classrooms/leave',
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * Find classroom by id
      * @param data The data for the request.
      * @param data.id
      * @returns unknown
@@ -470,6 +492,7 @@ export class ClassroomsService {
     }
     
     /**
+     * Update classroom by id
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
@@ -489,6 +512,7 @@ export class ClassroomsService {
     }
     
     /**
+     * Delete classroom by id
      * @param data The data for the request.
      * @param data.id
      * @returns unknown
@@ -507,6 +531,54 @@ export class ClassroomsService {
 }
 
 export class MinigamesService {
+    /**
+     * Create WFL minigame
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postMinigamesWordsFromLetters(data: PostMinigamesWordsFromLettersData): CancelablePromise<PostMinigamesWordsFromLettersResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/minigames/wordsFromLetters',
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * Create Choices minigame
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postMinigamesChoices(data: PostMinigamesChoicesData): CancelablePromise<PostMinigamesChoicesResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/minigames/choices',
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * Create SR minigame
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postMinigamesSentenceRearrangement(data: PostMinigamesSentenceRearrangementData): CancelablePromise<PostMinigamesSentenceRearrangementResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/minigames/sentenceRearrangement',
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
     /**
      * Get 3 random minigames for a specific reading material
      * @param data The data for the request.
@@ -620,6 +692,510 @@ export class MinigamesService {
             url: '/minigames/logs/WordsFromLetters',
             body: data.requestBody,
             mediaType: 'application/json'
+        });
+    }
+    
+}
+
+export class ReadingSessionsService {
+    /**
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postReadingSessions(data: PostReadingSessionsData): CancelablePromise<PostReadingSessionsResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/reading-sessions',
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getReadingSessions(): CancelablePromise<GetReadingSessionsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/reading-sessions'
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.id
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getReadingSessionsById(data: GetReadingSessionsByIdData): CancelablePromise<GetReadingSessionsByIdResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/reading-sessions/{id}',
+            path: {
+                id: data.id
+            }
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static patchReadingSessionsById(data: PatchReadingSessionsByIdData): CancelablePromise<PatchReadingSessionsByIdResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/reading-sessions/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.id
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static deleteReadingSessionsById(data: DeleteReadingSessionsByIdData): CancelablePromise<DeleteReadingSessionsByIdResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/reading-sessions/{id}',
+            path: {
+                id: data.id
+            }
+        });
+    }
+    
+}
+
+export class ReadingMaterialsService {
+    /**
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postReadingMaterials(data: PostReadingMaterialsData): CancelablePromise<PostReadingMaterialsResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/reading-materials',
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getReadingMaterials(): CancelablePromise<GetReadingMaterialsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/reading-materials'
+        });
+    }
+    
+    /**
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getReadingMaterialsRecommendations(): CancelablePromise<GetReadingMaterialsRecommendationsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/reading-materials/recommendations'
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.id
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getReadingMaterialsById(data: GetReadingMaterialsByIdData): CancelablePromise<GetReadingMaterialsByIdResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/reading-materials/{id}',
+            path: {
+                id: data.id
+            }
+        });
+    }
+    
+}
+
+export class GenresService {
+    /**
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postGenres(data: PostGenresData): CancelablePromise<PostGenresResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/genres',
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getGenres(): CancelablePromise<GetGenresResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/genres'
+        });
+    }
+    
+}
+
+export class AchievementsService {
+    /**
+     * Get pupil achievements
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getAchievements(): CancelablePromise<GetAchievementsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/achievements'
+        });
+    }
+    
+    /**
+     * Add pupil achievement
+     * @param data The data for the request.
+     * @param data.pupilId
+     * @param data.achievementName
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postAchievementsPupilByPupilIdAchievementByAchievementName(data: PostAchievementsPupilByPupilIdAchievementByAchievementNameData): CancelablePromise<PostAchievementsPupilByPupilIdAchievementByAchievementNameResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/achievements/pupil/{pupilId}/achievement/{achievementName}',
+            path: {
+                pupilId: data.pupilId,
+                achievementName: data.achievementName
+            }
+        });
+    }
+    
+    /**
+     * Get achievements for specific pupil (admin/testing)
+     * @param data The data for the request.
+     * @param data.pupilId
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getAchievementsPupilsByPupilId(data: GetAchievementsPupilsByPupilIdData): CancelablePromise<GetAchievementsPupilsByPupilIdResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/achievements/pupils/{pupilId}',
+            path: {
+                pupilId: data.pupilId
+            }
+        });
+    }
+    
+    /**
+     * Remove specific achievement from specific pupil
+     * @param data The data for the request.
+     * @param data.pupilId
+     * @param data.achievementId
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static deleteAchievementsPupilsByPupilIdAchievementsByAchievementId(data: DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdData): CancelablePromise<DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/achievements/pupils/{pupilId}/achievements/{achievementId}',
+            path: {
+                pupilId: data.pupilId,
+                achievementId: data.achievementId
+            }
+        });
+    }
+    
+    /**
+     * Delete achievement by id (safety measure)
+     * @param data The data for the request.
+     * @param data.id
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static deleteAchievementsById(data: DeleteAchievementsByIdData): CancelablePromise<DeleteAchievementsByIdResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/achievements/{id}',
+            path: {
+                id: data.id
+            }
+        });
+    }
+    
+}
+
+export class ActivitiesService {
+    /**
+     * Create Activity
+     * @param data The data for the request.
+     * @param data.classroomId
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postClassroomsByClassroomIdActivity(data: PostClassroomsByClassroomIdActivityData): CancelablePromise<PostClassroomsByClassroomIdActivityResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/classrooms/{classroomId}/activity',
+            path: {
+                classroomId: data.classroomId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * Get all Activities by Classroom
+     * @param data The data for the request.
+     * @param data.classroomId
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getClassroomsByClassroomIdActivity(data: GetClassroomsByClassroomIdActivityData): CancelablePromise<GetClassroomsByClassroomIdActivityResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/classrooms/{classroomId}/activity',
+            path: {
+                classroomId: data.classroomId
+            }
+        });
+    }
+    
+    /**
+     * Get Activity by id
+     * @param data The data for the request.
+     * @param data.activityId
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getClassroomsByClassroomIdActivityByActivityId(data: GetClassroomsByClassroomIdActivityByActivityIdData): CancelablePromise<GetClassroomsByClassroomIdActivityByActivityIdResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/classrooms/{classroomId}/activity/{activityId}',
+            path: {
+                activityId: data.activityId
+            }
+        });
+    }
+    
+    /**
+     * Update Activity
+     * @param data The data for the request.
+     * @param data.activityId
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static patchClassroomsByClassroomIdActivityByActivityId(data: PatchClassroomsByClassroomIdActivityByActivityIdData): CancelablePromise<PatchClassroomsByClassroomIdActivityByActivityIdResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/classrooms/{classroomId}/activity/{activityId}',
+            path: {
+                activityId: data.activityId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * Delete Activity
+     * @param data The data for the request.
+     * @param data.activityId
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static deleteClassroomsByClassroomIdActivityByActivityId(data: DeleteClassroomsByClassroomIdActivityByActivityIdData): CancelablePromise<DeleteClassroomsByClassroomIdActivityByActivityIdResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/classrooms/{classroomId}/activity/{activityId}',
+            path: {
+                activityId: data.activityId
+            }
+        });
+    }
+    
+}
+
+export class UserService {
+    /**
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static putUserMeStreak(): CancelablePromise<PutUserMeStreakResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/user/me/streak'
+        });
+    }
+    
+    /**
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getUserMeStreak(): CancelablePromise<GetUserMeStreakResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/user/me/streak'
+        });
+    }
+    
+    /**
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postUserMeSessions(): CancelablePromise<PostUserMeSessionsResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/user/me/sessions'
+        });
+    }
+    
+    /**
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getUserMeSessions(): CancelablePromise<GetUserMeSessionsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/user/me/sessions'
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.sessionId
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static putUserMeSessionsBySessionId(data: PutUserMeSessionsBySessionIdData): CancelablePromise<PutUserMeSessionsBySessionIdResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/user/me/sessions/{sessionId}',
+            path: {
+                sessionId: data.sessionId
+            }
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.query
+     * @param data.role
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getUserSearch(data: GetUserSearchData): CancelablePromise<GetUserSearchResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/user/search',
+            query: {
+                query: data.query,
+                role: data.role
+            }
+        });
+    }
+    
+}
+
+export class ActivityLogsService {
+    /**
+     * Create Activity Log
+     * @param data The data for the request.
+     * @param data.activityId
+     * @param data.requestBody
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static postClassroomActivityLogsByActivityId(data: PostClassroomActivityLogsByActivityIdData): CancelablePromise<PostClassroomActivityLogsByActivityIdResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/classroom/activity-logs/{activityId}',
+            path: {
+                '/activityId': data.activityId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * Get an Activity's Activity Logs
+     * @param data The data for the request.
+     * @param data.activityId
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getClassroomActivityLogsByActivityId(data: GetClassroomActivityLogsByActivityIdData): CancelablePromise<GetClassroomActivityLogsByActivityIdResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/classroom/activity-logs/{activityId}',
+            path: {
+                activityId: data.activityId
+            }
+        });
+    }
+    
+    /**
+     * Get all Classroom Acitivies' Activity Log
+     * @param data The data for the request.
+     * @param data.classroomId
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogs(data: GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsData): CancelablePromise<GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/classroom/activity-logs/{activityId}/classroom/{classroomId}/activity-logs',
+            path: {
+                classroomId: data.classroomId
+            }
+        });
+    }
+    
+}
+
+export class DictionaryService {
+    /**
+     * Get definition of word
+     * @param data The data for the request.
+     * @param data.word
+     * @returns unknown
+     * @throws ApiError
+     */
+    public static getDictionaryDictionaryByWord(data: GetDictionaryDictionaryByWordData): CancelablePromise<GetDictionaryDictionaryByWordResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/dictionary/dictionary/{word}',
+            path: {
+                word: data.word
+            }
         });
     }
     

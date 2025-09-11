@@ -1,103 +1,101 @@
 # Commands Reference
 
-## Daily Commands
+## 🚀 Daily Development
 
-### Start Development
 ```bash
-pnpm dev                    # Start all (backend + mobile)
-pnpm dev:backend           # NestJS server on :3000
-pnpm dev:mobile           # Expo dev server
-pnpm dev:mobile-server    # Expo server only
+# Start everything
+pnpm dev                    # Backend + Mobile
+pnpm dev:backend           # NestJS server only (:3000)
+pnpm dev:mobile           # Expo dev server only
+
+# Quick quality check
+pnpm lint && pnpm test     # Lint + test all projects
 ```
 
-### Quality Assurance (Run After Changes)
+## 🔄 API Workflow (After NestJS Changes)
+
 ```bash
-pnpm lint                  # Lint all projects
+# 1. Ensure backend is running
+cd backend && pnpm run start:dev
+
+# 2. Regenerate TypeScript client
+cd mobile && pnpm openapi:spec && pnpm openapi:client
+
+# 3. Create React Query hooks manually (follow existing patterns)
+# 4. Export new hooks in hooks/index.ts
+```
+
+**⚠️ Important:**
+- Backend must be running on localhost:3000 before generating spec!
+- `openapi:client` only generates raw TypeScript client - hooks are manual
+- Generated files overwrite `mobile/hooks/api/requests/`
+
+## 🧪 Testing & Quality
+
+```bash
+# All projects
 pnpm test                  # Run all tests
+pnpm lint                  # Lint all projects  
 pnpm build                 # Build all projects
-```
 
-### API Generation
-```bash
-pnpm openapi:spec         # Generate spec from NestJS
-pnpm openapi:client       # Generate TypeScript client  
-pnpm openapi:docs         # Generate both
-```
-
-## Individual Project Commands
-
-### Backend
-```bash
-cd backend
-pnpm run start:dev        # Dev server with watch
-pnpm run test             # Jest unit tests
-pnpm run test:e2e         # End-to-end tests
-pnpm run lint             # ESLint + Prettier
-pnpm run build            # Production build
-```
-
-### Mobile  
-```bash
-cd mobile
-pnpm start               # Expo dev server
-pnpm run android         # Run on Android
-pnpm run ios             # Run on iOS  
-pnpm test                # Jest tests
-pnpm run lint            # ESLint
-```
-
-## Testing Commands
-```bash
-# All tests
-pnpm test
-
-# Specific tests
-pnpm test:backend        # NestJS tests
-pnpm test:mobile         # React Native tests
+# Specific projects
+pnpm test:backend          # NestJS tests only
+pnpm test:mobile          # React Native tests only
 
 # Coverage
 cd backend && pnpm run test:cov
 ```
 
-## Troubleshooting
+## 📱 Mobile Specific
+
+```bash
+cd mobile
+pnpm start                 # Expo dev server
+pnpm run android          # Run on Android device
+pnpm run ios              # Run on iOS device
+```
+
+## 🛠️ Troubleshooting
 
 ### API Generation Issues
 ```bash
-# Check backend is running
+# Check backend status
 curl http://localhost:3000/docs
 
-# Clear and regenerate
-rm mobile/swagger.json
-pnpm openapi:spec
-pnpm openapi:client
+# Force regenerate
+rm mobile/swagger.json && pnpm openapi:spec && pnpm openapi:client
 ```
 
 ### Build Issues
 ```bash
-# Clear caches
-cd mobile && pnpm exec expo r -c    # Clear Expo cache
-pnpm clean                          # Clean all build artifacts
+# Clear all caches
+cd mobile && pnpm exec expo r -c
+pnpm clean
 
-# Reinstall dependencies
-rm -rf node_modules pnpm-lock.yaml
-pnpm install
+# Nuclear option
+rm -rf node_modules pnpm-lock.yaml && pnpm install
 ```
 
 ### Database Issues
 ```bash
-cd backend
-pnpm run generate:schema    # Regenerate Kysely types
+cd backend && pnpm run generate:schema    # Regenerate Kysely types
 ```
 
-## Utility Commands
+## 🔧 Utility Commands
+
 ```bash
 pnpm clean               # Clean all build artifacts
 pnpm install             # Install all dependencies
-pnpm install:backend     # Backend only
-pnpm install:mobile      # Mobile only
+pnpm install:backend     # Backend dependencies only
+pnpm install:mobile      # Mobile dependencies only
 ```
 
-## Windows Notes
-- Use PowerShell or Command Prompt
-- All scripts are cross-platform compatible
-- Git commands work normally
+## 📝 Quick Reference
+
+| Task | Command |
+|------|---------|
+| Start development | `pnpm dev` |
+| Check code quality | `pnpm lint && pnpm test` |
+| Regenerate API client | `pnpm openapi:spec && pnpm openapi:client` |
+| Clear caches | `pnpm clean` |
+| Run on device | `cd mobile && pnpm run android/ios` |
