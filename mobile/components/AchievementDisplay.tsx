@@ -1,5 +1,5 @@
 import { Text } from '@/components/ui/text';
-import { useGetCoverFromGDrive } from '@/hooks/useExtractDriveFileId';
+import { useGetCoverFromGDrive } from '@/hooks/utils/useExtractDriveField';
 import { View, Image } from 'react-native';
 
 export function AchievementDisplay({

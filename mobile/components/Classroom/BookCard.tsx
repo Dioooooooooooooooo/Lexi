@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ReadingContentType } from '@/models/ReadingContent';
 import { useReadingContentStore } from '@/stores/readingContentStore';
 import { useRouter } from 'expo-router';
-import { useGetCoverFromGDrive } from '@/hooks/useExtractDriveFileId';
+import { useGetCoverFromGDrive } from '@/hooks/utils/useExtractDriveField';
 
 interface BookCardProps {
   book: ReadingContentType;

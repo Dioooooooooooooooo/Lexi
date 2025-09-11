@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { router, useFocusEffect } from 'expo-router';
 import { useReadingContentStore } from '@/stores/readingContentStore';
 import { StarsIcon, TimerIcon, Users2 } from 'lucide-react-native';
-import { useGetCoverFromGDrive } from '@/hooks/useExtractDriveFileId';
+import { useGetCoverFromGDrive } from '@/hooks/utils/useExtractDriveField';
 
 export default function activity() {
   const user = useUserStore(state => state.user);

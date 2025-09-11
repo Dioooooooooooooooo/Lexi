@@ -21,12 +21,12 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useGlobalStore } from '@/stores/globalStore';
-import useRefreshToken from '@/hooks/useRefreshToken';
-import useScreenTime from '@/hooks/useScreenTime';
 import LoadingScreen from '@/components/LoadingScreen';
 
 import { LogBox } from 'react-native';
 import LoadingScreenForm from '@/components/LoadingScreenForm';
+import useScreenTime from '@/hooks/utils/useScreenTime';
+import { useRefreshToken } from '@/hooks';
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 
@@ -60,7 +60,6 @@ export default function RootLayout() {
   });
 
   useScreenTime();
-  useRefreshToken();
 
   useIsomorphicLayoutEffect(() => {
     if (hasMounted.current) {
@@ -81,6 +80,13 @@ export default function RootLayout() {
     return null;
   }
 
+  // LogBox.ignoreAllLogs(false); // show all logs
+
+  // // Add this at app startup:
+  // ErrorUtils.setGlobalHandler((error, isFatal) => {
+  //   console.error('Global error handler:', error);
+  // });
+
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <QueryClientProvider client={queryClient}>
@@ -96,6 +102,8 @@ export default function RootLayout() {
               <Stack.Screen name="profile" />
               <Stack.Screen name="content" />
               <Stack.Screen name="minigames" />
+              <Stack.Screen name="(minigames)" />
+              <Stack.Screen name="classroom" />
             </Stack>
             <PortalHost />
             <Toast />

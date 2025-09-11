@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { 
+import {
   AuthenticationService,
   OpenAPI,
   type PostAuthRegisterData,
@@ -19,27 +19,27 @@ import { transformRegistrationData } from '../utils/authTransformers';
 
 export const useRegister = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (formData: Record<string, any>) => {
       const transformedData = transformRegistrationData(formData);
-      return AuthenticationService.postAuthRegister({ 
-        requestBody: transformedData 
+      return AuthenticationService.postAuthRegister({
+        requestBody: transformedData,
       });
     },
-    onSuccess: async (response) => {
+    onSuccess: async response => {
       // Response already has user data (AuthResponseDto)
       await AsyncStorage.setItem('access_token', response.access_token);
       if (response.refresh_token) {
         await AsyncStorage.setItem('refresh_token', response.refresh_token);
       }
-      
+
       // Set token in OpenAPI config
       OpenAPI.TOKEN = response.access_token;
-      
+
       // Use the user data that's already in the response
       queryClient.setQueryData(queryKeys.auth.me(), response.user);
-      
+
       // Invalidate auth queries
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
     },
@@ -51,7 +51,7 @@ export const useRegister = () => {
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (credentials: { email: string; password: string }) => {
       const data: PostAuthLoginData = {
@@ -62,19 +62,19 @@ export const useLogin = () => {
       };
       return AuthenticationService.postAuthLogin(data);
     },
-    onSuccess: async (response) => {
+    onSuccess: async response => {
       const data = (response as any)?.data;
-      
+
       // Store tokens
       if (data?.access_token) {
         await AsyncStorage.setItem('access_token', data.access_token);
         OpenAPI.TOKEN = data.access_token;
       }
-      
+
       if (data?.refresh_token) {
         await AsyncStorage.setItem('refresh_token', data.refresh_token);
       }
-      
+
       // Invalidate to trigger user query (login doesn't return user data)
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
     },
@@ -86,10 +86,11 @@ export const useLogin = () => {
 
 export const useRefreshToken = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: (data: PostAuthRefreshData) => AuthenticationService.postAuthRefresh(data),
-    onSuccess: (data) => {
+    mutationFn: (data: PostAuthRefreshData) =>
+      AuthenticationService.postAuthRefresh(data),
+    onSuccess: data => {
       // Update token
       const token = (data as any)?.data?.access_token;
       if (token) {
@@ -107,13 +108,13 @@ export const useRefreshToken = () => {
 
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async (data: PatchAuthMeData) => {
       await setupAuthToken();
       return AuthenticationService.patchAuthMe(data);
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       // Update profile in cache
       queryClient.setQueryData(queryKeys.auth.me(), data);
       // Invalidate related queries
@@ -139,7 +140,7 @@ export const useChangePassword = () => {
 
 export const useLogout = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async (data: PostAuthLogoutData = {}) => {
       await setupAuthToken();
@@ -168,7 +169,7 @@ export const useLogout = () => {
 
 export const useGoogleLogin = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async () => {
       // TODO: Implement Google OAuth login flow
@@ -177,7 +178,7 @@ export const useGoogleLogin = () => {
       // 3. Return response
       throw new Error('Google login not implemented yet');
     },
-    onSuccess: async (response) => {
+    onSuccess: async response => {
       // TODO: Store tokens and set user data like other auth mutations
       console.log('Google login success - TODO: implement');
     },
@@ -189,7 +190,7 @@ export const useGoogleLogin = () => {
 
 export const useFacebookLogin = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async () => {
       // TODO: Implement Facebook OAuth login flow
@@ -198,7 +199,7 @@ export const useFacebookLogin = () => {
       // 3. Return response
       throw new Error('Facebook login not implemented yet');
     },
-    onSuccess: async (response) => {
+    onSuccess: async response => {
       // TODO: Store tokens and set user data like other auth mutations
       console.log('Facebook login success - TODO: implement');
     },

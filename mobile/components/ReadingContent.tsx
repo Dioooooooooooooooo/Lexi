@@ -4,7 +4,7 @@ import { Text } from '@/components/ui/text';
 import { router } from 'expo-router';
 import { ReadingContentType } from '@/models/ReadingContent';
 import { useReadingContentStore } from '@/stores/readingContentStore';
-import { useGetCoverFromGDrive } from '@/hooks/useExtractDriveFileId';
+import { useGetCoverFromGDrive } from '@/hooks/utils/useExtractDriveField';
 
 function ReadingContent(props: ReadingContentType) {
   const setSelectedContent = useReadingContentStore(

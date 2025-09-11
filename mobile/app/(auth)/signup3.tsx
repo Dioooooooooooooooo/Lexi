@@ -5,7 +5,10 @@ import Toast from 'react-native-toast-message';
 import { router } from 'expo-router';
 import { useRegisterFormContext } from './_layout';
 
-import { useRegister, useUpdateProfile } from '@/hooks/mutation/useAuthMutations';
+import {
+  useRegister,
+  useUpdateProfile,
+} from '@/hooks/mutation/useAuthMutations';
 import { useAuthStore } from '@/stores/authStore';
 import { useGlobalStore } from '@/stores/globalStore';
 import { useUserStore } from '@/stores/userStore';
@@ -23,16 +26,16 @@ export default function Step3() {
     providerRegisterForm,
     setProviderRegisterForm,
   } = useRegisterFormContext();
-
-  // Use TanStack Query mutations instead of store methods
-  const registerMutation = useRegister();
-  const updateProfileMutation = useUpdateProfile();
   // const updateProfile = useUserStore(state => state.updateProfile);
 
   // const signup = useAuthStore(state => state.signup);
 
   const [isInvalid, setIsInvalid] = useState(false);
   const setIsLoading = useGlobalStore(state => state.setIsLoading);
+
+  // Use TanStack Query mutations instead of store methods
+  const registerMutation = useRegister();
+  const updateProfileMutation = useUpdateProfile();
 
   const handleStep = async () => {
     const form = fromProviderAuth ? providerRegisterForm : registerForm;

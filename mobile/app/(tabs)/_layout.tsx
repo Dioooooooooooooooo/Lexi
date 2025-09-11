@@ -1,13 +1,12 @@
-import { Tabs } from "expo-router";
-import React, { useEffect, useRef, useState } from "react";
-import { Platform, TouchableOpacity } from "react-native";
-import LottieView from "lottie-react-native";
+import { Tabs } from 'expo-router';
+import React, { useEffect, useRef, useState } from 'react';
+import { Platform, TouchableOpacity, useColorScheme } from 'react-native';
+import LottieView from 'lottie-react-native';
 
-import { Compass, House, Library, School, User } from "lucide-react-native";
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { Compass, House, Library, School, User } from 'lucide-react-native';
 
-import CompassAnimation from "~/assets/animations/Animation - 1744671952675.json";
-import { useUserStore } from "@/stores/userStore";
+import CompassAnimation from '~/assets/animations/Animation - 1744671952675.json';
+import { useUserStore } from '@/stores/userStore';
 
 const CompassIcon = ({ compassFocused, setCompassFocused }) => {
   const animationRef = useRef(null);
@@ -38,7 +37,7 @@ export default function TabLayout() {
   const animationRef = useRef<LottieView>(null);
   const colorScheme = useColorScheme();
   const [compassFocused, setCompassFocused] = useState<boolean>(false);
-  const user = useUserStore((state) => state.user);
+  const user = useUserStore(state => state.user);
 
   return (
     <Tabs
@@ -47,12 +46,12 @@ export default function TabLayout() {
         tabBarStyle: Platform.select({
           ios: {
             // Transparent background for iOS with a blur effect
-            backgroundColor: "rgba(0, 0, 0, 0.5)", // Set the background color here
-            position: "absolute",
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Set the background color here
+            position: 'absolute',
             bottom: 0, // Optionally adjust the position
           },
           default: {
-            backgroundColor: "white", // Set background color for Android or other platforms
+            backgroundColor: 'white', // Set background color for Android or other platforms
           },
         }),
       }}
@@ -62,7 +61,7 @@ export default function TabLayout() {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, focused }) => (
-            <House color={focused ? "#f97316" : "#9ca3af"} /> // Orange if active, Gray if not
+            <House color={focused ? '#f97316' : '#9ca3af'} /> // Orange if active, Gray if not
           ),
         }}
       />
@@ -94,7 +93,7 @@ export default function TabLayout() {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, focused }) => (
-            <Compass color={focused ? "#f97316" : "#9ca3af"} />
+            <Compass color={focused ? '#f97316' : '#9ca3af'} />
           ),
         }}
       />
@@ -102,12 +101,12 @@ export default function TabLayout() {
       <Tabs.Screen
         name="library"
         options={
-          user?.role === "Teacher"
+          user?.role === 'Teacher'
             ? { href: null }
             : {
                 tabBarLabel: () => null,
                 tabBarIcon: ({ color, focused }) => (
-                  <Library color={focused ? "#f97316" : "#9ca3af"} />
+                  <Library color={focused ? '#f97316' : '#9ca3af'} />
                 ),
               }
         }
@@ -125,7 +124,7 @@ export default function TabLayout() {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, focused }) => (
-            <School color={focused ? "#f97316" : "#9ca3af"} />
+            <School color={focused ? '#f97316' : '#9ca3af'} />
           ),
         }}
       />

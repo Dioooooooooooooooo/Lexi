@@ -27,13 +27,12 @@ const SignIn = () => {
   // const setUser = useUserStore.getState().setUser;
 
   // Use TanStack Query mutations and queries
-  const loginMutation = useLogin();
-  const { refetch: refetchUser } = useAuthMe();
-
   // TODO: Replace with useGoogleLogin() and useFacebookLogin() mutations
   // For now, keep using authStore.providerAuth
   const providerAuth = useAuthStore(state => state.providerAuth);
   const setIsLoading = useGlobalStore(state => state.setIsLoading);
+  const loginMutation = useLogin();
+  const { refetch: refetchUser } = useAuthMe();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -97,39 +96,39 @@ const SignIn = () => {
     }
 
     setIsLoading(true);
-  //   try {
-  //     let response = await apiLogin(form.email, form.password);
-  //     await AsyncStorage.setItem('accessToken', response.data.access_token);
-  //     await AsyncStorage.setItem('refreshToken', response.data.refresh_token);
+    //   try {
+    //     let response = await apiLogin(form.email, form.password);
+    //     await AsyncStorage.setItem('accessToken', response.data.access_token);
+    //     await AsyncStorage.setItem('refreshToken', response.data.refresh_token);
 
-  //     response = await getProfile();
+    //     response = await getProfile();
 
-  //     const userData = response.data;
+    //     const userData = response.data;
 
-  //     if (userData) {
-  //       const user = extractUser(response.data);
-  //       setUser(user);
-  //       Toast.show({
-  //         type: 'success',
-  //         text1: 'Authentication Success',
-  //       });
-  //       router.replace('/home');
-  //     } else {
-  //       router.push({
-  //         pathname: '/signup3',
-  //         params: { fromProviderAuth: 'false' },
-  //       });
-  //     }
-  //   } catch (error: any) {
-  //     Toast.show({
-  //       type: 'error',
-  //       text1: 'Authentication Failed',
-  //       text2: error.message,
-  //     });
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+    //     if (userData) {
+    //       const user = extractUser(response.data);
+    //       setUser(user);
+    //       Toast.show({
+    //         type: 'success',
+    //         text1: 'Authentication Success',
+    //       });
+    //       router.replace('/home');
+    //     } else {
+    //       router.push({
+    //         pathname: '/signup3',
+    //         params: { fromProviderAuth: 'false' },
+    //       });
+    //     }
+    //   } catch (error: any) {
+    //     Toast.show({
+    //       type: 'error',
+    //       text1: 'Authentication Failed',
+    //       text2: error.message,
+    //     });
+    //   } finally {
+    //     setIsLoading(false);
+    //   }
+    // };
 
     try {
       // Use TanStack Query mutation for login

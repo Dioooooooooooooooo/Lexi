@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBookOpen, faPlus } from '@fortawesome/free-solid-svg-icons';
 import BackHeader from '@/components/BackHeader';
-import { useGetCoverFromGDrive } from '@/hooks/useExtractDriveFileId';
+import { useGetCoverFromGDrive } from '@/hooks/utils/useExtractDriveField';
 
 function ContentIndex() {
   const selectedContent = useReadingContentStore(

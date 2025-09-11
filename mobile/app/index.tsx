@@ -5,8 +5,7 @@ import { useMiniGameStore } from '@/stores/miniGameStore';
 
 //Components
 import { ScrollView, View, Image, TouchableOpacity, Text } from 'react-native';
-import { Button } from '~/components/ui/button';
-import { refreshAccessToken } from '@/services/AuthService';
+import { useRefreshToken } from '@/hooks';
 
 export default function Index() {
   const user = useUserStore(state => state.user);
@@ -17,7 +16,7 @@ export default function Index() {
   }
 
   if (user) {
-    refreshAccessToken();
+    useRefreshToken();
     if (currentMinigame && user.role === 'Pupil') {
       return <Redirect href="/minigames/play" />;
     } else {

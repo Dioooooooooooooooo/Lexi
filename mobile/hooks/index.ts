@@ -4,7 +4,7 @@
 export * from './query/useAuthQueries';
 export * from './mutation/useAuthMutations';
 
-// Pupil hooks  
+// Pupil hooks
 export * from './query/usePupilQueries';
 export * from './mutation/usePupilMutations';
 

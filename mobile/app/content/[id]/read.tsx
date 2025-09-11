@@ -3,7 +3,6 @@ import SentenceArrangementBubble from '@/app/(minigames)/sentencearrangement';
 import ReadContentHeader from '@/components/ReadContentHeader';
 import ChatBubble from '@/components/Reading/ChatBubble';
 import { Button } from '@/components/ui/button';
-import { useThrottle } from '@/hooks/useThrottle';
 import { useDictionary } from '@/services/DictionaryService';
 import { useReadingContentStore } from '@/stores/readingContentStore';
 import { arrange, bubble, choice } from '@/types/bubble';
@@ -13,8 +12,10 @@ import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { minigameProvider } from './minigameHandler';
 import { Message } from '@/types/message';
+import { useGetRandomMinigames } from '@/services/New-MinigameService';
+import { Minigame } from '@/models/Minigame';
+import { useThrottle } from '@/hooks/utils/useThrottle';
 
 const iconMap: Record<string, any> = {
   Story: require('@/assets/images/storyIcons/narrator.png'),
@@ -28,11 +29,38 @@ export function getIconSource(icon: string) {
   return iconMap[icon] || iconMap['Story'];
 }
 
+function minigameProvider(
+  minigameCount: number,
+  bubbleCount: number,
+  minigames: Minigame[],
+) {
+  // temp type:1 = choices, 0: arrangement
+  const minigame = minigames[minigameCount];
+  const metadata = JSON.parse(minigame.metadata);
+
+  // CHOICES
+  if (minigame.minigame_type === 1) {
+    const choicesBubble: Message = {
+      id: bubbleCount,
+      type: MessageTypeEnum.CHOICES,
+      payload: metadata as choice,
+    };
+    return choicesBubble;
+  } else if (minigame.minigame_type === 0) {
+    const arrangeBubble: Message = {
+      id: bubbleCount,
+      type: MessageTypeEnum.ARRANGE,
+      payload: metadata as arrange,
+    };
+    return arrangeBubble;
+  }
+}
+
 const Read = () => {
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [chunkIndex, setChunkIndex] = useState(0);
   const [word, setWord] = useState<string | null>(null);
-  const { data, isLoading } = useDictionary(word || '');
+  const { data, isLoading: isDictionaryLoading } = useDictionary(word || '');
   const bubbleCount = useRef(0);
   const minigameCount = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -41,15 +69,17 @@ const Read = () => {
     state => state.selectedContent,
   );
   const [isFinished, setIsFinished] = useState(false);
+  const { data: minigames, isLoading: isMinigameLoading } =
+    useGetRandomMinigames(selectedContent?.id);
+  console.log('MINIGAMES:', minigames);
 
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: false });
   }, [messages]);
 
   // parse each chunk into (chat/story) bubble type with props
-  // TODO: i think better nay middle layer paras minigames? TTOTT
   const parsedBubbles = useMemo<Message[]>(() => {
-    if (!selectedContent?.content) return [];
+    if (!selectedContent?.content || !minigames) return [];
 
     return selectedContent.content
       .split(/(?=\[\w*\])|(?=\$[A-Z]+\$)/g)
@@ -63,20 +93,23 @@ const Read = () => {
           return minigameProvider(
             minigameCount.current++,
             bubbleCount.current++,
+            minigames,
           );
         }
 
-        return {
+        const storyBubble: Message = {
           id: bubbleCount.current++,
           type: MessageTypeEnum.STORY,
           payload: makeBubble(text.trim(), person || 'Story', personEnum.Story),
-        } satisfies Message;
+        };
+        return storyBubble;
       })
       .filter((b): b is Message => b !== null);
-  }, [selectedContent?.content]);
+  }, [selectedContent?.content, minigames]);
 
+  // Word definition bubble
   useEffect(() => {
-    if (!word || isLoading) return;
+    if (!word || isDictionaryLoading) return;
 
     if (word) {
       const newMessage: Message = {
@@ -100,8 +133,9 @@ const Read = () => {
       }
       setWord(null);
     }
-  }, [data, isLoading]);
+  }, [data, isDictionaryLoading]);
 
+  // next btn
   const onPress = useThrottle(() => {
     if (chunkIndex < parsedBubbles!.length) {
       const newMessage = parsedBubbles[chunkIndex];
@@ -145,6 +179,14 @@ const Read = () => {
 
     return false;
   };
+
+  if (isMinigameLoading) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Text>Loading story & minigames…</Text>
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-lightGray">

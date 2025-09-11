@@ -28,9 +28,10 @@ export interface Choices {
 
 export interface Minigame {
   id: string;
-  readingMaterialId: string;
-  minigameType: MinigameType;
-  metaData: string;
-  MaxScore: number;
-  createdAt: string;
+  reading_material_id: string;
+  minigame_type: number;
+  part_num: number;
+  metadata: string;
+  max_score: number;
+  created_at: string;
 }

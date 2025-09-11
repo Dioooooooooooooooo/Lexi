@@ -8,7 +8,7 @@ import {
 import { router } from 'expo-router';
 import { useUserStore } from '@/stores/userStore';
 import { useReadingAssignmentStore } from '@/stores/readingAssignmentStore';
-import { useGetCoverFromGDrive } from '@/hooks/useExtractDriveFileId';
+import { useGetCoverFromGDrive } from '@/hooks/utils/useExtractDriveField';
 
 interface AssignmentCardProps {
   assignment: ReadingAssignment;
