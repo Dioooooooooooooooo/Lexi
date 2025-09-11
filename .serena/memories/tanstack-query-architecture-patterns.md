@@ -1,38 +1,44 @@
-# TanStack Query Architecture - Definitive Guide
+# TanStack Query Architecture Guide - A Comprehensive Approach
 
-## ⚠️ CRITICAL: Read This First
+## 📋 Overview
 
-**This document defines the ONLY correct architecture for React Native with TanStack Query.**
+**This document outlines a comprehensive architecture pattern for React Native applications using TanStack Query with generated OpenAPI clients.**
 
-- There are NO exceptions to these patterns
-- ALL server operations use TanStack Query (including authentication)
-- Stores NEVER call API services directly
-- The old `mobile/services/` folder should NOT exist
+This approach emphasizes:
 
-## Core Principle: Complete Separation
+- Type safety through generated API clients
+- Consistent server state management via TanStack Query
+- Clear separation between server state and UI state
+- Pragmatic authentication patterns
+
+_Note: This represents one proven approach among several valid patterns in the React Native community._
+
+## Core Principles
 
 ```
-SERVER STATE → TanStack Query ONLY
-CLIENT STATE → Stores (Zustand/MobX) ONLY
+SERVER STATE → TanStack Query (with flexibility for auth)
+CLIENT STATE → Stores (Zustand/Context)
+API LAYER → Generated TypeScript clients
 ```
 
-## The ONLY Correct Architecture
+## Architecture Overview
 
-### 1. API Client Layer (Generated)
+### 1. Generated API Client Layer
 
 **Location**: `mobile/hooks/api/`
 **Files**: `services.gen.ts`, `types.gen.ts`, `schemas.gen.ts`
 **Purpose**: Auto-generated TypeScript client from OpenAPI spec
-**Key Rules**:
 
-- NEVER edit these files manually
-- NEVER import these directly in components
-- ONLY imported by TanStack Query hooks
+**Key Guidelines**:
+
+- Generated files should not be edited manually
+- Import these only in TanStack Query hooks, not directly in components
+- Provides type safety and consistency across the application
 
 **Example**:
 
 ```typescript
-// services.gen.ts - AUTO-GENERATED, DO NOT EDIT
+// services.gen.ts - AUTO-GENERATED
 export class AuthenticationService {
   static postAuthLogin(data: PostAuthLoginData) {
     return __request(OpenAPI, {
@@ -44,23 +50,23 @@ export class AuthenticationService {
 }
 ```
 
-### 2. TanStack Query Hooks Layer (ALL Server Operations)
+### 2. TanStack Query Hooks Layer
 
 **Location**: `mobile/hooks/`
-**Purpose**: Wraps EVERY API call with TanStack Query
+**Purpose**: Wraps API calls with TanStack Query for server state management
 **Structure**:
 
 ```
 mobile/hooks/
-├── api/                    # Generated client (DO NOT EDIT)
+├── api/                    # Generated client
 │   ├── services.gen.ts
 │   ├── types.gen.ts
 │   └── schemas.gen.ts
-├── mutation/               # ALL POST/PUT/PATCH/DELETE operations
+├── mutation/               # POST/PUT/PATCH/DELETE operations
 │   ├── useAuthMutations.ts
 │   ├── useClassroomMutations.ts
 │   └── usePupilMutations.ts
-├── query/                  # ALL GET operations
+├── query/                  # GET operations
 │   ├── useAuthQueries.ts
 │   ├── useClassroomQueries.ts
 │   └── usePupilQueries.ts
@@ -68,236 +74,188 @@ mobile/hooks/
     └── authTransformers.ts
 ```
 
-**MANDATORY: Every API call MUST go through these hooks**
+## Authentication Patterns
 
-## 🚨 MUTATION BEST PRACTICES
+### Recommended Hybrid Approach
 
-### Single Responsibility Principle
+The most commonly adopted pattern combines TanStack Query mutations with lightweight state management:
 
-**CRITICAL**: Each mutation should perform ONE operation only. 
-
-**❌ WRONG - Multiple API calls in one mutation**:
 ```typescript
-// DON'T DO THIS
-export const useLogin = () => {
-  return useMutation({
-    mutationFn: async (credentials) => {
-      const loginResponse = await AuthenticationService.postAuthLogin(credentials);
-      // ❌ Making another API call in the same mutation
-      const userResponse = await AuthenticationService.getAuthMe();
-      return { ...loginResponse, user: userResponse };
-    }
-  });
-};
-```
-
-**✅ CORRECT - Single focused mutation**:
-```typescript
+// TanStack Query mutation handles token storage directly
 export const useLogin = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (credentials: LoginDto) =>
       AuthenticationService.postAuthLogin({ requestBody: credentials }),
-    
-    onSuccess: async (response) => {
-      // Store tokens
+
+    onSuccess: async response => {
+      // Token management handled directly in mutation
       await AsyncStorage.setItem('access_token', response.access_token);
-      await AsyncStorage.setItem('refresh_token', response.refresh_token);
-      
-      // If response includes user data, use it
+      OpenAPI.TOKEN = response.access_token;
+
+      // Update query cache
       if (response.user) {
         queryClient.setQueryData(['user'], response.user);
       } else {
-        // Otherwise, invalidate user query to trigger refetch
         queryClient.invalidateQueries({ queryKey: ['user'] });
       }
-    }
+    },
+  });
+};
+
+// Auth Store only for complex OAuth flows and global state
+const useAuthStore = create((set, get) => ({
+  providerAuth: async (provider: number) => {
+    // Complex OAuth logic that hooks can't handle well
+    // Google/Facebook SDK calls + token exchange
+  },
+}));
+```
+
+### Alternative Pure TanStack Query Approach
+
+For teams preferring minimal dependencies:
+
+```typescript
+export const useLogin = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (credentials: LoginDto) =>
+      AuthenticationService.postAuthLogin({ requestBody: credentials }),
+
+    onSuccess: async response => {
+      // All token management in the hook
+      await AsyncStorage.setItem('access_token', response.access_token);
+      OpenAPI.TOKEN = response.access_token;
+
+      // Update query cache
+      if (response.user) {
+        queryClient.setQueryData(['user'], response.user);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ['user'] });
+      }
+    },
   });
 };
 ```
 
-### Three Options for Getting Related Data
+## Mutation Best Practices
 
-#### Option 1: Backend Returns Complete Data (BEST)
+### Single Responsibility Principle
+
+Each mutation should focus on one primary operation:
+
+**✅ Recommended**:
+
 ```typescript
-// If backend returns user with login response
-// Response: { access_token, refresh_token, user }
-onSuccess: (response) => {
-  queryClient.setQueryData(['user'], response.user);
-}
+export const useLogin = () => {
+  return useMutation({
+    mutationFn: (credentials: LoginDto) =>
+      AuthenticationService.postAuthLogin({ requestBody: credentials }),
+
+    onSuccess: async response => {
+      // Handle side effects in callback
+      await AsyncStorage.setItem('access_token', response.access_token);
+      OpenAPI.TOKEN = response.access_token;
+    },
+  });
+};
 ```
 
-#### Option 2: Trigger Separate Query
+**❌ Avoid**:
+
 ```typescript
-// Let TanStack Query handle fetching user data
+// Multiple unrelated API calls in one mutation
+export const useLogin = () => {
+  return useMutation({
+    mutationFn: async credentials => {
+      const loginResponse = await AuthenticationService.postAuthLogin(
+        credentials,
+      );
+      const userResponse = await AuthenticationService.getAuthMe();
+      return { ...loginResponse, user: userResponse };
+    },
+  });
+};
+```
+
+### Handling Related Data
+
+**Option 1: Backend Returns Complete Data** (Preferred)
+
+```typescript
+onSuccess: response => {
+  // Backend includes user data in login response
+  queryClient.setQueryData(['user'], response.user);
+};
+```
+
+**Option 2: Invalidate Related Queries**
+
+```typescript
 onSuccess: () => {
   queryClient.invalidateQueries({ queryKey: ['user'] });
-  // Component uses useCurrentUser() query
-}
+};
 ```
 
-#### Option 3: Component Orchestration
+**Option 3: Component-Level Orchestration**
+
 ```typescript
 function LoginScreen() {
   const loginMutation = useLogin();
   const { refetch: refetchUser } = useCurrentUser();
-  
-  const handleLogin = async (credentials) => {
+
+  const handleLogin = async credentials => {
     await loginMutation.mutateAsync(credentials);
-    await refetchUser(); // Component decides when to fetch
+    await refetchUser();
   };
 }
 ```
 
-### Why Multiple API Calls in One Mutation is Wrong
+## State Management Guidelines
 
-1. **Violates single responsibility** - Login should only login
-2. **Complex error handling** - Which call failed? Partial success?
-3. **Poor separation of concerns** - Mixing auth with data fetching
-4. **Against TanStack Query patterns** - Backend should return needed data
+### What Goes Where
 
-## Authentication Implementation Examples
+**TanStack Query** (Server State):
 
-### Registration Mutation (CORRECT)
-```typescript
-export const useRegister = () => {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: (formData: Record<string, any>) => {
-      const transformedData = transformRegistrationData(formData);
-      return AuthenticationService.postAuthRegister({ 
-        requestBody: transformedData 
-      });
-    },
-    onSuccess: async (response) => {
-      // Use data returned by backend
-      await AsyncStorage.setItem('access_token', response.access_token);
-      await AsyncStorage.setItem('refresh_token', response.refresh_token);
-      
-      // Backend returns user with registration
-      if (response.user) {
-        queryClient.setQueryData(['user'], response.user);
-      }
-      
-      queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
-    }
-  });
-};
-```
+- API responses and cached data
+- Server-side user information
+- Remote data synchronization
+- **Token storage and management** (handled in mutation callbacks)
 
-### Login Mutation (CORRECT)
-```typescript
-export const useLogin = () => {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: (credentials: { email: string; password: string }) => {
-      const data: PostAuthLoginData = {
-        requestBody: {
-          email: credentials.email,
-          password: credentials.password,
-        },
-      };
-      return AuthenticationService.postAuthLogin(data);
-    },
-    onSuccess: async (response) => {
-      const data = response?.data;
-      
-      // Store tokens
-      if (data?.access_token) {
-        await AsyncStorage.setItem('access_token', data.access_token);
-        OpenAPI.TOKEN = data.access_token;
-      }
-      
-      if (data?.refresh_token) {
-        await AsyncStorage.setItem('refresh_token', data.refresh_token);
-      }
-      
-      // Invalidate to trigger user query
-      queryClient.invalidateQueries({ queryKey: ['user'] });
-    }
-  });
-};
-```
+**Stores/Context** (Client State):
 
-### 3. Stores Layer (Client UI State ONLY)
+- Complex authentication flows (OAuth)
+- UI state (modals, themes, navigation)
+- App preferences and settings
+- Form state and temporary data
+- Feature-specific client state
 
-**Location**: `mobile/stores/`
-**Purpose**: ONLY client-side UI state that never touches the server
+## Component Implementation Patterns
 
-**What Stores ARE For**:
-
-- **UI toggles**: sidebar open/closed, modal visibility, dropdown states
-- **Theme/appearance**: dark/light mode, font size, language
-- **Temporary form data**: drafts before submission, multi-step form progress
-- **Local preferences**: sound on/off, recent searches, favorite filters
-- **Navigation state**: active tab, scroll position, breadcrumbs
-
-**What Stores are NOT For**:
-
-- ❌ ANY API calls or service imports
-- ❌ User data (use TanStack Query cache)
-- ❌ Authentication state (use TanStack Query cache)
-- ❌ Posts/content from API (use TanStack Query cache)
-- ❌ Login/logout/signup functions (use mutations)
-- ❌ Token management (handle in mutation callbacks)
-
-**Simple Rule**: If it comes from or goes to the server → TanStack Query. If it's purely UI → Store.
-
-**Example UI Store**:
+### Recommended Component Pattern
 
 ```typescript
-// stores/uiStore.ts
-import { create } from 'zustand';
-
-interface UIStore {
-  theme: 'light' | 'dark';
-  sidebarOpen: boolean;
-  activeModal: string | null;
-  toggleTheme: () => void;
-  toggleSidebar: () => void;
-  setActiveModal: (modal: string | null) => void;
-}
-
-export const useUIStore = create<UIStore>(set => ({
-  theme: 'light',
-  sidebarOpen: false,
-  activeModal: null,
-
-  toggleTheme: () =>
-    set(state => ({
-      theme: state.theme === 'light' ? 'dark' : 'light',
-    })),
-
-  toggleSidebar: () =>
-    set(state => ({
-      sidebarOpen: !state.sidebarOpen,
-    })),
-
-  setActiveModal: modal => set({ activeModal: modal }),
-}));
-```
-
-## Component Pattern (The ONLY Way)
-
-### ✅ CORRECT Implementation
-
-```typescript
-// screens/LoginScreen.tsx
+// app/(auth)/signin.tsx
 import { useLogin } from '@/hooks/mutation/useAuthMutations';
 import { useCurrentUser } from '@/hooks/query/useAuthQueries';
+import { useAuthStore } from '@/stores/authStore';
 
 function LoginScreen() {
   const loginMutation = useLogin();
-  const { data: user } = useCurrentUser(); // Will refetch after login
-  
+  const { data: user } = useCurrentUser();
+  const providerAuth = useAuthStore(state => state.providerAuth);
+
   const handleLogin = formData => {
     loginMutation.mutate(formData, {
       onSuccess: () => {
         router.replace('/home');
-      }
+      },
+      onError: error => {
+        console.error('Login failed:', error);
+      },
     });
   };
 
@@ -309,45 +267,6 @@ function LoginScreen() {
 }
 ```
 
-### ❌ WRONG Implementations (NEVER DO THESE)
-
-```typescript
-// WRONG: Calling store for API operations
-const authStore = useAuthStore();
-authStore.login(credentials); // ❌ NEVER
-
-// WRONG: Importing services directly
-import { AuthService } from '@/services/AuthService'; // ❌ This folder shouldn't exist
-AuthService.login(credentials); // ❌ NEVER
-
-// WRONG: Importing generated client directly
-import { AuthenticationService } from '@/hooks/api/services.gen';
-AuthenticationService.postAuthLogin(data); // ❌ NEVER in components
-```
-
-## Migration Checklist
-
-If migrating from old architecture:
-
-### Delete These Files/Folders:
-
-- [ ] `mobile/services/` - ENTIRE FOLDER
-- [ ] `mobile/stores/authStore.ts` - ENTIRE FILE
-- [ ] Any store that makes API calls
-
-### Create These Hooks:
-
-- [ ] `useLogin` - Replaces authStore.login()
-- [ ] `useRegister` - Replaces authStore.signup()
-- [ ] `useLogout` - Replaces authStore.logout()
-- [ ] `useCurrentUser` - Replaces getProfile()
-
-### Update Components:
-
-- [ ] Replace all `authStore.login()` with `useLogin()`
-- [ ] Replace all `authStore.signup()` with `useRegister()`
-- [ ] Replace all store API calls with TanStack Query hooks
-
 ## Query Client Configuration
 
 ```typescript
@@ -358,8 +277,8 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 2,
-      staleTime: 5 * 60 * 1000,
-      gcTime: 10 * 60 * 1000,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes
     },
     mutations: {
       retry: 1,
@@ -370,7 +289,7 @@ const queryClient = new QueryClient({
 export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Your app */}
+      {/* Your app components */}
     </QueryClientProvider>
   );
 }
@@ -384,7 +303,7 @@ export default function RootLayout() {
 const { data: user } = useCurrentUser();
 const { data: posts } = usePosts({
   userId: user?.id,
-  enabled: !!user?.id, // Only fetch when user exists
+  enabled: !!user?.id,
 });
 ```
 
@@ -411,65 +330,75 @@ const updateMutation = useMutation({
 const createPostMutation = useMutation({
   mutationFn: createPost,
   onSuccess: () => {
-    // Invalidate and refetch
     queryClient.invalidateQueries({ queryKey: ['posts'] });
   },
 });
 ```
 
-## Folder Structure Summary
+## Actual Project Structure
 
 ```
 mobile/
+├── app/                  # Expo Router - screens and layouts
+│   ├── (auth)/          # Auth flow screens
+│   ├── (tabs)/          # Tab navigation
+│   └── _layout.tsx      # Root layout
 ├── hooks/
-│   ├── api/              # Generated (NEVER EDIT)
+│   ├── api/             # Generated client
 │   │   └── *.gen.ts
-│   ├── mutation/         # ALL mutations
-│   ├── query/           # ALL queries
-│   └── utils/           # Helpers
-├── services/            # ❌ DELETE THIS FOLDER
-└── stores/              # ✅ UI state ONLY
-    ├── authStore.ts     # ❌ DELETE THIS FILE
-    └── uiStore.ts       # ✅ KEEP (UI only)
+│   ├── mutation/        # Mutation hooks
+│   ├── query/          # Query hooks
+│   └── utils/          # Helpers
+├── stores/             # Client state management (multiple stores)
+│   ├── authStore.ts    # OAuth flows + auth state
+│   ├── globalStore.ts  # Global UI state
+│   ├── userStore.ts    # User preferences
+│   └── ...Store.ts     # Feature-specific stores
+├── components/         # Reusable components
+└── utils/             # Utility functions
 ```
 
-## Rules for Claude/AI Code Generation
+## Migration Checklist
 
-When generating code for this architecture:
+When adopting this architecture:
 
-1. **NEVER create a services folder** - Use generated API client only
-2. **NEVER put API calls in stores** - Stores are UI-only
-3. **ALWAYS use TanStack Query for server operations** - No exceptions
-4. **ALWAYS follow this pattern**: Component → Hook → Generated Client → API
-5. **Authentication is NOT special** - It uses mutations like everything else
-6. **Every GET request needs a useQuery hook**
-7. **Every POST/PUT/PATCH/DELETE needs a useMutation hook**
-8. **Token storage happens in mutation onSuccess, not stores**
-9. **User data lives in query cache, not stores**
-10. **If it talks to the server, it goes through TanStack Query**
-11. **EACH MUTATION DOES ONE THING** - No chaining unrelated API calls
+### Implementation Steps:
 
-## Validation Questions
+- [ ] Set up generated API client from OpenAPI spec
+- [ ] Create TanStack Query hooks for all API operations
+- [ ] Implement stores for complex flows and UI state
+- [ ] Update components to use hooks instead of direct API calls
+- [ ] Configure Query Client with appropriate defaults
+- [ ] Handle token storage in mutation callbacks (AsyncStorage)
 
-Before implementing, ask yourself:
+### Validation Questions:
 
-- Does my store import any API services? (Should be NO)
-- Do my components import services directly? (Should be NO)
-- Does every API call go through TanStack Query? (Should be YES)
-- Is authentication handled by mutations? (Should be YES)
-- Are tokens stored in mutation callbacks? (Should be YES)
-- Does each mutation do ONE thing only? (Should be YES)
-- Am I making multiple unrelated API calls in one mutation? (Should be NO)
+- Are all server operations going through TanStack Query hooks?
+- Is token management handled in mutation callbacks?
+- Are stores used only for complex flows and UI state?
+- Do mutations follow single responsibility principle?
+- Is error handling implemented consistently across the app?
+
+## Benefits of This Approach
+
+- **Type Safety**: Generated clients ensure API consistency
+- **Performance**: TanStack Query provides caching and background updates
+- **Developer Experience**: Consistent patterns and excellent debugging tools
+- **Flexibility**: Works with various authentication strategies
+- **Scalability**: Clear separation of concerns as the app grows
+- **Token Management**: Handled automatically in mutation callbacks
+
+## Alternative Approaches
+
+This pattern works well for medium-to-large applications with complex APIs. Consider alternatives for:
+
+- **Simple apps**: Direct fetch/axios might be sufficient
+- **GraphQL APIs**: Apollo Client or urql might be more appropriate
+- **Real-time heavy**: Consider WebSocket-first approaches
+- **Offline-first**: Additional persistence strategies needed
 
 ## Final Notes
 
-This architecture is:
+This architecture has been successfully implemented in the Babolat React Native application. The key insight is that **token management can be handled directly in TanStack Query mutation callbacks**, reducing complexity while maintaining security and consistency.
 
-- **Proven at scale** by Coinbase, Discord, Shopify
-- **The official recommendation** from TanStack Query docs
-- **Not optional** - deviating creates technical debt
-- **Simpler than hybrid approaches** - one pattern for everything
-
-There are **NO special cases** where stores should call APIs directly. If you think you found one, you're wrong - use TanStack Query.
-
-**Mutations should be simple and focused** - if you need additional data after a mutation, either get it from the backend response or use a separate query.
+Teams should adapt these patterns based on their specific requirements, team size, and application complexity. The key is maintaining consistency in whatever pattern you choose and ensuring clear separation between server state, client state, and UI concerns.
