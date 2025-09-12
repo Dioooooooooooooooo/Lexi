@@ -10,13 +10,13 @@ import { useRefreshToken } from '@/hooks';
 export default function Index() {
   const user = useUserStore(state => state.user);
   const currentMinigame = useMiniGameStore(state => state.currentMinigame);
+  useRefreshToken();
 
   function splashscreen() {
     router.replace('/(auth)/carousel');
   }
 
   if (user) {
-    useRefreshToken();
     if (currentMinigame && user.role === 'Pupil') {
       return <Redirect href="/minigames/play" />;
     } else {
