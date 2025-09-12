@@ -1,9 +1,10 @@
-import { Choice, useTwoTruthsOneLieGameStore } from "@/stores/miniGameStore";
-import { bubble, choice } from "@/types/bubble";
-import { MessageTypeEnum, personEnum } from "@/types/enum";
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import { makeBubble } from "@/utils/makeBubble";
+import { Choice, useChoicesGameStore } from '@/stores/miniGameStore';
+import { bubble, choice } from '@/types/bubble';
+import { MessageTypeEnum, personEnum } from '@/types/enum';
+import React, { useState } from 'react';
+import { View, TouchableOpacity, Image } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { makeBubble } from '@/utils/makeBubble';
 
 const ChoicesBubble = ({
   question,
@@ -11,15 +12,15 @@ const ChoicesBubble = ({
   onPress,
 }: {
   question: string;
-  choices: Choice[];
+  choices: any[];
   onPress: (msg: bubble, msgType: MessageTypeEnum) => void;
 }) => {
   const [isPressed, setIsPressed] = useState(false);
   const onBtnPress = (ans: Choice) => {
-    const answer = ans.answer ? "That's correct!" : "Aww, try again next time!";
+    const answer = ans.answer ? "That's correct!" : 'Aww, try again next time!';
 
-    const bubble = makeBubble(ans.choice, "", personEnum.Self);
-    const responseBubble = makeBubble(answer, "Story", personEnum.Game);
+    const bubble = makeBubble(ans.choice, '', personEnum.Self);
+    const responseBubble = makeBubble(answer, 'Story', personEnum.Game);
 
     onPress(bubble, MessageTypeEnum.STORY);
     setTimeout(() => onPress(responseBubble, MessageTypeEnum.STORY), 500);
@@ -27,7 +28,7 @@ const ChoicesBubble = ({
   return (
     <View className="flex flex-row gap-2 items-end">
       <Image
-        source={require("@/assets/images/storyIcons/narrator.png")}
+        source={require('@/assets/images/storyIcons/narrator.png')}
         className="rounded-full"
         style={{ width: 32, height: 32 }}
         resizeMode="contain"

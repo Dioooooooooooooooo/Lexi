@@ -1,11 +1,11 @@
-import React from "react";
-import { View, TouchableOpacity, Pressable } from "react-native";
-import { router } from "expo-router";
-import { CircleUser, Search, X } from "lucide-react-native";
-import { Text } from "~/components/ui/text";
-import { Input } from "~/components/ui/input";
-import { StreakIcon } from "@/components/Streak";
-import LoginStreak from "@/components/LoginStreak";
+import React from 'react';
+import { View, TouchableOpacity, Pressable } from 'react-native';
+import { router } from 'expo-router';
+import { Text } from '@/components/ui/text';
+import { CircleUser, Search, X } from 'lucide-react-native';
+import { Input } from '~/components/ui/input';
+import { StreakIcon } from '@/components/Streak';
+import LoginStreak from '@/components/LoginStreak';
 
 interface HeaderSearchBarProps {
   user: any;
@@ -27,27 +27,27 @@ export const HeaderSearchBar: React.FC<HeaderSearchBarProps> = ({
   showStreak,
   setShowStreakModal,
   activeWeekdays,
-  placeholder = "Search stories...",
+  placeholder = 'Search stories...',
   searchValue,
   onSearchChange,
   onSearchFocus,
   onSearchBlur,
   onClearSearch,
 }) => {
-  const STREAK_COLOR = "#FF663E";
+  const STREAK_COLOR = '#FF663E';
 
   return (
     <View className="flex flex-row items-center w-full px-6 py-4 bg-white">
       {/* Profile Icon */}
       <TouchableOpacity
-        onPress={() => router.push("/(tabs)/profile")}
+        onPress={() => router.push('/(tabs)/profile')}
         style={{ marginRight: 10 }}
       >
         <CircleUser color="#FFD43B" size={30} />
       </TouchableOpacity>
 
       {/* Streak Icon - Only for Pupils */}
-      {user?.role === "Pupil" && (
+      {user?.role === 'Pupil' && (
         <View style={{ marginRight: 20 }}>
           <LoginStreak
             isVisible={showStreak}
@@ -59,8 +59,8 @@ export const HeaderSearchBar: React.FC<HeaderSearchBarProps> = ({
             <View className="flex flex-row items-center">
               <StreakIcon color={STREAK_COLOR} size={28} />
               <Text
-                className="text-xl font-bold ml-1"
-                style={{ color: STREAK_COLOR }}
+                className="text-xl font-poppins-bold ml-1"
+                // style={{ color: STREAK_COLOR }}
               >
                 {streak}
               </Text>
@@ -75,7 +75,7 @@ export const HeaderSearchBar: React.FC<HeaderSearchBarProps> = ({
           size={18}
           color="#6B7280"
           style={{
-            position: "absolute",
+            position: 'absolute',
             left: 16,
             top: 14,
             zIndex: 1,
@@ -97,7 +97,7 @@ export const HeaderSearchBar: React.FC<HeaderSearchBarProps> = ({
           selectTextOnFocus={false}
           placeholderTextColor="#9CA3AF"
           style={{
-            backgroundColor: "#D1D5DB",
+            backgroundColor: '#D1D5DB',
             borderRadius: 25,
             height: 44,
             paddingVertical: 0,
@@ -106,7 +106,7 @@ export const HeaderSearchBar: React.FC<HeaderSearchBarProps> = ({
             paddingRight: searchValue ? 45 : 20,
             fontSize: 16,
             lineHeight: 20,
-            textAlignVertical: "center",
+            textAlignVertical: 'center',
             includeFontPadding: false,
           }}
         />
@@ -116,12 +116,12 @@ export const HeaderSearchBar: React.FC<HeaderSearchBarProps> = ({
           <Pressable
             onPress={onClearSearch}
             style={{
-              position: "absolute",
+              position: 'absolute',
               right: 12,
               top: 12,
               zIndex: 1,
               padding: 4,
-              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              backgroundColor: 'rgba(255, 255, 255, 0.8)',
               borderRadius: 12,
             }}
             hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}

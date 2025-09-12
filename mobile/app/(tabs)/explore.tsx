@@ -1,43 +1,44 @@
-import { useState, memo, useEffect } from "react";
+import { useState, memo, useEffect } from 'react';
 import {
   useStories,
   getFilteredStories,
   ReadingMaterialFilters,
-} from "@/services/ReadingMaterialService";
-import { router } from "expo-router";
+} from '@/services/ReadingMaterialService';
+import { router } from 'expo-router';
 
-import ReadingContent from "@/components/ReadingContent";
-import { View, ScrollView, Text, TouchableOpacity } from "react-native";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Checkbox } from "~/components/ui/checkbox";
+import ReadingContent from '@/components/ReadingContent';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import { Checkbox } from '~/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+} from '~/components/ui/dropdown-menu';
 
-import { Search, ListFilter, Check, CircleUser } from "lucide-react-native";
-import { ReadingContentType } from "@/models/ReadingContent";
-import { StreakIcon } from "@/components/Streak";
-import { useUserStore } from "@/stores/userStore";
-import { HeaderSearchBar } from "@/components/HeaderSearchBar";
+import { Search, ListFilter, Check, CircleUser } from 'lucide-react-native';
+import { ReadingContentType } from '@/models/ReadingContent';
+import { StreakIcon } from '@/components/Streak';
+import { useUserStore } from '@/stores/userStore';
+import { HeaderSearchBar } from '@/components/HeaderSearchBar';
 
 function Explore() {
-  const streak = useUserStore((state) => state.streak);
+  const streak = useUserStore(state => state.streak);
   const activeWeekdays = [true, true, true, false, false, false, false];
 
   const [showStreak, setShowStreakModal] = useState(false);
-  const user = useUserStore((state) => state.user);
+  const user = useUserStore(state => state.user);
 
   const { data: stories, isLoading: isStoriesLoading } = useStories();
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<string>('');
   const [selectedGenres, setSelectedGenres] = useState<Set<string>>(new Set());
 
   const toggleGenre = (genre: string) => {
-    setSelectedGenres((prev) => {
+    setSelectedGenres(prev => {
       const newSet = new Set(prev);
       if (newSet.has(genre)) {
         newSet.delete(genre);
@@ -50,35 +51,35 @@ function Explore() {
   };
 
   const genres: string[] = [
-    "Adventure",
-    "Romance",
-    "Drama",
-    "Comedy",
-    "Fantasy",
-    "Horror",
-    "Mystery",
-    "Science Fiction",
-    "History",
-    "Coming of Age",
-    "Non-Fiction",
-    "Fiction",
-    "Passage",
-    "Animal",
-    "Poetry",
-    "Educational",
+    'Adventure',
+    'Romance',
+    'Drama',
+    'Comedy',
+    'Fantasy',
+    'Horror',
+    'Mystery',
+    'Science Fiction',
+    'History',
+    'Coming of Age',
+    'Non-Fiction',
+    'Fiction',
+    'Passage',
+    'Animal',
+    'Poetry',
+    'Educational',
   ];
 
   const filteredStories =
-    selectedGenres.size === 0 && query.trim() === ""
+    selectedGenres.size === 0 && query.trim() === ''
       ? null
-      : stories?.filter((story) => {
+      : stories?.filter(story => {
           const matchesGenre =
             selectedGenres.size === 0 ||
             (Array.isArray(story.genres) &&
-              story.genres.some((genre) => selectedGenres.has(genre)));
+              story.genres.some(genre => selectedGenres.has(genre)));
 
           const matchesQuery =
-            query.trim() === "" ||
+            query.trim() === '' ||
             story.title.toLowerCase().includes(query.trim().toLowerCase()) ||
             (story.author &&
               story.author.toLowerCase().includes(query.trim().toLowerCase()));
@@ -135,7 +136,7 @@ function Explore() {
       {!filteredStories && (
         <View className="flex-1 w-full px-8 py-2">
           <View className="grid grid-cols-2 gap-2">
-            {genres.map((genre) => {
+            {genres.map(genre => {
               return (
                 <Button
                   variant="dropshadow"
@@ -154,7 +155,7 @@ function Explore() {
 
       {filteredStories && filteredStories.length > 0 && (
         <View className="flex flex-col gap-2 px-8">
-          {filteredStories?.map((item) => (
+          {filteredStories?.map(item => (
             <ReadingContent
               key={item.id}
               type="QueryView"

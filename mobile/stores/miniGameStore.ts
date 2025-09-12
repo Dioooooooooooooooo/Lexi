@@ -1,11 +1,11 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Minigame, MinigameType } from "@/models/Minigame";
-import { MinigameLog } from "@/models/MinigameLog";
-import { useReadingSessionStore } from "./readingSessionStore";
-import { useUserStore } from "./userStore";
-import { Achievement } from "@/models/Achievement";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Minigame, MinigameType } from '@/models/Minigame';
+import { MinigameLog } from '@/models/MinigameLog';
+import { useReadingSessionStore } from './readingSessionStore';
+import { useUserStore } from './userStore';
+import { Achievement } from '@/models/Achievement';
 
 interface MiniGameStore {
   currentMinigame: Minigame | null;
@@ -50,37 +50,37 @@ export const useMiniGameStore = create<MiniGameStore>()(
 
         const startTime = new Date(get().gameStartTime);
         if (!startTime) {
-          console.warn("start time is null");
+          console.warn('start time is null');
           return null;
         }
         const duration: number = Math.floor(
-          (Date.now() - startTime.getTime()) / 1000
+          (Date.now() - startTime.getTime()) / 1000,
         );
-        logResult["duration"] = duration;
+        logResult['duration'] = duration;
 
         switch (currentMinigame.minigameType) {
           case MinigameType.WordsFromLetters:
-            logResult["correctAnswers"] = result.correctAnswers;
-            logResult["incorrectAnswers"] = result.correctAnswers;
-            logResult["score"] = logResult["correctAnswers"].length;
-            logResult["streak"] = result.streak;
+            logResult['correctAnswers'] = result.correctAnswers;
+            logResult['incorrectAnswers'] = result.correctAnswers;
+            logResult['score'] = logResult['correctAnswers'].length;
+            logResult['streak'] = result.streak;
             break;
-          case MinigameType.FillInTheBlanks:
-            logResult["answers"] = result.answers;
-            logResult["score"] = result.score;
-            break;
+          // case MinigameType.FillInTheBlanks:
+          //   logResult["answers"] = result.answers;
+          //   logResult["score"] = result.score;
+          //   break;
           case MinigameType.SentenceRearrangement:
-            logResult["answers"] = result.answers;
-            logResult["score"] = result.score;
+            logResult['answers'] = result.answers;
+            logResult['score'] = result.score;
             break;
-          case MinigameType.WordHunt:
-            logResult["score"] = result.score;
-            logResult["streak"] = result.streak;
-            logResult["correctAttempts"] = result.correctAttempts;
-            logResult["incorrectAttempts"] = result.incorrectAttempts;
-            break;
-          case MinigameType.TwoTruthsOneLie:
-            logResult["score"] = result.score;
+          // case MinigameType.WordHunt:
+          //   logResult['score'] = result.score;
+          //   logResult['streak'] = result.streak;
+          //   logResult['correctAttempts'] = result.correctAttempts;
+          //   logResult['incorrectAttempts'] = result.incorrectAttempts;
+          //   break;
+          case MinigameType.Choices:
+            logResult['score'] = result.score;
             break;
         }
 
@@ -88,13 +88,13 @@ export const useMiniGameStore = create<MiniGameStore>()(
           useReadingSessionStore.getState().currentSession;
 
         if (!currentReadingSession) {
-          console.warn("currentReadingSession is null");
+          console.warn('currentReadingSession is null');
           return null;
         }
 
         const user = useUserStore.getState().user;
         if (!user?.pupil?.id) {
-          console.warn("pupil is null");
+          console.warn('pupil is null');
           return null;
         }
 
@@ -109,7 +109,7 @@ export const useMiniGameStore = create<MiniGameStore>()(
       },
 
       incrementMinigamesIndex: () =>
-        set((state) => ({
+        set(state => ({
           minigamesIndex: state.minigamesIndex + 1,
         })),
       achievements: [],
@@ -117,25 +117,25 @@ export const useMiniGameStore = create<MiniGameStore>()(
         set({ achievements: achievements }),
     }),
     {
-      name: "game-store",
+      name: 'game-store',
       storage: {
-        getItem: async (name) => {
+        getItem: async name => {
           const value = await AsyncStorage.getItem(name);
           return value ? JSON.parse(value) : null;
         },
         setItem: async (name, value) => {
           await AsyncStorage.setItem(name, JSON.stringify(value));
         },
-        removeItem: async (name) => {
+        removeItem: async name => {
           await AsyncStorage.removeItem(name);
         },
       },
-    }
-  )
+    },
+  ),
 );
 
 export type Choice = { choice: string; answer: boolean };
-interface TwoTruthsOneLieGameState {
+interface ChoicesGameState {
   choices: Choice[];
   score: number;
 
@@ -144,9 +144,9 @@ interface TwoTruthsOneLieGameState {
   resetGameState: () => void;
 }
 
-export const useTwoTruthsOneLieGameStore = create<TwoTruthsOneLieGameState>()(
+export const useChoicesGameStore = create<ChoicesGameState>()(
   persist(
-    (set) => ({
+    set => ({
       choices: [],
       score: 0,
 
@@ -155,9 +155,9 @@ export const useTwoTruthsOneLieGameStore = create<TwoTruthsOneLieGameState>()(
       resetGameState: () => set(() => ({ score: 0 })),
     }),
     {
-      name: "2-truths-1-lie-store",
+      name: '2-truths-1-lie-store',
       storage: {
-        getItem: async (name) => {
+        getItem: async name => {
           const value = await AsyncStorage.getItem(name);
           // Parse string to object if exists
           return value ? JSON.parse(value) : null;
@@ -166,12 +166,12 @@ export const useTwoTruthsOneLieGameStore = create<TwoTruthsOneLieGameState>()(
           // Convert object to string
           await AsyncStorage.setItem(name, JSON.stringify(value));
         },
-        removeItem: async (name) => {
+        removeItem: async name => {
           await AsyncStorage.removeItem(name);
         },
       },
-    }
-  )
+    },
+  ),
 );
 
 interface WordHuntGameState {
@@ -199,7 +199,7 @@ interface WordHuntGameState {
 
 export const useWordHuntMinigameStore = create<WordHuntGameState>()(
   persist(
-    (set) => ({
+    set => ({
       correctAnswers: [],
       wrongAnswers: [],
       allWords: [],
@@ -211,18 +211,18 @@ export const useWordHuntMinigameStore = create<WordHuntGameState>()(
 
       setShuffled: (allWords: string[]) => {
         const shuffled = allWords
-          .map((value) => ({ value, sort: Math.random() }))
+          .map(value => ({ value, sort: Math.random() }))
           .sort((a, b) => a.sort - b.sort)
           .map(({ value }) => value);
         set({ shuffledWords: shuffled });
       },
 
       addCorrectAttempt: (word: string) =>
-        set((state) => ({
+        set(state => ({
           correctAttempts: [...state.correctAttempts, word],
         })),
       addIncorrectAttempt: (word: string) =>
-        set((state) => ({
+        set(state => ({
           incorrectAttempts: [...state.incorrectAttempts, word],
         })),
       setCorrectAnswers: (correctAnswers: string[]) =>
@@ -232,7 +232,7 @@ export const useWordHuntMinigameStore = create<WordHuntGameState>()(
       setAllWords: (allWords: string[]) => set({ allWords: allWords }),
 
       decrementLives: () =>
-        set((state) => ({
+        set(state => ({
           lives: state.lives - 1,
         })),
 
@@ -246,12 +246,12 @@ export const useWordHuntMinigameStore = create<WordHuntGameState>()(
           allWords: [],
           wrongAnswers: [],
         })),
-      incrementStreak: () => set((state) => ({ streak: state.streak + 1 })),
+      incrementStreak: () => set(state => ({ streak: state.streak + 1 })),
     }),
     {
-      name: "words-hunt-store",
+      name: 'words-hunt-store',
       storage: {
-        getItem: async (name) => {
+        getItem: async name => {
           const value = await AsyncStorage.getItem(name);
           // Parse string to object if exists
           return value ? JSON.parse(value) : null;
@@ -260,12 +260,12 @@ export const useWordHuntMinigameStore = create<WordHuntGameState>()(
           // Convert object to string
           await AsyncStorage.setItem(name, JSON.stringify(value));
         },
-        removeItem: async (name) => {
+        removeItem: async name => {
           await AsyncStorage.removeItem(name);
         },
       },
-    }
-  )
+    },
+  ),
 );
 
 interface WordsFromLettersGameState {
@@ -303,9 +303,9 @@ export const useWordsFromLettersMiniGameStore =
   create<WordsFromLettersGameState>()(
     persist(
       (set, get) => ({
-        letters: Array(5).fill(""),
+        letters: Array(5).fill(''),
         words: [],
-        guess: Array(5).fill(""),
+        guess: Array(5).fill(''),
         usedIndices: Array(5).fill(-1),
         correctAnswers: [],
         incorrectAnswers: [],
@@ -313,7 +313,7 @@ export const useWordsFromLettersMiniGameStore =
         lives: 3,
 
         shuffleLetters: () =>
-          set((state) => {
+          set(state => {
             const letterStatus = state.letters.map((letter, index) => ({
               letter,
               originalIndex: index,
@@ -326,13 +326,13 @@ export const useWordsFromLettersMiniGameStore =
               [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
 
-            const newLetters = shuffled.map((item) => item.letter);
+            const newLetters = shuffled.map(item => item.letter);
 
             const newUsedIndices = Array(5).fill(-1);
             state.usedIndices.forEach((letterIndex, guessIndex) => {
               if (letterIndex !== -1) {
                 const newPosition = shuffled.findIndex(
-                  (item) => item.originalIndex === letterIndex
+                  item => item.originalIndex === letterIndex,
                 );
                 if (newPosition !== -1) {
                   newUsedIndices[guessIndex] = newPosition;
@@ -401,24 +401,24 @@ export const useWordsFromLettersMiniGameStore =
           }),
 
         decrementLives: () =>
-          set((state) => ({ lives: Math.max(state.lives - 1, 0) })),
+          set(state => ({ lives: Math.max(state.lives - 1, 0) })),
       }),
       {
-        name: "words-from-letters-store",
+        name: 'words-from-letters-store',
         storage: {
-          getItem: async (name) => {
+          getItem: async name => {
             const value = await AsyncStorage.getItem(name);
             return value ? JSON.parse(value) : null;
           },
           setItem: async (name, value) => {
             await AsyncStorage.setItem(name, JSON.stringify(value));
           },
-          removeItem: async (name) => {
+          removeItem: async name => {
             await AsyncStorage.removeItem(name);
           },
         },
-      }
-    )
+      },
+    ),
   );
 
 interface SentenceRearrangementGameState {
@@ -443,7 +443,7 @@ interface SentenceRearrangementGameState {
 export const useSentenceRearrangementMiniGameStore =
   create<SentenceRearrangementGameState>()(
     persist(
-      (set) => ({
+      set => ({
         correctAnswer: [],
         parts: [],
         answers: [],
@@ -455,22 +455,22 @@ export const useSentenceRearrangementMiniGameStore =
         resetCurrentAnswer: () => set({ currentAnswer: [] }),
 
         addAnswer: (answer: string[]) =>
-          set((state) => ({
+          set(state => ({
             answers: [...state.answers, [...answer]],
           })),
 
         addPartToCurrentAnswer: (part: string) =>
-          set((state) => ({ currentAnswer: [...state.currentAnswer, part] })),
+          set(state => ({ currentAnswer: [...state.currentAnswer, part] })),
 
         removePartFromCurrentAnswer: (index: number) =>
-          set((state) => {
+          set(state => {
             const updated = [...state.currentAnswer];
             const newParts = [...state.parts, updated[index]];
             updated.splice(index, 1);
             return { currentAnswer: updated, parts: newParts };
           }),
 
-        decrementLives: () => set((state) => ({ lives: state.lives - 1 })),
+        decrementLives: () => set(state => ({ lives: state.lives - 1 })),
 
         resetGameState: () =>
           set(() => {
@@ -484,21 +484,21 @@ export const useSentenceRearrangementMiniGameStore =
           }),
       }),
       {
-        name: "sentence-arrangement-store",
+        name: 'sentence-arrangement-store',
         storage: {
-          getItem: async (name) => {
+          getItem: async name => {
             const value = await AsyncStorage.getItem(name);
             return value ? JSON.parse(value) : null;
           },
           setItem: async (name, value) => {
             await AsyncStorage.setItem(name, JSON.stringify(value));
           },
-          removeItem: async (name) => {
+          removeItem: async name => {
             await AsyncStorage.removeItem(name);
           },
         },
-      }
-    )
+      },
+    ),
   );
 
 interface FillInTheBlankGameState {
@@ -519,8 +519,8 @@ interface FillInTheBlankGameState {
 
 export const useFillInTheBlankMiniGameStore = create<FillInTheBlankGameState>()(
   persist(
-    (set) => ({
-      phrases: "",
+    set => ({
+      phrases: '',
       correctAnswer: null,
       choices: [],
       answers: [],
@@ -531,12 +531,12 @@ export const useFillInTheBlankMiniGameStore = create<FillInTheBlankGameState>()(
 
       setChoices: (choices: string[]) => set({ choices: choices }),
       addAnswer: (answer: string) =>
-        set((state) => ({
+        set(state => ({
           answers: [...state.answers, answer],
         })),
       resetAnswers: () => set({ answers: [] }),
 
-      decrementLives: () => set((state) => ({ lives: state.lives - 1 })),
+      decrementLives: () => set(state => ({ lives: state.lives - 1 })),
 
       resetGameState: () =>
         set(() => {
@@ -548,19 +548,19 @@ export const useFillInTheBlankMiniGameStore = create<FillInTheBlankGameState>()(
         }),
     }),
     {
-      name: "fill-in-the-blank-store",
+      name: 'fill-in-the-blank-store',
       storage: {
-        getItem: async (name) => {
+        getItem: async name => {
           const value = await AsyncStorage.getItem(name);
           return value ? JSON.parse(value) : null;
         },
         setItem: async (name, value) => {
           await AsyncStorage.setItem(name, JSON.stringify(value));
         },
-        removeItem: async (name) => {
+        removeItem: async name => {
           await AsyncStorage.removeItem(name);
         },
       },
-    }
-  )
+    },
+  ),
 );

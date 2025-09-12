@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Text } from "@/components/ui/text";
-import { ScrollView, View, Image } from "react-native";
-import { AchievementDisplay as Achievement } from "@/components/AchievementDisplay";
-import { Button } from "@/components/ui/button";
-import { router, useLocalSearchParams } from "expo-router";
-import { Achievement as AchievementType } from "@/models/Achievement";
+import React, { useEffect, useState } from 'react';
+import { Text } from '@/components/ui/text';
+import { ScrollView, View, Image } from 'react-native';
+import { AchievementDisplay as Achievement } from '@/components/AchievementDisplay';
+import { Button } from '@/components/ui/button';
+import { router, useLocalSearchParams } from 'expo-router';
+import { Achievement as AchievementType } from '@/models/Achievement';
 
 export default function achievements() {
   const [achievements, setAchievements] = useState<AchievementType[]>();
@@ -15,7 +15,7 @@ export default function achievements() {
 
     if (parsed) {
       const achievementsList = parsed.achievements.map(
-        (item: any) => item.achievement
+        (item: any) => item.achievement,
       );
       setAchievements(achievementsList);
     }
@@ -27,13 +27,13 @@ export default function achievements() {
         <View className="justify-center">
           <View className="absolute w-64 h-32 rounded-full bg-white" />
           <Image
-            source={require("@/assets/images/Juicy/Girl-and-boy-searching.png")}
+            source={require('@/assets/images/Juicy/Girl-and-boy-searching.png')}
             alt="Girl and boy searching"
           />
         </View>
 
         <Text
-          className="font-poppins text-2xl font-bold text-center"
+          className="font-poppins text-2xl font-poppins-bold text-center"
           numberOfLines={1}
           adjustsFontSizeToFit
         >
@@ -58,7 +58,7 @@ export default function achievements() {
           className="w-full bg-background border-accentBlue border-b-4 rounded-xl"
           onPress={() => {
             router.replace({
-              pathname: "/minigames/results/levelup",
+              pathname: '/minigames/results/levelup',
               params: {
                 data: data,
               },

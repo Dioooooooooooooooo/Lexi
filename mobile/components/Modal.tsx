@@ -1,6 +1,7 @@
-import { MaterialIcons } from "@expo/vector-icons";
-import React from "react";
-import { Modal, Text, TouchableOpacity, View } from "react-native";
+import { MaterialIcons } from '@expo/vector-icons';
+import React from 'react';
+import { Modal, TouchableOpacity, View } from 'react-native';
+import { Text } from '@/components/ui/text';
 
 interface ConfirmModalProps {
   visible: boolean;
@@ -16,20 +17,20 @@ interface ConfirmModalProps {
 
 const ConfirmModal: React.FC<ConfirmModalProps> = ({
   visible,
-  title = "Confirm Action",
+  title = 'Confirm Action',
   message,
-  confirmText = "Confirm",
-  cancelText = "Cancel",
+  confirmText = 'Confirm',
+  cancelText = 'Cancel',
   onConfirm,
   onCancel,
   icon,
   highlightedText,
 }) => {
   // Debug logging
-  console.log("🎯 ConfirmModal render - visible:", visible, "title:", title);
+  console.log('🎯 ConfirmModal render - visible:', visible, 'title:', title);
 
   React.useEffect(() => {
-    console.log("🎯 ConfirmModal visible prop changed:", visible);
+    console.log('🎯 ConfirmModal visible prop changed:', visible);
   }, [visible]);
   const renderMessage = () => {
     if (!highlightedText) {
@@ -37,8 +38,8 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         <Text
           style={{
             fontSize: 16,
-            color: "#374151",
-            textAlign: "center",
+            color: '#374151',
+            textAlign: 'center',
             lineHeight: 24,
           }}
         >
@@ -48,16 +49,16 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     }
 
     const textsToHighlight = Array.isArray(highlightedText)
-      ? highlightedText.filter((text) => text && text.trim() !== "")
-      : [highlightedText].filter((text) => text && text.trim() !== "");
+      ? highlightedText.filter(text => text && text.trim() !== '')
+      : [highlightedText].filter(text => text && text.trim() !== '');
 
     if (textsToHighlight.length === 0) {
       return (
         <Text
           style={{
             fontSize: 16,
-            color: "#374151",
-            textAlign: "center",
+            color: '#374151',
+            textAlign: 'center',
             lineHeight: 24,
           }}
         >
@@ -66,10 +67,10 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
       );
     }
 
-    const escapedTexts = textsToHighlight.map((text) =>
-      text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+    const escapedTexts = textsToHighlight.map(text =>
+      text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
     );
-    const pattern = new RegExp(`(${escapedTexts.join("|")})`, "gi");
+    const pattern = new RegExp(`(${escapedTexts.join('|')})`, 'gi');
 
     const parts = message.split(pattern);
 
@@ -77,22 +78,22 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
       <Text
         style={{
           fontSize: 16,
-          color: "#374151",
-          textAlign: "center",
+          color: '#374151',
+          textAlign: 'center',
           lineHeight: 24,
         }}
       >
         {parts.map((part, index) => {
           const shouldHighlight = textsToHighlight.some(
-            (text) => text.toLowerCase() === part.toLowerCase()
+            text => text.toLowerCase() === part.toLowerCase(),
           );
 
           return shouldHighlight ? (
             <Text
               key={index}
               style={{
-                color: "#2e1e39",
-                fontWeight: "600",
+                color: '#2e1e39',
+                fontWeight: '600',
               }}
             >
               {part}
@@ -115,26 +116,26 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     >
       <View
         style={{
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-          justifyContent: "center",
-          alignItems: "center",
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          justifyContent: 'center',
+          alignItems: 'center',
           paddingHorizontal: 20,
         }}
       >
         <View
           style={{
-            backgroundColor: "#ffffff",
+            backgroundColor: '#ffffff',
             borderRadius: 20,
             paddingVertical: 32,
             paddingHorizontal: 24,
-            width: "100%",
+            width: '100%',
             maxWidth: 400,
-            shadowColor: "#000",
+            shadowColor: '#000',
             shadowOffset: {
               width: 0,
               height: 10,
@@ -147,8 +148,8 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
           {/* Header with icon and title */}
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
+              flexDirection: 'row',
+              alignItems: 'center',
               marginBottom: 16,
             }}
           >
@@ -163,9 +164,9 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
             <Text
               style={{
                 fontSize: 18,
-                fontWeight: "600",
+                fontWeight: '600',
                 flex: 1,
-                color: "#2e1e39",
+                color: '#2e1e39',
               }}
             >
               {title}
@@ -177,7 +178,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
           {/* Buttons */}
           <View
             style={{
-              flexDirection: "row",
+              flexDirection: 'row',
               gap: 12,
             }}
           >
@@ -187,19 +188,19 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
                 paddingVertical: 16,
                 paddingHorizontal: 20,
                 borderRadius: 12,
-                alignItems: "center",
-                justifyContent: "center",
+                alignItems: 'center',
+                justifyContent: 'center',
                 minHeight: 52,
-                backgroundColor: "#2e1e39",
+                backgroundColor: '#2e1e39',
               }}
               onPress={onConfirm}
               activeOpacity={0.8}
             >
               <Text
                 style={{
-                  color: "#ffffff",
+                  color: '#ffffff',
                   fontSize: 16,
-                  fontWeight: "600",
+                  fontWeight: '600',
                 }}
               >
                 {confirmText}
@@ -212,21 +213,21 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
                 paddingVertical: 16,
                 paddingHorizontal: 20,
                 borderRadius: 12,
-                alignItems: "center",
-                justifyContent: "center",
+                alignItems: 'center',
+                justifyContent: 'center',
                 minHeight: 52,
-                backgroundColor: "transparent",
+                backgroundColor: 'transparent',
                 borderWidth: 2,
-                borderColor: "#D1D5DB",
+                borderColor: '#D1D5DB',
               }}
               onPress={onCancel}
               activeOpacity={0.8}
             >
               <Text
                 style={{
-                  color: "#6B7280",
+                  color: '#6B7280',
                   fontSize: 16,
-                  fontWeight: "500",
+                  fontWeight: '500',
                 }}
               >
                 {cancelText}

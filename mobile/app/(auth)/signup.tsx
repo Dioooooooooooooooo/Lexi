@@ -1,53 +1,54 @@
-import React, { useContext, useState, useEffect } from "react";
-import { router } from "expo-router";
-import { useGlobalStore } from "@/stores/globalStore";
-import { validateField } from "@/utils/utils";
-import { checkUserExist } from "@/services/UserService";
-import { useRegisterFormContext } from "./_layout";
-import { useAuthStore } from "@/stores/authStore";
+import React, { useContext, useState, useEffect } from 'react';
+import { router } from 'expo-router';
+import { useGlobalStore } from '@/stores/globalStore';
+import { validateField } from '@/utils/utils';
+import { checkUserExist } from '@/services/UserService';
+import { useRegisterFormContext } from './_layout';
+import { useAuthStore } from '@/stores/authStore';
 
 //Components
-import { TouchableOpacity, View, ScrollView, Text, Alert } from "react-native";
-import { Eye, EyeOff, Mail, KeyRound, UserRound } from "lucide-react-native";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
+import { TouchableOpacity, View, ScrollView, Alert } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { Eye, EyeOff, Mail, KeyRound, UserRound } from 'lucide-react-native';
+import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
 
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
-import BackHeader from "@/components/BackHeader";
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
+import BackHeader from '@/components/BackHeader';
 
 export default function Step1() {
   const { isLoading, setIsLoading } = useGlobalStore();
   const { registerForm, setRegisterForm } = useRegisterFormContext();
-  const providerAuth = useAuthStore((state) => state.providerAuth);
+  const providerAuth = useAuthStore(state => state.providerAuth);
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, any>>({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    firstName: "",
-    lastName: "",
-    role: "",
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    firstName: '',
+    lastName: '',
+    role: '',
   });
 
   const validateForm = () => {
     const newErrors: Record<string, any> = {
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      firstName: "",
-      lastName: "",
-      role: "",
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      firstName: '',
+      lastName: '',
+      role: '',
     };
 
     let isValid = true;
 
     // Process all fields and collect errors
-    Object.keys(registerForm).forEach((field) => {
-      if (field === "firstName" || field === "lastName") return;
+    Object.keys(registerForm).forEach(field => {
+      if (field === 'firstName' || field === 'lastName') return;
       // Type assertion to handle index access
       const fieldKey = field as keyof typeof registerForm;
       const error = validateField(field, registerForm[fieldKey], registerForm);
@@ -69,20 +70,20 @@ export default function Step1() {
 
     try {
       // Check email
-      console.log(registerForm.email + " " + registerForm.username);
+      console.log(registerForm.email + ' ' + registerForm.username);
       console.log(registerForm.username);
-      const emailResponse = await checkUserExist("email", registerForm.email);
-      console.log("Email check complete:", emailResponse);
+      const emailResponse = await checkUserExist('email', registerForm.email);
+      console.log('Email check complete:', emailResponse);
 
       if (emailResponse?.statusCode === 409) {
-        newErrors.email = "Email is already in use";
+        newErrors.email = 'Email is already in use';
         isValid = false;
       }
     } catch (error) {
-      console.error("Email check failed:", error);
+      console.error('Email check failed:', error);
       Alert.alert(
-        "Connection Error",
-        "Unable to verify email. Please check your connection and try again."
+        'Connection Error',
+        'Unable to verify email. Please check your connection and try again.',
       );
       return false;
     }
@@ -90,20 +91,20 @@ export default function Step1() {
     try {
       // Check username
       const usernameResponse = await checkUserExist(
-        "username",
-        registerForm.username
+        'username',
+        registerForm.username,
       );
-      console.log("Username check complete:", usernameResponse);
+      console.log('Username check complete:', usernameResponse);
 
       if (usernameResponse?.statusCode === 409) {
-        newErrors.username = "Username is already taken";
+        newErrors.username = 'Username is already taken';
         isValid = false;
       }
     } catch (error) {
-      console.error("Username check failed:", error);
+      console.error('Username check failed:', error);
       Alert.alert(
-        "Connection Error",
-        "Unable to verify username. Please check your connection and try again."
+        'Connection Error',
+        'Unable to verify username. Please check your connection and try again.',
       );
       return false;
     }
@@ -117,28 +118,28 @@ export default function Step1() {
 
     try {
       setIsLoading(true);
-      console.log("Starting registration step 1 validation");
+      console.log('Starting registration step 1 validation');
 
       // Validate form fields
       if (!validateForm()) {
-        console.log("Form validation failed");
+        console.log('Form validation failed');
         return;
       }
 
-      console.log("Form validation passed, checking if user exists");
+      console.log('Form validation passed, checking if user exists');
 
       if (!(await checkExistingUser())) {
-        console.log("User already exists");
+        console.log('User already exists');
         return;
       }
 
-      console.log("All checks passed, proceeding to step 2");
-      router.push("/signup2");
+      console.log('All checks passed, proceeding to step 2');
+      router.push('/signup2');
     } catch (error) {
-      console.error("Unexpected error in registration process:", error);
+      console.error('Unexpected error in registration process:', error);
       Alert.alert(
-        "Registration Error",
-        "Something went wrong. Please try again later."
+        'Registration Error',
+        'Something went wrong. Please try again later.',
       );
     } finally {
       setIsLoading(false);
@@ -151,7 +152,7 @@ export default function Step1() {
         <BackHeader />
 
         <View className="flex flex-col gap-4">
-          <Text className="font-bold text-2xl">Let's Get Started!</Text>
+          <Text className="font-poppins-bold text-2xl">Let's Get Started!</Text>
 
           <View className="flex gap-2">
             <View className="relative">
@@ -159,7 +160,7 @@ export default function Step1() {
                 size={20}
                 color="#888"
                 style={{
-                  position: "absolute",
+                  position: 'absolute',
                   left: 10,
                   top: 12,
                   zIndex: 1,
@@ -188,7 +189,7 @@ export default function Step1() {
                 size={20}
                 color="#888"
                 style={{
-                  position: "absolute",
+                  position: 'absolute',
                   left: 10,
                   top: 12,
                   zIndex: 1,
@@ -217,7 +218,7 @@ export default function Step1() {
                   size={20}
                   color="#888"
                   style={{
-                    position: "absolute",
+                    position: 'absolute',
                     left: 10,
                     top: 12,
                     zIndex: 1,
@@ -238,7 +239,7 @@ export default function Step1() {
               </View>
 
               <TouchableOpacity
-                onPress={() => setShowPassword((prev) => !prev)}
+                onPress={() => setShowPassword(prev => !prev)}
                 className="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 p-0 text-muted-foreground"
               >
                 {showPassword ? (
@@ -260,7 +261,7 @@ export default function Step1() {
                   size={20}
                   color="#888"
                   style={{
-                    position: "absolute",
+                    position: 'absolute',
                     left: 10,
                     top: 12,
                     zIndex: 1,
@@ -281,7 +282,7 @@ export default function Step1() {
               </View>
 
               <TouchableOpacity
-                onPress={() => setShowPassword((prev) => !prev)}
+                onPress={() => setShowPassword(prev => !prev)}
                 className="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 p-0 text-muted-foreground"
               >
                 {showPassword ? (
@@ -306,7 +307,9 @@ export default function Step1() {
               handleStep();
             }}
           >
-            <Text className="text-black text-base font-bold">Sign Up</Text>
+            <Text className="text-black text-base font-poppins-bold">
+              Sign Up
+            </Text>
           </TouchableOpacity>
 
           <View className="flex gap-3">

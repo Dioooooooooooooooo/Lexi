@@ -1,9 +1,10 @@
-import { useSentenceRearrangementMiniGameStore } from "@/stores/miniGameStore";
-import { arrange, bubble } from "@/types/bubble";
-import { MessageTypeEnum, personEnum } from "@/types/enum";
-import React, { useEffect, useState } from "react";
-import { View, Image, Text, TouchableOpacity } from "react-native";
-import { makeBubble } from "@/utils/makeBubble";
+import { useSentenceRearrangementMiniGameStore } from '@/stores/miniGameStore';
+import { arrange, bubble } from '@/types/bubble';
+import { MessageTypeEnum, personEnum } from '@/types/enum';
+import React, { useEffect, useState } from 'react';
+import { View, Image, TouchableOpacity } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { makeBubble } from '@/utils/makeBubble';
 
 const SentenceArrangementBtn = ({
   text,
@@ -38,6 +39,7 @@ const SentenceArrangementBubble = ({
 }) => {
   const [isAudio, setIsAudio] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [isAnswered, setIsAnswered] = useState(false);
   const {
     currentAnswer,
     addPartToCurrentAnswer,
@@ -53,29 +55,32 @@ const SentenceArrangementBubble = ({
     setParts(partsblocks);
   }, []);
 
+  console.log(correctAnswer, 'hwuhaaa');
+  console.log('parts', parts);
+  console.log('current', currentAnswer);
+
   useEffect(() => {
-    if (currentAnswer.length === partsblocks.length) {
+    if (currentAnswer.length === partsblocks.length && isAnswered == true) {
       let bubble;
-      if (correctAnswer === currentAnswer.join("")) {
-        bubble = makeBubble("That's correct!", "", personEnum.Game);
+      if (correctAnswer === currentAnswer.join('')) {
+        bubble = makeBubble("That's correct!", '', personEnum.Game);
       } else {
-        bubble = makeBubble("Aww, try again next time!", "", personEnum.Game);
+        bubble = makeBubble('Aww, try again next time!', '', personEnum.Game);
       }
 
       setTimeout(() => onPress(bubble, MessageTypeEnum.STORY), 500);
       setIsFinished(true);
       return;
     }
+    setIsAnswered(true);
   }, [currentAnswer]);
 
-  console.log("parts", parts);
-  console.log("current", currentAnswer);
   return (
     <View>
       {/* answers bubble */}
       <View className="flex-row gap-2 items-end">
         <Image
-          source={require("@/assets/images/storyIcons/narrator.png")}
+          source={require('@/assets/images/storyIcons/narrator.png')}
           className="rounded-full"
           style={{ width: 32, height: 32 }}
           resizeMode="contain"
@@ -95,23 +100,26 @@ const SentenceArrangementBubble = ({
         </View>
       </View>
       {/* choices bubble */}
-      <View className="flex-row gap-2 pt-1 items-end">
-        <View className="flex-1 border-2 border-accentBlue border-b-4 rounded-md p-3 bg-vibrantBlue">
-          <View className="flex-wrap flex-row gap-2">
-            {parts.map((part, index) => (
-              <SentenceArrangementBtn
-                key={index}
-                text={part}
-                onPress={() => {
-                  addPartToCurrentAnswer(part);
-                  setParts(parts.filter((_, i) => i !== index));
-                }}
-                disabled={isFinished}
-              />
-            ))}
+      {!isAnswered ? null : (
+        <View className="flex-row gap-2 pt-1 items-end">
+          <View className="flex-1 border-2 border-accentBlue border-b-4 rounded-md p-3 bg-vibrantBlue">
+            <View className="flex-wrap flex-row gap-2">
+              <Text>hue</Text>
+              {parts.map((part, index) => (
+                <SentenceArrangementBtn
+                  key={index}
+                  text={part}
+                  onPress={() => {
+                    addPartToCurrentAnswer(part);
+                    setParts(parts.filter((_, i) => i !== index));
+                  }}
+                  disabled={isFinished}
+                />
+              ))}
+            </View>
           </View>
         </View>
-      </View>
+      )}
     </View>
   );
 };

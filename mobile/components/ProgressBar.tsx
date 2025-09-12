@@ -1,49 +1,41 @@
-import React, { useState } from "react";
-import {
-  ScrollView,
-  View,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableOpacity,
-  ActivityIndicator,
-  Keyboard,
-  Text,
-} from "react-native";
-import { Progress } from "./ui/progress";
-import { Crown } from "lucide-react-native";
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { Progress } from './ui/progress';
+import { Crown } from 'lucide-react-native';
 
 function TierName(level: number) {
-  var tierName = "test";
+  var tierName = 'test';
   switch (true) {
     case level >= 12000:
-      tierName = "Literary Champion";
+      tierName = 'Literary Champion';
       break;
     case level >= 8000:
-      tierName = "Scholar";
+      tierName = 'Scholar';
       break;
     case level >= 5500:
-      tierName = "Master Reader";
+      tierName = 'Master Reader';
       break;
     case level >= 3500:
-      tierName = "Expert Reader";
+      tierName = 'Expert Reader';
       break;
     case level >= 2000:
-      tierName = "Advanced Reader";
+      tierName = 'Advanced Reader';
       break;
     case level >= 1000:
-      tierName = "Skilled Reader";
+      tierName = 'Skilled Reader';
       break;
     case level >= 500:
-      tierName = "Consistent Reader";
+      tierName = 'Consistent Reader';
       break;
     case level >= 250:
-      tierName = "Developing Reader";
+      tierName = 'Developing Reader';
       break;
     case level >= 100:
-      tierName = "Curious Reader";
+      tierName = 'Curious Reader';
       break;
     default:
-      tierName = "Novice Reader";
+      tierName = 'Novice Reader';
       break;
   }
 
@@ -71,8 +63,8 @@ export function ProgressBar({ level }: { level: number }) {
         </View>
       </View>
       <View className="flex flex-row justify-between">
-        <Text>{XPleft}xp left</Text>
-        <Text className="font-bold">{nextTierName}</Text>
+        <Text className="">{XPleft}xp left</Text>
+        <Text className="font-poppins-bold">{nextTierName}</Text>
       </View>
     </View>
   );
@@ -83,7 +75,7 @@ export function CurrentTierName({ level }: { level: number }) {
 
   return (
     <View className="px-6 py-1 bg-lightBlue rounded-md">
-      <Text className="font-bold">{tierName}</Text>
+      <Text className="font-poppins-bold">{tierName}</Text>
     </View>
   );
 }

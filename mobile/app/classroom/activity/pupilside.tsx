@@ -1,22 +1,21 @@
-import ClassroomHeader from "@/components/Classroom/ClassroomHeader";
-import { useClassroomStore } from "@/stores/classroomStore";
-import React, { useCallback, useEffect } from "react";
-import { View, Text, Image, ScrollView } from "react-native";
-import { useReadingAssignmentStore } from "@/stores/readingAssignmentStore";
-import { useGetReadingMaterialById } from "@/services/ReadingMaterialService";
-import ReadingContent from "@/components/ReadingContent";
-import { useGetReadingAssignmentLogs } from "@/services/ClassroomService";
-import InteractionBlocker from "@/components/ui/interactionblocker";
-import { useFocusEffect } from "expo-router";
+import ClassroomHeader from '@/components/Classroom/ClassroomHeader';
+import { useClassroomStore } from '@/stores/classroomStore';
+import React, { useCallback, useEffect } from 'react';
+import { View, Image, ScrollView } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { useReadingAssignmentStore } from '@/stores/readingAssignmentStore';
+import { useGetReadingMaterialById } from '@/services/ReadingMaterialService';
+import ReadingContent from '@/components/ReadingContent';
+import { useGetReadingAssignmentLogs } from '@/services/ClassroomService';
+import InteractionBlocker from '@/components/ui/interactionblocker';
+import { useFocusEffect } from 'expo-router';
 
 type ResultData = { score: number; duration: number };
 export default function activity() {
-  const selectedClassroom = useClassroomStore(
-    (state) => state.selectedClassroom
-  );
+  const selectedClassroom = useClassroomStore(state => state.selectedClassroom);
 
   const selectedReadingAssignment = useReadingAssignmentStore(
-    (state) => state.selectedReadingAssignment
+    state => state.selectedReadingAssignment,
   );
 
   const {
@@ -24,7 +23,7 @@ export default function activity() {
     isLoading: isBookLoading,
     error: fetchingBookError,
   } = useGetReadingMaterialById(
-    selectedReadingAssignment?.readingMaterialId ?? ""
+    selectedReadingAssignment?.readingMaterialId ?? '',
   );
 
   const {
@@ -32,12 +31,12 @@ export default function activity() {
     isLoading: isLogsLoading,
     error: fetchingLogsError,
     refetch: refetchAssignmentLogs,
-  } = useGetReadingAssignmentLogs(selectedReadingAssignment?.id ?? "");
+  } = useGetReadingAssignmentLogs(selectedReadingAssignment?.id ?? '');
 
   useFocusEffect(
     useCallback(() => {
       refetchAssignmentLogs();
-    }, [selectedReadingAssignment?.id])
+    }, [selectedReadingAssignment?.id]),
   );
 
   return (
@@ -45,18 +44,18 @@ export default function activity() {
       <View>
         <ClassroomHeader
           name={`${selectedClassroom?.name}`}
-          joinCode={`${selectedClassroom?.joinCode}`}
+          joinCode={`${selectedClassroom?.join_code}`}
         />
         <View className="p-8">
           <View className="flex flex-row gap-5">
             <Image
-              source={require("@/assets/images/land-of-stories.png")}
+              source={require('@/assets/images/land-of-stories.png')}
               className="rounded-lg"
               style={{ width: 100, height: 140 }}
               resizeMode="contain"
             />
             <View className="flex flex-1 flex-col justify-center">
-              <Text className="font-bold text-lg">
+              <Text className="font-poppins-bold text-lg">
                 {selectedReadingAssignment?.title}
               </Text>
 
@@ -67,12 +66,12 @@ export default function activity() {
               </Text>
 
               <Text>
-                Created at: {selectedReadingAssignment?.createdAt.split("T")[0]}
+                Created at: {selectedReadingAssignment?.createdAt.split('T')[0]}
               </Text>
-              <Text className="font-bold text-lg text-red-500">
+              <Text className="font-poppins-bold text-lg text-red-500">
                 {selectedReadingAssignment?.isActive == true
-                  ? "ACTIVE"
-                  : "NOT ACTIVE"}
+                  ? 'ACTIVE'
+                  : 'NOT ACTIVE'}
               </Text>
             </View>
           </View>
@@ -101,22 +100,22 @@ export default function activity() {
               <Text>Reading material not found.</Text>
             )}
             <View className="mt-5">
-              <Text className="font-bold">Result:</Text>
+              <Text className="font-poppins-bold">Result:</Text>
               {!isLogsLoading &&
                 assignmentlogs &&
                 (assignmentlogs.length == 0 ? (
                   <Text>You have not attempted this activity.</Text>
                 ) : (
-                  assignmentlogs.map((item) => {
+                  assignmentlogs.map(item => {
                     let parsedResult: ResultData = { score: 0, duration: 0 };
                     try {
                       let rawResult = item.result;
                       let objResult;
 
-                      if (typeof rawResult === "string") {
+                      if (typeof rawResult === 'string') {
                         rawResult = JSON.parse(rawResult);
 
-                        if (typeof rawResult === "string") {
+                        if (typeof rawResult === 'string') {
                           objResult = JSON.parse(rawResult);
                         }
                       }
@@ -126,7 +125,7 @@ export default function activity() {
                         duration: objResult.duration,
                       };
                     } catch (err) {
-                      console.error("Invalid JSON in result:", err);
+                      console.error('Invalid JSON in result:', err);
                     }
 
                     return (
@@ -140,7 +139,7 @@ export default function activity() {
                         <Text>
                           Duration: {formatDuration(parsedResult.duration)}
                         </Text>
-                        <Text>{item.completedAt.split("T")[0]}</Text>
+                        <Text>{item.completedAt.split('T')[0]}</Text>
                       </View>
                     );
                   })

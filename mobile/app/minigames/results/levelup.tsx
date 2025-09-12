@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import BackHeader from "@/components/BackHeader";
-import { Button } from "@/components/ui/button";
-import { router, useLocalSearchParams } from "expo-router";
-import { ArrowRightIcon } from "lucide-react-native";
-import { ScrollView, View, Image, Text } from "react-native";
+import React, { useEffect, useState } from 'react';
+import BackHeader from '@/components/BackHeader';
+import { Button } from '@/components/ui/button';
+import { router, useLocalSearchParams } from 'expo-router';
+import { ArrowRightIcon } from 'lucide-react-native';
+import { ScrollView, View, Image, Text } from 'react-native';
 import {
   useSharedValue,
   withTiming,
   useAnimatedReaction,
   runOnJS,
-} from "react-native-reanimated";
-import { useUserStore } from "@/stores/userStore";
-import { useReadingAssignmentStore } from "@/stores/readingAssignmentStore";
+} from 'react-native-reanimated';
+import { useUserStore } from '@/stores/userStore';
+import { useReadingAssignmentStore } from '@/stores/readingAssignmentStore';
 // import { StackActions, useNavigation } from "@react-navigation/native";
-import { useClassroomStore } from "@/stores/classroomStore";
+import { useClassroomStore } from '@/stores/classroomStore';
 
 export default function levelup() {
   // const nav = useNavigation();
-  const setUser = useUserStore((state) => state.setUser);
-  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore(state => state.setUser);
+  const user = useUserStore(state => state.user);
 
   const { data } = useLocalSearchParams();
   const [initialLevel, setInitialLevel] = useState<number>(0);
@@ -28,11 +28,9 @@ export default function levelup() {
   const [displayValue, setDisplayValue] = React.useState(0);
 
   const selectedReadingAssignment = useReadingAssignmentStore(
-    (state) => state.selectedReadingAssignment
+    state => state.selectedReadingAssignment,
   );
-  const selectedClassroom = useClassroomStore(
-    (state) => state.selectedClassroom
-  );
+  const selectedClassroom = useClassroomStore(state => state.selectedClassroom);
 
   useEffect(() => {
     try {
@@ -41,7 +39,7 @@ export default function levelup() {
       setTargetLevel(userLevel);
 
       const parsed = data ? JSON.parse(data as string) : null;
-      if (parsed && typeof parsed.level === "number") {
+      if (parsed && typeof parsed.level === 'number') {
         setTargetLevel(parsed.level);
 
         if (user) {
@@ -57,7 +55,7 @@ export default function levelup() {
         console.warn("Parsed data is invalid or missing 'level' field.");
       }
     } catch (error) {
-      console.error("Failed to parse data:", error);
+      console.error('Failed to parse data:', error);
     }
   }, [data]);
 
@@ -74,9 +72,9 @@ export default function levelup() {
 
   useAnimatedReaction(
     () => Math.round(progress.value),
-    (result) => {
+    result => {
       runOnJS(setDisplayValue)(result);
-    }
+    },
   );
 
   return (
@@ -87,20 +85,20 @@ export default function levelup() {
           <View className="justify-center m-4">
             <View className="absolute w-64 h-32 rounded-full bg-white" />
             <Image
-              source={require("@/assets/images/Juicy/Girl-working-at-home.png")}
+              source={require('@/assets/images/Juicy/Girl-working-at-home.png')}
               alt="Girl and boy searching"
             />
           </View>
           <View className="flex-row items-center space-x-2 m-4">
-            <Text className="text-[35px] font-bold text-black">
+            <Text className="text-[35px] font-poppins-bold text-black">
               {initialLevel}
             </Text>
             <ArrowRightIcon color="black" />
-            <Text className="text-[35px] font-bold text-black">
+            <Text className="text-[35px] font-poppins-bold text-black">
               {displayValue}
             </Text>
           </View>
-          <Text className="poppins text-[30px] font-bold">
+          <Text className="poppins text-[30px] font-poppins-bold">
             You've Ranked Up!
           </Text>
           <Text className="text-center">
@@ -116,7 +114,7 @@ export default function levelup() {
               router.dismiss();
             } else {
               router.push({
-                pathname: "/minigames/results/recommendation",
+                pathname: '/minigames/results/recommendation',
                 params: {
                   data: data,
                 },
@@ -124,7 +122,7 @@ export default function levelup() {
             }
           }}
         >
-          <Text>{selectedReadingAssignment != null ? "Finish" : "Next"}</Text>
+          <Text>{selectedReadingAssignment != null ? 'Finish' : 'Next'}</Text>
         </Button>
       </View>
     </View>

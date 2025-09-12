@@ -1,32 +1,31 @@
-import ClassroomHeader from "@/components/Classroom/ClassroomHeader";
-import { ReadingAssignmentOverview } from "@/models/ReadingMaterialAssignment";
-import { useClassroomStore } from "@/stores/classroomStore";
-import React, { useCallback, useEffect, useState } from "react";
-import { useUserStore } from "@/stores/userStore";
-import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
-import { useReadingAssignmentStore } from "@/stores/readingAssignmentStore";
-import { useStories } from "@/services/ReadingMaterialService";
-import { ReadingContentType } from "@/models/ReadingContent";
-import { Button } from "@/components/ui/button";
-import { router, useFocusEffect } from "expo-router";
-import { useReadingContentStore } from "@/stores/readingContentStore";
-import { StarsIcon, TimerIcon, Users2 } from "lucide-react-native";
-import { useGetCoverFromGDrive } from "@/hooks/useExtractDriveFileId";
+import ClassroomHeader from '@/components/Classroom/ClassroomHeader';
+import { ReadingAssignmentOverview } from '@/models/ReadingMaterialAssignment';
+import { useClassroomStore } from '@/stores/classroomStore';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useUserStore } from '@/stores/userStore';
+import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { useReadingAssignmentStore } from '@/stores/readingAssignmentStore';
+import { useStories } from '@/services/ReadingMaterialService';
+import { ReadingContentType } from '@/models/ReadingContent';
+import { Button } from '@/components/ui/button';
+import { router, useFocusEffect } from 'expo-router';
+import { useReadingContentStore } from '@/stores/readingContentStore';
+import { StarsIcon, TimerIcon, Users2 } from 'lucide-react-native';
+import { useGetCoverFromGDrive } from '@/hooks/utils/useExtractDriveField';
 
 export default function activity() {
-  const user = useUserStore((state) => state.user);
-  const selectedClassroom = useClassroomStore(
-    (state) => state.selectedClassroom
-  );
+  const user = useUserStore(state => state.user);
+  const selectedClassroom = useClassroomStore(state => state.selectedClassroom);
 
   const selectedReadingAssignment = useReadingAssignmentStore(
-    (state) => state.selectedReadingAssignment as ReadingAssignmentOverview
+    state => state.selectedReadingAssignment as ReadingAssignmentOverview,
   );
 
   const { setSelectedContent } = useReadingContentStore();
   const { data: contents, isLoading: isStoriesLoading } = useStories();
   const selectedContent: ReadingContentType | undefined = contents?.find(
-    (content) => content.id === selectedReadingAssignment?.readingMaterialId
+    content => content.id === selectedReadingAssignment?.readingMaterialId,
   );
   // const [imageUrl, setImageUrl] = useState("");
   var imageUrl = useGetCoverFromGDrive(selectedContent!.cover);
@@ -34,7 +33,7 @@ export default function activity() {
   useEffect(() => {
     if (selectedReadingAssignment && contents) {
       const selectedContent = contents.find(
-        (content) => content.id === selectedReadingAssignment.readingMaterialId
+        content => content.id === selectedReadingAssignment.readingMaterialId,
       );
       if (selectedContent) {
         setSelectedContent(selectedContent);
@@ -46,8 +45,7 @@ export default function activity() {
     useCallback(() => {
       if (selectedReadingAssignment && contents) {
         const selectedContent = contents.find(
-          (content) =>
-            content.id === selectedReadingAssignment.readingMaterialId
+          content => content.id === selectedReadingAssignment.readingMaterialId,
         );
         if (selectedContent) {
           setSelectedContent(selectedContent);
@@ -55,13 +53,13 @@ export default function activity() {
           imageUrl = useGetCoverFromGDrive(selectedContent!.cover);
         }
       }
-    }, [selectedReadingAssignment, contents, setSelectedContent])
+    }, [selectedReadingAssignment, contents, setSelectedContent]),
   );
 
   function formatDate(isoString: string) {
     const date = new Date(isoString);
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   }
@@ -71,7 +69,7 @@ export default function activity() {
       <View>
         <ClassroomHeader
           name={`${selectedClassroom?.name}`}
-          joinCode={`${selectedClassroom?.joinCode}`}
+          joinCode={`${selectedClassroom?.join_code}`}
         />
         <View className="p-8">
           <View className="flex flex-row">
@@ -81,24 +79,24 @@ export default function activity() {
               resizeMode="contain"
             />
             <View className="flex-1">
-              <Text className="text-[24px] font-bold flex-wrap">
+              <Text className="text-[24px] font-poppins-bold flex-wrap">
                 {selectedReadingAssignment.title}
               </Text>
               <Text>{selectedReadingAssignment?.minigameType}</Text>
-              <Text className="font-bold">
+              <Text className="font-poppins-bold">
                 Created at: {formatDate(selectedReadingAssignment.createdAt)}
               </Text>
-              <Text className="font-bold text-lg text-red-500">
+              <Text className="font-poppins-bold text-lg text-red-500">
                 {selectedReadingAssignment?.isActive == true
-                  ? "ACTIVE"
-                  : "NOT ACTIVE"}
+                  ? 'ACTIVE'
+                  : 'NOT ACTIVE'}
               </Text>
             </View>
           </View>
           <View className="border-b border-lightGray my-8" />
           <View>
             <View>
-              <Text className="font-bold text-[24px]">
+              <Text className="font-poppins-bold text-[24px]">
                 Book to read: {selectedContent?.title}
               </Text>
               <Text className="text-[16px]">
@@ -106,7 +104,7 @@ export default function activity() {
               </Text>
             </View>
             <View className="my-6">
-              <Text className="font-bold text-[24px]">Overview</Text>
+              <Text className="font-poppins-bold text-[24px]">Overview</Text>
               <Text className="flex-row items-center">
                 {selectedReadingAssignment?.numberOfStudentsFinished}
                 <View className="px-2">
@@ -134,7 +132,7 @@ export default function activity() {
           </View>
           <Button
             className="m-5 bg-yellowOrange border-2 rounded-xl border-lightGray my-4 border-b-4"
-            onPress={() => router.push("/classroom/activity/activitysettings")}
+            onPress={() => router.push('/classroom/activity/activitysettings')}
           >
             <Text className="text-black font-semibold">Edit</Text>
           </Button>

@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { 
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
   ClassroomsService,
   type PostClassroomsData,
   type PatchClassroomsByIdData,
@@ -12,7 +12,7 @@ import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
 export const useCreateClassroom = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async (data: PostClassroomsData) => {
       await setupAuthToken();
@@ -30,9 +30,10 @@ export const useCreateClassroom = () => {
 
 export const useUpdateClassroom = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: (data: PatchClassroomsByIdData) => ClassroomsService.patchClassroomsById(data),
+    mutationFn: (data: PatchClassroomsByIdData) =>
+      ClassroomsService.patchClassroomsById(data),
     onSuccess: (data, variables) => {
       // Update the classroom in cache
       queryClient.setQueryData(queryKeys.classrooms.detail(variables.id), data);
@@ -47,7 +48,7 @@ export const useUpdateClassroom = () => {
 
 export const useDeleteClassroom = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => ClassroomsService.deleteClassroomsById({ id }),
     onSuccess: () => {

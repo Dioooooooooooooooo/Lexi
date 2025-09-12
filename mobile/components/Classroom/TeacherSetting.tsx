@@ -1,25 +1,25 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Text } from "@/components/ui/text";
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Text } from '@/components/ui/text';
 import {
   ScrollView,
   View,
   TouchableOpacity,
   ActivityIndicator,
   Keyboard,
-} from "react-native";
-import { Button } from "@/components/ui/button";
-import BackHeader from "@/components/BackHeader";
-import { Input } from "@/components/ui/input";
-import { TextArea } from "@/components/ui/textarea";
-import { SearchBarRef } from "@/components/Classroom/SearchBar";
-import { Pupil } from "@/services/ClassroomService";
-import { router } from "expo-router";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import AddPupilModal from "./AddPupilModal";
+} from 'react-native';
+import { Button } from '@/components/ui/button';
+import BackHeader from '@/components/BackHeader';
+import { Input } from '@/components/ui/input';
+import { TextArea } from '@/components/ui/textarea';
+import { SearchBarRef } from '@/components/Classroom/SearchBar';
+import { Pupil } from '@/services/ClassroomService';
+import { router } from 'expo-router';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import AddPupilModal from './AddPupilModal';
 
-import { displayPupilName, getRandomColor } from "@/utils/utils";
-import ConfirmModal from "../Modal";
-import LoadingScreen from "../LoadingScreen";
+import { displayPupilName, getRandomColor } from '@/utils/utils';
+import ConfirmModal from '../Modal';
+import LoadingScreen from '../LoadingScreen';
 
 type TeacherSettingsProps = {
   selectedClassroom: any;
@@ -45,11 +45,11 @@ export default function TeacherSetting({
   apiSearchPupils,
 }: TeacherSettingsProps) {
   const [editClassroomForm, setEditClassroomForm] = useState({
-    name: selectedClassroom?.name || "",
-    description: selectedClassroom?.description || "",
+    name: selectedClassroom?.name || '',
+    description: selectedClassroom?.description || '',
   });
 
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [filteredPupils, setFilteredPupils] = useState<Pupil[]>([]);
   const [showAddPupilModal, setShowAddPupilModal] = useState(false);
   const [searching, setSearching] = useState(false);
@@ -125,10 +125,10 @@ export default function TeacherSetting({
         const results = await apiSearchPupils(searchText);
 
         const filteredResults = results.filter(
-          (pupil) =>
+          pupil =>
             !enrolledPupils?.some(
-              (enrolledPupil) => enrolledPupil.id === pupil.id
-            )
+              enrolledPupil => enrolledPupil.id === pupil.id,
+            ),
         );
 
         setFilteredPupils(filteredResults);
@@ -145,22 +145,22 @@ export default function TeacherSetting({
           }
         }, 200);
       } catch (error) {
-        console.error("Error searching pupils:", error);
+        console.error('Error searching pupils:', error);
         const mockResults: Pupil[] = [
           {
-            id: "1",
+            id: '1',
             firstName: searchText,
-            lastName: "Smith",
+            lastName: 'Smith',
           },
           {
-            id: "2",
+            id: '2',
             firstName: searchText,
-            lastName: "Johnson",
+            lastName: 'Johnson',
           },
           {
-            id: "3",
+            id: '3',
             firstName: searchText,
-            lastName: "Williams",
+            lastName: 'Williams',
           },
         ];
         setFilteredPupils(mockResults);
@@ -199,7 +199,7 @@ export default function TeacherSetting({
   const handleConfirmCancelAddPupils = () => {
     isClearing.current = true;
     Keyboard.dismiss();
-    setSearchText("");
+    setSearchText('');
     setSelectedPupils([]);
     setShowAddPupilModal(false);
     setShowCancelAddPupilsModal(false);
@@ -221,9 +221,9 @@ export default function TeacherSetting({
         });
         setSelectedClassroom(null);
         setShowDeleteClassroomModal(false);
-        router.push("/classroom");
+        router.push('/classroom');
       } catch (error) {
-        console.error("Error deleting classroom:", error);
+        console.error('Error deleting classroom:', error);
       } finally {
         setIsLoading(false);
       }
@@ -249,25 +249,25 @@ export default function TeacherSetting({
 
         setShowEditClassroomModal(false);
         router.back();
-        console.log("Classroom edited successfully");
+        console.log('Classroom edited successfully');
       } catch (error) {
-        console.error("Error editing classroom:", error);
+        console.error('Error editing classroom:', error);
       }
     } else {
-      console.error("Classroom ID is not available");
+      console.error('Classroom ID is not available');
     }
   };
 
   const handleSelectPupil = (pupil: Pupil) => {
-    if (selectedPupils.some((p) => p.id === pupil.id)) {
-      setSelectedPupils(selectedPupils.filter((p) => p.id !== pupil.id));
+    if (selectedPupils.some(p => p.id === pupil.id)) {
+      setSelectedPupils(selectedPupils.filter(p => p.id !== pupil.id));
     } else {
       setSelectedPupils([...selectedPupils, pupil]);
     }
   };
 
   const handleRemoveSelectedPupil = (pupilId: string) => {
-    setSelectedPupils(selectedPupils.filter((p) => p.id !== pupilId));
+    setSelectedPupils(selectedPupils.filter(p => p.id !== pupilId));
   };
 
   const handleRemovePupilPress = (pupilId: string, pupilName: string) => {
@@ -285,9 +285,9 @@ export default function TeacherSetting({
         });
         setShowRemovePupilModal(false);
         setPupilToRemove(null);
-        console.log("Pupil removed successfully");
+        console.log('Pupil removed successfully');
       } catch (error) {
-        console.error("Error removing pupil:", error);
+        console.error('Error removing pupil:', error);
       } finally {
         setIsLoading(false);
       }
@@ -302,13 +302,13 @@ export default function TeacherSetting({
             classroomId: selectedClassroom.id,
             pupilId: pupilId,
           });
-          console.log("Pupil removed successfully");
+          console.log('Pupil removed successfully');
         } catch (error) {
-          console.error("Error removing pupil:", error);
+          console.error('Error removing pupil:', error);
         }
       }
     },
-    [selectedClassroom?.id, removePupilMutation]
+    [selectedClassroom?.id, removePupilMutation],
   );
 
   const handleAddSelectedPupils = async () => {
@@ -320,20 +320,20 @@ export default function TeacherSetting({
         for (const pupil of selectedPupils) {
           await addPupilMutation({
             classroomId: selectedClassroom.id,
-            pupilId: pupil.id || "",
+            pupilId: pupil.id || '',
           });
         }
 
         setSelectedPupils([]);
-        setSearchText("");
+        setSearchText('');
         setShowAddPupilModal(false);
-        console.log("Pupils added successfully");
+        console.log('Pupils added successfully');
 
         setTimeout(() => {
           isClearing.current = false;
         }, 300);
       } catch (error) {
-        console.error("Error adding pupils:", error);
+        console.error('Error adding pupils:', error);
       }
     }
   };
@@ -354,21 +354,21 @@ export default function TeacherSetting({
         for (const pupil of selectedPupils) {
           await addPupilMutation({
             classroomId: selectedClassroom.id,
-            pupilId: pupil.id || "",
+            pupilId: pupil.id || '',
           });
         }
 
         setSelectedPupils([]);
-        setSearchText("");
+        setSearchText('');
         setShowAddPupilModal(false);
         setShowAddPupilsConfirmModal(false);
-        console.log("Pupils added successfully");
+        console.log('Pupils added successfully');
 
         setTimeout(() => {
           isClearing.current = false;
         }, 300);
       } catch (error) {
-        console.error("Error adding pupils:", error);
+        console.error('Error adding pupils:', error);
       } finally {
         setIsLoading(false);
       }
@@ -386,10 +386,10 @@ export default function TeacherSetting({
         <BackHeader />
 
         <View className="py-1">
-          <Text className="text-[22px] text-center m-5 font-bold">
+          <Text className="text-[22px] text-center m-5 font-poppins-bold">
             Classroom
           </Text>
-          <Text className="font-bold">Classroom Name</Text>
+          <Text className="font-poppins-bold">Classroom Name</Text>
           <View>
             <Input
               className="border border-lightGray rounded-md p-2 my-2"
@@ -425,10 +425,10 @@ export default function TeacherSetting({
             className="flex-row justify-between items-center border border-lightGray rounded-md p-3"
             onPress={() => setShowCurrentPupils(!showCurrentPupils)}
           >
-            <Text className="font-bold text-black">Current Pupils</Text>
+            <Text className="font-poppins-bold text-black">Current Pupils</Text>
             <MaterialIcons
               name={
-                showCurrentPupils ? "keyboard-arrow-up" : "keyboard-arrow-down"
+                showCurrentPupils ? 'keyboard-arrow-up' : 'keyboard-arrow-down'
               }
               size={24}
               color="#333"
@@ -443,13 +443,13 @@ export default function TeacherSetting({
                 </View>
               ) : enrolledPupils && enrolledPupils.length > 0 ? (
                 <>
-                  {enrolledPupils.map((pupil) => {
+                  {enrolledPupils.map(pupil => {
                     const avatarColor = getRandomColor(
-                      (pupil.firstName || "") + (pupil.lastName || "")
+                      (pupil.firstName || '') + (pupil.lastName || ''),
                     );
 
-                    const initials = `${pupil.firstName?.charAt(0) || ""}${
-                      pupil.lastName?.charAt(0) || ""
+                    const initials = `${pupil.firstName?.charAt(0) || ''}${
+                      pupil.lastName?.charAt(0) || ''
                     }`;
 
                     return (
@@ -462,7 +462,7 @@ export default function TeacherSetting({
                             className="h-8 w-8 rounded-full overflow-hidden mr-3 justify-center items-center"
                             style={{ backgroundColor: avatarColor }}
                           >
-                            <Text className="text-white font-bold text-xs">
+                            <Text className="text-white font-poppins-bold text-xs">
                               {initials.toUpperCase()}
                             </Text>
                           </View>
@@ -473,8 +473,8 @@ export default function TeacherSetting({
                         <TouchableOpacity
                           onPress={() =>
                             handleRemovePupilPress(
-                              pupil.id || "",
-                              displayPupilName(pupil)
+                              pupil.id || '',
+                              displayPupilName(pupil),
                             )
                           }
                           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
@@ -551,7 +551,7 @@ export default function TeacherSetting({
         visible={showAddPupilsConfirmModal}
         title="Add Pupils"
         message={`Add ${selectedPupils.length} pupil${
-          selectedPupils.length > 1 ? "s" : ""
+          selectedPupils.length > 1 ? 's' : ''
         } to your classroom?`}
         confirmText="Add"
         cancelText="Cancel"

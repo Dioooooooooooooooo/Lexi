@@ -6,27 +6,33 @@ import { router } from 'expo-router';
 import React, { useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { useGlobalStore } from '~/stores/globalStore';
+import { getProfile } from '@/services/UserService';
+import { login as apiLogin } from '@/services/AuthService';
+import { extractUser } from '@/models/User';
+import { useUserStore } from '@/stores/userStore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Components
 import { Eye, EyeOff, KeyRound, Mail } from 'lucide-react-native';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
-import { Text } from '~/components/ui/text';
 
 import BackHeader from '@/components/BackHeader';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const SignIn = () => {
+  // const setUser = useUserStore.getState().setUser;
+
   // Use TanStack Query mutations and queries
-  const loginMutation = useLogin();
-  const { refetch: refetchUser } = useAuthMe();
-  
   // TODO: Replace with useGoogleLogin() and useFacebookLogin() mutations
   // For now, keep using authStore.providerAuth
   const providerAuth = useAuthStore(state => state.providerAuth);
   const setIsLoading = useGlobalStore(state => state.setIsLoading);
+  const loginMutation = useLogin();
+  const { refetch: refetchUser } = useAuthMe();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -45,9 +51,11 @@ const SignIn = () => {
     setIsLoading(true);
     try {
       console.log('Testing backend connection...');
+      // const response = await apiLogin('test@example.com', 'test123456');
+
       await loginMutation.mutateAsync({
         email: 'test@example.com',
-        password: 'test123456'
+        password: 'test123456',
       });
       console.log('Backend connection success');
 
@@ -88,7 +96,40 @@ const SignIn = () => {
     }
 
     setIsLoading(true);
-    
+    //   try {
+    //     let response = await apiLogin(form.email, form.password);
+    //     await AsyncStorage.setItem('accessToken', response.data.access_token);
+    //     await AsyncStorage.setItem('refreshToken', response.data.refresh_token);
+
+    //     response = await getProfile();
+
+    //     const userData = response.data;
+
+    //     if (userData) {
+    //       const user = extractUser(response.data);
+    //       setUser(user);
+    //       Toast.show({
+    //         type: 'success',
+    //         text1: 'Authentication Success',
+    //       });
+    //       router.replace('/home');
+    //     } else {
+    //       router.push({
+    //         pathname: '/signup3',
+    //         params: { fromProviderAuth: 'false' },
+    //       });
+    //     }
+    //   } catch (error: any) {
+    //     Toast.show({
+    //       type: 'error',
+    //       text1: 'Authentication Failed',
+    //       text2: error.message,
+    //     });
+    //   } finally {
+    //     setIsLoading(false);
+    //   }
+    // };
+
     try {
       // Use TanStack Query mutation for login
       await loginMutation.mutateAsync({
@@ -98,7 +139,7 @@ const SignIn = () => {
 
       // After successful login, fetch user data
       const userResult = await refetchUser();
-      
+
       if (userResult.data) {
         Toast.show({
           type: 'success',
@@ -210,7 +251,7 @@ const SignIn = () => {
               handleLogin();
             }}
           >
-            <Text className="text-black text-md font-bold">Log In</Text>
+            <Text className="text-black text-md font-poppins-bold">Log In</Text>
           </TouchableOpacity>
 
           {/* TEMPORARY TEST BUTTON FOR BACKEND CONNECTION */}
@@ -220,7 +261,7 @@ const SignIn = () => {
               testBackendConnection();
             }}
           >
-            <Text className="text-white text-md font-bold">
+            <Text className="text-white text-md font-poppins-bold">
               🧪 Test Backend Connection
             </Text>
           </TouchableOpacity>
@@ -230,7 +271,7 @@ const SignIn = () => {
           >
             <View className="flex flex-row">
               <Text>Don't have an account?</Text>
-              <Text className="color-orange underline font-bold px-2">
+              <Text className="color-orange underline font-poppins-bold px-2">
                 Sign Up
               </Text>
             </View>

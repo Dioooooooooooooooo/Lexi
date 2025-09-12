@@ -39,8 +39,8 @@ export default function StudentsList() {
   // For now, assume selectedClassroom.pupils is an array of PupilInClassroom
   const pupils: PupilInClassroom[] = [
     {
-      id: '12',
-      classroomId: selectedClassroom?.id,
+      id: '13',
+      classroomId: selectedClassroom?.id!,
       firstName: 'ja',
       lastName: 'ha',
       level: 2,
@@ -48,7 +48,7 @@ export default function StudentsList() {
     },
     {
       id: '12',
-      classroomId: selectedClassroom?.id,
+      classroomId: selectedClassroom?.id!,
       firstName: 'ja',
       lastName: 'ha',
       level: 2,
@@ -56,52 +56,51 @@ export default function StudentsList() {
     },
   ];
 
-  const [activeTab, setActiveTab] = useState('pupils');
-
   return (
     <ScrollView className="bg-background flex-1">
       <ClassroomHeader
         name={selectedClassroom?.name || ''}
         joinCode={selectedClassroom?.join_code || ''}
       />
+      <View className="p-8">
+        {/* Tabs */}
+        <View className="flex-col">
+          <Text className="font-poppins-bold pb-4 text-lg">Pupils</Text>
+          <View className="border-b border-black"></View>
+        </View>
 
-      {/* Tabs */}
-      <View className="flex-row p-4 border-b border-gray-200">
-        <Text className="text-center font-bold">Pupils</Text>
-      </View>
+        {/* Content based on active tab */}
+        <View>
+          {pupils.map((student: PupilInClassroom) => (
+            <TouchableOpacity
+              key={student.id}
+              className="flex-row items-center bg-white rounded-lg p-4 mb-3 shadow-sm"
+            >
+              {/* Use DefaultAvatar for all students */}
+              <View className="mr-4">
+                <DefaultAvatar
+                  name={`${student.firstName} ${student.lastName}`}
+                  size={12}
+                />
+              </View>
 
-      {/* Content based on active tab */}
-      <View className="p-4">
-        {pupils.map((student: PupilInClassroom) => (
-          <TouchableOpacity
-            key={student.id}
-            className="flex-row items-center bg-white rounded-lg p-4 mb-3 shadow-sm"
-          >
-            {/* Use DefaultAvatar for all students */}
-            <View className="mr-4">
-              <DefaultAvatar
-                name={`${student.firstName} ${student.lastName}`}
-                size={12}
-              />
-            </View>
+              <View className="flex-1">
+                <Text className="font-semibold text-base">
+                  {`${student.firstName} ${student.lastName}`}
+                </Text>
+              </View>
 
-            <View className="flex-1">
-              <Text className="font-semibold text-base">
-                {`${student.firstName} ${student.lastName}`}
-              </Text>
-            </View>
-
-            <View className="flex-row items-center">
-              <MaterialIcons
-                name="bar-chart"
-                size={22}
-                color="#666"
-                style={{ marginRight: 16 }}
-              />
-              <FontAwesome name="trash-o" size={20} color="#FF6B6B" />
-            </View>
-          </TouchableOpacity>
-        ))}
+              <View className="flex-row items-center">
+                <MaterialIcons
+                  name="bar-chart"
+                  size={22}
+                  color="#666"
+                  style={{ marginRight: 16 }}
+                />
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
     </ScrollView>
   );

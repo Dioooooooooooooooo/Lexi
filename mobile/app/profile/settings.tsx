@@ -1,15 +1,15 @@
-import { router } from "expo-router";
-import { useEffect, useState } from "react";
-import { checkUserExist } from "@/services/UserService";
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { checkUserExist } from '@/services/UserService';
 import {
   getChangedFields,
   getFormDataImageFromPickerAsset,
   validateField,
-} from "@/utils/utils";
-import { useUserStore } from "@/stores/userStore";
-import { useGlobalStore } from "@/stores/globalStore";
-import { useAuthStore } from "@/stores/authStore";
-import * as ImagePicker from "expo-image-picker";
+} from '@/utils/utils';
+import { useUserStore } from '@/stores/userStore';
+import { useGlobalStore } from '@/stores/globalStore';
+import { useAuthStore } from '@/stores/authStore';
+import * as ImagePicker from 'expo-image-picker';
 
 //Components
 import {
@@ -19,36 +19,36 @@ import {
   Pressable,
   TouchableOpacity,
   TextInput,
-} from "react-native";
-import { Text } from "@/components/ui/text";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import ConfirmModal from "@/components/Modal";
-import BackHeader from "@/components/BackHeader";
-import Toast from "react-native-toast-message";
-import { User } from "@/models/User";
-import { API_URL } from "@/utils/constants";
-import { SafeAreaView } from "react-native-safe-area-context";
+} from 'react-native';
+import { Text } from '@/components/ui/text';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import ConfirmModal from '@/components/Modal';
+import BackHeader from '@/components/BackHeader';
+import Toast from 'react-native-toast-message';
+import { User } from '@/models/User';
+import { API_URL } from '@/utils/constants';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Settings() {
   const [deleteAccountModalVisible, setDeleteAccountModalVisible] =
     useState<boolean>(false);
   const [isProfileChanged, setIsProfileChanged] = useState(false);
   const [avatarFile, setAvatarFile] = useState<any>(null);
-  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
-  const updateProfile = useUserStore((state) => state.updateProfile);
-  const deleteAccount = useUserStore((state) => state.deleteAccount);
+  const setIsLoading = useGlobalStore(state => state.setIsLoading);
+  const updateProfile = useUserStore(state => state.updateProfile);
+  const deleteAccount = useUserStore(state => state.deleteAccount);
 
-  const user = useUserStore((state) => state.user);
+  const user = useUserStore(state => state.user);
 
   const [profile, setProfile] = useState<User>(
-    user ? { ...user } : ({} as User)
+    user ? { ...user } : ({} as User),
   );
 
   const [formErrors, setFormErrors] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
+    firstName: '',
+    lastName: '',
+    username: '',
   });
 
   useEffect(() => {
@@ -69,17 +69,17 @@ export default function Settings() {
     setIsLoading(true);
     try {
       const newErrors: any = {};
-      Object.keys(profile).forEach((field) => {
+      Object.keys(profile).forEach(field => {
         const error = validateField(field, profile[field], profile);
-        if (error === "") return;
+        if (error === '') return;
         newErrors[field] = error;
       });
 
       if (
         profile.userName !== user?.userName &&
-        (await checkUserExist("username", profile.userName)).statusCode === 409
+        (await checkUserExist('username', profile.userName)).statusCode === 409
       ) {
-        newErrors["username"] = "Username is already taken";
+        newErrors['username'] = 'Username is already taken';
       }
 
       setFormErrors(newErrors);
@@ -92,17 +92,17 @@ export default function Settings() {
         }
         await updateProfile(changes);
       } else {
-        console.log("No changes to update");
+        console.log('No changes to update');
       }
 
       Toast.show({
-        type: "success",
-        text1: "Profile Updated",
+        type: 'success',
+        text1: 'Profile Updated',
       });
     } catch (error: any) {
       Toast.show({
-        type: "error",
-        text1: "Update Profile Failed",
+        type: 'error',
+        text1: 'Update Profile Failed',
         text2: error.message,
       });
     } finally {
@@ -116,17 +116,17 @@ export default function Settings() {
       await deleteAccount();
 
       Toast.show({
-        type: "success",
-        text1: "Goodbye for now 👋",
+        type: 'success',
+        text1: 'Goodbye for now 👋',
         text2: "Your account has been deleted. We're sad to see you go!",
       });
       setDeleteAccountModalVisible(false);
 
-      router.replace("/");
+      router.replace('/');
     } catch (error: any) {
       Toast.show({
-        type: "error",
-        text1: "Delete Account Failed",
+        type: 'error',
+        text1: 'Delete Account Failed',
         text2: error.message,
       });
     } finally {
@@ -152,7 +152,7 @@ export default function Settings() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <View className="flex-1 bg-background">
       <ScrollView className="bg-background p-8">
         <BackHeader />
 
@@ -166,24 +166,24 @@ export default function Settings() {
                         uri: avatarFile.uri,
                       }
                     : user?.avatar
-                    ? {
-                        uri: `${API_URL.replace(
-                          /\/api\/?$/,
-                          "/"
-                        )}${user.avatar.replace(/^\/+/, "")}`,
-                      }
-                    : require("@/assets/images/default_pfp.png")
+                      ? {
+                          uri: `${API_URL.replace(
+                            /\/api\/?$/,
+                            '/',
+                          )}${user.avatar.replace(/^\/+/, '')}`,
+                        }
+                      : require('@/assets/images/default_pfp.png')
                 }
                 className="rounded-full w-32 h-32"
                 alt="User profile pic"
               />
             </Pressable>
 
-            <Text className="text-2xl font-bold m-4 mb-6">Profile</Text>
+            <Text className="text-2xl font-poppins-bold m-4 mb-6">Profile</Text>
           </View>
 
           <View className="py-1">
-            <Text className="font-bold">First Name</Text>
+            <Text className="font-poppins-bold">First Name</Text>
             <Input
               placeholder={profile.firstName}
               value={profile.firstName}
@@ -197,7 +197,7 @@ export default function Settings() {
           </View>
 
           <View className="py-1">
-            <Text className="font-bold">Last Name</Text>
+            <Text className="font-poppins-bold">Last Name</Text>
             <Input
               placeholder={profile.lastName}
               value={profile.lastName}
@@ -208,7 +208,7 @@ export default function Settings() {
           </View>
 
           <View className="py-1">
-            <Text className="font-bold">Username</Text>
+            <Text className="font-poppins-bold">Username</Text>
 
             <Input
               placeholder={profile.userName}
@@ -223,7 +223,7 @@ export default function Settings() {
           </View>
 
           <View className="py-1">
-            <Text className="font-bold">Email</Text>
+            <Text className="font-poppins-bold">Email</Text>
 
             <Input
               editable={false}
@@ -234,9 +234,9 @@ export default function Settings() {
 
           <TouchableOpacity
             className="py-1"
-            onPress={() => router.push("/profile/changepassword")}
+            onPress={() => router.push('/profile/changepassword')}
           >
-            <Text className="font-bold">Password</Text>
+            <Text className="font-poppins-bold">Password</Text>
 
             <Input
               editable={false}
@@ -263,7 +263,7 @@ export default function Settings() {
             onPress={() => setDeleteAccountModalVisible(true)}
             className="bg-orange"
           >
-            <Text className="font-bold text-white">Delete Account</Text>
+            <Text className="font-poppins-bold text-white">Delete Account</Text>
           </Button>
         </View>
       </ScrollView>
@@ -279,6 +279,6 @@ export default function Settings() {
         icon="close"
         highlightedText="permanently"
       />
-    </SafeAreaView>
+    </View>
   );
 }

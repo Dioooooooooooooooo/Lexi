@@ -24,13 +24,16 @@ export default function Step3() {
     providerRegisterForm,
     setProviderRegisterForm,
   } = useRegisterFormContext();
+  // const updateProfile = useUserStore(state => state.updateProfile);
+
+  // const signup = useAuthStore(state => state.signup);
+
+  const [isInvalid, setIsInvalid] = useState(false);
+  const setIsLoading = useGlobalStore(state => state.setIsLoading);
 
   // Use TanStack Query mutations instead of store methods
   const registerMutation = useRegister();
   const updateProfileMutation = useUpdateProfile();
-
-  const [isInvalid, setIsInvalid] = useState(false);
-  const setIsLoading = useGlobalStore(state => state.setIsLoading);
 
   const handleStep = async () => {
     const form = fromProviderAuth ? providerRegisterForm : registerForm;
@@ -75,7 +78,7 @@ export default function Step3() {
       <View className="flex-1 gap-2 p-8 h-full justify-around">
         <BackHeader />
         <View>
-          <Text className="text-3xl font-bold">What role are you?</Text>
+          <Text className="text-3xl font-poppins-bold">What role are you?</Text>
         </View>
 
         <View className="flex gap-6">
@@ -103,7 +106,7 @@ export default function Step3() {
               resizeMode="contain"
               alt=""
             />
-            <Text className="text-xl font-bold">Teacher</Text>
+            <Text className="text-xl font-poppins-bold">Teacher</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -130,7 +133,7 @@ export default function Step3() {
               resizeMode="contain"
               alt=""
             />
-            <Text className="text-xl font-bold">Pupil</Text>
+            <Text className="text-xl font-poppins-bold">Pupil</Text>
           </TouchableOpacity>
           <TouchableOpacity
             className="bg-yellowOrange border border-dropShadowColor rounded-xl border-b-4 p-3 items-center"
@@ -138,7 +141,9 @@ export default function Step3() {
               handleStep();
             }}
           >
-            <Text className="text-black text-base font-bold">Continue</Text>
+            <Text className="text-black text-base font-poppins-bold">
+              Continue
+            </Text>
           </TouchableOpacity>
         </View>
         {isInvalid && (
