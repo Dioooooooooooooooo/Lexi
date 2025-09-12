@@ -4,6 +4,9 @@ import {
   type PostMinigamesLogsSentenceRearrangementData,
   type PostMinigamesLogsChoicesData,
   type PostMinigamesLogsWordsFromLettersData,
+  type PostMinigamesWordsFromLettersData,
+  type PostMinigamesChoicesData,
+  type PostMinigamesSentenceRearrangementData,
 } from '../api/requests';
 import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
@@ -85,6 +88,64 @@ export const useCreateWordsFromLettersLog = () => {
     },
     onError: (error: any) => {
       console.error('Failed to create words from letters log:', error);
+    },
+  });
+};
+
+// =============================================================================
+// MINIGAME CREATION MUTATIONS - Create New Minigames
+// =============================================================================
+
+export const useCreateWordsFromLettersMinigame = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: PostMinigamesWordsFromLettersData) => {
+      await setupAuthToken();
+      return MinigamesService.postMinigamesWordsFromLetters(data);
+    },
+    onSuccess: () => {
+      // Invalidate minigame related queries
+      queryClient.invalidateQueries({ queryKey: queryKeys.minigames.all });
+    },
+    onError: (error: any) => {
+      console.error('Failed to create words from letters minigame:', error);
+    },
+  });
+};
+
+export const useCreateChoicesMinigame = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: PostMinigamesChoicesData) => {
+      await setupAuthToken();
+      return MinigamesService.postMinigamesChoices(data);
+    },
+    onSuccess: () => {
+      // Invalidate minigame related queries
+      queryClient.invalidateQueries({ queryKey: queryKeys.minigames.all });
+    },
+    onError: (error: any) => {
+      console.error('Failed to create choices minigame:', error);
+    },
+  });
+};
+
+export const useCreateSentenceRearrangementMinigame = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: PostMinigamesSentenceRearrangementData) => {
+      await setupAuthToken();
+      return MinigamesService.postMinigamesSentenceRearrangement(data);
+    },
+    onSuccess: () => {
+      // Invalidate minigame related queries
+      queryClient.invalidateQueries({ queryKey: queryKeys.minigames.all });
+    },
+    onError: (error: any) => {
+      console.error('Failed to create sentence rearrangement minigame:', error);
     },
   });
 };

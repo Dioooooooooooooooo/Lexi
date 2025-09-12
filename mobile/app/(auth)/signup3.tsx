@@ -9,13 +9,11 @@ import {
   useRegister,
   useUpdateProfile,
 } from '@/hooks/mutation/useAuthMutations';
-import { useAuthStore } from '@/stores/authStore';
 import { useGlobalStore } from '@/stores/globalStore';
-import { useUserStore } from '@/stores/userStore';
 
 import BackHeader from '@/components/BackHeader';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
-import { Text } from '@/components/ui/text';
+import { Text } from '~/components/ui/text';
 
 export default function Step3() {
   const { fromProviderAuth } = useLocalSearchParams();
@@ -49,11 +47,12 @@ export default function Step3() {
     try {
       if (fromProviderAuth) {
         // For provider auth, update the profile
-        await updateProfileMutation.mutateAsync(form);
+        await updateProfileMutation.mutateAsync({ requestBody: form });
       } else {
         // For regular registration, use the register mutation
         await registerMutation.mutateAsync(form);
       }
+
       if (form.role === 'Pupil') {
         router.push('/signup4');
       } else {
