@@ -1,8 +1,6 @@
 // app/_layout.tsx (fix)
 import '~/global.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SplashScreen, Stack } from 'expo-router';
-import Toast from 'react-native-toast-message';
 import { useFonts } from 'expo-font'; // ✅ correct
 
 import React from 'react';
@@ -21,12 +19,11 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useGlobalStore } from '@/stores/globalStore';
-import LoadingScreen from '@/components/LoadingScreen';
-
 import { LogBox } from 'react-native';
 import LoadingScreenForm from '@/components/LoadingScreenForm';
 import useScreenTime from '@/hooks/utils/useScreenTime';
-import { useRefreshToken } from '@/hooks';
+import { SplashScreen, Stack } from 'expo-router';
+import Toast from 'react-native-toast-message';
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 
@@ -59,7 +56,7 @@ export default function RootLayout() {
     'Poppins-Bold': require('@/assets/fonts/Poppins-Bold.ttf'),
   });
 
-  useScreenTime();
+  // useScreenTime();
 
   useIsomorphicLayoutEffect(() => {
     if (hasMounted.current) {

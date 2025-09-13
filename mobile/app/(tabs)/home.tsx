@@ -6,7 +6,7 @@ import {
 } from '@/services/ReadingMaterialService';
 import ReadingContent from '@/components/ReadingContent';
 import { useFocusEffect } from '@react-navigation/native';
-import { ReadingContentType } from '@/models/ReadingContent';
+import { ReadingMaterial } from '@/models/ReadingMaterial';
 
 //Components
 import {
@@ -23,20 +23,22 @@ import { Text } from '@/components/ui/text';
 import { useUserStore } from '@/stores/userStore';
 import { useReadingContentStore } from '@/stores/readingContentStore';
 import { HeaderSearchBar } from '@/components/HeaderSearchBar';
+import {
+  useReadingMaterials,
+  useReadingMaterialsRecommendations,
+} from '@/hooks';
 
 function HomeScreen() {
-  const { data: stories, isLoading: isStoriesLoading } = useStories();
+  const { data: stories, isLoading: isStoriesLoading } = useReadingMaterials();
   const [showStreak, setShowStreakModal] = useState(false);
   const user = useUserStore(state => state.user);
-  const { data: recommendations } = useRecommendedStories(
-    user?.role === 'Pupil', // ADDED: only pupils get recommendations
-  );
+  // const { data: recommendations, isLoading: isRecommendationsLoading } =
+  //   useReadingMaterialsRecommendations();
   const lastLoginStreak = useUserStore(state => state.lastLoginStreak);
   const setLastLoginStreak = useUserStore(state => state.setLastLoginStreak);
   const setSelectedContent = useReadingContentStore(
     state => state.setSelectedContent,
   );
-
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -147,7 +149,7 @@ function HomeScreen() {
     console.log('Search blur');
   };
 
-  const handleResultPress = (item: ReadingContentType) => {
+  const handleResultPress = (item: ReadingMaterial) => {
     console.log('Item selected:', item.id);
 
     setSelectedContent(item);
@@ -171,6 +173,10 @@ function HomeScreen() {
   const imageHeight = imageWidth;
 
   const showSearchResults = searchQuery.trim() !== '';
+
+  if (!isStoriesLoading) {
+    console.log(stories, 'gidle');
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -281,10 +287,11 @@ function HomeScreen() {
                   Recommended
                 </Text>
 
-                <ScrollView horizontal={true}>
-                  {recommendations &&
-                    recommendations.length > 0 &&
-                    recommendations.map((r, index) => (
+                {/* <ScrollView horizontal={true}>
+                  {isRecommendationsLoading ? (
+                    <Text>Loading stories...</Text>
+                  ) : (
+                    recommendations.data.map((r, index) => (
                       <View className="w-[90vw]" key={index}>
                         <ReadingContent
                           type={'Recommended'}
@@ -298,19 +305,20 @@ function HomeScreen() {
                           difficulty={r.difficulty}
                         />
                       </View>
-                    ))}
-                </ScrollView>
+                    ))
+                  )}
+                </ScrollView> */}
               </View>
             )}
 
             <View className="flex-1 gap-4 w-full p-8">
               <Text className="text-2xl font-poppins-bold">Explore</Text>
-              {isStoriesLoading && <Text>Loading stories...</Text>}
-              <View className="flex flex-row justify-between flex-wrap">
-                {!isStoriesLoading &&
-                Array.isArray(stories) &&
-                stories?.length > 0
-                  ? stories?.map(item => (
+              {/* {isStoriesLoading ? (
+                <Text>Loading stories...</Text>
+              ) : (
+                <View className="flex flex-row justify-between flex-wrap">
+                  {stories.data.length > 0 ? (
+                    stories?.data.map(item => (
                       <View key={item.id}>
                         <ReadingContent
                           type="ScrollView"
@@ -325,12 +333,13 @@ function HomeScreen() {
                         />
                       </View>
                     ))
-                  : !isStoriesLoading && (
-                      <Text className="text-gray-500 ">
-                        No stories available.
-                      </Text>
-                    )}
-              </View>
+                  ) : (
+                    <Text className="text-gray-500 ">
+                      No stories available.
+                    </Text>
+                  )}
+                </View>
+              )} */}
             </View>
           </>
         )}

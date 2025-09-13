@@ -1,5 +1,5 @@
 import ReadingContent from '@/components/ReadingContent';
-import { ReadingContentType } from '@/models/ReadingContent';
+import { ReadingMaterial } from '@/models/ReadingMaterial';
 import { getIncompleteReadingSessions } from '@/services/ReadingSessionService';
 import { useReadingSessionStore } from '@/stores/readingSessionStore';
 import { useQuery } from '@tanstack/react-query';
@@ -43,7 +43,7 @@ function library() {
           </Text>
           <View className="flex flex-row flex-wrap gap-4">
             {readingMaterials?.map(
-              (material: ReadingContentType, index: number) => (
+              (material: ReadingMaterial, index: number) => (
                 <View key={index}>
                   <ReadingContent
                     type="ScrollView"

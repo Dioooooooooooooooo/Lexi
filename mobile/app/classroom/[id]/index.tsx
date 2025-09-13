@@ -24,7 +24,6 @@ export default function CurrentClassroom() {
   const params = useLocalSearchParams<{ id: string }>();
   const selectedClassroom = useClassroomStore(state => state.selectedClassroom);
   const user = useUserStore(state => state.user);
-  console.log('SELECTED CLASSROOM:', selectedClassroom?.id);
 
   const setReadingAssignments = useReadingAssignmentStore(
     state => state.setReadingAssignments,
@@ -65,7 +64,6 @@ export default function CurrentClassroom() {
           joinCode={`${selectedClassroom?.join_code}`}
         />
         <View className="p-8">
-          {/* <Text>id:{params.id}</Text> */}
           <View className="items-center justify-between flex-row w-full">
             <View className="flex flex-row justify-between items-center w-full">
               <Text className="font-poppins-bold text-[22px]">Activities</Text>

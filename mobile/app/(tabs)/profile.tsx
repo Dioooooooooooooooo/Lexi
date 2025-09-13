@@ -62,6 +62,7 @@ export default function Profile() {
     router.replace('/');
   };
 
+  console.log(user, 'user woa');
   return (
     <ScrollView className="bg-background">
       <View className="h-[150px] w-full rounded-bl-[40px] bg-yellowOrange p-4 rounded-xl border-lightGray border-b-4">
@@ -112,9 +113,9 @@ export default function Profile() {
           <View className="flex-row justify-between">
             <View className="pb-5">
               <Text className="text-lg font-poppins-bold">
-                {user?.firstName} {user?.lastName}
+                {user?.first_name} {user?.last_name}
               </Text>
-              <Text className="">@{user?.userName}</Text>
+              <Text className="">@{user?.username}</Text>
             </View>
 
             <View>

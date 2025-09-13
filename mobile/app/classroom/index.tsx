@@ -10,28 +10,19 @@ import LoadingScreen from '@/components/LoadingScreen';
 import { useFocusEffect } from 'expo-router';
 import { useCallback } from 'react';
 import { useGetClassrooms } from '@/services/ClassroomService';
+import { useClassrooms } from '@/hooks';
 
 export default function ClassroomScreen() {
   const user = useUserStore(state => state.user);
+  const { data: classrooms, isLoading, isError, refetch } = useClassrooms();
 
-  const {
-    data: classrooms,
-    isLoading,
-    isError,
-    refetch: refetchClassrooms,
-  } = useGetClassrooms();
+  if (!isLoading) console.log('teddy bear', classrooms);
 
   useFocusEffect(
     useCallback(() => {
-      refetchClassrooms();
-    }, [user?.role, refetchClassrooms]),
+      refetch();
+    }, [user?.role, refetch]),
   );
-
-  if (isLoading) {
-    return (
-      <LoadingScreen visible={isLoading} overlay={true} message="Loading..." />
-    );
-  }
 
   if (isError) {
     return (
@@ -42,40 +33,18 @@ export default function ClassroomScreen() {
   }
 
   return (
-    <ScrollView className="bg-white">
-      <View>
-        <View className="h-[150px] w-full rounded-bl-[40px] bg-yellowOrange p-4">
-          <View className="flex-row items-center justify-between px-4 h-full">
-            <Text className="text-[22px] font-poppins-bold leading-tight">
-              Your{'\n'}Classrooms
-            </Text>
-
-            <Image
-              source={require('@/assets/images/Juicy/Office-desk.png')}
-              resizeMode="contain"
-              className="h-64 w-64"
-            />
-          </View>
+    <View className="px-8">
+      {isLoading ? (
+        <Text>Loading classrooms...</Text>
+      ) : classrooms.length > 0 ? (
+        <View>
+          {classrooms.map(item => (
+            <ClassroomCard key={item.id} classroom={{ ...item }} />
+          ))}
         </View>
-
-        <View className="p-8">
-          {user?.role === 'Teacher' ? (
-            <NewClassroomBtn />
-          ) : (
-            <JoinClassroomBtn />
-          )}
-          {!isLoading &&
-          classrooms &&
-          Array.isArray(classrooms) &&
-          classrooms.length > 0 ? (
-            classrooms.map(item => (
-              <ClassroomCard key={item.id} classroom={{ ...item }} />
-            ))
-          ) : (
-            <Text className="text-center mt-4">No classrooms found</Text>
-          )}
-        </View>
-      </View>
-    </ScrollView>
+      ) : (
+        <Text className="text-center mt-4">No classrooms found</Text>
+      )}
+    </View>
   );
 }

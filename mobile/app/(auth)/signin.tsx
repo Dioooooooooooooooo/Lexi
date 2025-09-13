@@ -32,18 +32,14 @@ const SignIn = () => {
   const providerAuth = useAuthStore(state => state.providerAuth);
   const setIsLoading = useGlobalStore(state => state.setIsLoading);
   const loginMutation = useLogin();
+  const setUser = useUserStore(state => state.setUser);
   const { refetch: refetchUser } = useAuthMe();
 
   const [showPassword, setShowPassword] = useState(false);
 
   const [form, setForm] = useState({
-    // kang angel guro ni
     email: 'john.doe@example.com',
     password: 'securePassword123',
-
-    // deo accounts
-    // email: "",
-    // password: "",
   });
 
   // TEST FUNCTION FOR BACKEND CONNECTION - Using TanStack Query mutation
@@ -146,6 +142,7 @@ const SignIn = () => {
           text1: 'Authentication Success',
         });
         router.replace('/home');
+        setUser(userResult.data.data);
       } else {
         // No user profile found, redirect to complete signup
         router.push({

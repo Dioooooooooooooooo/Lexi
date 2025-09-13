@@ -1,14 +1,14 @@
-import { ReadingContentType } from "@/models/ReadingContent";
+import { ReadingMaterial } from '@/models/ReadingMaterial';
 
-import { createContext, PropsWithChildren, useContext, useState } from "react";
-import { createStore, StoreApi, useStore } from "zustand";
+import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import { createStore, StoreApi, useStore } from 'zustand';
 
 type ReadingContentStore = {
-  contents: ReadingContentType[] | null;
-  selectedContent: ReadingContentType | null;
+  contents: ReadingMaterial[] | null;
+  selectedContent: ReadingMaterial | null;
 
-  setContents: (contents: ReadingContentType[]) => void;
-  selectContent: (content: ReadingContentType) => void;
+  setContents: (contents: ReadingMaterial[]) => void;
+  selectContent: (content: ReadingMaterial) => void;
 };
 
 const ReadingContentContext = createContext<
@@ -16,7 +16,7 @@ const ReadingContentContext = createContext<
 >(undefined);
 
 type ReadingContentProviderProps = PropsWithChildren & {
-  selectedContent: ReadingContentType;
+  selectedContent: ReadingMaterial;
 };
 
 export default function ReadingContentProvider({
@@ -24,12 +24,11 @@ export default function ReadingContentProvider({
   selectedContent,
 }: ReadingContentProviderProps) {
   const [store] = useState(() =>
-    createStore<ReadingContentStore>((set) => ({
+    createStore<ReadingContentStore>(set => ({
       contents: null,
       selectedContent: selectedContent,
-      setContents: (contents: ReadingContentType[]) =>
-        set({ contents: contents }),
-      selectContent: (content: ReadingContentType) =>
+      setContents: (contents: ReadingMaterial[]) => set({ contents: contents }),
+      selectContent: (content: ReadingMaterial) =>
         set({ selectedContent: content }),
     })),
   );
@@ -45,7 +44,7 @@ export function useCountStore<T>(selector: (state: ReadingContentStore) => T) {
   const context = useContext(ReadingContentContext);
 
   if (!context) {
-    throw new Error("CountContext.Provider is missing");
+    throw new Error('CountContext.Provider is missing');
   }
 
   return useStore(context, selector);

@@ -3,17 +3,17 @@ import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from '@/utils/axiosInstance';
 import { API_URL } from '../utils/constants';
 
-import { ReadingContentType } from '@/models/ReadingContent';
+import { ReadingMaterial } from '@/models/ReadingMaterial';
 
 export const useStories = () => {
-  return useQuery<ReadingContentType[], Error>({
+  return useQuery<ReadingMaterial[], Error>({
     queryKey: ['stories'],
     queryFn: getStories,
     staleTime: 1000 * 60 * 60, // 1 hour
   });
 };
 
-const getStories = async (): Promise<ReadingContentType[]> => {
+const getStories = async (): Promise<ReadingMaterial[]> => {
   try {
     const response = await axiosInstance.get(`${API_URL}/reading-materials`);
 
@@ -27,7 +27,7 @@ const getStories = async (): Promise<ReadingContentType[]> => {
 };
 
 export const useRecommendedStories = (isPupil: boolean) => {
-  return useQuery<ReadingContentType[], Error>({
+  return useQuery<ReadingMaterial[], Error>({
     queryKey: ['recommendedStories'],
     queryFn: getRecommendations,
     staleTime: 1000 * 60 * 60,
@@ -35,7 +35,7 @@ export const useRecommendedStories = (isPupil: boolean) => {
   });
 };
 
-const getRecommendations = async (): Promise<ReadingContentType[]> => {
+const getRecommendations = async (): Promise<ReadingMaterial[]> => {
   try {
     const response = await axiosInstance.get(
       `${API_URL}/reading-materials/recommendations`,
@@ -53,7 +53,7 @@ const getRecommendations = async (): Promise<ReadingContentType[]> => {
 
 export const getFilteredStories = async (
   filters?: ReadingMaterialFilters,
-): Promise<ReadingContentType[]> => {
+): Promise<ReadingMaterial[]> => {
   try {
     const response = await axiosInstance.get(`${API_URL}/readingMaterials`, {
       params: filters,
@@ -90,7 +90,7 @@ const getReadingMaterialById = async (readingMaterialId: string) => {
 };
 
 export const useGetReadingMaterialById = (readingMaterialId: string) => {
-  return useQuery<ReadingContentType>({
+  return useQuery<ReadingMaterial>({
     queryKey: ['readingMaterial', readingMaterialId],
     queryFn: () => getReadingMaterialById(readingMaterialId),
     enabled: !!readingMaterialId,

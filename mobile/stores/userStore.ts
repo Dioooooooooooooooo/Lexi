@@ -1,12 +1,12 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { User, extractUser } from "../models/User";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { User, extractUser } from '../models/User';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   updateProfile as apiUpdateProfile,
   deleteAccount as apiDeleteAccount,
-} from "~/services/UserService";
-import { Session } from "@/models/Session";
+} from '~/services/UserService';
+import { Session } from '@/models/Session';
 
 type UserStore = {
   user: User | null;
@@ -23,16 +23,16 @@ type UserStore = {
 
 export const useUserStore = create<UserStore>()(
   persist(
-    (set) => ({
+    set => ({
       user: null,
       lastLoginStreak: null,
-      setUser: (user: UserStore["user"]) => set({ user }),
+      setUser: (user: UserStore['user']) => set({ user }),
       updateProfile: async (form: Record<string, any>) => {
         try {
           const response = await apiUpdateProfile(form);
           const data = response.data;
 
-          set((state) => ({
+          set(state => ({
             user: state.user
               ? {
                   ...state.user,
@@ -46,7 +46,7 @@ export const useUserStore = create<UserStore>()(
           }));
         } catch (error: any) {
           throw new Error(
-            error instanceof Error ? error.message : "Unknown error occurred",
+            error instanceof Error ? error.message : 'Unknown error occurred',
           );
         }
       },
@@ -55,21 +55,21 @@ export const useUserStore = create<UserStore>()(
         set({ user: null });
       },
       streak: 1,
-      setStreak: (streak: number) => set((state) => ({ streak: streak })),
+      setStreak: (streak: number) => set(state => ({ streak: streak })),
       setLastLoginStreak: (date: string) =>
-        set((state) => ({ lastLoginStreak: date })),
+        set(state => ({ lastLoginStreak: date })),
     }),
     {
-      name: "user-store",
+      name: 'user-store',
       storage: {
-        getItem: async (name) => {
+        getItem: async name => {
           const value = await AsyncStorage.getItem(name);
           return value ? JSON.parse(value) : null;
         },
         setItem: async (name, value) => {
           await AsyncStorage.setItem(name, JSON.stringify(value));
         },
-        removeItem: async (name) => {
+        removeItem: async name => {
           await AsyncStorage.removeItem(name);
         },
       },
