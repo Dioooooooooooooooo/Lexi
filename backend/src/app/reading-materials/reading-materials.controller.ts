@@ -59,10 +59,9 @@ export class ReadingMaterialsController {
   async findRecommendations(
     @Request() req: { user: UserResponseDto },
   ): Promise<SuccessResponseDto<ReadingMaterialWithGenres[]>> {
-    const pupil = await this.pupilService.getPupilProfile(req.user.id);
     const recommendedMaterials =
       await this.readingMaterialsService.getRecommendedReadingMaterials(
-        pupil.id,
+        req.user.id,
       );
     return {
       message: 'Recommended reading materials successfully fetched',
