@@ -11,6 +11,7 @@ export const useClassrooms = () => {
     queryKey: queryKeys.classrooms.list(),
     queryFn: () => ClassroomsService.getClassrooms(),
     staleTime: 2 * 60 * 1000, // 2 minutes
+    // select: (response: any) => response.data,
   });
 };
 

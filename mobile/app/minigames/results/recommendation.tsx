@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Redirect, router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text } from 'react-native';
-import { ReadingContentType } from '@/models/ReadingContent';
+import { ReadingMaterial } from '@/models/ReadingMaterial';
 
 export default function Recommendation() {
   const { data } = useLocalSearchParams();
 
-  const [recommendation, setRecommendation] = useState<ReadingContentType>();
+  const [recommendation, setRecommendation] = useState<ReadingMaterial>();
 
   useEffect(() => {
     const parsed = data ? JSON.parse(data as string) : null;

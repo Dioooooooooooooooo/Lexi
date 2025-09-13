@@ -27,6 +27,7 @@ export default function ClassroomCard({ classroom }: ClassroomCardProps) {
         ? '1 Pupil'
         : `${classroom.pupilCount} Pupils`
       : 'Loading...';
+
   return (
     <Pressable onPress={onPress}>
       <View className="rounded-xl overflow-hidden border-b-4 border-lightGray border bg-white my-2">

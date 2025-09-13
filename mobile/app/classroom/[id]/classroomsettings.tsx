@@ -105,17 +105,17 @@ export default function ClassroomSettings() {
   // );
   // buwag nani ha
 
-  console.log('unsa', user?.role);
-
   return (
     <View className="flex-1">
       <ScrollView className="bg-background p-8">
         <View>
           <BackHeader />
           <View className="justify-items-center self-center mb-8">
-            <Text className="font-poppins-bold text-2xl">Classroom</Text>
+            <Text className="font-poppins-bold text-center text-2xl">
+              Classroom
+            </Text>
             <Text>
-              Teacher: {user?.firstName} {user?.lastName}
+              Teacher: {user?.firstName} {user?.lastName} to fetch pa hahahah
             </Text>
           </View>
         </View>

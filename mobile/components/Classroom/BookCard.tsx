@@ -2,13 +2,13 @@ import React, { memo } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Ionicons } from '@expo/vector-icons';
-import { ReadingContentType } from '@/models/ReadingContent';
+import { ReadingMaterial } from '@/models/ReadingMaterial';
 import { useReadingContentStore } from '@/stores/readingContentStore';
 import { useRouter } from 'expo-router';
 import { useGetCoverFromGDrive } from '@/hooks/utils/useExtractDriveField';
 
 interface BookCardProps {
-  book: ReadingContentType;
+  book: ReadingMaterial;
 }
 
 function BookCard({ book, selected }: BookCardProps & { selected?: boolean }) {

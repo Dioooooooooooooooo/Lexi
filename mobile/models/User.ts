@@ -1,12 +1,12 @@
 export interface User {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   avatar: string;
-  userName: string;
+  username: string;
   twoFactorEnabled: boolean;
-  phoneNumber: string;
+  phone: string;
   role: string;
 
   pupil?: Pupil;
@@ -59,7 +59,7 @@ export function extractUser(data: Record<string, any>): User {
     role: role,
   };
 
-  if (role === "Pupil") {
+  if (role === 'Pupil') {
     user.pupil = pupil;
   }
   return user;

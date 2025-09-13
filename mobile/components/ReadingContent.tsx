@@ -2,11 +2,11 @@ import { memo, useMemo } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { router } from 'expo-router';
-import { ReadingContentType } from '@/models/ReadingContent';
+import { ReadingMaterial } from '@/models/ReadingMaterial';
 import { useReadingContentStore } from '@/stores/readingContentStore';
 import { useGetCoverFromGDrive } from '@/hooks/utils/useExtractDriveField';
 
-function ReadingContent(props: ReadingContentType) {
+function ReadingContent(props: ReadingMaterial) {
   const setSelectedContent = useReadingContentStore(
     state => state.setSelectedContent,
   );

@@ -1,4 +1,4 @@
-export interface ReadingContentType {
+export interface ReadingMaterial {
   id: string;
   type?: string;
   title: string;

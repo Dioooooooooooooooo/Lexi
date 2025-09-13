@@ -21,7 +21,7 @@ import {
 } from '~/components/ui/dropdown-menu';
 
 import { Search, ListFilter, Check, CircleUser } from 'lucide-react-native';
-import { ReadingContentType } from '@/models/ReadingContent';
+import { ReadingMaterial } from '@/models/ReadingMaterial';
 import { StreakIcon } from '@/components/Streak';
 import { useUserStore } from '@/stores/userStore';
 import { HeaderSearchBar } from '@/components/HeaderSearchBar';

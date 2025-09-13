@@ -1,4 +1,4 @@
-import { ReadingContentType } from "./ReadingContent";
+import { ReadingMaterial } from './ReadingMaterial';
 
 export interface ReadingAssignment {
   id: string;

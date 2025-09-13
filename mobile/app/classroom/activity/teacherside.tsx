@@ -7,7 +7,7 @@ import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { useReadingAssignmentStore } from '@/stores/readingAssignmentStore';
 import { useStories } from '@/services/ReadingMaterialService';
-import { ReadingContentType } from '@/models/ReadingContent';
+import { ReadingMaterial } from '@/models/ReadingMaterial';
 import { Button } from '@/components/ui/button';
 import { router, useFocusEffect } from 'expo-router';
 import { useReadingContentStore } from '@/stores/readingContentStore';
@@ -24,7 +24,7 @@ export default function activity() {
 
   const { setSelectedContent } = useReadingContentStore();
   const { data: contents, isLoading: isStoriesLoading } = useStories();
-  const selectedContent: ReadingContentType | undefined = contents?.find(
+  const selectedContent: ReadingMaterial | undefined = contents?.find(
     content => content.id === selectedReadingAssignment?.readingMaterialId,
   );
   // const [imageUrl, setImageUrl] = useState("");

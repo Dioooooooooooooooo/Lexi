@@ -1,11 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { OpenAPI } from './requests';
 
+const ipAddress = process.env.EXPO_PUBLIC_IPADDRESS;
 // Configure OpenAPI client with token from AsyncStorage
 export const setupAuthToken = async () => {
   const token = await AsyncStorage.getItem('access_token');
   OpenAPI.TOKEN = token || undefined;
-  OpenAPI.BASE = 'http://localhost:3000';
+  OpenAPI.BASE = `http://${ipAddress}:3000`;
 };
 
 // Initialize auth on module load
@@ -66,7 +67,13 @@ export const queryKeys = {
     byClassroom: (classroomId: string) =>
       [...queryKeys.activities.all, 'classroom', classroomId] as const,
     detail: (classroomId: string, activityId: string) =>
-      [...queryKeys.activities.all, 'classroom', classroomId, 'activity', activityId] as const,
+      [
+        ...queryKeys.activities.all,
+        'classroom',
+        classroomId,
+        'activity',
+        activityId,
+      ] as const,
   },
   // Activity Logs keys
   activityLogs: {

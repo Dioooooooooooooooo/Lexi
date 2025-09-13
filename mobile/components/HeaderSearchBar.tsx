@@ -49,11 +49,11 @@ export const HeaderSearchBar: React.FC<HeaderSearchBarProps> = ({
       {/* Streak Icon - Only for Pupils */}
       {user?.role === 'Pupil' && (
         <View style={{ marginRight: 20 }}>
-          <LoginStreak
+          {/* <LoginStreak
             isVisible={showStreak}
             onClose={() => setShowStreakModal(false)}
             activeWeekdays={activeWeekdays}
-          />
+          /> */}
 
           <TouchableOpacity onPress={() => setShowStreakModal(true)}>
             <View className="flex flex-row items-center">
