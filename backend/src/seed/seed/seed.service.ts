@@ -1,15 +1,11 @@
+import { WordsFromLettersGame } from '@/app/minigames/entities/minigame.entity';
+import { ReadabilityService } from '@/app/reading-materials/readibility.service';
 import { DB } from '@/database/db';
+import { MinigameType } from '@/database/schemas';
 import { Inject, Injectable } from '@nestjs/common';
 import { Kysely } from 'kysely';
-import CompleteData from '../data/all_complete_data.json';
 import Achievements from '../data/achievements.json';
-import { ReadabilityService } from '@/app/reading-materials/readibility.service';
-import { Minigame, MinigameType } from '@/database/schemas';
-import { instanceToPlain } from 'class-transformer';
-import {
-  MinigameEnt,
-  WordsFromLettersGame,
-} from '@/app/minigames/entities/minigame.entity';
+import CompleteData from '../data/all_complete_data.json';
 
 const Genres = new Set<string>([
   'Adventure',
