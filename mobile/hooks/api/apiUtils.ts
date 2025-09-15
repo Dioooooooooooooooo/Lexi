@@ -6,6 +6,7 @@ const ipAddress = process.env.EXPO_PUBLIC_IPADDRESS;
 export const setupAuthToken = async () => {
   const token = await AsyncStorage.getItem('access_token');
   OpenAPI.TOKEN = token || undefined;
+  console.log('tokensahjkas', OpenAPI.TOKEN);
   OpenAPI.BASE = `http://${ipAddress}:3000`;
 };
 
@@ -43,6 +44,7 @@ export const queryKeys = {
     list: () => [...queryKeys.classrooms.all, 'list'] as const,
     detail: (id: string) =>
       [...queryKeys.classrooms.all, 'detail', id] as const,
+    // join:()
   },
   // Minigames keys
   minigames: {

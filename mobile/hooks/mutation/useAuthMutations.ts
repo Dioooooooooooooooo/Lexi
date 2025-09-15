@@ -54,21 +54,27 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: (credentials: { email: string; password: string }) => {
+      console.log('paramore');
       const data: PostAuthLoginData = {
         requestBody: {
           email: credentials.email,
           password: credentials.password,
         },
       };
-      return AuthenticationService.postAuthLogin(data);
+      const res = AuthenticationService.postAuthLogin(data);
+      console.log('HMHHMMM', res);
+      return res;
     },
     onSuccess: async response => {
       const data = (response as any)?.data;
+
+      console.log('whole tibook token', data);
 
       // Store tokens
       if (data?.access_token) {
         await AsyncStorage.setItem('access_token', data.access_token);
         OpenAPI.TOKEN = data.access_token;
+        console.log('login token', OpenAPI.TOKEN);
       }
 
       if (data?.refresh_token) {
@@ -86,12 +92,15 @@ export const useLogin = () => {
 
 export const useRefreshToken = () => {
   const queryClient = useQueryClient();
-
+  console.log('refresh tok');
   return useMutation({
-    mutationFn: (data: PostAuthRefreshData) =>
-      AuthenticationService.postAuthRefresh(data),
+    mutationFn: async (data: PostAuthRefreshData) => {
+      console.log(data, 'jusqo');
+      await AuthenticationService.postAuthRefresh(data);
+    },
     onSuccess: data => {
       // Update token
+      console.log('refreshed', data);
       const token = (data as any)?.data?.access_token;
       if (token) {
         OpenAPI.TOKEN = token;

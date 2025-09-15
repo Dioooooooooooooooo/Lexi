@@ -16,6 +16,7 @@ import { Message } from '@/types/message';
 import { useGetRandomMinigames } from '@/services/New-MinigameService';
 import { Minigame } from '@/models/Minigame';
 import { useThrottle } from '@/hooks/utils/useThrottle';
+import { useRandomMinigamesByMaterial } from '@/hooks';
 
 const iconMap: Record<string, any> = {
   Story: require('@/assets/images/storyIcons/narrator.png'),
@@ -70,8 +71,12 @@ const Read = () => {
   );
   const [isFinished, setIsFinished] = useState(false);
   const { data: minigames, isLoading: isMinigameLoading } =
-    useGetRandomMinigames(selectedContent?.id);
-  console.log('MINIGAMES:', minigames);
+    useRandomMinigamesByMaterial(selectedContent?.id);
+
+  // if (!isMinigameLoading) {
+  //   console.log('MINIGAMES:', minigames[minigames.length - 1]);
+  // }
+  console.log(selectedContent.content, 'boang');
 
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: false });
@@ -278,7 +283,10 @@ const Read = () => {
                   variant="secondary"
                   className="flex-1"
                   onPress={() => {
-                    router.push('/(minigames)/test');
+                    router.push({
+                      pathname: '/(minigames)/wordsfromletters',
+                      params: minigames[minigames.length - 1].metadata,
+                    });
                   }}
                 >
                   <Text className="font-poppins-bold text-black">

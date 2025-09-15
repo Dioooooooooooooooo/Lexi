@@ -3,6 +3,7 @@ import {
   ClassroomsService,
   type PostClassroomsData,
   type PatchClassroomsByIdData,
+  PostClassroomsJoinData,
 } from '../api/requests';
 import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
@@ -24,6 +25,22 @@ export const useCreateClassroom = () => {
     },
     onError: (error: any) => {
       console.error('Failed to create classroom:', error);
+    },
+  });
+};
+
+export const useJoinClassroom = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: PostClassroomsJoinData) =>
+      ClassroomsService.postClassroomsJoin(data),
+    onSuccess: (data, variables) => {
+      // Invalidate lists
+      // queryClient.invalidateQueries({ queryKey: queryKeys.classrooms.list() });
+    },
+    onError: (error: any) => {
+      console.error('Failed to update classroom:', error);
     },
   });
 };

@@ -37,7 +37,7 @@ const SentenceArrangementBubble = ({
   explanation: string;
   onPress: (msg: bubble, msgType: MessageTypeEnum) => void;
 }) => {
-  const [isAudio, setIsAudio] = useState(false);
+  // const [isAudio, setIsAudio] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
   const {
@@ -55,9 +55,9 @@ const SentenceArrangementBubble = ({
     setParts(partsblocks);
   }, []);
 
-  console.log(correctAnswer, 'hwuhaaa');
-  console.log('parts', parts);
-  console.log('current', currentAnswer);
+  // console.log(correctAnswer, 'hwuhaaa');
+  // console.log('parts', parts);
+  // console.log('current', currentAnswer);
 
   useEffect(() => {
     if (currentAnswer.length === partsblocks.length && isAnswered == true) {
@@ -74,6 +74,8 @@ const SentenceArrangementBubble = ({
     }
     setIsAnswered(true);
   }, [currentAnswer]);
+
+  console.log('is answered', isAnswered);
 
   return (
     <View>
@@ -100,11 +102,10 @@ const SentenceArrangementBubble = ({
         </View>
       </View>
       {/* choices bubble */}
-      {!isAnswered ? null : (
+      {isFinished ? null : (
         <View className="flex-row gap-2 pt-1 items-end">
           <View className="flex-1 border-2 border-accentBlue border-b-4 rounded-md p-3 bg-vibrantBlue">
             <View className="flex-wrap flex-row gap-2">
-              <Text>hue</Text>
               {parts.map((part, index) => (
                 <SentenceArrangementBtn
                   key={index}
