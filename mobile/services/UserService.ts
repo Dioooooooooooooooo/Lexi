@@ -1,7 +1,11 @@
 import { axiosInstance } from '@/utils/axiosInstance';
 
 import { API_URL } from '../utils/constants';
-import { dataTagErrorSymbol, useQueries } from '@tanstack/react-query';
+import {
+  dataTagErrorSymbol,
+  useMutation,
+  useQueries,
+} from '@tanstack/react-query';
 import { makeMultipartFormDataRequest } from '@/utils/utils';
 import { getAllReadingSessions } from './ReadingSessionService';
 import {
@@ -9,9 +13,15 @@ import {
   ReadingSessionsService,
   UserService,
 } from '@/hooks/api/requests';
-import { setupAuthToken, useAuthMe, useChangePassword, useUpdateProfile } from '@/hooks';
+import {
+  setupAuthToken,
+  useAuthMe,
+  useChangePassword,
+  useUpdateProfile,
+} from '@/hooks';
 import { LoginStreak } from '@/models/LoginStreak';
 import { Achievement } from '@/models/Achievement';
+import axios from 'axios';
 
 export const getProfile = async () => {
   try {
@@ -107,7 +117,6 @@ export const useHandleUpdateProfile = () => {
       );
     }
 
-    
     const updatedUser = await getUser();
     return updatedUser.data;
   };
@@ -136,6 +145,51 @@ export const deleteAccount = async () => {
   }
 
   return response.data;
+};
+
+export const uploadAvatar = async (avatar: {
+  uri: string;
+  type: string;
+  name: string;
+}) => {
+  const formData = new FormData();
+  formData.append('avatar', {
+    uri: avatar.uri,
+    type: avatar.type,
+    name: avatar.name,
+  } as any);
+
+  const response = await axiosInstance.post(
+    `${API_URL}/upload/image`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      validateStatus: () => true,
+    },
+  );
+
+  if (response.status !== 200 && response.status !== 201) {
+    throw new Error(response.data.message);
+  }
+
+  console.log('Upload response data:', response);
+
+  return response.data.data;
+};
+
+export const useUploadAvatar = () => {
+  return useMutation({
+    mutationFn: (avatar: { uri: string; type: string; name: string }) =>
+      uploadAvatar(avatar),
+    onSuccess: data => {
+      console.log('Upload successful: ', data);
+    },
+    onError: error => {
+      console.error('Error uploading avatar:', error);
+    },
+  });
 };
 
 export const createSession = async () => {

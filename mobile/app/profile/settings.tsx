@@ -1,6 +1,10 @@
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { checkUserExist, useHandleUpdateProfile } from '@/services/UserService';
+import {
+  checkUserExist,
+  useHandleUpdateProfile,
+  useUploadAvatar,
+} from '@/services/UserService';
 import {
   getChangedFields,
   getFormDataImageFromPickerAsset,
@@ -42,6 +46,7 @@ export default function Settings() {
   const deleteAccount = useUserStore(state => state.deleteAccount);
   const { refetch: refetchUser } = useAuthMe();
   const setUser = useUserStore(state => state.setUser);
+  const { mutate: handleUploadAvatar } = useUploadAvatar();
 
   const user = useUserStore(state => state.user);
   console.log('User from store:', user);
@@ -93,8 +98,10 @@ export default function Settings() {
       const changes = getChangedFields(user, profile);
       if (Object.keys(changes).length > 0) {
         if (changes.avatar) {
-          changes.avatar = avatarFile;
+          const uploadedAvatar = handleUploadAvatar(avatarFile);
+          changes.avatar = uploadedAvatar;
         }
+
         const res = await handleProfileUpdate(changes);
         if (res) {
           const updatedUser = extractUser(res.data);

@@ -23,7 +23,7 @@ export class ImagekitController {
   @UseInterceptors(FileInterceptor('avatar'))
   async uploadImage(
     @UploadedFile() file: Express.Multer.File,
-  ): Promise<SuccessResponseDto<{ url: string; fileId: string }>> {
+  ): Promise<SuccessResponseDto<string>> {
     const result = await this.imagekitService.uploadImage(file);
     return {
       message: 'Image uploaded successfully',
