@@ -17,22 +17,16 @@ import { useCreateMinigameLog } from '@/services/minigameService';
 import { useUserStore } from '@/stores/userStore';
 import { useWordsFromLettersMinigame } from '@/hooks';
 import { useReadingContentStore } from '@/stores/readingContentStore';
-import { useLocalSearchParams } from 'expo-router';
 
 export default function WordsFromLetters() {
   const { mutate: triggerCreateMinigameLog } = useCreateMinigameLog();
-  const selectedContent = useReadingContentStore(
-    state => state.selectedContent,
-  );
   const userRole = useUserStore(state => state.user?.role);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const {
     lives,
     decrementLives,
     letters,
-    setLetters,
     words,
-    setWords,
     guess,
     setGuess,
     shuffleLetters,
@@ -49,30 +43,19 @@ export default function WordsFromLetters() {
     resetStreak,
     resetGameState,
   } = useWordsFromLettersMiniGameStore();
-  const data = useLocalSearchParams();
 
   const { gameOver, incrementMinigamesIndex } = useMiniGameStore();
+  console.log('wfl words:', words, 'wfl letters:', letters);
 
-  console.log(data, 'wfl game');
+  console.log('correct answers', correctAnswers);
 
   useEffect(() => {
-    //resetGameState();
-
-    setLetters(JSON.parse(data.metadata).letters);
-    setWords(JSON.parse(data.metadata).words);
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => {
-        return true;
-      },
-    );
-
-    return () => backHandler.remove();
+    resetGameState();
   }, []);
 
   useEffect(() => {
     if (!guess.includes('')) {
-      const word = guess.join('');
+      const word = guess.join('').toLowerCase();
       if (words.includes(word)) {
         incrementStreak();
         setIsCorrect(true);
@@ -118,7 +101,6 @@ export default function WordsFromLetters() {
         }
 
         setTimeout(() => {
-          nextGame();
           resetGameState();
         }, 500);
       } catch (error) {
@@ -179,7 +161,7 @@ export default function WordsFromLetters() {
         <View className="flex gap-14 py-16">
           <View className="flex gap-4">
             <View className="flex flex-row gap-2 justify-center items-center">
-              <Text className="text-3xl font-black text-indigo-600">
+              <Text className="text-3xl font-poppins-bold text-indigo-600">
                 Words From Letters
               </Text>
             </View>
@@ -207,7 +189,7 @@ export default function WordsFromLetters() {
                 <Shuffle size={30} color="black" />
               </TouchableOpacity>
 
-              <View className="flex-row flex-wrap justify-center gap-6">
+              <View className="flex-row flex-wrap justify-center gap-3 pt-16">
                 {letters && letters.length > 0 ? (
                   letters.map((letter: string, i: number) => (
                     <LetterButton
@@ -242,9 +224,10 @@ const LetterButton = memo(
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
-      style={{ opacity: disabled ? 0.5 : 1 }}
+      style={{ opacity: disabled ? 0.4 : 1 }}
+      className="w-12 h-12 justify-center items-center rounded-xl shadow-sm active:bg-gray-50 active:scale-95"
     >
-      <Text className="text-6xl font-black">{letter}</Text>
+      <Text className="text-4xl font-poppins-bold">{letter}</Text>
     </TouchableOpacity>
   ),
 );
@@ -290,13 +273,31 @@ const GuessSlot = memo(
           ? 'text-red-500'
           : '';
 
+    // return (
+    //   <Animated.View
+    //     style={animatedStyle}
+    //     className={`rounded-md ${borderClass}`}
+    //   >
+    //     <TouchableOpacity onPress={onPress} className="bg-white">
+    //       <Text className={`text-4xl font-poppins-bold ${textClass} m-4`}>
+    //         {letter}
+    //       </Text>
+    //     </TouchableOpacity>
+    //   </Animated.View>
+    // );
+
     return (
       <Animated.View
         style={animatedStyle}
-        className={`border p-4 rounded-md ${borderClass}`}
+        className={`rounded-xl ${borderClass} shadow-sm bg-white min-w-[60px] min-h-[60px]`}
       >
-        <TouchableOpacity onPress={onPress}>
-          <Text className={`text-4xl font-black ${textClass}`}>{letter}</Text>
+        <TouchableOpacity
+          onPress={onPress}
+          className="flex-1 justify-center items-center px-4 py-3 active:opacity-70"
+        >
+          <Text className={`text-3xl font-poppins-bold ${textClass}`}>
+            {letter || ' '}
+          </Text>
         </TouchableOpacity>
       </Animated.View>
     );

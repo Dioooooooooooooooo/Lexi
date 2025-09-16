@@ -392,7 +392,7 @@ export const useWordsFromLettersMiniGameStore =
         resetGameState: () =>
           set(() => {
             return {
-              words: [],
+              // words: [],
               correctAnswers: [],
               incorrectAnswers: [],
               streak: 0,

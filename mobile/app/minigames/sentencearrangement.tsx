@@ -349,7 +349,7 @@ export default function SentenceArrangement({
         <View className="flex py-12">
           <View className="flex gap-6">
             <View className="flex flex-row gap-2 justify-center items-center">
-              <Text className="text-3xl font-black text-center text-indigo-600">
+              <Text className="text-3xl font-poppins-bold text-center text-indigo-600">
                 Sentence Arrangement
               </Text>
             </View>

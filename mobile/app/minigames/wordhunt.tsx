@@ -193,7 +193,9 @@ export default function WordHunt({
         />
 
         <View className="items-center gap-2">
-          <Text className="text-3xl font-black text-indigo-600">Word Hunt</Text>
+          <Text className="text-3xl font-poppins-bold text-indigo-600">
+            Word Hunt
+          </Text>
           <View className="flex flex-row justify-center gap-1">
             {Array.from({ length: lives }).map((_, i) => (
               <Heart key={i} fill="#8383FF" />

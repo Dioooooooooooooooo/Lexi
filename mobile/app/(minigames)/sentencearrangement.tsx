@@ -55,9 +55,10 @@ const SentenceArrangementBubble = ({
     setParts(partsblocks);
   }, []);
 
-  // console.log(correctAnswer, 'hwuhaaa');
-  // console.log('parts', parts);
-  // console.log('current', currentAnswer);
+  console.log('correct answer', correctAnswer);
+  console.log('current asnwer joined', currentAnswer.join(''));
+  console.log('parts', parts);
+  console.log('current', currentAnswer);
 
   useEffect(() => {
     if (currentAnswer.length === partsblocks.length && isAnswered == true) {

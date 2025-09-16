@@ -190,7 +190,7 @@ export const getRequestBody = (options: ApiRequestOptions): unknown => {
   return undefined;
 };
 
-// TODO: refresh token
+// TODO: refresh token gubaon pani bwesit bot oy
 export const sendRequest = async (
   config: OpenAPIConfig,
   options: ApiRequestOptions,
@@ -226,9 +226,32 @@ export const sendRequest = async (
       console.log('refresh token ni bossing:', refreshToken);
       if (!refreshToken) throw new Error('No refresh token stored');
 
-      const newTokens = await AuthenticationService.postAuthRefresh({
+      let newTokens = null;
+
+      // try {
+      //   console.log('attempting refresh token');
+      //   newTokens = await AuthenticationService.postAuthRefresh({
+      //     requestBody: { refresh_token: refreshToken },
+      //   });
+
+      //   console.log(newTokens, 'ngano nmn ni oy');
+      // } catch (err) {
+      //   (console.log('attemping log out'), err);
+      //   await AuthenticationService.postAuthLogout();
+      //   await AsyncStorage.multiRemove(['access_token', 'refresh_token']);
+      //   return response;
+      // }
+
+      newTokens = await AuthenticationService.postAuthRefresh({
         requestBody: { refresh_token: refreshToken },
       });
+
+      if ((newTokens as any).status === 401) {
+        console.log('Refresh token expired → logging out');
+        await AuthenticationService.postAuthLogout();
+        await AsyncStorage.multiRemove(['access_token', 'refresh_token']);
+        return response;
+      }
 
       console.log('bagong tokens ni bossing:', newTokens);
       const accessToken = (newTokens as any).data.access_token;
@@ -244,6 +267,9 @@ export const sendRequest = async (
       }
     } catch (err) {
       console.error('Refresh token failed', err);
+      await AuthenticationService.postAuthLogout();
+      await AsyncStorage.multiRemove(['access_token', 'refresh_token']);
+      return response; // stop infinite loop
     }
   }
   return response;

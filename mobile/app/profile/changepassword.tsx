@@ -64,7 +64,9 @@ export default function ChangePassword() {
       <ScrollView className="bg-white">
         <View className="flex-1 gap-8 p-8 h-full justify-around">
           <BackHeader />
-          <Text className="font-black text-2xl">Change your password</Text>
+          <Text className="font-poppins-bold text-2xl">
+            Change your password
+          </Text>
           <View className="flex gap-3 justify-around">
             <View className="flex gap-2">
               <View>
