@@ -1,6 +1,6 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { DictionaryService } from './dictionary.service';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { SuccessResponseDto } from '@/common/dto';
 
@@ -13,6 +13,11 @@ export class DictionaryController {
   @Get('dictionary/:word')
   @ApiOperation({
     summary: 'Get definition of word',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Definition fetched successfully',
+    type: SuccessResponseDto,
   })
   async definition(
     @Param('word') word: string,

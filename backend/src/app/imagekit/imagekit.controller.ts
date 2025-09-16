@@ -7,7 +7,7 @@ import {
 import { ImagekitService } from './imagekit.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SuccessResponseDto } from '@/common/dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('upload')
 export class ImagekitController {
@@ -15,6 +15,11 @@ export class ImagekitController {
 
   @Post('image')
   @ApiOperation({ summary: 'Upload image to ImageKit' })
+  @ApiResponse({
+    status: 201,
+    description: 'Image uploaded successfully',
+    type: SuccessResponseDto,
+  })
   @UseInterceptors(FileInterceptor('avatar'))
   async uploadImage(
     @UploadedFile() file: Express.Multer.File,

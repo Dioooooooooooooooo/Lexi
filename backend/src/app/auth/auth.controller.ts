@@ -76,7 +76,6 @@ export class AuthController {
     description: "User already exists",
     type: ErrorResponseDto,
     example: {
-      statusCode: 409,
       message: "User already exists",
       error: "Conflict",
     },
@@ -85,7 +84,6 @@ export class AuthController {
     description: "Invalid input data",
     type: ErrorResponseDto,
     example: {
-      statusCode: 400,
       message: [
         "email must be a valid email",
         "password must be longer than or equal to 6 characters",
@@ -150,7 +148,6 @@ export class AuthController {
     description: "Invalid credentials",
     type: ErrorResponseDto,
     example: {
-      statusCode: 401,
       message: "Invalid credentials",
       error: "Unauthorized",
     },
@@ -159,7 +156,6 @@ export class AuthController {
     description: "Invalid input data",
     type: ErrorResponseDto,
     example: {
-      statusCode: 400,
       message: ["email must be a valid email", "password should not be empty"],
       error: "Bad Request",
     },
@@ -253,7 +249,6 @@ export class AuthController {
     description: "Invalid refresh token",
     type: ErrorResponseDto,
     example: {
-      statusCode: 401,
       message: "Invalid refresh token",
       error: "Unauthorized",
     },
@@ -304,7 +299,7 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: "Password reset email sent (if email exists)",
-    type: SuccessResponseDto,
+    type: SuccessResponseDto<void>,
     example: {
       message: "If the email exists, a password reset link has been sent.",
     },
@@ -313,7 +308,6 @@ export class AuthController {
     description: "Invalid input data",
     type: ErrorResponseDto,
     example: {
-      statusCode: 400,
       message: ["email must be a valid email"],
       error: "Bad Request",
     },
@@ -351,7 +345,7 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: "Password reset successfully",
-    type: SuccessResponseDto,
+    type: SuccessResponseDto<void>,
     example: {
       message: "Password reset successfully",
     },
@@ -360,7 +354,6 @@ export class AuthController {
     description: "Invalid or expired reset token",
     type: ErrorResponseDto,
     example: {
-      statusCode: 400,
       message: "Invalid or expired reset token",
       error: "Bad Request",
     },
@@ -384,7 +377,7 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: "Email verication sent.",
-    type: SuccessResponseDto,
+    type: SuccessResponseDto<void>,
     example: {
       message: "If the email exists, an email verification link has been sent.",
     },
@@ -407,7 +400,7 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: "Email verified successfully",
-    type: SuccessResponseDto,
+    type: SuccessResponseDto<void>,
     example: {
       message: "Email verified successfully",
     },
@@ -416,7 +409,6 @@ export class AuthController {
     description: "Invalid or expired verification token",
     type: ErrorResponseDto,
     example: {
-      statusCode: 400,
       message: "Invalid or expired verification token",
       error: "Bad Request",
     },
@@ -453,7 +445,6 @@ export class AuthController {
     description: "Invalid or missing token",
     type: ErrorResponseDto,
     example: {
-      statusCode: 401,
       message: "Unauthorized",
       error: "Unauthorized",
     },
@@ -502,7 +493,6 @@ export class AuthController {
     description: "Email already exists",
     type: ErrorResponseDto,
     example: {
-      statusCode: 409,
       message: "Email already exists",
       error: "Conflict",
     },
@@ -511,7 +501,6 @@ export class AuthController {
     description: "Invalid or missing token",
     type: ErrorResponseDto,
     example: {
-      statusCode: 401,
       message: "Unauthorized",
       error: "Unauthorized",
     },
@@ -552,7 +541,7 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: "Password changed successfully",
-    type: SuccessResponseDto,
+    type: SuccessResponseDto<void>,
     example: {
       message: "Password changed successfully",
     },
@@ -561,7 +550,6 @@ export class AuthController {
     description: "Invalid or missing token / Current password incorrect",
     type: ErrorResponseDto,
     example: {
-      statusCode: 401,
       message: "Current password is incorrect",
       error: "Unauthorized",
     },
@@ -599,7 +587,7 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: "User successfully logged out",
-    type: SuccessResponseDto,
+    type: SuccessResponseDto<void>,
     example: {
       message: "Successfully logged out",
     },
@@ -608,7 +596,6 @@ export class AuthController {
     description: "Invalid or missing token",
     type: ErrorResponseDto,
     example: {
-      statusCode: 401,
       message: "Unauthorized",
       error: "Unauthorized",
     },
@@ -651,7 +638,6 @@ export class AuthController {
     description: "Invalid or expired token",
     type: ErrorResponseDto,
     example: {
-      statusCode: 401,
       message: "Unauthorized",
       error: "Unauthorized",
     },

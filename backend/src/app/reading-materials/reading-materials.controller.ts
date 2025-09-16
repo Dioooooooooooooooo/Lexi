@@ -12,7 +12,7 @@ import {
 import { ReadingMaterialsService } from './reading-materials.service';
 import { CreateReadingMaterialDto } from './dto/create-reading-material.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { SuccessResponseDto } from '@/common/dto';
 import { ReadingMaterial } from '@/database/schemas';
 import { RolesGuard } from '../auth/role-guard';
@@ -32,6 +32,14 @@ export class ReadingMaterialsController {
   ) {}
 
   @Post()
+  @ApiOperation({
+    summary: 'Create a reading material',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Reading material created successfully',
+    type: SuccessResponseDto<ReadingMaterial>,
+  })
   async create(
     @Body() createReadingMaterialDto: CreateReadingMaterialDto,
   ): Promise<SuccessResponseDto<ReadingMaterial>> {
@@ -45,6 +53,14 @@ export class ReadingMaterialsController {
   }
 
   @Get()
+  @ApiOperation({
+    summary: 'Get all reading materials',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Reading materials fetched successfully',
+    type: SuccessResponseDto<ReadingMaterialWithGenres[]>,
+  })
   async findAll(): Promise<SuccessResponseDto<ReadingMaterialWithGenres[]>> {
     const readingMaterials = await this.readingMaterialsService.findAll();
     return {
@@ -56,6 +72,14 @@ export class ReadingMaterialsController {
   @Get('recommendations')
   @UseGuards(RolesGuard)
   @Roles(['Pupil'])
+  @ApiOperation({
+    summary: 'Get recommended reading materials for the pupil',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Recommended reading materials fetched successfully',
+    type: SuccessResponseDto<ReadingMaterialWithGenres[]>,
+  })
   async findRecommendations(
     @Request() req: { user: UserResponseDto },
   ): Promise<SuccessResponseDto<ReadingMaterialWithGenres[]>> {
@@ -70,6 +94,14 @@ export class ReadingMaterialsController {
   }
 
   @Get(':id')
+  @ApiOperation({
+    summary: 'Get a reading material by id',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Reading material fetched successfully',
+    type: SuccessResponseDto<ReadingMaterialWithGenres>,
+  })
   async findOne(
     @Param('id') id: string,
   ): Promise<SuccessResponseDto<ReadingMaterialWithGenres>> {
