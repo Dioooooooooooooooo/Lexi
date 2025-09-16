@@ -1,5 +1,5 @@
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-
+import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { useGlobalStore } from '@/stores/globalStore';
 import { validateField } from '@/utils/utils';
@@ -12,6 +12,8 @@ import { Input } from '@/components/ui/input';
 import { useUserStore } from '@/stores/userStore';
 import { router } from 'expo-router';
 import LoadingScreenForm from '@/components/LoadingScreenForm';
+import { useHandleUpdateProfile } from '@/services/UserService';
+import { extractUser } from '@/models/User';
 
 export default function ChangePassword() {
   const setIsLoading = useGlobalStore(state => state.setIsLoading);
@@ -27,6 +29,7 @@ export default function ChangePassword() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const updateProfile = useUserStore(state => state.updateProfile);
+  const handleProfileUpdate = useHandleUpdateProfile();
 
   const handleChangePassword = async () => {
     setIsLoading(true);
@@ -41,7 +44,12 @@ export default function ChangePassword() {
       setFormErrors(newErrors);
       if (Object.keys(newErrors).length > 0) return;
 
-      await updateProfile(form);
+      const res = await handleProfileUpdate(form);
+      if (res) {
+        const updatedUser = extractUser(res.data);
+        updateProfile(updatedUser);
+      }
+
       Toast.show({
         type: 'success',
         text1: 'Password Changed',

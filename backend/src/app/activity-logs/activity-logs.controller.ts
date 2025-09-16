@@ -26,7 +26,7 @@ export class ActivityLogsController {
   @Post()
   @ApiOperation({ summary: 'Create Activity Log' })
   async create(
-    @Param('/activityId') activityId: string,
+    @Param('activityId') activityId: string,
     @Body() createActivityLogDto: CreateActivityLogDto,
   ) {
     const data = await this.activityLogsService.create(

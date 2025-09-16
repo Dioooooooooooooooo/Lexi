@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { checkUserExist } from '@/services/UserService';
+import { checkUserExist, useHandleUpdateProfile } from '@/services/UserService';
 import {
   getChangedFields,
   getFormDataImageFromPickerAsset,
@@ -26,9 +26,10 @@ import { Button } from '@/components/ui/button';
 import ConfirmModal from '@/components/Modal';
 import BackHeader from '@/components/BackHeader';
 import Toast from 'react-native-toast-message';
-import { User } from '@/models/User';
+import { extractUser, User } from '@/models/User';
 import { API_URL } from '@/utils/constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuthMe } from '@/hooks';
 
 export default function Settings() {
   const [deleteAccountModalVisible, setDeleteAccountModalVisible] =
@@ -36,10 +37,14 @@ export default function Settings() {
   const [isProfileChanged, setIsProfileChanged] = useState(false);
   const [avatarFile, setAvatarFile] = useState<any>(null);
   const setIsLoading = useGlobalStore(state => state.setIsLoading);
+  const handleProfileUpdate = useHandleUpdateProfile();
   const updateProfile = useUserStore(state => state.updateProfile);
   const deleteAccount = useUserStore(state => state.deleteAccount);
+  const { refetch: refetchUser } = useAuthMe();
+  const setUser = useUserStore(state => state.setUser);
 
   const user = useUserStore(state => state.user);
+  console.log('User from store:', user);
 
   const [profile, setProfile] = useState<User>(
     user ? { ...user } : ({} as User),
@@ -76,8 +81,8 @@ export default function Settings() {
       });
 
       if (
-        profile.userName !== user?.userName &&
-        (await checkUserExist('username', profile.userName)).statusCode === 409
+        profile.username !== user?.username &&
+        (await checkUserExist('username', profile.username)).statusCode === 409
       ) {
         newErrors['username'] = 'Username is already taken';
       }
@@ -90,7 +95,11 @@ export default function Settings() {
         if (changes.avatar) {
           changes.avatar = avatarFile;
         }
-        await updateProfile(changes);
+        const res = await handleProfileUpdate(changes);
+        if (res) {
+          const updatedUser = extractUser(res.data);
+          updateProfile(updatedUser);
+        }
       } else {
         console.log('No changes to update');
       }
@@ -185,10 +194,10 @@ export default function Settings() {
           <View className="py-1">
             <Text className="font-poppins-bold">First Name</Text>
             <Input
-              placeholder={profile.firstName}
-              value={profile.firstName}
+              placeholder={profile.first_name}
+              value={profile.first_name}
               onChangeText={(value: string) =>
-                setProfile({ ...profile, firstName: value })
+                setProfile({ ...profile, first_name: value })
               }
             ></Input>
             {formErrors.firstName && (
@@ -199,10 +208,10 @@ export default function Settings() {
           <View className="py-1">
             <Text className="font-poppins-bold">Last Name</Text>
             <Input
-              placeholder={profile.lastName}
-              value={profile.lastName}
+              placeholder={profile.last_name}
+              value={profile.last_name}
               onChangeText={(value: string) =>
-                setProfile({ ...profile, lastName: value })
+                setProfile({ ...profile, last_name: value })
               }
             />
           </View>
@@ -211,10 +220,10 @@ export default function Settings() {
             <Text className="font-poppins-bold">Username</Text>
 
             <Input
-              placeholder={profile.userName}
-              value={profile.userName}
+              placeholder={profile.username}
+              value={profile.username}
               onChangeText={(value: string) =>
-                setProfile({ ...profile, userName: value })
+                setProfile({ ...profile, username: value })
               }
             />
             {formErrors.username && (

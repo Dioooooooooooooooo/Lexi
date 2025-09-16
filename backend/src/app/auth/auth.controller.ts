@@ -521,6 +521,7 @@ export class AuthController {
     @Request() req: { user: UserResponseDto },
     @Body() updateProfileDto: UpdateProfileDto,
   ): Promise<SuccessResponseDto<UserResponseDto>> {
+    console.log('UpdateProfileDto:', updateProfileDto);
     await this.authService.updateProfile(req.user.id, updateProfileDto);
     return {
       message: "User profile successfully updated",
