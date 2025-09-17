@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
-import { ReadingMaterialsService } from '../api/requests';
+import { OpenAPI, ReadingMaterialsService } from '../api/requests';
 
 // =============================================================================
 // READING MATERIAL QUERIES - Data Fetching Hooks
@@ -9,17 +9,32 @@ import { ReadingMaterialsService } from '../api/requests';
 export const useReadingMaterials = () => {
   return useQuery({
     queryKey: queryKeys.readingMaterials.list(),
+    // queryFn: async () => {
+    //   await setupAuthToken();
+    //   return await ReadingMaterialsService.getReadingMaterials();
+    // },
     queryFn: async () => {
       await setupAuthToken();
-      return ReadingMaterialsService.getReadingMaterials();
-    },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    retry: (failureCount, error: any) => {
-      if (error?.status === 401) {
-        return false;
+      console.log('debugging fucks');
+      try {
+        const res = await ReadingMaterialsService.getReadingMaterials();
+        console.log('reading materials raw:', res.data[0]);
+        return res;
+      } catch (err) {
+        console.error('reading materials error:', err);
+        throw err; // rethrow so React Query sees it
       }
-      return failureCount < 3;
     },
+
+    staleTime: 2 * 60 * 1000, // 2 minutes for quick debugging
+    // retry: (failureCount, error: any) => {
+    //   if (error?.status === 401) {
+    //     return false;
+    //   }
+    //   return failureCount < 3;
+    // },
+    select: (response: any) => response.data,
+    placeholderData: [],
   });
 };
 
@@ -30,7 +45,7 @@ export const useReadingMaterialById = (id: string) => {
       await setupAuthToken();
       return ReadingMaterialsService.getReadingMaterialsById({ id });
     },
-    staleTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 60 * 60 * 1000, // 10 minutes
     retry: (failureCount, error: any) => {
       if (error?.status === 401) {
         return false;

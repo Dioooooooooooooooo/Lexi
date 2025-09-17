@@ -10,7 +10,7 @@ export interface WordsFromLetters {
 }
 
 export interface SentenceRearrangement {
-  correctAnswer?: string[];
+  correct_answer: string[];
   parts: string[];
   explanation: string;
 }
@@ -21,8 +21,9 @@ type Choice = {
 };
 
 export interface Choices {
+  reading_material_id: string;
+  question: string;
   choices: Choice[];
-  answer: string;
   explanation: string;
 }
 

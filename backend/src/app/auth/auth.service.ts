@@ -258,20 +258,17 @@ export class AuthService {
       .where('auth.refresh_tokens.token', '=', refreshTokenDto.refresh_token)
       .executeTakeFirst();
 
-    if (
-      !refreshToken ||
-      refreshToken.revoked ||
-      new Date() > refreshToken.expires_at
-    ) {
-      throw new UnauthorizedException('Invalid refresh token');
+    if (!refreshToken || refreshToken.revoked) {
+      throw new UnauthorizedException('hey Invalid refresh token');
     }
 
-    // Revoke the old refresh token
-    await this.db
-      .updateTable('auth.refresh_tokens')
-      .set({ revoked: true })
-      .where('id', '=', refreshToken.token_id)
-      .execute();
+    if (new Date() > refreshToken.expires_at) {
+      await this.db
+        .updateTable('auth.refresh_tokens')
+        .set({ revoked: true })
+        .where('id', '=', refreshToken.token_id)
+        .execute();
+    }
 
     // Generate new tokens
     const tokens = await this.generateTokens(

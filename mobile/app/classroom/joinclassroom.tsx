@@ -8,6 +8,7 @@ import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Text } from '@/components/ui/text';
+import { useJoinClassroom } from '@/hooks';
 
 export default function JoinClassroom() {
   const [joinCode, setJoinCode] = useState('');
@@ -15,14 +16,14 @@ export default function JoinClassroom() {
   const setSelectedClassroom = useClassroomStore(
     state => state.setSelectedClassroom,
   );
+  const { mutateAsync: joinClassroom } = useJoinClassroom();
 
-  const queryClient = useQueryClient();
-  const { mutateAsync: joinClassroomMutation } = useMutation({
-    mutationFn: apiJoinClassroom,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['classroomsData'] });
-    },
-  });
+  // const { mutateAsync: joinClassroomMutation } = useMutation({
+  //   mutationFn: apiJoinClassroom,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ['classroomsData'] });
+  //   },
+  // });
 
   return (
     <View className="flex-1">
@@ -56,7 +57,7 @@ export default function JoinClassroom() {
               return;
             }
             try {
-              const response = await joinClassroomMutation(joinCode);
+              const response = await joinClassroom(joinCode);
               const classroom = response.data;
 
               setSelectedClassroom(classroom);

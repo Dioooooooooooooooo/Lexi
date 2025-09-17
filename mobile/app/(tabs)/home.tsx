@@ -174,10 +174,11 @@ function HomeScreen() {
 
   const showSearchResults = searchQuery.trim() !== '';
 
-  if (!isStoriesLoading) {
-    // console.log(stories, 'gidle');
-    
-  }
+  // if (!isStoriesLoading) {
+  //   console.log(stories, 'gidle');
+  // } else {
+  //   console.log('loading stories...');
+  // }
 
   return (
     <View style={{ flex: 1 }}>
@@ -314,12 +315,12 @@ function HomeScreen() {
 
             <View className="flex-1 gap-4 w-full p-8">
               <Text className="text-2xl font-poppins-bold">Explore</Text>
-              {/* {isStoriesLoading ? (
+              {isStoriesLoading || !stories ? (
                 <Text>Loading stories...</Text>
               ) : (
                 <View className="flex flex-row justify-between flex-wrap">
-                  {stories.data.length > 0 ? (
-                    stories?.data.map(item => (
+                  {stories.length > 0 ? (
+                    stories?.map(item => (
                       <View key={item.id}>
                         <ReadingContent
                           type="ScrollView"
@@ -340,7 +341,7 @@ function HomeScreen() {
                     </Text>
                   )}
                 </View>
-              )} */}
+              )}
             </View>
           </>
         )}

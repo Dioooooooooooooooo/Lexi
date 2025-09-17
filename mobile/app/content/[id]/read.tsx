@@ -13,9 +13,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Message } from '@/types/message';
-import { useGetRandomMinigames } from '@/services/New-MinigameService';
 import { Minigame } from '@/models/Minigame';
 import { useThrottle } from '@/hooks/utils/useThrottle';
+import { useRandomMinigamesByMaterial } from '@/hooks';
+import { useWordsFromLettersMiniGameStore } from '@/stores/miniGameStore';
 
 const iconMap: Record<string, any> = {
   Story: require('@/assets/images/storyIcons/narrator.png'),
@@ -34,7 +35,7 @@ function minigameProvider(
   bubbleCount: number,
   minigames: Minigame[],
 ) {
-  // temp type:1 = choices, 0: arrangement
+  // 1 = choices, 0 = arrangement
   const minigame = minigames[minigameCount];
   const metadata = JSON.parse(minigame.metadata);
 
@@ -43,14 +44,14 @@ function minigameProvider(
     const choicesBubble: Message = {
       id: bubbleCount,
       type: MessageTypeEnum.CHOICES,
-      payload: metadata as choice,
+      payload: minigame,
     };
     return choicesBubble;
   } else if (minigame.minigame_type === 0) {
     const arrangeBubble: Message = {
       id: bubbleCount,
       type: MessageTypeEnum.ARRANGE,
-      payload: metadata as arrange,
+      payload: minigame,
     };
     return arrangeBubble;
   }
@@ -70,8 +71,8 @@ const Read = () => {
   );
   const [isFinished, setIsFinished] = useState(false);
   const { data: minigames, isLoading: isMinigameLoading } =
-    useGetRandomMinigames(selectedContent?.id);
-  console.log('MINIGAMES:', minigames);
+    useRandomMinigamesByMaterial(selectedContent?.id);
+  const { setWords, setLetters } = useWordsFromLettersMiniGameStore();
 
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: false });
@@ -80,6 +81,9 @@ const Read = () => {
   // parse each chunk into (chat/story) bubble type with props
   const parsedBubbles = useMemo<Message[]>(() => {
     if (!selectedContent?.content || !minigames) return [];
+
+    // setWords(words);
+    // setLetters(letters);
 
     return selectedContent.content
       .split(/(?=\[\w*\])|(?=\$[A-Z]+\$)/g)
@@ -106,6 +110,20 @@ const Read = () => {
       })
       .filter((b): b is Message => b !== null);
   }, [selectedContent?.content, minigames]);
+
+  useEffect(() => {
+    if (minigames) {
+      const metadata = minigames[minigames.length - 1].metadata;
+      const data = JSON.parse(metadata);
+      const words = data.words;
+      const letters = data.letters.map((letter: string) => {
+        return letter.toUpperCase();
+      });
+
+      setWords(words);
+      setLetters(letters);
+    }
+  }, [minigames]);
 
   // Word definition bubble
   useEffect(() => {
@@ -230,29 +248,18 @@ const Read = () => {
                   : // feel nako better ba naay minigame middle layer somewhere here??
                     msg.type === MessageTypeEnum.CHOICES
                     ? (() => {
-                        const choicesPayload = msg.payload as choice;
-                        console.log(choicesPayload, 'huehuehui');
-
                         return (
                           <ChoicesBubble
-                            question={choicesPayload.question}
-                            choices={choicesPayload.choices}
+                            minigame={msg.payload}
                             onPress={addStoryMessage}
                           />
                         );
                       })()
                     : msg.type === MessageTypeEnum.ARRANGE
                       ? (() => {
-                          const arrangePayload = msg.payload as arrange;
-                          console.log(arrangePayload, ':OOO');
-
                           return (
                             <SentenceArrangementBubble
-                              correctAnswer={arrangePayload.correct_answer.join(
-                                '',
-                              )}
-                              partsblocks={arrangePayload.parts}
-                              explanation={arrangePayload.explanation}
+                              minigame={msg.payload}
                               onPress={addStoryMessage}
                             />
                           );
@@ -272,13 +279,23 @@ const Read = () => {
                 <Text className="font-poppins-bold text-black">Next</Text>
               </Button>
             ) : (
-              <View className="items-center">
-                <Text className="py-4">End of Story</Text>
+              <View className="w-full items-center">
+                {/* Divider */}
+                <View className="w-full flex-row items-center my-6">
+                  <View className="flex-1 bg-gray-400" />
+                  <Text className="mx-4 text-gray-600">End of Story</Text>
+                  <View className="flex-1 bg-gray-400" />
+                </View>
+
+                {/* Button */}
                 <Button
                   variant="secondary"
-                  className="flex-1"
                   onPress={() => {
-                    router.push('/(minigames)/test');
+                    console.log(
+                      minigames[minigames.length - 1].metadata,
+                      'buzzkill',
+                    );
+                    router.push({ pathname: '/(minigames)/wordsfromletters' });
                   }}
                 >
                   <Text className="font-poppins-bold text-black">

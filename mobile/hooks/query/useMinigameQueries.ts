@@ -11,10 +11,13 @@ export const useRandomMinigamesByMaterial = (readingMaterialId: string) => {
     queryKey: queryKeys.minigames.randomByMaterial(readingMaterialId),
     queryFn: async () => {
       await setupAuthToken();
-      return MinigamesService.getMinigamesReadingmaterialsByReadingMaterialIdRandom({ readingMaterialId });
+      return MinigamesService.getMinigamesReadingmaterialsByReadingMaterialIdRandom(
+        { readingMaterialId },
+      );
     },
     enabled: !!readingMaterialId,
     staleTime: 5 * 60 * 1000, // 5 minutes
+    select: (response: any) => response.data,
   });
 };
 
@@ -23,7 +26,9 @@ export const useRandomMinigamesBySession = (readingSessionId: string) => {
     queryKey: queryKeys.minigames.randomBySession(readingSessionId),
     queryFn: async () => {
       await setupAuthToken();
-      return MinigamesService.getMinigamesByReadingSessionIdRandom({ readingSessionId });
+      return MinigamesService.getMinigamesByReadingSessionIdRandom({
+        readingSessionId,
+      });
     },
     enabled: !!readingSessionId,
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -35,9 +40,12 @@ export const useWordsFromLettersMinigame = (readingMaterialId: string) => {
     queryKey: queryKeys.minigames.wordsFromLetters(readingMaterialId),
     queryFn: async () => {
       await setupAuthToken();
-      return MinigamesService.getMinigamesByReadingMaterialIdWordsFromLetters({ readingMaterialId });
+      return MinigamesService.getMinigamesByReadingMaterialIdWordsFromLetters({
+        readingMaterialId,
+      });
     },
     enabled: !!readingMaterialId,
     staleTime: 5 * 60 * 1000, // 5 minutes
+    select: (response: any) => response.data,
   });
 };

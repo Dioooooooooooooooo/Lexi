@@ -33,7 +33,7 @@ export default function achievements() {
         </View>
 
         <Text
-          className="font-poppins text-2xl font-poppins-bold text-center"
+          className="text-2xl font-poppins-bold text-center"
           numberOfLines={1}
           adjustsFontSizeToFit
         >

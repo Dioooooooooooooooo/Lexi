@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { ApiRequestOptions } from './ApiRequestOptions';
 
 const ip_address = process.env.EXPO_PUBLIC_IPADDRESS;
