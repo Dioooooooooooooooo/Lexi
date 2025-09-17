@@ -8,19 +8,19 @@ import {
   Delete,
   UseGuards,
   ParseUUIDPipe,
-} from "@nestjs/common";
-import { ClassroomsService } from "./classrooms.service";
-import { CreateClassroomDto } from "./dto/create-classroom.dto";
-import { UpdateClassroomDto } from "./dto/update-classroom.dto";
-import { AuthGuard } from "@nestjs/passport";
-import { RolesGuard } from "../auth/role-guard";
-import { ApiBearerAuth, ApiOperation } from "@nestjs/swagger";
-import { Roles } from "@/decorators/roles.decorator";
-import { SuccessResponseDto } from "@/common/dto";
-import { Classroom } from "@/database/schemas";
-import { JoinClassroomDto } from "./dto/join-classroom.dto";
-import { LeaveClassroomDto } from "./dto/leave-classroom.dto";
-import { EnrollPupilDto, UnEnrollPupilDto } from "./dto/pupil-classroom.dto";
+} from '@nestjs/common';
+import { ClassroomsService } from './classrooms.service';
+import { CreateClassroomDto } from './dto/create-classroom.dto';
+import { UpdateClassroomDto } from './dto/update-classroom.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../auth/role-guard';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Roles } from '@/decorators/roles.decorator';
+import { SuccessResponseDto } from '@/common/dto';
+import { Classroom } from '@/database/schemas';
+import { JoinClassroomDto } from './dto/join-classroom.dto';
+import { LeaveClassroomDto } from './dto/leave-classroom.dto';
+import { EnrollPupilDto, UnEnrollPupilDto } from './dto/pupil-classroom.dto';
 
 @Controller('classrooms')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -33,6 +33,11 @@ export class ClassroomsController {
   @ApiOperation({
     summary: 'Create a classroom',
   })
+  @ApiResponse({
+    status: 201,
+    description: 'Classroom created successfully',
+    type: SuccessResponseDto,
+  })
   async create(
     @Body() createClassroomDto: CreateClassroomDto,
   ): Promise<SuccessResponseDto<Classroom>> {
@@ -41,60 +46,85 @@ export class ClassroomsController {
     return { message: 'Classroom created successfully', data };
   }
 
-  @Post("enroll")
+  @Post('enroll')
   @ApiOperation({
-    summary: "Enroll pupils",
+    summary: 'Enroll pupils',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Pupils enrolled successfully',
+    type: SuccessResponseDto,
   })
   async enroll(@Body() enrollPupilDto: EnrollPupilDto) {
     const enrolled = await this.classroomsService.enroll(enrollPupilDto);
-    return { message: "Successfully enrolled pupils", data: enrolled };
+    return { message: 'Successfully enrolled pupils', data: enrolled };
   }
 
-  @Post("unenroll")
+  @Post('unenroll')
   @ApiOperation({
-    summary: "Unenroll pupils",
+    summary: 'Unenroll pupils',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Pupils unenrolled successfully',
+    type: SuccessResponseDto,
   })
   async unEnroll(@Body() unEnrollPupilDto: UnEnrollPupilDto) {
     const unenrolled = await this.classroomsService.unenroll(unEnrollPupilDto);
-    return { message: "Successfully unenrolled pupils", data: unenrolled };
+    return { message: 'Successfully unenrolled pupils', data: unenrolled };
   }
 
-  @Post("join")
-  @Roles(["Pupil"])
+  @Post('join')
+  @Roles(['Pupil'])
   @ApiOperation({
-    summary: "Join classroom by code",
+    summary: 'Join classroom by code',
   })
   async join(@Body() joinClassroomDto: JoinClassroomDto) {
     await this.classroomsService.join(joinClassroomDto);
-    return { message: "Successfully joined classroom" };
+    return { message: 'Successfully joined classroom' };
   }
 
-  @Post("leave")
-  @Roles(["Pupil"])
+  @Post('leave')
+  @Roles(['Pupil'])
   @ApiOperation({
-    summary: "Leave classroom",
+    summary: 'Leave classroom',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Left classroom successfully',
+    type: SuccessResponseDto,
   })
   async leave(@Body() leaveClassroomDto: LeaveClassroomDto) {
     await this.classroomsService.leave(leaveClassroomDto);
-    return { message: "Successfully left classroom" };
+    return { message: 'Successfully left classroom' };
   }
 
   @Get()
-  @Roles(["Teacher", "Pupil"])
+  @Roles(['Teacher', 'Pupil'])
   @ApiOperation({
-    summary: "Find classrooms",
+    summary: 'Find classrooms',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Classrooms fetched successfully',
+    type: SuccessResponseDto,
   })
   async findAll() {
     const data = await this.classroomsService.findAll();
     return { message: 'Classrooms successfully fetched', data };
   }
 
-  @Get(":id")
-  @Roles(["Teacher", "Pupil"])
+  @Get(':id')
+  @Roles(['Teacher', 'Pupil'])
   @ApiOperation({
     summary: 'Find classroom by id',
   })
-  async findOne(@Param("id", new ParseUUIDPipe({ version: "4" })) id: string) {
+  @ApiResponse({
+    status: 200,
+    description: 'Classroom fetched successfully',
+    type: SuccessResponseDto,
+  })
+  async findOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     const data = await this.classroomsService.findOne(id);
     return { message: 'Classroom successfully fetched', data };
   }
@@ -103,8 +133,13 @@ export class ClassroomsController {
   @ApiOperation({
     summary: 'Update classroom by id',
   })
+  @ApiResponse({
+    status: 200,
+    description: 'Classroom updated successfully',
+    type: SuccessResponseDto,
+  })
   async update(
-    @Param("id", new ParseUUIDPipe({ version: "4" })) id: string,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateClassroomDto: UpdateClassroomDto,
   ) {
     const data = await this.classroomsService.update(id, updateClassroomDto);
@@ -115,7 +150,12 @@ export class ClassroomsController {
   @ApiOperation({
     summary: 'Delete classroom by id',
   })
-  async remove(@Param("id", new ParseUUIDPipe({ version: "4" })) id: string) {
+  @ApiResponse({
+    status: 200,
+    description: 'Classroom deleted successfully',
+    type: SuccessResponseDto,
+  })
+  async remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     const data = await this.classroomsService.remove(id);
     return { message: 'Classroom successfully deleted', data };
   }

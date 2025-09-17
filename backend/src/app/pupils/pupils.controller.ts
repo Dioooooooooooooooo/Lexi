@@ -36,7 +36,7 @@ export class PupilsController {
     summary: "Get user pupil profile",
   })
   @ApiResponse({
-    status: HttpStatus.CREATED,
+    status: 201,
     description: "Pupil profile successfully fetched",
     type: SuccessResponseDto,
     example: {
@@ -52,7 +52,6 @@ export class PupilsController {
     description: "Invalid credentials",
     type: ErrorResponseDto,
     example: {
-      statusCode: 401,
       message: "Invalid credentials",
       error: "Unauthorized",
     },
@@ -83,7 +82,7 @@ export class PupilsController {
     },
   })
   @ApiResponse({
-    status: HttpStatus.CREATED,
+    status: 200,
     description: "Pupil profile successfully updated",
     type: SuccessResponseDto,
     example: {
@@ -99,7 +98,6 @@ export class PupilsController {
     description: "Invalid credentials",
     type: ErrorResponseDto,
     example: {
-      statusCode: 401,
       message: "Invalid credentials",
       error: "Unauthorized",
     },
@@ -148,7 +146,6 @@ export class PupilsController {
     description: "Invalid credentials",
     type: ErrorResponseDto,
     example: {
-      statusCode: 401,
       message: "Invalid credentials",
       error: "Unauthorized",
     },
@@ -182,7 +179,6 @@ export class PupilsController {
     description: "Invalid credentials",
     type: ErrorResponseDto,
     example: {
-      statusCode: 401,
       message: "Invalid credentials",
       error: "Unauthorized",
     },
@@ -212,13 +208,12 @@ export class PupilsController {
     description: "Invalid credentials",
     type: ErrorResponseDto,
     example: {
-      statusCode: 401,
       message: "Invalid credentials",
       error: "Unauthorized",
     },
   })
   async getPupilLeaderBoardByPupilId(
-    @Param() pupilId: string,
+    @Param('pupilId') pupilId: string,
   ): Promise<SuccessResponseDto<PupilLeaderboard[]>> {
     const data = await this.pupilsService.getPupilLeaderBoardByPupilId(pupilId);
     return {

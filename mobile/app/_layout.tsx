@@ -24,6 +24,8 @@ import LoadingScreenForm from '@/components/LoadingScreenForm';
 import useScreenTime from '@/hooks/utils/useScreenTime';
 import { SplashScreen, Stack } from 'expo-router';
 import Toast from 'react-native-toast-message';
+import { OpenAPI } from '@/hooks/api/requests';
+import { setupAuthToken } from '@/hooks';
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 
@@ -58,6 +60,19 @@ export default function RootLayout() {
 
   // useScreenTime();
 
+  const [ready, setReady] = React.useState(false);
+  React.useEffect(() => {
+    setupAuthToken().then(() => {
+      console.log('🔑 Token after setup:', OpenAPI.TOKEN);
+      console.log('🌐 Base after setup:', OpenAPI.BASE);
+      setReady(true);
+    });
+  }, []);
+
+  React.useEffect(() => {
+    setupAuthToken().then(() => setReady(true));
+  }, []);
+
   useIsomorphicLayoutEffect(() => {
     if (hasMounted.current) {
       return;
@@ -73,16 +88,20 @@ export default function RootLayout() {
     hasMounted.current = true;
   }, []);
 
-  if (!isColorSchemeLoaded || !fontsLoaded) {
-    return null;
-  }
-
   // LogBox.ignoreAllLogs(false); // show all logs
 
   // // Add this at app startup:
   // ErrorUtils.setGlobalHandler((error, isFatal) => {
   //   console.error('Global error handler:', error);
   // });
+
+  if (!ready || !isColorSchemeLoaded || !fontsLoaded) {
+    return (
+      <View className="flex-1 justify-center items-center bg-background">
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>

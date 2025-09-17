@@ -175,7 +175,8 @@ function HomeScreen() {
   const showSearchResults = searchQuery.trim() !== '';
 
   if (!isStoriesLoading) {
-    console.log(stories, 'gidle');
+    // console.log(stories, 'gidle');
+    
   }
 
   return (

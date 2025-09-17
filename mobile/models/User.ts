@@ -37,12 +37,12 @@ export function extractUser(data: Record<string, any>): User {
   const {
     id,
     email,
-    firstName,
-    lastName,
+    first_name,
+    last_name,
     avatar,
-    userName,
+    username,
     twoFactorEnabled,
-    phoneNumber,
+    phone,
     role,
     pupil,
   } = data;
@@ -50,12 +50,12 @@ export function extractUser(data: Record<string, any>): User {
   const user: User = {
     id: id,
     email: email,
-    firstName: firstName,
-    lastName: lastName,
+    first_name: first_name,
+    last_name: last_name,
     avatar: avatar,
-    userName: userName,
+    username: username,
     twoFactorEnabled: twoFactorEnabled,
-    phoneNumber: phoneNumber,
+    phone: phone,
     role: role,
   };
 
