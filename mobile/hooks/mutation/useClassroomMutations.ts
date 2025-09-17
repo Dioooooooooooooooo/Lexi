@@ -1,10 +1,10 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { queryKeys, setupAuthToken } from '../api/apiUtils';
 import {
-  ClassroomsService,
-  type PostClassroomsData,
-  type PatchClassroomsByIdData,
+  classroomsControllerCreate,
+  classroomsControllerRemove,
+  classroomsControllerUpdate,
 } from '../api/requests';
-import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
 // =============================================================================
 // CLASSROOM MUTATIONS - Data Modification Hooks
@@ -14,9 +14,11 @@ export const useCreateClassroom = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: PostClassroomsData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return ClassroomsService.postClassrooms(data);
+      return classroomsControllerCreate({
+        body: data,
+      });
     },
     onSuccess: () => {
       // Invalidate and refetch classrooms
@@ -32,8 +34,19 @@ export const useUpdateClassroom = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: PatchClassroomsByIdData) =>
-      ClassroomsService.patchClassroomsById(data),
+    mutationFn: async ({
+      id,
+      ...updateData
+    }: {
+      id: string;
+      [key: string]: any;
+    }) => {
+      await setupAuthToken();
+      return classroomsControllerUpdate({
+        path: { id },
+        body: updateData,
+      });
+    },
     onSuccess: (data, variables) => {
       // Update the classroom in cache
       queryClient.setQueryData(queryKeys.classrooms.detail(variables.id), data);
@@ -50,7 +63,12 @@ export const useDeleteClassroom = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => ClassroomsService.deleteClassroomsById({ id }),
+    mutationFn: async (id: string) => {
+      await setupAuthToken();
+      return classroomsControllerRemove({
+        path: { id },
+      });
+    },
     onSuccess: () => {
       // Invalidate all classroom queries
       queryClient.invalidateQueries({ queryKey: queryKeys.classrooms.all });

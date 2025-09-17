@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { AuthenticationService } from '../api/requests';
+import { authControllerGetProfile, authControllerVerifyToken } from '../api/requests/sdk.gen';
 import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
 // =============================================================================
@@ -11,7 +11,7 @@ export const useAuthMe = () => {
     queryKey: queryKeys.auth.me(),
     queryFn: async () => {
       await setupAuthToken();
-      return AuthenticationService.getAuthMe();
+      return authControllerGetProfile();
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: (failureCount, error: any) => {
@@ -29,7 +29,7 @@ export const useVerifyToken = () => {
     queryKey: queryKeys.auth.verifyToken(),
     queryFn: async () => {
       await setupAuthToken();
-      return AuthenticationService.getAuthVerifyToken();
+      return authControllerVerifyToken();
     },
     staleTime: 1 * 60 * 1000, // 1 minute
     retry: false, // Don't retry token verification

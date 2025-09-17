@@ -31,11 +31,6 @@ export type RegisterDto = {
     role: 'Pupil' | 'Teacher';
 };
 
-/**
- * User role
- */
-export type role = 'Pupil' | 'Teacher';
-
 export type UserResponseDto = {
     /**
      * User ID
@@ -211,7 +206,7 @@ export type EnrollPupilDto = {
     /**
      * Array of Pupil Ids
      */
-    pupil_ids: Array<(unknown[])>;
+    pupil_ids: Array<Array<unknown>>;
 };
 
 export type UnEnrollPupilDto = {
@@ -222,7 +217,7 @@ export type UnEnrollPupilDto = {
     /**
      * Array of Pupil Ids
      */
-    pupil_ids: Array<(unknown[])>;
+    pupil_ids: Array<Array<unknown>>;
 };
 
 export type JoinClassroomDto = {
@@ -262,11 +257,11 @@ export type CreateWordsFromLettersGame = {
     /**
      * Contains the letters needed in creating words.
      */
-    letters: Array<(string)>;
+    letters: Array<string>;
     /**
      * Words that can be created from the letters list.
      */
-    words: Array<(string)>;
+    words: Array<string>;
 };
 
 export type ChoicesObject = {
@@ -315,11 +310,11 @@ export type CreateSentenceRearrangementGame = {
     /**
      * List of correct answers.
      */
-    correct_answer: Array<(string)>;
+    correct_answer: Array<string>;
     /**
      * Sentence parts
      */
-    parts: Array<(string)>;
+    parts: Array<string>;
     /**
      * Explanation of the answer.
      */
@@ -387,7 +382,7 @@ export type CreateReadingMaterialDto = {
     /**
      * List of genre for the reading material
      */
-    genres: Array<(string)>;
+    genres: Array<string>;
     /**
      * Content of the reading material
      */
@@ -401,7 +396,7 @@ export type CreateGenreDto = {
     name: string;
 };
 
-export type CreateActivityDTO = {
+export type CreateActivityDto = {
     /**
      * Activity Name
      */
@@ -413,7 +408,7 @@ export type CreateActivityDTO = {
     reading_material_id: string;
 };
 
-export type UpdateActivityDTO = {
+export type UpdateActivityDto = {
     /**
      * Activity Name
      */
@@ -432,1052 +427,1138 @@ export type CreateActivityLogDto = {
     minigame_log_id: string;
 };
 
-export type GetResponse = unknown;
+export type AppControllerGetHelloData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/';
+};
 
-export type GetHealthResponse = unknown;
+export type AppControllerGetHelloResponses = {
+    200: unknown;
+};
 
-export type PostAuthRegisterData = {
+export type AppControllerHealthCheckData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/health';
+};
+
+export type AppControllerHealthCheckResponses = {
+    200: unknown;
+};
+
+export type AuthControllerRegisterData = {
     /**
      * User registration data
      */
-    requestBody: RegisterDto;
+    body: RegisterDto;
+    path?: never;
+    query?: never;
+    url: '/auth/register';
 };
 
-export type PostAuthRegisterResponse = AuthResponseDto;
+export type AuthControllerRegisterErrors = {
+    /**
+     * Invalid input data
+     */
+    400: ErrorResponseDto;
+    /**
+     * User already exists
+     */
+    409: ErrorResponseDto;
+};
 
-export type PostAuthLoginData = {
+export type AuthControllerRegisterError = AuthControllerRegisterErrors[keyof AuthControllerRegisterErrors];
+
+export type AuthControllerRegisterResponses = {
+    /**
+     * User successfully registered
+     */
+    201: AuthResponseDto;
+};
+
+export type AuthControllerRegisterResponse = AuthControllerRegisterResponses[keyof AuthControllerRegisterResponses];
+
+export type AuthControllerLoginData = {
     /**
      * User login credentials
      */
-    requestBody: LoginDto;
+    body: LoginDto;
+    path?: never;
+    query?: never;
+    url: '/auth/login';
 };
 
-export type PostAuthLoginResponse = SuccessResponseDto;
-
-export type PostAuthGoogleTokenData = {
-    requestBody: GoogleExchangeTokenDto;
+export type AuthControllerLoginErrors = {
+    /**
+     * Invalid input data
+     */
+    400: ErrorResponseDto;
+    /**
+     * Invalid credentials
+     */
+    401: ErrorResponseDto;
 };
 
-export type PostAuthGoogleTokenResponse = SuccessResponseDto;
+export type AuthControllerLoginError = AuthControllerLoginErrors[keyof AuthControllerLoginErrors];
 
-export type PostAuthRefreshData = {
+export type AuthControllerLoginResponses = {
+    /**
+     * User successfully logged in
+     */
+    200: SuccessResponseDto;
+};
+
+export type AuthControllerLoginResponse = AuthControllerLoginResponses[keyof AuthControllerLoginResponses];
+
+export type AuthControllerExchangeGoogleIdTokenData = {
+    body: GoogleExchangeTokenDto;
+    path?: never;
+    query?: never;
+    url: '/auth/google/token';
+};
+
+export type AuthControllerExchangeGoogleIdTokenResponses = {
+    200: SuccessResponseDto;
+};
+
+export type AuthControllerExchangeGoogleIdTokenResponse = AuthControllerExchangeGoogleIdTokenResponses[keyof AuthControllerExchangeGoogleIdTokenResponses];
+
+export type AuthControllerRefreshTokenData = {
     /**
      * Refresh token
      */
-    requestBody: RefreshTokenDto;
+    body: RefreshTokenDto;
+    path?: never;
+    query?: never;
+    url: '/auth/refresh';
 };
 
-export type PostAuthRefreshResponse = SuccessResponseDto;
+export type AuthControllerRefreshTokenErrors = {
+    /**
+     * Invalid refresh token
+     */
+    401: ErrorResponseDto;
+};
 
-export type PostAuthForgotPasswordData = {
+export type AuthControllerRefreshTokenError = AuthControllerRefreshTokenErrors[keyof AuthControllerRefreshTokenErrors];
+
+export type AuthControllerRefreshTokenResponses = {
+    /**
+     * Token refreshed successfully
+     */
+    200: SuccessResponseDto;
+};
+
+export type AuthControllerRefreshTokenResponse = AuthControllerRefreshTokenResponses[keyof AuthControllerRefreshTokenResponses];
+
+export type AuthControllerForgotPasswordData = {
     /**
      * User email for password reset
      */
-    requestBody: ForgotPasswordDto;
+    body: ForgotPasswordDto;
+    path?: never;
+    query?: never;
+    url: '/auth/forgot-password';
 };
 
-export type PostAuthForgotPasswordResponse = SuccessResponseDto;
+export type AuthControllerForgotPasswordErrors = {
+    /**
+     * Invalid input data
+     */
+    400: ErrorResponseDto;
+};
 
-export type PostAuthResetPasswordData = {
+export type AuthControllerForgotPasswordError = AuthControllerForgotPasswordErrors[keyof AuthControllerForgotPasswordErrors];
+
+export type AuthControllerForgotPasswordResponses = {
+    /**
+     * Password reset email sent (if email exists)
+     */
+    200: SuccessResponseDto;
+};
+
+export type AuthControllerForgotPasswordResponse = AuthControllerForgotPasswordResponses[keyof AuthControllerForgotPasswordResponses];
+
+export type AuthControllerResetPasswordData = {
     /**
      * Reset token and new password
      */
-    requestBody: ResetPasswordDto;
+    body: ResetPasswordDto;
+    path?: never;
+    query?: never;
+    url: '/auth/reset-password';
 };
 
-export type PostAuthResetPasswordResponse = SuccessResponseDto;
-
-export type PostAuthRequestEmailVerificationResponse = SuccessResponseDto;
-
-export type GetAuthVerifyEmailData = {
+export type AuthControllerResetPasswordErrors = {
     /**
-     * Email verification token
+     * Invalid or expired reset token
      */
-    token: string;
+    400: ErrorResponseDto;
 };
 
-export type GetAuthVerifyEmailResponse = SuccessResponseDto;
+export type AuthControllerResetPasswordError = AuthControllerResetPasswordErrors[keyof AuthControllerResetPasswordErrors];
 
-export type GetAuthMeResponse = SuccessResponseDto;
+export type AuthControllerResetPasswordResponses = {
+    /**
+     * Password reset successfully
+     */
+    200: SuccessResponseDto;
+};
 
-export type PatchAuthMeData = {
+export type AuthControllerResetPasswordResponse = AuthControllerResetPasswordResponses[keyof AuthControllerResetPasswordResponses];
+
+export type AuthControllerRequestEmailVerificationData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/request-email-verification';
+};
+
+export type AuthControllerRequestEmailVerificationResponses = {
+    /**
+     * Email verication sent.
+     */
+    200: SuccessResponseDto;
+};
+
+export type AuthControllerRequestEmailVerificationResponse = AuthControllerRequestEmailVerificationResponses[keyof AuthControllerRequestEmailVerificationResponses];
+
+export type AuthControllerVerifyEmailData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Email verification token
+         */
+        token: string;
+    };
+    url: '/auth/verify-email';
+};
+
+export type AuthControllerVerifyEmailErrors = {
+    /**
+     * Invalid or expired verification token
+     */
+    400: ErrorResponseDto;
+};
+
+export type AuthControllerVerifyEmailError = AuthControllerVerifyEmailErrors[keyof AuthControllerVerifyEmailErrors];
+
+export type AuthControllerVerifyEmailResponses = {
+    /**
+     * Email verified successfully
+     */
+    200: SuccessResponseDto;
+};
+
+export type AuthControllerVerifyEmailResponse = AuthControllerVerifyEmailResponses[keyof AuthControllerVerifyEmailResponses];
+
+export type AuthControllerGetProfileData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/me';
+};
+
+export type AuthControllerGetProfileErrors = {
+    /**
+     * Invalid or missing token
+     */
+    401: ErrorResponseDto;
+};
+
+export type AuthControllerGetProfileError = AuthControllerGetProfileErrors[keyof AuthControllerGetProfileErrors];
+
+export type AuthControllerGetProfileResponses = {
+    /**
+     * User profile retrieved successfully
+     */
+    200: SuccessResponseDto;
+};
+
+export type AuthControllerGetProfileResponse = AuthControllerGetProfileResponses[keyof AuthControllerGetProfileResponses];
+
+export type AuthControllerUpdateProfileData = {
     /**
      * Profile update data
      */
-    requestBody: UpdateProfileDto;
+    body: UpdateProfileDto;
+    path?: never;
+    query?: never;
+    url: '/auth/me';
 };
 
-export type PatchAuthMeResponse = SuccessResponseDto;
+export type AuthControllerUpdateProfileErrors = {
+    /**
+     * Invalid or missing token
+     */
+    401: ErrorResponseDto;
+    /**
+     * Email already exists
+     */
+    409: ErrorResponseDto;
+};
 
-export type PostAuthChangePasswordData = {
+export type AuthControllerUpdateProfileError = AuthControllerUpdateProfileErrors[keyof AuthControllerUpdateProfileErrors];
+
+export type AuthControllerUpdateProfileResponses = {
+    /**
+     * Profile updated successfully
+     */
+    200: SuccessResponseDto;
+};
+
+export type AuthControllerUpdateProfileResponse = AuthControllerUpdateProfileResponses[keyof AuthControllerUpdateProfileResponses];
+
+export type AuthControllerChangePasswordData = {
     /**
      * Current and new password
      */
-    requestBody: ChangePasswordDto;
+    body: ChangePasswordDto;
+    path?: never;
+    query?: never;
+    url: '/auth/change-password';
 };
 
-export type PostAuthChangePasswordResponse = SuccessResponseDto;
+export type AuthControllerChangePasswordErrors = {
+    /**
+     * Invalid or missing token / Current password incorrect
+     */
+    401: ErrorResponseDto;
+};
 
-export type PostAuthLogoutData = {
+export type AuthControllerChangePasswordError = AuthControllerChangePasswordErrors[keyof AuthControllerChangePasswordErrors];
+
+export type AuthControllerChangePasswordResponses = {
+    /**
+     * Password changed successfully
+     */
+    200: SuccessResponseDto;
+};
+
+export type AuthControllerChangePasswordResponse = AuthControllerChangePasswordResponses[keyof AuthControllerChangePasswordResponses];
+
+export type AuthControllerLogoutData = {
     /**
      * Optional refresh token to revoke
      */
-    requestBody?: {
+    body?: {
         refresh_token?: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/auth/logout';
+};
+
+export type AuthControllerLogoutErrors = {
+    /**
+     * Invalid or missing token
+     */
+    401: ErrorResponseDto;
+};
+
+export type AuthControllerLogoutError = AuthControllerLogoutErrors[keyof AuthControllerLogoutErrors];
+
+export type AuthControllerLogoutResponses = {
+    /**
+     * User successfully logged out
+     */
+    200: SuccessResponseDto;
+};
+
+export type AuthControllerLogoutResponse = AuthControllerLogoutResponses[keyof AuthControllerLogoutResponses];
+
+export type AuthControllerVerifyTokenData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/verify-token';
+};
+
+export type AuthControllerVerifyTokenErrors = {
+    /**
+     * Invalid or expired token
+     */
+    401: ErrorResponseDto;
+};
+
+export type AuthControllerVerifyTokenError = AuthControllerVerifyTokenErrors[keyof AuthControllerVerifyTokenErrors];
+
+export type AuthControllerVerifyTokenResponses = {
+    /**
+     * Token is valid
+     */
+    200: {
+        valid?: boolean;
+        user?: UserResponseDto;
     };
 };
 
-export type PostAuthLogoutResponse = SuccessResponseDto;
+export type AuthControllerVerifyTokenResponse = AuthControllerVerifyTokenResponses[keyof AuthControllerVerifyTokenResponses];
 
-export type GetAuthVerifyTokenResponse = {
-    valid?: boolean;
-    user?: UserResponseDto;
+export type AuthControllerGetProfileLegacyData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/profile';
 };
 
-export type GetAuthProfileResponse = UserResponseDto;
+export type AuthControllerGetProfileLegacyErrors = {
+    /**
+     * Invalid or missing token
+     */
+    401: ErrorResponseDto;
+};
 
-export type GetPupilsMeResponse = SuccessResponseDto;
+export type AuthControllerGetProfileLegacyError = AuthControllerGetProfileLegacyErrors[keyof AuthControllerGetProfileLegacyErrors];
 
-export type PatchPupilsMeData = {
+export type AuthControllerGetProfileLegacyResponses = {
+    /**
+     * User profile retrieved successfully
+     */
+    200: UserResponseDto;
+};
+
+export type AuthControllerGetProfileLegacyResponse = AuthControllerGetProfileLegacyResponses[keyof AuthControllerGetProfileLegacyResponses];
+
+export type PupilsControllerGetPupilProfileData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/pupils/me';
+};
+
+export type PupilsControllerGetPupilProfileErrors = {
+    /**
+     * Invalid credentials
+     */
+    401: ErrorResponseDto;
+};
+
+export type PupilsControllerGetPupilProfileError = PupilsControllerGetPupilProfileErrors[keyof PupilsControllerGetPupilProfileErrors];
+
+export type PupilsControllerGetPupilProfileResponses = {
+    /**
+     * Pupil profile successfully fetched
+     */
+    201: SuccessResponseDto;
+};
+
+export type PupilsControllerGetPupilProfileResponse = PupilsControllerGetPupilProfileResponses[keyof PupilsControllerGetPupilProfileResponses];
+
+export type PupilsControllerUpdatePupilProfileData = {
     /**
      * Pupil profile update data
      */
-    requestBody: UpdatePupilProfileDto;
+    body: UpdatePupilProfileDto;
+    path?: never;
+    query?: never;
+    url: '/pupils/me';
 };
 
-export type PatchPupilsMeResponse = SuccessResponseDto;
-
-export type GetPupilsByUsernameData = {
-    username: string;
+export type PupilsControllerUpdatePupilProfileErrors = {
+    /**
+     * Invalid credentials
+     */
+    401: ErrorResponseDto;
 };
 
-export type GetPupilsByUsernameResponse = SuccessResponseDto;
+export type PupilsControllerUpdatePupilProfileError = PupilsControllerUpdatePupilProfileErrors[keyof PupilsControllerUpdatePupilProfileErrors];
 
-export type GetPupilsLeaderboardResponse = SuccessResponseDto;
-
-export type GetPupilsLeaderboardByPupilIdResponse = SuccessResponseDto;
-
-export type PostClassroomsData = {
-    requestBody: CreateClassroomDto;
+export type PupilsControllerUpdatePupilProfileResponses = {
+    /**
+     * Pupil profile successfully updated
+     */
+    201: SuccessResponseDto;
 };
 
-export type PostClassroomsResponse = unknown;
+export type PupilsControllerUpdatePupilProfileResponse = PupilsControllerUpdatePupilProfileResponses[keyof PupilsControllerUpdatePupilProfileResponses];
 
-export type GetClassroomsResponse = unknown;
-
-export type PostClassroomsEnrollData = {
-    requestBody: EnrollPupilDto;
+export type PupilsControllerGetPupilByUsernameData = {
+    body?: never;
+    path: {
+        username: string;
+    };
+    query?: never;
+    url: '/pupils/{username}';
 };
 
-export type PostClassroomsEnrollResponse = unknown;
-
-export type PostClassroomsUnenrollData = {
-    requestBody: UnEnrollPupilDto;
+export type PupilsControllerGetPupilByUsernameErrors = {
+    /**
+     * Invalid credentials
+     */
+    401: ErrorResponseDto;
 };
 
-export type PostClassroomsUnenrollResponse = unknown;
+export type PupilsControllerGetPupilByUsernameError = PupilsControllerGetPupilByUsernameErrors[keyof PupilsControllerGetPupilByUsernameErrors];
 
-export type PostClassroomsJoinData = {
-    requestBody: JoinClassroomDto;
+export type PupilsControllerGetPupilByUsernameResponses = {
+    /**
+     * Pupil profile successfully fetched
+     */
+    201: SuccessResponseDto;
 };
 
-export type PostClassroomsJoinResponse = unknown;
+export type PupilsControllerGetPupilByUsernameResponse = PupilsControllerGetPupilByUsernameResponses[keyof PupilsControllerGetPupilByUsernameResponses];
 
-export type PostClassroomsLeaveData = {
-    requestBody: LeaveClassroomDto;
+export type PupilsControllerGetGlobalPupilLeaderboardData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/pupils/leaderboard';
 };
 
-export type PostClassroomsLeaveResponse = unknown;
-
-export type GetClassroomsByIdData = {
-    id: string;
+export type PupilsControllerGetGlobalPupilLeaderboardErrors = {
+    /**
+     * Invalid credentials
+     */
+    401: ErrorResponseDto;
 };
 
-export type GetClassroomsByIdResponse = unknown;
+export type PupilsControllerGetGlobalPupilLeaderboardError = PupilsControllerGetGlobalPupilLeaderboardErrors[keyof PupilsControllerGetGlobalPupilLeaderboardErrors];
 
-export type PatchClassroomsByIdData = {
-    id: string;
-    requestBody: UpdateClassroomDto;
+export type PupilsControllerGetGlobalPupilLeaderboardResponses = {
+    /**
+     * Global pupil leaderboard successfully fetched
+     */
+    201: SuccessResponseDto;
 };
 
-export type PatchClassroomsByIdResponse = unknown;
+export type PupilsControllerGetGlobalPupilLeaderboardResponse = PupilsControllerGetGlobalPupilLeaderboardResponses[keyof PupilsControllerGetGlobalPupilLeaderboardResponses];
 
-export type DeleteClassroomsByIdData = {
-    id: string;
+export type PupilsControllerGetPupilLeaderBoardByPupilIdData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/pupils/leaderboard/{pupilId}';
 };
 
-export type DeleteClassroomsByIdResponse = unknown;
-
-export type PostMinigamesWordsFromLettersData = {
-    requestBody: CreateWordsFromLettersGame;
+export type PupilsControllerGetPupilLeaderBoardByPupilIdErrors = {
+    /**
+     * Invalid credentials
+     */
+    401: ErrorResponseDto;
 };
 
-export type PostMinigamesWordsFromLettersResponse = unknown;
+export type PupilsControllerGetPupilLeaderBoardByPupilIdError = PupilsControllerGetPupilLeaderBoardByPupilIdErrors[keyof PupilsControllerGetPupilLeaderBoardByPupilIdErrors];
 
-export type PostMinigamesChoicesData = {
-    requestBody: CreateChoicesGame;
+export type PupilsControllerGetPupilLeaderBoardByPupilIdResponses = {
+    /**
+     * Pupil leaderboard successfully fetched
+     */
+    201: SuccessResponseDto;
 };
 
-export type PostMinigamesChoicesResponse = unknown;
+export type PupilsControllerGetPupilLeaderBoardByPupilIdResponse = PupilsControllerGetPupilLeaderBoardByPupilIdResponses[keyof PupilsControllerGetPupilLeaderBoardByPupilIdResponses];
 
-export type PostMinigamesSentenceRearrangementData = {
-    requestBody: CreateSentenceRearrangementGame;
+export type ClassroomsControllerFindAllData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/classrooms';
 };
 
-export type PostMinigamesSentenceRearrangementResponse = unknown;
-
-export type GetMinigamesReadingmaterialsByReadingMaterialIdRandomData = {
-    readingMaterialId: string;
+export type ClassroomsControllerFindAllResponses = {
+    200: unknown;
 };
 
-export type GetMinigamesReadingmaterialsByReadingMaterialIdRandomResponse = unknown;
-
-export type GetMinigamesByReadingSessionIdRandomData = {
-    readingSessionId: string;
+export type ClassroomsControllerCreateData = {
+    body: CreateClassroomDto;
+    path?: never;
+    query?: never;
+    url: '/classrooms';
 };
 
-export type GetMinigamesByReadingSessionIdRandomResponse = unknown;
-
-export type GetMinigamesByReadingMaterialIdWordsFromLettersData = {
-    readingMaterialId: string;
+export type ClassroomsControllerCreateResponses = {
+    201: unknown;
 };
 
-export type GetMinigamesByReadingMaterialIdWordsFromLettersResponse = unknown;
-
-export type PostMinigamesByReadingSessionIdCompleteData = {
-    readingSessionId: string;
+export type ClassroomsControllerEnrollData = {
+    body: EnrollPupilDto;
+    path?: never;
+    query?: never;
+    url: '/classrooms/enroll';
 };
 
-export type PostMinigamesByReadingSessionIdCompleteResponse = unknown;
-
-export type PostMinigamesLogsSentenceRearrangementData = {
-    requestBody: CreateMinigameLogDto;
+export type ClassroomsControllerEnrollResponses = {
+    201: unknown;
 };
 
-export type PostMinigamesLogsSentenceRearrangementResponse = unknown;
-
-export type PostMinigamesLogsChoicesData = {
-    requestBody: CreateMinigameLogDto;
+export type ClassroomsControllerUnEnrollData = {
+    body: UnEnrollPupilDto;
+    path?: never;
+    query?: never;
+    url: '/classrooms/unenroll';
 };
 
-export type PostMinigamesLogsChoicesResponse = unknown;
-
-export type PostMinigamesLogsWordsFromLettersData = {
-    requestBody: CreateMinigameLogDto;
+export type ClassroomsControllerUnEnrollResponses = {
+    201: unknown;
 };
 
-export type PostMinigamesLogsWordsFromLettersResponse = unknown;
-
-export type PostReadingSessionsData = {
-    requestBody: CreateReadingSessionDto;
+export type ClassroomsControllerJoinData = {
+    body: JoinClassroomDto;
+    path?: never;
+    query?: never;
+    url: '/classrooms/join';
 };
 
-export type PostReadingSessionsResponse = unknown;
-
-export type GetReadingSessionsResponse = unknown;
-
-export type GetReadingSessionsByIdData = {
-    id: string;
+export type ClassroomsControllerJoinResponses = {
+    201: unknown;
 };
 
-export type GetReadingSessionsByIdResponse = unknown;
-
-export type PatchReadingSessionsByIdData = {
-    id: string;
-    requestBody: UpdateReadingSessionDto;
+export type ClassroomsControllerLeaveData = {
+    body: LeaveClassroomDto;
+    path?: never;
+    query?: never;
+    url: '/classrooms/leave';
 };
 
-export type PatchReadingSessionsByIdResponse = unknown;
-
-export type DeleteReadingSessionsByIdData = {
-    id: string;
+export type ClassroomsControllerLeaveResponses = {
+    201: unknown;
 };
 
-export type DeleteReadingSessionsByIdResponse = unknown;
-
-export type PostReadingMaterialsData = {
-    requestBody: CreateReadingMaterialDto;
+export type ClassroomsControllerRemoveData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/classrooms/{id}';
 };
 
-export type PostReadingMaterialsResponse = unknown;
-
-export type GetReadingMaterialsResponse = unknown;
-
-export type GetReadingMaterialsRecommendationsResponse = unknown;
-
-export type GetReadingMaterialsByIdData = {
-    id: string;
+export type ClassroomsControllerRemoveResponses = {
+    200: unknown;
 };
 
-export type GetReadingMaterialsByIdResponse = unknown;
-
-export type PostGenresData = {
-    requestBody: CreateGenreDto;
+export type ClassroomsControllerFindOneData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/classrooms/{id}';
 };
 
-export type PostGenresResponse = unknown;
-
-export type GetGenresResponse = unknown;
-
-export type GetAchievementsResponse = unknown;
-
-export type PostAchievementsPupilByPupilIdAchievementByAchievementNameData = {
-    achievementName: string;
-    pupilId: string;
+export type ClassroomsControllerFindOneResponses = {
+    200: unknown;
 };
 
-export type PostAchievementsPupilByPupilIdAchievementByAchievementNameResponse = unknown;
-
-export type GetAchievementsPupilsByPupilIdData = {
-    pupilId: string;
+export type ClassroomsControllerUpdateData = {
+    body: UpdateClassroomDto;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/classrooms/{id}';
 };
 
-export type GetAchievementsPupilsByPupilIdResponse = unknown;
-
-export type DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdData = {
-    achievementId: string;
-    pupilId: string;
+export type ClassroomsControllerUpdateResponses = {
+    200: unknown;
 };
 
-export type DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdResponse = unknown;
-
-export type DeleteAchievementsByIdData = {
-    id: string;
+export type MinigamesControllerCreateWflMinigameData = {
+    body: CreateWordsFromLettersGame;
+    path?: never;
+    query?: never;
+    url: '/minigames/wordsFromLetters';
 };
 
-export type DeleteAchievementsByIdResponse = unknown;
-
-export type PostClassroomsByClassroomIdActivityData = {
-    classroomId: string;
-    requestBody: CreateActivityDTO;
+export type MinigamesControllerCreateWflMinigameResponses = {
+    201: unknown;
 };
 
-export type PostClassroomsByClassroomIdActivityResponse = unknown;
-
-export type GetClassroomsByClassroomIdActivityData = {
-    classroomId: string;
+export type MinigamesControllerCreateChoicesMinigameData = {
+    body: CreateChoicesGame;
+    path?: never;
+    query?: never;
+    url: '/minigames/choices';
 };
 
-export type GetClassroomsByClassroomIdActivityResponse = unknown;
-
-export type GetClassroomsByClassroomIdActivityByActivityIdData = {
-    activityId: string;
+export type MinigamesControllerCreateChoicesMinigameResponses = {
+    201: unknown;
 };
 
-export type GetClassroomsByClassroomIdActivityByActivityIdResponse = unknown;
-
-export type PatchClassroomsByClassroomIdActivityByActivityIdData = {
-    activityId: string;
-    requestBody: UpdateActivityDTO;
+export type MinigamesControllerCreateSrMinigameData = {
+    body: CreateSentenceRearrangementGame;
+    path?: never;
+    query?: never;
+    url: '/minigames/sentenceRearrangement';
 };
 
-export type PatchClassroomsByClassroomIdActivityByActivityIdResponse = unknown;
-
-export type DeleteClassroomsByClassroomIdActivityByActivityIdData = {
-    activityId: string;
+export type MinigamesControllerCreateSrMinigameResponses = {
+    201: unknown;
 };
 
-export type DeleteClassroomsByClassroomIdActivityByActivityIdResponse = unknown;
-
-export type PutUserMeStreakResponse = unknown;
-
-export type GetUserMeStreakResponse = unknown;
-
-export type PostUserMeSessionsResponse = unknown;
-
-export type GetUserMeSessionsResponse = unknown;
-
-export type PutUserMeSessionsBySessionIdData = {
-    sessionId: string;
+export type MinigamesControllerFindMinigamesByMaterialIdData = {
+    body?: never;
+    path: {
+        readingMaterialID: string;
+    };
+    query?: never;
+    url: '/minigames/readingmaterials/{readingMaterialID}/random';
 };
 
-export type PutUserMeSessionsBySessionIdResponse = unknown;
-
-export type GetUserSearchData = {
-    query: string;
-    role: string;
+export type MinigamesControllerFindMinigamesByMaterialIdResponses = {
+    200: unknown;
 };
 
-export type GetUserSearchResponse = unknown;
-
-export type PostClassroomActivityLogsByActivityIdData = {
-    activityId: string;
-    requestBody: CreateActivityLogDto;
+export type MinigamesControllerFindMinigamesBySessionIdData = {
+    body?: never;
+    path: {
+        readingSessionID: string;
+    };
+    query?: never;
+    url: '/minigames/{readingSessionID}/random';
 };
 
-export type PostClassroomActivityLogsByActivityIdResponse = unknown;
-
-export type GetClassroomActivityLogsByActivityIdData = {
-    activityId: string;
+export type MinigamesControllerFindMinigamesBySessionIdResponses = {
+    200: unknown;
 };
 
-export type GetClassroomActivityLogsByActivityIdResponse = unknown;
-
-export type GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsData = {
-    classroomId: string;
+export type MinigamesControllerFindWordsFromLettersMinigameData = {
+    body?: never;
+    path: {
+        readingMaterialID: string;
+    };
+    query?: never;
+    url: '/minigames/{readingMaterialID}/wordsFromLetters';
 };
 
-export type GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsResponse = unknown;
-
-export type GetDictionaryDictionaryByWordData = {
-    word: string;
+export type MinigamesControllerFindWordsFromLettersMinigameResponses = {
+    200: unknown;
 };
 
-export type GetDictionaryDictionaryByWordResponse = unknown;
+export type MinigamesControllerGetMinigamesCompletionData = {
+    body?: never;
+    path: {
+        readingSessionID: string;
+    };
+    query?: never;
+    url: '/minigames/{readingSessionID}/complete';
+};
 
-export type $OpenApiTs = {
-    '/': {
-        get: {
-            res: {
-                200: unknown;
-            };
-        };
+export type MinigamesControllerGetMinigamesCompletionResponses = {
+    201: unknown;
+};
+
+export type MinigamesControllerCreateSentenceRearrangementLogData = {
+    body: CreateMinigameLogDto;
+    path?: never;
+    query?: never;
+    url: '/minigames/logs/SentenceRearrangement';
+};
+
+export type MinigamesControllerCreateSentenceRearrangementLogResponses = {
+    201: unknown;
+};
+
+export type MinigamesControllerCreateChoicesLogData = {
+    body: CreateMinigameLogDto;
+    path?: never;
+    query?: never;
+    url: '/minigames/logs/Choices';
+};
+
+export type MinigamesControllerCreateChoicesLogResponses = {
+    201: unknown;
+};
+
+export type MinigamesControllerCreateWordsFromLettersLogData = {
+    body: CreateMinigameLogDto;
+    path?: never;
+    query?: never;
+    url: '/minigames/logs/WordsFromLetters';
+};
+
+export type MinigamesControllerCreateWordsFromLettersLogResponses = {
+    201: unknown;
+};
+
+export type ReadingSessionsControllerFindAllData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/reading-sessions';
+};
+
+export type ReadingSessionsControllerFindAllResponses = {
+    200: unknown;
+};
+
+export type ReadingSessionsControllerCreateData = {
+    body: CreateReadingSessionDto;
+    path?: never;
+    query?: never;
+    url: '/reading-sessions';
+};
+
+export type ReadingSessionsControllerCreateResponses = {
+    201: unknown;
+};
+
+export type ReadingSessionsControllerRemoveData = {
+    body?: never;
+    path: {
+        id: string;
     };
-    '/health': {
-        get: {
-            res: {
-                200: unknown;
-            };
-        };
+    query?: never;
+    url: '/reading-sessions/{id}';
+};
+
+export type ReadingSessionsControllerRemoveResponses = {
+    200: unknown;
+};
+
+export type ReadingSessionsControllerFindOneData = {
+    body?: never;
+    path: {
+        id: string;
     };
-    '/auth/register': {
-        post: {
-            req: PostAuthRegisterData;
-            res: {
-                /**
-                 * User successfully registered
-                 */
-                201: AuthResponseDto;
-                /**
-                 * Invalid input data
-                 */
-                400: ErrorResponseDto;
-                /**
-                 * User already exists
-                 */
-                409: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/reading-sessions/{id}';
+};
+
+export type ReadingSessionsControllerFindOneResponses = {
+    200: unknown;
+};
+
+export type ReadingSessionsControllerUpdateData = {
+    body: UpdateReadingSessionDto;
+    path: {
+        id: string;
     };
-    '/auth/login': {
-        post: {
-            req: PostAuthLoginData;
-            res: {
-                /**
-                 * User successfully logged in
-                 */
-                200: SuccessResponseDto;
-                /**
-                 * Invalid input data
-                 */
-                400: ErrorResponseDto;
-                /**
-                 * Invalid credentials
-                 */
-                401: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/reading-sessions/{id}';
+};
+
+export type ReadingSessionsControllerUpdateResponses = {
+    200: unknown;
+};
+
+export type ReadingMaterialsControllerFindAllData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/reading-materials';
+};
+
+export type ReadingMaterialsControllerFindAllResponses = {
+    200: unknown;
+};
+
+export type ReadingMaterialsControllerCreateData = {
+    body: CreateReadingMaterialDto;
+    path?: never;
+    query?: never;
+    url: '/reading-materials';
+};
+
+export type ReadingMaterialsControllerCreateResponses = {
+    201: unknown;
+};
+
+export type ReadingMaterialsControllerFindRecommendationsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/reading-materials/recommendations';
+};
+
+export type ReadingMaterialsControllerFindRecommendationsResponses = {
+    200: unknown;
+};
+
+export type ReadingMaterialsControllerFindOneData = {
+    body?: never;
+    path: {
+        id: string;
     };
-    '/auth/google/token': {
-        post: {
-            req: PostAuthGoogleTokenData;
-            res: {
-                200: SuccessResponseDto;
-            };
-        };
+    query?: never;
+    url: '/reading-materials/{id}';
+};
+
+export type ReadingMaterialsControllerFindOneResponses = {
+    200: unknown;
+};
+
+export type GenresControllerFindAllData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/genres';
+};
+
+export type GenresControllerFindAllResponses = {
+    200: unknown;
+};
+
+export type GenresControllerCreateData = {
+    body: CreateGenreDto;
+    path?: never;
+    query?: never;
+    url: '/genres';
+};
+
+export type GenresControllerCreateResponses = {
+    201: unknown;
+};
+
+export type AchievementsControllerGetPupilAchievementsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/achievements';
+};
+
+export type AchievementsControllerGetPupilAchievementsResponses = {
+    200: unknown;
+};
+
+export type AchievementsControllerAddPupilAchievementData = {
+    body?: never;
+    path: {
+        pupilId: string;
+        achievementName: string;
     };
-    '/auth/refresh': {
-        post: {
-            req: PostAuthRefreshData;
-            res: {
-                /**
-                 * Token refreshed successfully
-                 */
-                200: SuccessResponseDto;
-                /**
-                 * Invalid refresh token
-                 */
-                401: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/achievements/pupil/{pupilId}/achievement/{achievementName}';
+};
+
+export type AchievementsControllerAddPupilAchievementResponses = {
+    201: unknown;
+};
+
+export type AchievementsControllerGetPupilAchievementsByIdData = {
+    body?: never;
+    path: {
+        pupilId: string;
     };
-    '/auth/forgot-password': {
-        post: {
-            req: PostAuthForgotPasswordData;
-            res: {
-                /**
-                 * Password reset email sent (if email exists)
-                 */
-                200: SuccessResponseDto;
-                /**
-                 * Invalid input data
-                 */
-                400: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/achievements/pupils/{pupilId}';
+};
+
+export type AchievementsControllerGetPupilAchievementsByIdResponses = {
+    200: unknown;
+};
+
+export type AchievementsControllerRemovePupilAchievementData = {
+    body?: never;
+    path: {
+        pupilId: string;
+        achievementId: string;
     };
-    '/auth/reset-password': {
-        post: {
-            req: PostAuthResetPasswordData;
-            res: {
-                /**
-                 * Password reset successfully
-                 */
-                200: SuccessResponseDto;
-                /**
-                 * Invalid or expired reset token
-                 */
-                400: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/achievements/pupils/{pupilId}/achievements/{achievementId}';
+};
+
+export type AchievementsControllerRemovePupilAchievementResponses = {
+    200: unknown;
+};
+
+export type AchievementsControllerRemoveData = {
+    body?: never;
+    path: {
+        id: string;
     };
-    '/auth/request-email-verification': {
-        post: {
-            res: {
-                /**
-                 * Email verication sent.
-                 */
-                200: SuccessResponseDto;
-            };
-        };
+    query?: never;
+    url: '/achievements/{id}';
+};
+
+export type AchievementsControllerRemoveResponses = {
+    200: unknown;
+};
+
+export type ActivityControllerFindAllByClassroomIdData = {
+    body?: never;
+    path: {
+        classroomId: string;
     };
-    '/auth/verify-email': {
-        get: {
-            req: GetAuthVerifyEmailData;
-            res: {
-                /**
-                 * Email verified successfully
-                 */
-                200: SuccessResponseDto;
-                /**
-                 * Invalid or expired verification token
-                 */
-                400: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/classrooms/{classroomId}/activity';
+};
+
+export type ActivityControllerFindAllByClassroomIdResponses = {
+    200: unknown;
+};
+
+export type ActivityControllerCreateData = {
+    body: CreateActivityDto;
+    path: {
+        classroomId: string;
     };
-    '/auth/me': {
-        get: {
-            res: {
-                /**
-                 * User profile retrieved successfully
-                 */
-                200: SuccessResponseDto;
-                /**
-                 * Invalid or missing token
-                 */
-                401: ErrorResponseDto;
-            };
-        };
-        patch: {
-            req: PatchAuthMeData;
-            res: {
-                /**
-                 * Profile updated successfully
-                 */
-                200: SuccessResponseDto;
-                /**
-                 * Invalid or missing token
-                 */
-                401: ErrorResponseDto;
-                /**
-                 * Email already exists
-                 */
-                409: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/classrooms/{classroomId}/activity';
+};
+
+export type ActivityControllerCreateResponses = {
+    201: unknown;
+};
+
+export type ActivityControllerRemoveData = {
+    body?: never;
+    path: {
+        activityId: string;
     };
-    '/auth/change-password': {
-        post: {
-            req: PostAuthChangePasswordData;
-            res: {
-                /**
-                 * Password changed successfully
-                 */
-                200: SuccessResponseDto;
-                /**
-                 * Invalid or missing token / Current password incorrect
-                 */
-                401: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/classrooms/{classroomId}/activity/{activityId}';
+};
+
+export type ActivityControllerRemoveResponses = {
+    200: unknown;
+};
+
+export type ActivityControllerFindOneData = {
+    body?: never;
+    path: {
+        activityId: string;
     };
-    '/auth/logout': {
-        post: {
-            req: PostAuthLogoutData;
-            res: {
-                /**
-                 * User successfully logged out
-                 */
-                200: SuccessResponseDto;
-                /**
-                 * Invalid or missing token
-                 */
-                401: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/classrooms/{classroomId}/activity/{activityId}';
+};
+
+export type ActivityControllerFindOneResponses = {
+    200: unknown;
+};
+
+export type ActivityControllerUpdateData = {
+    body: UpdateActivityDto;
+    path: {
+        activityId: string;
     };
-    '/auth/verify-token': {
-        get: {
-            res: {
-                /**
-                 * Token is valid
-                 */
-                200: {
-                    valid?: boolean;
-                    user?: UserResponseDto;
-                };
-                /**
-                 * Invalid or expired token
-                 */
-                401: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/classrooms/{classroomId}/activity/{activityId}';
+};
+
+export type ActivityControllerUpdateResponses = {
+    200: unknown;
+};
+
+export type UserControllerGetLoginStreakData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/user/me/streak';
+};
+
+export type UserControllerGetLoginStreakResponses = {
+    200: unknown;
+};
+
+export type UserControllerUpdateLoginStreakData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/user/me/streak';
+};
+
+export type UserControllerUpdateLoginStreakResponses = {
+    200: unknown;
+};
+
+export type UserControllerGetTotalSessionsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/user/me/sessions';
+};
+
+export type UserControllerGetTotalSessionsResponses = {
+    200: unknown;
+};
+
+export type UserControllerCreateSessionData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/user/me/sessions';
+};
+
+export type UserControllerCreateSessionResponses = {
+    201: unknown;
+};
+
+export type UserControllerEndSessionData = {
+    body?: never;
+    path: {
+        sessionId: string;
     };
-    '/auth/profile': {
-        get: {
-            res: {
-                /**
-                 * User profile retrieved successfully
-                 */
-                200: UserResponseDto;
-                /**
-                 * Invalid or missing token
-                 */
-                401: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/user/me/sessions/{sessionId}';
+};
+
+export type UserControllerEndSessionResponses = {
+    200: unknown;
+};
+
+export type UserControllerSearchUsersData = {
+    body?: never;
+    path?: never;
+    query: {
+        query: string;
+        role: string;
     };
-    '/pupils/me': {
-        get: {
-            res: {
-                /**
-                 * Pupil profile successfully fetched
-                 */
-                201: SuccessResponseDto;
-                /**
-                 * Invalid credentials
-                 */
-                401: ErrorResponseDto;
-            };
-        };
-        patch: {
-            req: PatchPupilsMeData;
-            res: {
-                /**
-                 * Pupil profile successfully updated
-                 */
-                201: SuccessResponseDto;
-                /**
-                 * Invalid credentials
-                 */
-                401: ErrorResponseDto;
-            };
-        };
+    url: '/user/search';
+};
+
+export type UserControllerSearchUsersResponses = {
+    200: unknown;
+};
+
+export type ActivityLogsControllerFindOneData = {
+    body?: never;
+    path: {
+        activityId: string;
     };
-    '/pupils/{username}': {
-        get: {
-            req: GetPupilsByUsernameData;
-            res: {
-                /**
-                 * Pupil profile successfully fetched
-                 */
-                201: SuccessResponseDto;
-                /**
-                 * Invalid credentials
-                 */
-                401: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/classroom/activity-logs/{activityId}';
+};
+
+export type ActivityLogsControllerFindOneResponses = {
+    200: unknown;
+};
+
+export type ActivityLogsControllerCreateData = {
+    body: CreateActivityLogDto;
+    path: {
+        '/activityId': string;
     };
-    '/pupils/leaderboard': {
-        get: {
-            res: {
-                /**
-                 * Global pupil leaderboard successfully fetched
-                 */
-                201: SuccessResponseDto;
-                /**
-                 * Invalid credentials
-                 */
-                401: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/classroom/activity-logs/{activityId}';
+};
+
+export type ActivityLogsControllerCreateResponses = {
+    201: unknown;
+};
+
+export type ActivityLogsControllerFindAllData = {
+    body?: never;
+    path: {
+        classroomId: string;
     };
-    '/pupils/leaderboard/{pupilId}': {
-        get: {
-            res: {
-                /**
-                 * Pupil leaderboard successfully fetched
-                 */
-                201: SuccessResponseDto;
-                /**
-                 * Invalid credentials
-                 */
-                401: ErrorResponseDto;
-            };
-        };
+    query?: never;
+    url: '/classroom/activity-logs/{activityId}/classroom/{classroomId}/activity-logs';
+};
+
+export type ActivityLogsControllerFindAllResponses = {
+    200: unknown;
+};
+
+export type DictionaryControllerDefinitionData = {
+    body?: never;
+    path: {
+        word: string;
     };
-    '/classrooms': {
-        post: {
-            req: PostClassroomsData;
-            res: {
-                201: unknown;
-            };
-        };
-        get: {
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/classrooms/enroll': {
-        post: {
-            req: PostClassroomsEnrollData;
-            res: {
-                201: unknown;
-            };
-        };
-    };
-    '/classrooms/unenroll': {
-        post: {
-            req: PostClassroomsUnenrollData;
-            res: {
-                201: unknown;
-            };
-        };
-    };
-    '/classrooms/join': {
-        post: {
-            req: PostClassroomsJoinData;
-            res: {
-                201: unknown;
-            };
-        };
-    };
-    '/classrooms/leave': {
-        post: {
-            req: PostClassroomsLeaveData;
-            res: {
-                201: unknown;
-            };
-        };
-    };
-    '/classrooms/{id}': {
-        get: {
-            req: GetClassroomsByIdData;
-            res: {
-                200: unknown;
-            };
-        };
-        patch: {
-            req: PatchClassroomsByIdData;
-            res: {
-                200: unknown;
-            };
-        };
-        delete: {
-            req: DeleteClassroomsByIdData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/minigames/wordsFromLetters': {
-        post: {
-            req: PostMinigamesWordsFromLettersData;
-            res: {
-                201: unknown;
-            };
-        };
-    };
-    '/minigames/choices': {
-        post: {
-            req: PostMinigamesChoicesData;
-            res: {
-                201: unknown;
-            };
-        };
-    };
-    '/minigames/sentenceRearrangement': {
-        post: {
-            req: PostMinigamesSentenceRearrangementData;
-            res: {
-                201: unknown;
-            };
-        };
-    };
-    '/minigames/readingmaterials/{readingMaterialID}/random': {
-        get: {
-            req: GetMinigamesReadingmaterialsByReadingMaterialIdRandomData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/minigames/{readingSessionID}/random': {
-        get: {
-            req: GetMinigamesByReadingSessionIdRandomData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/minigames/{readingMaterialID}/wordsFromLetters': {
-        get: {
-            req: GetMinigamesByReadingMaterialIdWordsFromLettersData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/minigames/{readingSessionID}/complete': {
-        post: {
-            req: PostMinigamesByReadingSessionIdCompleteData;
-            res: {
-                201: unknown;
-            };
-        };
-    };
-    '/minigames/logs/SentenceRearrangement': {
-        post: {
-            req: PostMinigamesLogsSentenceRearrangementData;
-            res: {
-                201: unknown;
-            };
-        };
-    };
-    '/minigames/logs/Choices': {
-        post: {
-            req: PostMinigamesLogsChoicesData;
-            res: {
-                201: unknown;
-            };
-        };
-    };
-    '/minigames/logs/WordsFromLetters': {
-        post: {
-            req: PostMinigamesLogsWordsFromLettersData;
-            res: {
-                201: unknown;
-            };
-        };
-    };
-    '/reading-sessions': {
-        post: {
-            req: PostReadingSessionsData;
-            res: {
-                201: unknown;
-            };
-        };
-        get: {
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/reading-sessions/{id}': {
-        get: {
-            req: GetReadingSessionsByIdData;
-            res: {
-                200: unknown;
-            };
-        };
-        patch: {
-            req: PatchReadingSessionsByIdData;
-            res: {
-                200: unknown;
-            };
-        };
-        delete: {
-            req: DeleteReadingSessionsByIdData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/reading-materials': {
-        post: {
-            req: PostReadingMaterialsData;
-            res: {
-                201: unknown;
-            };
-        };
-        get: {
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/reading-materials/recommendations': {
-        get: {
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/reading-materials/{id}': {
-        get: {
-            req: GetReadingMaterialsByIdData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/genres': {
-        post: {
-            req: PostGenresData;
-            res: {
-                201: unknown;
-            };
-        };
-        get: {
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/achievements': {
-        get: {
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/achievements/pupil/{pupilId}/achievement/{achievementName}': {
-        post: {
-            req: PostAchievementsPupilByPupilIdAchievementByAchievementNameData;
-            res: {
-                201: unknown;
-            };
-        };
-    };
-    '/achievements/pupils/{pupilId}': {
-        get: {
-            req: GetAchievementsPupilsByPupilIdData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/achievements/pupils/{pupilId}/achievements/{achievementId}': {
-        delete: {
-            req: DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/achievements/{id}': {
-        delete: {
-            req: DeleteAchievementsByIdData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/classrooms/{classroomId}/activity': {
-        post: {
-            req: PostClassroomsByClassroomIdActivityData;
-            res: {
-                201: unknown;
-            };
-        };
-        get: {
-            req: GetClassroomsByClassroomIdActivityData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/classrooms/{classroomId}/activity/{activityId}': {
-        get: {
-            req: GetClassroomsByClassroomIdActivityByActivityIdData;
-            res: {
-                200: unknown;
-            };
-        };
-        patch: {
-            req: PatchClassroomsByClassroomIdActivityByActivityIdData;
-            res: {
-                200: unknown;
-            };
-        };
-        delete: {
-            req: DeleteClassroomsByClassroomIdActivityByActivityIdData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/user/me/streak': {
-        put: {
-            res: {
-                200: unknown;
-            };
-        };
-        get: {
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/user/me/sessions': {
-        post: {
-            res: {
-                201: unknown;
-            };
-        };
-        get: {
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/user/me/sessions/{sessionId}': {
-        put: {
-            req: PutUserMeSessionsBySessionIdData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/user/search': {
-        get: {
-            req: GetUserSearchData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/classroom/activity-logs/{activityId}': {
-        post: {
-            req: PostClassroomActivityLogsByActivityIdData;
-            res: {
-                201: unknown;
-            };
-        };
-        get: {
-            req: GetClassroomActivityLogsByActivityIdData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/classroom/activity-logs/{activityId}/classroom/{classroomId}/activity-logs': {
-        get: {
-            req: GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
-    '/dictionary/dictionary/{word}': {
-        get: {
-            req: GetDictionaryDictionaryByWordData;
-            res: {
-                200: unknown;
-            };
-        };
-    };
+    query?: never;
+    url: '/dictionary/dictionary/{word}';
+};
+
+export type DictionaryControllerDefinitionResponses = {
+    200: unknown;
+};
+
+export type ClientOptions = {
+    baseUrl: 'http://localhost:3000' | (string & {});
 };

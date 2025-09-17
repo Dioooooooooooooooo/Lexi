@@ -1,12 +1,22 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { OpenAPI } from './requests';
+import { client } from './requests';
 
 const ipAddress = process.env.EXPO_PUBLIC_IPADDRESS;
-// Configure OpenAPI client with token from AsyncStorage
+
+// Export the configured client for use in mutations
+export { client };
+
+// Configure API client with token from AsyncStorage
 export const setupAuthToken = async () => {
   const token = await AsyncStorage.getItem('access_token');
-  OpenAPI.TOKEN = token || undefined;
-  OpenAPI.BASE = `http://${ipAddress}:3000`;
+
+  // Update client configuration
+  client.setConfig({
+    baseUrl: `http://${ipAddress}:3000`,
+    headers: {
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+  });
 };
 
 // Initialize auth on module load
@@ -116,17 +126,17 @@ export const queryKeys = {
 // Hook to configure auth token manually if needed
 export const useConfigureAuth = () => {
   return {
-    setToken: (token: string | null) => {
-      OpenAPI.TOKEN = token || undefined;
+    setToken: async (token: string | null) => {
       if (token) {
-        AsyncStorage.setItem('access_token', token);
+        await AsyncStorage.setItem('access_token', token);
       } else {
-        AsyncStorage.removeItem('access_token');
+        await AsyncStorage.removeItem('access_token');
       }
+      await setupAuthToken();
     },
     getConfig: () => ({
-      base: OpenAPI.BASE,
-      token: OpenAPI.TOKEN,
+      base: `http://${ipAddress}:3000`,
+      token: null, // Token is managed internally by setupAuthToken
     }),
   };
 };

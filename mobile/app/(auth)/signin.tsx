@@ -1,21 +1,17 @@
 import { useLogin } from '@/hooks/mutation/useAuthMutations';
 import { useAuthMe } from '@/hooks/query/useAuthQueries';
 import { useAuthStore } from '@/stores/authStore';
+import { useUserStore } from '@/stores/userStore';
 import { validateField } from '@/utils/utils';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { useGlobalStore } from '~/stores/globalStore';
-import { getProfile } from '@/services/UserService';
-import { login as apiLogin } from '@/services/AuthService';
-import { extractUser } from '@/models/User';
-import { useUserStore } from '@/stores/userStore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Components
+import { Text } from '@/components/ui/text';
 import { Eye, EyeOff, KeyRound, Mail } from 'lucide-react-native';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { Text } from '@/components/ui/text';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 
