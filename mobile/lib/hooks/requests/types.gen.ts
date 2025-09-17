@@ -211,7 +211,7 @@ export type EnrollPupilDto = {
   /**
    * Array of Pupil Ids
    */
-  pupil_ids: Array<unknown[]>;
+  pupil_ids: Array<string>;
 };
 
 export type UnEnrollPupilDto = {
@@ -222,7 +222,7 @@ export type UnEnrollPupilDto = {
   /**
    * Array of Pupil Ids
    */
-  pupil_ids: Array<unknown[]>;
+  pupil_ids: Array<string>;
 };
 
 export type JoinClassroomDto = {
@@ -551,27 +551,31 @@ export type GetPupilsByUsernameResponse = SuccessResponseDto;
 
 export type GetPupilsLeaderboardResponse = SuccessResponseDto;
 
+export type GetPupilsLeaderboardByPupilIdData = {
+  pupilId: string;
+};
+
 export type GetPupilsLeaderboardByPupilIdResponse = SuccessResponseDto;
 
 export type PostClassroomsData = {
   requestBody: CreateClassroomDto;
 };
 
-export type PostClassroomsResponse = unknown;
+export type PostClassroomsResponse = SuccessResponseDto;
 
-export type GetClassroomsResponse = unknown;
+export type GetClassroomsResponse = SuccessResponseDto;
 
 export type PostClassroomsEnrollData = {
   requestBody: EnrollPupilDto;
 };
 
-export type PostClassroomsEnrollResponse = unknown;
+export type PostClassroomsEnrollResponse = SuccessResponseDto;
 
 export type PostClassroomsUnenrollData = {
   requestBody: UnEnrollPupilDto;
 };
 
-export type PostClassroomsUnenrollResponse = unknown;
+export type PostClassroomsUnenrollResponse = SuccessResponseDto;
 
 export type PostClassroomsJoinData = {
   requestBody: JoinClassroomDto;
@@ -583,140 +587,142 @@ export type PostClassroomsLeaveData = {
   requestBody: LeaveClassroomDto;
 };
 
-export type PostClassroomsLeaveResponse = unknown;
+export type PostClassroomsLeaveResponse = SuccessResponseDto;
 
 export type GetClassroomsByIdData = {
   id: string;
 };
 
-export type GetClassroomsByIdResponse = unknown;
+export type GetClassroomsByIdResponse = SuccessResponseDto;
 
 export type PatchClassroomsByIdData = {
   id: string;
   requestBody: UpdateClassroomDto;
 };
 
-export type PatchClassroomsByIdResponse = unknown;
+export type PatchClassroomsByIdResponse = SuccessResponseDto;
 
 export type DeleteClassroomsByIdData = {
   id: string;
 };
 
-export type DeleteClassroomsByIdResponse = unknown;
+export type DeleteClassroomsByIdResponse = SuccessResponseDto;
 
 export type PostMinigamesWordsFromLettersData = {
   requestBody: CreateWordsFromLettersGame;
 };
 
-export type PostMinigamesWordsFromLettersResponse = unknown;
+export type PostMinigamesWordsFromLettersResponse = SuccessResponseDto;
 
 export type PostMinigamesChoicesData = {
   requestBody: CreateChoicesGame;
 };
 
-export type PostMinigamesChoicesResponse = unknown;
+export type PostMinigamesChoicesResponse = SuccessResponseDto;
 
 export type PostMinigamesSentenceRearrangementData = {
   requestBody: CreateSentenceRearrangementGame;
 };
 
-export type PostMinigamesSentenceRearrangementResponse = unknown;
+export type PostMinigamesSentenceRearrangementResponse = SuccessResponseDto;
 
 export type GetMinigamesReadingmaterialsByReadingMaterialIdRandomData = {
   readingMaterialId: string;
 };
 
 export type GetMinigamesReadingmaterialsByReadingMaterialIdRandomResponse =
-  unknown;
+  SuccessResponseDto;
 
 export type GetMinigamesByReadingSessionIdRandomData = {
   readingSessionId: string;
 };
 
-export type GetMinigamesByReadingSessionIdRandomResponse = unknown;
+export type GetMinigamesByReadingSessionIdRandomResponse = SuccessResponseDto;
 
 export type GetMinigamesByReadingMaterialIdWordsFromLettersData = {
   readingMaterialId: string;
 };
 
-export type GetMinigamesByReadingMaterialIdWordsFromLettersResponse = unknown;
+export type GetMinigamesByReadingMaterialIdWordsFromLettersResponse =
+  SuccessResponseDto;
 
 export type PostMinigamesByReadingSessionIdCompleteData = {
   readingSessionId: string;
 };
 
-export type PostMinigamesByReadingSessionIdCompleteResponse = unknown;
+export type PostMinigamesByReadingSessionIdCompleteResponse =
+  SuccessResponseDto;
 
 export type PostMinigamesLogsSentenceRearrangementData = {
   requestBody: CreateMinigameLogDto;
 };
 
-export type PostMinigamesLogsSentenceRearrangementResponse = unknown;
+export type PostMinigamesLogsSentenceRearrangementResponse = SuccessResponseDto;
 
 export type PostMinigamesLogsChoicesData = {
   requestBody: CreateMinigameLogDto;
 };
 
-export type PostMinigamesLogsChoicesResponse = unknown;
+export type PostMinigamesLogsChoicesResponse = SuccessResponseDto;
 
 export type PostMinigamesLogsWordsFromLettersData = {
   requestBody: CreateMinigameLogDto;
 };
 
-export type PostMinigamesLogsWordsFromLettersResponse = unknown;
+export type PostMinigamesLogsWordsFromLettersResponse = SuccessResponseDto;
 
 export type PostReadingSessionsData = {
   requestBody: CreateReadingSessionDto;
 };
 
-export type PostReadingSessionsResponse = unknown;
+export type PostReadingSessionsResponse = SuccessResponseDto;
 
-export type GetReadingSessionsResponse = unknown;
+export type GetReadingSessionsResponse = SuccessResponseDto;
 
 export type GetReadingSessionsByIdData = {
   id: string;
 };
 
-export type GetReadingSessionsByIdResponse = unknown;
+export type GetReadingSessionsByIdResponse = SuccessResponseDto;
 
 export type PatchReadingSessionsByIdData = {
   id: string;
   requestBody: UpdateReadingSessionDto;
 };
 
-export type PatchReadingSessionsByIdResponse = unknown;
+export type PatchReadingSessionsByIdResponse = SuccessResponseDto;
 
 export type DeleteReadingSessionsByIdData = {
   id: string;
 };
 
-export type DeleteReadingSessionsByIdResponse = unknown;
+export type DeleteReadingSessionsByIdResponse = SuccessResponseDto;
 
 export type PostReadingMaterialsData = {
   requestBody: CreateReadingMaterialDto;
 };
 
-export type PostReadingMaterialsResponse = unknown;
+export type PostReadingMaterialsResponse = SuccessResponseDto;
 
-export type GetReadingMaterialsResponse = unknown;
+export type GetReadingMaterialsResponse = SuccessResponseDto;
 
-export type GetReadingMaterialsRecommendationsResponse = unknown;
+export type GetReadingMaterialsRecommendationsResponse = SuccessResponseDto;
 
 export type GetReadingMaterialsByIdData = {
   id: string;
 };
 
-export type GetReadingMaterialsByIdResponse = unknown;
+export type GetReadingMaterialsByIdResponse = SuccessResponseDto;
 
 export type PostGenresData = {
   requestBody: CreateGenreDto;
 };
 
-export type PostGenresResponse = unknown;
+export type PostGenresResponse = SuccessResponseDto;
 
-export type GetGenresResponse = unknown;
+export type GetGenresResponse = SuccessResponseDto;
 
-export type GetAchievementsResponse = unknown;
+export type GetAchievementsResponse = SuccessResponseDto;
 
 export type PostAchievementsPupilByPupilIdAchievementByAchievementNameData = {
   achievementName: string;
@@ -724,13 +730,13 @@ export type PostAchievementsPupilByPupilIdAchievementByAchievementNameData = {
 };
 
 export type PostAchievementsPupilByPupilIdAchievementByAchievementNameResponse =
-  unknown;
+  SuccessResponseDto;
 
 export type GetAchievementsPupilsByPupilIdData = {
   pupilId: string;
 };
 
-export type GetAchievementsPupilsByPupilIdResponse = unknown;
+export type GetAchievementsPupilsByPupilIdResponse = SuccessResponseDto;
 
 export type DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdData = {
   achievementId: string;
@@ -738,95 +744,102 @@ export type DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdData = {
 };
 
 export type DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdResponse =
-  unknown;
+  SuccessResponseDto;
 
 export type DeleteAchievementsByIdData = {
   id: string;
 };
 
-export type DeleteAchievementsByIdResponse = unknown;
+export type DeleteAchievementsByIdResponse = SuccessResponseDto;
 
 export type PostClassroomsByClassroomIdActivityData = {
   classroomId: string;
   requestBody: CreateActivityDTO;
 };
 
-export type PostClassroomsByClassroomIdActivityResponse = unknown;
+export type PostClassroomsByClassroomIdActivityResponse = SuccessResponseDto;
 
 export type GetClassroomsByClassroomIdActivityData = {
   classroomId: string;
 };
 
-export type GetClassroomsByClassroomIdActivityResponse = unknown;
+export type GetClassroomsByClassroomIdActivityResponse = SuccessResponseDto;
 
 export type GetClassroomsByClassroomIdActivityByActivityIdData = {
   activityId: string;
+  classroomId: string;
 };
 
-export type GetClassroomsByClassroomIdActivityByActivityIdResponse = unknown;
+export type GetClassroomsByClassroomIdActivityByActivityIdResponse =
+  SuccessResponseDto;
 
 export type PatchClassroomsByClassroomIdActivityByActivityIdData = {
   activityId: string;
+  classroomId: string;
   requestBody: UpdateActivityDTO;
 };
 
-export type PatchClassroomsByClassroomIdActivityByActivityIdResponse = unknown;
+export type PatchClassroomsByClassroomIdActivityByActivityIdResponse =
+  SuccessResponseDto;
 
 export type DeleteClassroomsByClassroomIdActivityByActivityIdData = {
   activityId: string;
+  classroomId: string;
 };
 
-export type DeleteClassroomsByClassroomIdActivityByActivityIdResponse = unknown;
+export type DeleteClassroomsByClassroomIdActivityByActivityIdResponse =
+  SuccessResponseDto;
 
-export type PutUserMeStreakResponse = unknown;
+export type PutUserMeStreakResponse = SuccessResponseDto;
 
-export type GetUserMeStreakResponse = unknown;
+export type GetUserMeStreakResponse = SuccessResponseDto;
 
-export type PostUserMeSessionsResponse = unknown;
+export type PostUserMeSessionsResponse = SuccessResponseDto;
 
-export type GetUserMeSessionsResponse = unknown;
+export type GetUserMeSessionsResponse = SuccessResponseDto;
 
 export type PutUserMeSessionsBySessionIdData = {
   sessionId: string;
 };
 
-export type PutUserMeSessionsBySessionIdResponse = unknown;
+export type PutUserMeSessionsBySessionIdResponse = SuccessResponseDto;
 
 export type GetUserSearchData = {
   query: string;
   role: string;
 };
 
-export type GetUserSearchResponse = unknown;
+export type GetUserSearchResponse = SuccessResponseDto;
 
 export type PostClassroomActivityLogsByActivityIdData = {
   activityId: string;
   requestBody: CreateActivityLogDto;
 };
 
-export type PostClassroomActivityLogsByActivityIdResponse = unknown;
+export type PostClassroomActivityLogsByActivityIdResponse = SuccessResponseDto;
 
 export type GetClassroomActivityLogsByActivityIdData = {
   activityId: string;
 };
 
-export type GetClassroomActivityLogsByActivityIdResponse = unknown;
+export type GetClassroomActivityLogsByActivityIdResponse = SuccessResponseDto;
 
 export type GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsData =
   {
+    activityId: string;
     classroomId: string;
   };
 
 export type GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsResponse =
-  unknown;
+  SuccessResponseDto;
 
 export type GetDictionaryDictionaryByWordData = {
   word: string;
 };
 
-export type GetDictionaryDictionaryByWordResponse = unknown;
+export type GetDictionaryDictionaryByWordResponse = SuccessResponseDto;
 
-export type PostUploadImageResponse = unknown;
+export type PostUploadImageResponse = SuccessResponseDto;
 
 export type $OpenApiTs = {
   '/auth/register': {
@@ -1056,7 +1069,7 @@ export type $OpenApiTs = {
         /**
          * Pupil profile successfully updated
          */
-        201: SuccessResponseDto;
+        200: SuccessResponseDto;
         /**
          * Invalid credentials
          */
@@ -1095,6 +1108,7 @@ export type $OpenApiTs = {
   };
   '/pupils/leaderboard/{pupilId}': {
     get: {
+      req: GetPupilsLeaderboardByPupilIdData;
       res: {
         /**
          * Pupil leaderboard successfully fetched
@@ -1111,12 +1125,18 @@ export type $OpenApiTs = {
     post: {
       req: PostClassroomsData;
       res: {
-        201: unknown;
+        /**
+         * Classroom created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
     get: {
       res: {
-        200: unknown;
+        /**
+         * Classrooms fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1124,7 +1144,10 @@ export type $OpenApiTs = {
     post: {
       req: PostClassroomsEnrollData;
       res: {
-        201: unknown;
+        /**
+         * Pupils enrolled successfully
+         */
+        201: SuccessResponseDto;
       };
     };
   };
@@ -1132,7 +1155,10 @@ export type $OpenApiTs = {
     post: {
       req: PostClassroomsUnenrollData;
       res: {
-        201: unknown;
+        /**
+         * Pupils unenrolled successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1148,7 +1174,10 @@ export type $OpenApiTs = {
     post: {
       req: PostClassroomsLeaveData;
       res: {
-        201: unknown;
+        /**
+         * Left classroom successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1156,19 +1185,28 @@ export type $OpenApiTs = {
     get: {
       req: GetClassroomsByIdData;
       res: {
-        200: unknown;
+        /**
+         * Classroom fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
     patch: {
       req: PatchClassroomsByIdData;
       res: {
-        200: unknown;
+        /**
+         * Classroom updated successfully
+         */
+        200: SuccessResponseDto;
       };
     };
     delete: {
       req: DeleteClassroomsByIdData;
       res: {
-        200: unknown;
+        /**
+         * Classroom deleted successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1176,7 +1214,10 @@ export type $OpenApiTs = {
     post: {
       req: PostMinigamesWordsFromLettersData;
       res: {
-        201: unknown;
+        /**
+         * Words From Letters minigame created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
   };
@@ -1184,7 +1225,10 @@ export type $OpenApiTs = {
     post: {
       req: PostMinigamesChoicesData;
       res: {
-        201: unknown;
+        /**
+         * Choices minigame created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
   };
@@ -1192,7 +1236,10 @@ export type $OpenApiTs = {
     post: {
       req: PostMinigamesSentenceRearrangementData;
       res: {
-        201: unknown;
+        /**
+         * Sentence Rearrangement minigame created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
   };
@@ -1200,7 +1247,10 @@ export type $OpenApiTs = {
     get: {
       req: GetMinigamesReadingmaterialsByReadingMaterialIdRandomData;
       res: {
-        200: unknown;
+        /**
+         * Random minigames fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1208,7 +1258,10 @@ export type $OpenApiTs = {
     get: {
       req: GetMinigamesByReadingSessionIdRandomData;
       res: {
-        200: unknown;
+        /**
+         * Minigames fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1216,7 +1269,10 @@ export type $OpenApiTs = {
     get: {
       req: GetMinigamesByReadingMaterialIdWordsFromLettersData;
       res: {
-        200: unknown;
+        /**
+         * Words from Letters minigame fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1224,7 +1280,10 @@ export type $OpenApiTs = {
     post: {
       req: PostMinigamesByReadingSessionIdCompleteData;
       res: {
-        201: unknown;
+        /**
+         * Reading session completed successfully
+         */
+        201: SuccessResponseDto;
       };
     };
   };
@@ -1232,7 +1291,10 @@ export type $OpenApiTs = {
     post: {
       req: PostMinigamesLogsSentenceRearrangementData;
       res: {
-        201: unknown;
+        /**
+         * Sentence Rearrangement Log created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
   };
@@ -1240,7 +1302,10 @@ export type $OpenApiTs = {
     post: {
       req: PostMinigamesLogsChoicesData;
       res: {
-        201: unknown;
+        /**
+         * Choices log created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
   };
@@ -1248,7 +1313,10 @@ export type $OpenApiTs = {
     post: {
       req: PostMinigamesLogsWordsFromLettersData;
       res: {
-        201: unknown;
+        /**
+         * Words From Letters log created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
   };
@@ -1256,12 +1324,18 @@ export type $OpenApiTs = {
     post: {
       req: PostReadingSessionsData;
       res: {
-        201: unknown;
+        /**
+         * Reading session created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
     get: {
       res: {
-        200: unknown;
+        /**
+         * Reading sessions fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1269,19 +1343,28 @@ export type $OpenApiTs = {
     get: {
       req: GetReadingSessionsByIdData;
       res: {
-        200: unknown;
+        /**
+         * Reading session fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
     patch: {
       req: PatchReadingSessionsByIdData;
       res: {
-        200: unknown;
+        /**
+         * Reading session updated successfully
+         */
+        200: SuccessResponseDto;
       };
     };
     delete: {
       req: DeleteReadingSessionsByIdData;
       res: {
-        200: unknown;
+        /**
+         * Reading session deleted successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1289,19 +1372,28 @@ export type $OpenApiTs = {
     post: {
       req: PostReadingMaterialsData;
       res: {
-        201: unknown;
+        /**
+         * Reading material created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
     get: {
       res: {
-        200: unknown;
+        /**
+         * Reading materials fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
   '/reading-materials/recommendations': {
     get: {
       res: {
-        200: unknown;
+        /**
+         * Recommended reading materials fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1309,7 +1401,10 @@ export type $OpenApiTs = {
     get: {
       req: GetReadingMaterialsByIdData;
       res: {
-        200: unknown;
+        /**
+         * Reading material fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1317,19 +1412,28 @@ export type $OpenApiTs = {
     post: {
       req: PostGenresData;
       res: {
-        201: unknown;
+        /**
+         * Genre created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
     get: {
       res: {
-        200: unknown;
+        /**
+         * Genres fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
   '/achievements': {
     get: {
       res: {
-        200: unknown;
+        /**
+         * Pupil achievements fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1337,7 +1441,10 @@ export type $OpenApiTs = {
     post: {
       req: PostAchievementsPupilByPupilIdAchievementByAchievementNameData;
       res: {
-        201: unknown;
+        /**
+         * Pupil achievement added successfully
+         */
+        201: SuccessResponseDto;
       };
     };
   };
@@ -1345,7 +1452,10 @@ export type $OpenApiTs = {
     get: {
       req: GetAchievementsPupilsByPupilIdData;
       res: {
-        200: unknown;
+        /**
+         * Pupil achievements fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1353,7 +1463,10 @@ export type $OpenApiTs = {
     delete: {
       req: DeleteAchievementsPupilsByPupilIdAchievementsByAchievementIdData;
       res: {
-        200: unknown;
+        /**
+         * Achievement removed from pupil successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1361,7 +1474,10 @@ export type $OpenApiTs = {
     delete: {
       req: DeleteAchievementsByIdData;
       res: {
-        200: unknown;
+        /**
+         * Achievement deleted successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1369,13 +1485,19 @@ export type $OpenApiTs = {
     post: {
       req: PostClassroomsByClassroomIdActivityData;
       res: {
-        201: unknown;
+        /**
+         * Activity created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
     get: {
       req: GetClassroomsByClassroomIdActivityData;
       res: {
-        200: unknown;
+        /**
+         * Activities of classroom fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1383,43 +1505,64 @@ export type $OpenApiTs = {
     get: {
       req: GetClassroomsByClassroomIdActivityByActivityIdData;
       res: {
-        200: unknown;
+        /**
+         * Activity fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
     patch: {
       req: PatchClassroomsByClassroomIdActivityByActivityIdData;
       res: {
-        200: unknown;
+        /**
+         * Activity updated successfully
+         */
+        200: SuccessResponseDto;
       };
     };
     delete: {
       req: DeleteClassroomsByClassroomIdActivityByActivityIdData;
       res: {
-        200: unknown;
+        /**
+         * Activity deleted successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
   '/user/me/streak': {
     put: {
       res: {
-        200: unknown;
+        /**
+         * Login streak updated successfully
+         */
+        200: SuccessResponseDto;
       };
     };
     get: {
       res: {
-        200: unknown;
+        /**
+         * Login streak fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
   '/user/me/sessions': {
     post: {
       res: {
-        201: unknown;
+        /**
+         * Session created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
     get: {
       res: {
-        200: unknown;
+        /**
+         * Total sessions fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1427,7 +1570,10 @@ export type $OpenApiTs = {
     put: {
       req: PutUserMeSessionsBySessionIdData;
       res: {
-        200: unknown;
+        /**
+         * Session ended successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1435,7 +1581,10 @@ export type $OpenApiTs = {
     get: {
       req: GetUserSearchData;
       res: {
-        200: unknown;
+        /**
+         * Users fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1443,13 +1592,19 @@ export type $OpenApiTs = {
     post: {
       req: PostClassroomActivityLogsByActivityIdData;
       res: {
-        201: unknown;
+        /**
+         * Activity Log created successfully
+         */
+        201: SuccessResponseDto;
       };
     };
     get: {
       req: GetClassroomActivityLogsByActivityIdData;
       res: {
-        200: unknown;
+        /**
+         * Activity logs for activity fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1457,7 +1612,10 @@ export type $OpenApiTs = {
     get: {
       req: GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsData;
       res: {
-        200: unknown;
+        /**
+         * Activity logs for classroom fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
@@ -1465,14 +1623,20 @@ export type $OpenApiTs = {
     get: {
       req: GetDictionaryDictionaryByWordData;
       res: {
-        200: unknown;
+        /**
+         * Definition fetched successfully
+         */
+        200: SuccessResponseDto;
       };
     };
   };
   '/upload/image': {
     post: {
       res: {
-        201: unknown;
+        /**
+         * Image uploaded successfully
+         */
+        201: SuccessResponseDto;
       };
     };
   };

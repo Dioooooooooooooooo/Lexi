@@ -316,7 +316,7 @@ export const $EnrollPupilDto = {
       ],
       type: 'array',
       items: {
-        type: 'array',
+        type: 'string',
       },
     },
   },
@@ -339,7 +339,7 @@ export const $UnEnrollPupilDto = {
       ],
       type: 'array',
       items: {
-        type: 'array',
+        type: 'string',
       },
     },
   },

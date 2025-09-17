@@ -101,12 +101,7 @@ export default function Profile() {
             <Image
               source={
                 user?.avatar
-                  ? {
-                      uri: `${API_URL.replace(
-                        /\/api\/?$/,
-                        '/',
-                      )}${user.avatar.replace(/^\/+/, '')}`,
-                    }
+                  ? { uri: user.avatar }
                   : require('@/assets/images/default_pfp.png')
               }
               className="rounded-full shadow-lg w-full h-full"

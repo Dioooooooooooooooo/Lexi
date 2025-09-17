@@ -34,6 +34,7 @@ import type {
   GetPupilsByUsernameData,
   GetPupilsByUsernameResponse,
   GetPupilsLeaderboardResponse,
+  GetPupilsLeaderboardByPupilIdData,
   GetPupilsLeaderboardByPupilIdResponse,
   PostClassroomsData,
   PostClassroomsResponse,
@@ -487,13 +488,20 @@ export class PupilsService {
   }
 
   /**
+   * @param data The data for the request.
+   * @param data.pupilId
    * @returns SuccessResponseDto Pupil leaderboard successfully fetched
    * @throws ApiError
    */
-  public static getPupilsLeaderboardByPupilId(): CancelablePromise<GetPupilsLeaderboardByPupilIdResponse> {
+  public static getPupilsLeaderboardByPupilId(
+    data: GetPupilsLeaderboardByPupilIdData,
+  ): CancelablePromise<GetPupilsLeaderboardByPupilIdResponse> {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/pupils/leaderboard/{pupilId}',
+      path: {
+        pupilId: data.pupilId,
+      },
       errors: {
         401: 'Invalid credentials',
       },
@@ -506,7 +514,7 @@ export class ClassroomsService {
    * Create a classroom
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Classroom created successfully
    * @throws ApiError
    */
   public static postClassrooms(
@@ -522,7 +530,7 @@ export class ClassroomsService {
 
   /**
    * Find classrooms
-   * @returns unknown
+   * @returns SuccessResponseDto Classrooms fetched successfully
    * @throws ApiError
    */
   public static getClassrooms(): CancelablePromise<GetClassroomsResponse> {
@@ -536,7 +544,7 @@ export class ClassroomsService {
    * Enroll pupils
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Pupils enrolled successfully
    * @throws ApiError
    */
   public static postClassroomsEnroll(
@@ -554,7 +562,7 @@ export class ClassroomsService {
    * Unenroll pupils
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Pupils unenrolled successfully
    * @throws ApiError
    */
   public static postClassroomsUnenroll(
@@ -590,7 +598,7 @@ export class ClassroomsService {
    * Leave classroom
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Left classroom successfully
    * @throws ApiError
    */
   public static postClassroomsLeave(
@@ -608,7 +616,7 @@ export class ClassroomsService {
    * Find classroom by id
    * @param data The data for the request.
    * @param data.id
-   * @returns unknown
+   * @returns SuccessResponseDto Classroom fetched successfully
    * @throws ApiError
    */
   public static getClassroomsById(
@@ -628,7 +636,7 @@ export class ClassroomsService {
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Classroom updated successfully
    * @throws ApiError
    */
   public static patchClassroomsById(
@@ -649,7 +657,7 @@ export class ClassroomsService {
    * Delete classroom by id
    * @param data The data for the request.
    * @param data.id
-   * @returns unknown
+   * @returns SuccessResponseDto Classroom deleted successfully
    * @throws ApiError
    */
   public static deleteClassroomsById(
@@ -670,7 +678,7 @@ export class MinigamesService {
    * Create WFL minigame
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Words From Letters minigame created successfully
    * @throws ApiError
    */
   public static postMinigamesWordsFromLetters(
@@ -688,7 +696,7 @@ export class MinigamesService {
    * Create Choices minigame
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Choices minigame created successfully
    * @throws ApiError
    */
   public static postMinigamesChoices(
@@ -706,7 +714,7 @@ export class MinigamesService {
    * Create SR minigame
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Sentence Rearrangement minigame created successfully
    * @throws ApiError
    */
   public static postMinigamesSentenceRearrangement(
@@ -724,7 +732,7 @@ export class MinigamesService {
    * Get 3 random minigames for a specific reading material
    * @param data The data for the request.
    * @param data.readingMaterialId
-   * @returns unknown
+   * @returns SuccessResponseDto Random minigames fetched successfully
    * @throws ApiError
    */
   public static getMinigamesReadingmaterialsByReadingMaterialIdRandom(
@@ -743,7 +751,7 @@ export class MinigamesService {
    * Get 3 random minigames for a specific reading session
    * @param data The data for the request.
    * @param data.readingSessionId
-   * @returns unknown
+   * @returns SuccessResponseDto Minigames fetched successfully
    * @throws ApiError
    */
   public static getMinigamesByReadingSessionIdRandom(
@@ -762,7 +770,7 @@ export class MinigamesService {
    * Get WordsFromLetters minigame for a specific reading material
    * @param data The data for the request.
    * @param data.readingMaterialId
-   * @returns unknown
+   * @returns SuccessResponseDto Words from Letters minigame fetched successfully
    * @throws ApiError
    */
   public static getMinigamesByReadingMaterialIdWordsFromLetters(
@@ -781,7 +789,7 @@ export class MinigamesService {
    * Create a completion status of minigames for a specific reading session
    * @param data The data for the request.
    * @param data.readingSessionId
-   * @returns unknown
+   * @returns SuccessResponseDto Reading session completed successfully
    * @throws ApiError
    */
   public static postMinigamesByReadingSessionIdComplete(
@@ -800,7 +808,7 @@ export class MinigamesService {
    * Create a log for SentenceRearrangement minigame
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Sentence Rearrangement Log created successfully
    * @throws ApiError
    */
   public static postMinigamesLogsSentenceRearrangement(
@@ -818,7 +826,7 @@ export class MinigamesService {
    * Create a log for Choices minigame
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Choices log created successfully
    * @throws ApiError
    */
   public static postMinigamesLogsChoices(
@@ -836,7 +844,7 @@ export class MinigamesService {
    * Create a log for WordsFromLetters minigame
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Words From Letters log created successfully
    * @throws ApiError
    */
   public static postMinigamesLogsWordsFromLetters(
@@ -853,9 +861,10 @@ export class MinigamesService {
 
 export class ReadingSessionsService {
   /**
+   * Create a reading session
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Reading session created successfully
    * @throws ApiError
    */
   public static postReadingSessions(
@@ -870,7 +879,8 @@ export class ReadingSessionsService {
   }
 
   /**
-   * @returns unknown
+   * Get all reading sessions
+   * @returns SuccessResponseDto Reading sessions fetched successfully
    * @throws ApiError
    */
   public static getReadingSessions(): CancelablePromise<GetReadingSessionsResponse> {
@@ -881,9 +891,10 @@ export class ReadingSessionsService {
   }
 
   /**
+   * Get a reading session by id
    * @param data The data for the request.
    * @param data.id
-   * @returns unknown
+   * @returns SuccessResponseDto Reading session fetched successfully
    * @throws ApiError
    */
   public static getReadingSessionsById(
@@ -899,10 +910,11 @@ export class ReadingSessionsService {
   }
 
   /**
+   * Update a reading session by id
    * @param data The data for the request.
    * @param data.id
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Reading session updated successfully
    * @throws ApiError
    */
   public static patchReadingSessionsById(
@@ -920,9 +932,10 @@ export class ReadingSessionsService {
   }
 
   /**
+   * Delete a reading session by id
    * @param data The data for the request.
    * @param data.id
-   * @returns unknown
+   * @returns SuccessResponseDto Reading session deleted successfully
    * @throws ApiError
    */
   public static deleteReadingSessionsById(
@@ -940,9 +953,10 @@ export class ReadingSessionsService {
 
 export class ReadingMaterialsService {
   /**
+   * Create a reading material
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Reading material created successfully
    * @throws ApiError
    */
   public static postReadingMaterials(
@@ -957,7 +971,8 @@ export class ReadingMaterialsService {
   }
 
   /**
-   * @returns unknown
+   * Get all reading materials
+   * @returns SuccessResponseDto Reading materials fetched successfully
    * @throws ApiError
    */
   public static getReadingMaterials(): CancelablePromise<GetReadingMaterialsResponse> {
@@ -968,7 +983,8 @@ export class ReadingMaterialsService {
   }
 
   /**
-   * @returns unknown
+   * Get recommended reading materials for the pupil
+   * @returns SuccessResponseDto Recommended reading materials fetched successfully
    * @throws ApiError
    */
   public static getReadingMaterialsRecommendations(): CancelablePromise<GetReadingMaterialsRecommendationsResponse> {
@@ -979,9 +995,10 @@ export class ReadingMaterialsService {
   }
 
   /**
+   * Get a reading material by id
    * @param data The data for the request.
    * @param data.id
-   * @returns unknown
+   * @returns SuccessResponseDto Reading material fetched successfully
    * @throws ApiError
    */
   public static getReadingMaterialsById(
@@ -999,9 +1016,10 @@ export class ReadingMaterialsService {
 
 export class GenresService {
   /**
+   * Create Genre
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Genre created successfully
    * @throws ApiError
    */
   public static postGenres(
@@ -1016,7 +1034,8 @@ export class GenresService {
   }
 
   /**
-   * @returns unknown
+   * Get all Genres
+   * @returns SuccessResponseDto Genres fetched successfully
    * @throws ApiError
    */
   public static getGenres(): CancelablePromise<GetGenresResponse> {
@@ -1030,7 +1049,7 @@ export class GenresService {
 export class AchievementsService {
   /**
    * Get pupil achievements
-   * @returns unknown
+   * @returns SuccessResponseDto Pupil achievements fetched successfully
    * @throws ApiError
    */
   public static getAchievements(): CancelablePromise<GetAchievementsResponse> {
@@ -1045,7 +1064,7 @@ export class AchievementsService {
    * @param data The data for the request.
    * @param data.pupilId
    * @param data.achievementName
-   * @returns unknown
+   * @returns SuccessResponseDto Pupil achievement added successfully
    * @throws ApiError
    */
   public static postAchievementsPupilByPupilIdAchievementByAchievementName(
@@ -1065,7 +1084,7 @@ export class AchievementsService {
    * Get achievements for specific pupil (admin/testing)
    * @param data The data for the request.
    * @param data.pupilId
-   * @returns unknown
+   * @returns SuccessResponseDto Pupil achievements fetched successfully
    * @throws ApiError
    */
   public static getAchievementsPupilsByPupilId(
@@ -1085,7 +1104,7 @@ export class AchievementsService {
    * @param data The data for the request.
    * @param data.pupilId
    * @param data.achievementId
-   * @returns unknown
+   * @returns SuccessResponseDto Achievement removed from pupil successfully
    * @throws ApiError
    */
   public static deleteAchievementsPupilsByPupilIdAchievementsByAchievementId(
@@ -1105,7 +1124,7 @@ export class AchievementsService {
    * Delete achievement by id (safety measure)
    * @param data The data for the request.
    * @param data.id
-   * @returns unknown
+   * @returns SuccessResponseDto Achievement deleted successfully
    * @throws ApiError
    */
   public static deleteAchievementsById(
@@ -1127,7 +1146,7 @@ export class ActivitiesService {
    * @param data The data for the request.
    * @param data.classroomId
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Activity created successfully
    * @throws ApiError
    */
   public static postClassroomsByClassroomIdActivity(
@@ -1148,7 +1167,7 @@ export class ActivitiesService {
    * Get all Activities by Classroom
    * @param data The data for the request.
    * @param data.classroomId
-   * @returns unknown
+   * @returns SuccessResponseDto Activities of classroom fetched successfully
    * @throws ApiError
    */
   public static getClassroomsByClassroomIdActivity(
@@ -1166,8 +1185,9 @@ export class ActivitiesService {
   /**
    * Get Activity by id
    * @param data The data for the request.
+   * @param data.classroomId
    * @param data.activityId
-   * @returns unknown
+   * @returns SuccessResponseDto Activity fetched successfully
    * @throws ApiError
    */
   public static getClassroomsByClassroomIdActivityByActivityId(
@@ -1177,6 +1197,7 @@ export class ActivitiesService {
       method: 'GET',
       url: '/classrooms/{classroomId}/activity/{activityId}',
       path: {
+        classroomId: data.classroomId,
         activityId: data.activityId,
       },
     });
@@ -1185,9 +1206,10 @@ export class ActivitiesService {
   /**
    * Update Activity
    * @param data The data for the request.
+   * @param data.classroomId
    * @param data.activityId
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Activity updated successfully
    * @throws ApiError
    */
   public static patchClassroomsByClassroomIdActivityByActivityId(
@@ -1197,6 +1219,7 @@ export class ActivitiesService {
       method: 'PATCH',
       url: '/classrooms/{classroomId}/activity/{activityId}',
       path: {
+        classroomId: data.classroomId,
         activityId: data.activityId,
       },
       body: data.requestBody,
@@ -1207,8 +1230,9 @@ export class ActivitiesService {
   /**
    * Delete Activity
    * @param data The data for the request.
+   * @param data.classroomId
    * @param data.activityId
-   * @returns unknown
+   * @returns SuccessResponseDto Activity deleted successfully
    * @throws ApiError
    */
   public static deleteClassroomsByClassroomIdActivityByActivityId(
@@ -1218,6 +1242,7 @@ export class ActivitiesService {
       method: 'DELETE',
       url: '/classrooms/{classroomId}/activity/{activityId}',
       path: {
+        classroomId: data.classroomId,
         activityId: data.activityId,
       },
     });
@@ -1226,7 +1251,8 @@ export class ActivitiesService {
 
 export class UserService {
   /**
-   * @returns unknown
+   * Update user login streak
+   * @returns SuccessResponseDto Login streak updated successfully
    * @throws ApiError
    */
   public static putUserMeStreak(): CancelablePromise<PutUserMeStreakResponse> {
@@ -1237,7 +1263,8 @@ export class UserService {
   }
 
   /**
-   * @returns unknown
+   * Get user login streak
+   * @returns SuccessResponseDto Login streak fetched successfully
    * @throws ApiError
    */
   public static getUserMeStreak(): CancelablePromise<GetUserMeStreakResponse> {
@@ -1248,7 +1275,8 @@ export class UserService {
   }
 
   /**
-   * @returns unknown
+   * Create a new user session
+   * @returns SuccessResponseDto Session created successfully
    * @throws ApiError
    */
   public static postUserMeSessions(): CancelablePromise<PostUserMeSessionsResponse> {
@@ -1259,7 +1287,8 @@ export class UserService {
   }
 
   /**
-   * @returns unknown
+   * Get total user sessions
+   * @returns SuccessResponseDto Total sessions fetched successfully
    * @throws ApiError
    */
   public static getUserMeSessions(): CancelablePromise<GetUserMeSessionsResponse> {
@@ -1270,9 +1299,10 @@ export class UserService {
   }
 
   /**
+   * End a user session
    * @param data The data for the request.
    * @param data.sessionId
-   * @returns unknown
+   * @returns SuccessResponseDto Session ended successfully
    * @throws ApiError
    */
   public static putUserMeSessionsBySessionId(
@@ -1288,10 +1318,11 @@ export class UserService {
   }
 
   /**
+   * Search users by name and role
    * @param data The data for the request.
    * @param data.query
    * @param data.role
-   * @returns unknown
+   * @returns SuccessResponseDto Users fetched successfully
    * @throws ApiError
    */
   public static getUserSearch(
@@ -1314,7 +1345,7 @@ export class ActivityLogsService {
    * @param data The data for the request.
    * @param data.activityId
    * @param data.requestBody
-   * @returns unknown
+   * @returns SuccessResponseDto Activity Log created successfully
    * @throws ApiError
    */
   public static postClassroomActivityLogsByActivityId(
@@ -1335,7 +1366,7 @@ export class ActivityLogsService {
    * Get an Activity's Activity Logs
    * @param data The data for the request.
    * @param data.activityId
-   * @returns unknown
+   * @returns SuccessResponseDto Activity logs for activity fetched successfully
    * @throws ApiError
    */
   public static getClassroomActivityLogsByActivityId(
@@ -1353,8 +1384,9 @@ export class ActivityLogsService {
   /**
    * Get all Classroom Acitivies' Activity Log
    * @param data The data for the request.
+   * @param data.activityId
    * @param data.classroomId
-   * @returns unknown
+   * @returns SuccessResponseDto Activity logs for classroom fetched successfully
    * @throws ApiError
    */
   public static getClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogs(
@@ -1364,6 +1396,7 @@ export class ActivityLogsService {
       method: 'GET',
       url: '/classroom/activity-logs/{activityId}/classroom/{classroomId}/activity-logs',
       path: {
+        activityId: data.activityId,
         classroomId: data.classroomId,
       },
     });
@@ -1375,7 +1408,7 @@ export class DictionaryService {
    * Get definition of word
    * @param data The data for the request.
    * @param data.word
-   * @returns unknown
+   * @returns SuccessResponseDto Definition fetched successfully
    * @throws ApiError
    */
   public static getDictionaryDictionaryByWord(
@@ -1394,7 +1427,7 @@ export class DictionaryService {
 export class ImagekitService {
   /**
    * Upload image to ImageKit
-   * @returns unknown
+   * @returns SuccessResponseDto Image uploaded successfully
    * @throws ApiError
    */
   public static postUploadImage(): CancelablePromise<PostUploadImageResponse> {

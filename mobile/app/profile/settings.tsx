@@ -46,7 +46,7 @@ export default function Settings() {
   const deleteAccount = useUserStore(state => state.deleteAccount);
   const { refetch: refetchUser } = useAuthMe();
   const setUser = useUserStore(state => state.setUser);
-  const { mutate: handleUploadAvatar } = useUploadAvatar();
+  const handleUploadAvatar = useUploadAvatar();
 
   const user = useUserStore(state => state.user);
   console.log('User from store:', user);
@@ -98,10 +98,12 @@ export default function Settings() {
       const changes = getChangedFields(user, profile);
       if (Object.keys(changes).length > 0) {
         if (changes.avatar) {
-          const uploadedAvatar = handleUploadAvatar(avatarFile);
+          const uploadedAvatar = await handleUploadAvatar.mutateAsync(avatarFile);
+          console.log('uploaded: ', uploadedAvatar);
           changes.avatar = uploadedAvatar;
         }
-
+      
+        console.log("Changes form: ", changes);
         const res = await handleProfileUpdate(changes);
         if (res) {
           const updatedUser = extractUser(res.data);

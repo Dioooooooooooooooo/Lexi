@@ -151,7 +151,7 @@ export const uploadAvatar = async (avatar: {
   uri: string;
   type: string;
   name: string;
-}) => {
+}): Promise<string> => {
   const formData = new FormData();
   formData.append('avatar', {
     uri: avatar.uri,
@@ -174,7 +174,7 @@ export const uploadAvatar = async (avatar: {
     throw new Error(response.data.message);
   }
 
-  console.log('Upload response data:', response);
+  console.log('Upload response data:', response.data);
 
   return response.data.data;
 };
@@ -184,7 +184,7 @@ export const useUploadAvatar = () => {
     mutationFn: (avatar: { uri: string; type: string; name: string }) =>
       uploadAvatar(avatar),
     onSuccess: data => {
-      console.log('Upload successful: ', data);
+      console.log('Upload successfuljjj: ', data);
     },
     onError: error => {
       console.error('Error uploading avatar:', error);
