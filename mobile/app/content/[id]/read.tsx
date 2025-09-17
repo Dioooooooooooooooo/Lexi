@@ -35,7 +35,7 @@ function minigameProvider(
   bubbleCount: number,
   minigames: Minigame[],
 ) {
-  // temp type:1 = choices, 0: arrangement
+  // 1 = choices, 0 = arrangement
   const minigame = minigames[minigameCount];
   const metadata = JSON.parse(minigame.metadata);
 
@@ -44,14 +44,14 @@ function minigameProvider(
     const choicesBubble: Message = {
       id: bubbleCount,
       type: MessageTypeEnum.CHOICES,
-      payload: metadata as choice,
+      payload: minigame,
     };
     return choicesBubble;
   } else if (minigame.minigame_type === 0) {
     const arrangeBubble: Message = {
       id: bubbleCount,
       type: MessageTypeEnum.ARRANGE,
-      payload: metadata as arrange,
+      payload: minigame,
     };
     return arrangeBubble;
   }
@@ -248,29 +248,18 @@ const Read = () => {
                   : // feel nako better ba naay minigame middle layer somewhere here??
                     msg.type === MessageTypeEnum.CHOICES
                     ? (() => {
-                        const choicesPayload = msg.payload as choice;
-                        console.log(choicesPayload, 'huehuehui');
-
                         return (
                           <ChoicesBubble
-                            question={choicesPayload.question}
-                            choices={choicesPayload.choices}
+                            minigame={msg.payload}
                             onPress={addStoryMessage}
                           />
                         );
                       })()
                     : msg.type === MessageTypeEnum.ARRANGE
                       ? (() => {
-                          const arrangePayload = msg.payload as arrange;
-                          console.log(arrangePayload, ':OOO');
-
                           return (
                             <SentenceArrangementBubble
-                              correctAnswer={arrangePayload.correct_answer.join(
-                                '',
-                              )}
-                              partsblocks={arrangePayload.parts}
-                              explanation={arrangePayload.explanation}
+                              minigame={msg.payload}
                               onPress={addStoryMessage}
                             />
                           );

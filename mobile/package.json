@@ -11,7 +11,7 @@
     "test": "jest --watchAll",
     "lint": "expo lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,md}\" \"!utils/long_fantasy_story_dataset.json\"",
-    "openapi:spec": "curl -o swagger.json http://localhost:3000/api/swagger.json",
+    "openapi:spec": "curl -o swagger.json http://localhost:3000/docs-json",
     "openapi:client": "openapi-rq -i swagger.json -c fetch -o ./lib/hooks --format prettier",
     "dev:with-api": "pnpm run openapi:spec && pnpm run openapi:client && pnpm run start"
   },

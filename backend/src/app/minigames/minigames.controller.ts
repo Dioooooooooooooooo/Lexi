@@ -13,15 +13,21 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { MinigamesService } from './minigames.service';
-import { CreateChoicesGame, CreateMinigameDto, CreateSentenceRearrangementGame, CreateWordsFromLettersGame } from './dto/create-minigame.dto';
+import {
+  CreateChoicesGame,
+  CreateMinigameDto,
+  CreateSentenceRearrangementGame,
+  CreateWordsFromLettersGame,
+} from './dto/create-minigame.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Minigame, MinigameLog, MinigameType } from '@/database/schemas';
 import { CreateMinigameLogDto } from './dto/create-minigame-log.dto';
 import { SuccessResponseDto } from '@/common/dto';
 import { CompleteReadingSessionDto } from './dto/complete-reading-session.dto';
 import { RolesGuard } from '../auth/role-guard';
 import { Roles } from '@/decorators/roles.decorator';
+import { Min } from 'class-validator';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -38,6 +44,11 @@ export class MinigamesController {
   @Roles(['Teacher'])
   @Post('wordsFromLetters')
   @ApiOperation({ summary: 'Create WFL minigame' })
+  @ApiResponse({
+    status: 201,
+    description: 'Words From Letters minigame created successfully',
+    type: SuccessResponseDto<Minigame>,
+  })
   async createWFLMinigame(
     @Body() request: CreateWordsFromLettersGame,
   ): Promise<SuccessResponseDto<Minigame>> {
@@ -54,6 +65,11 @@ export class MinigamesController {
   @Roles(['Teacher'])
   @Post('choices')
   @ApiOperation({ summary: 'Create Choices minigame' })
+  @ApiResponse({
+    status: 201,
+    description: 'Choices minigame created successfully',
+    type: SuccessResponseDto<Minigame>,
+  })
   async createChoicesMinigame(
     @Body() request: CreateChoicesGame,
   ): Promise<SuccessResponseDto<Minigame>> {
@@ -70,6 +86,11 @@ export class MinigamesController {
   @Roles(['Teacher'])
   @Post('sentenceRearrangement')
   @ApiOperation({ summary: 'Create SR minigame' })
+  @ApiResponse({
+    status: 201,
+    description: 'Sentence Rearrangement minigame created successfully',
+    type: SuccessResponseDto<Minigame>,
+  })
   async createSRMinigame(
     @Body() request: CreateSentenceRearrangementGame,
   ): Promise<SuccessResponseDto<Minigame>> {
@@ -86,6 +107,11 @@ export class MinigamesController {
   @Get('readingmaterials/:readingMaterialID/random')
   @ApiOperation({
     summary: 'Get 3 random minigames for a specific reading material',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Random minigames fetched successfully',
+    type: SuccessResponseDto<Minigame[]>,
   })
   async findMinigamesByMaterialID(
     @Param('readingMaterialID') readingMaterialID: string,
@@ -107,6 +133,11 @@ export class MinigamesController {
   @ApiOperation({
     summary: 'Get 3 random minigames for a specific reading session',
   })
+  @ApiResponse({
+    status: 200,
+    description: 'Minigames fetched successfully',
+    type: SuccessResponseDto<Minigame[]>,
+  })
   async findMinigamesBySessionID(
     @Param('readingSessionID') readingSessionID: string,
   ): Promise<SuccessResponseDto<Minigame[]>> {
@@ -126,6 +157,11 @@ export class MinigamesController {
   @Get(':readingMaterialID/wordsFromLetters')
   @ApiOperation({
     summary: 'Get WordsFromLetters minigame for a specific reading material',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Words from Letters minigame fetched successfully',
+    type: SuccessResponseDto<Minigame>,
   })
   async findWordsFromLettersMinigame(
     @Param('readingMaterialID') readingMaterialID: string,
@@ -148,6 +184,11 @@ export class MinigamesController {
       'Create a completion status of minigames for a specific reading session',
   })
   @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({
+    status: 201,
+    description: 'Reading session completed successfully',
+    type: SuccessResponseDto<CompleteReadingSessionDto>,
+  })
   async getMinigamesCompletion(
     @Param('readingSessionID') readingSessionID: string,
   ): Promise<SuccessResponseDto<CompleteReadingSessionDto>> {
@@ -164,6 +205,11 @@ export class MinigamesController {
   @Post('logs/SentenceRearrangement')
   @ApiOperation({
     summary: 'Create a log for SentenceRearrangement minigame',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Sentence Rearrangement Log created successfully',
+    type: SuccessResponseDto<MinigameLog>,
   })
   async createSentenceRearrangementLog(
     @Body() minigameLogDto: CreateMinigameLogDto,
@@ -183,6 +229,11 @@ export class MinigamesController {
   @ApiOperation({
     summary: 'Create a log for Choices minigame',
   })
+  @ApiResponse({
+    status: 201,
+    description: 'Choices log created successfully',
+    type: SuccessResponseDto<MinigameLog>,
+  })
   async createChoicesLog(
     @Body() minigameLogDto: CreateMinigameLogDto,
   ): Promise<SuccessResponseDto<MinigameLog>> {
@@ -200,6 +251,11 @@ export class MinigamesController {
   @Post('logs/WordsFromLetters')
   @ApiOperation({
     summary: 'Create a log for WordsFromLetters minigame',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Words From Letters log created successfully',
+    type: SuccessResponseDto<MinigameLog>,
   })
   async createWordsFromLettersLog(
     @Body() minigameLogDto: CreateMinigameLogDto,

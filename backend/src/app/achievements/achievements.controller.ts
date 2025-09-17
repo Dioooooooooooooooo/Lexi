@@ -8,7 +8,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { SuccessResponseDto } from '../../common/dto';
 import type { Achievement, PupilAchievement } from '../../database/schemas';
 import { Roles } from '../../decorators/roles.decorator';
@@ -32,6 +37,11 @@ export class AchievementsController {
     summary: 'Get pupil achievements',
   })
   @Roles(['Pupil'])
+  @ApiResponse({
+    status: 200,
+    description: 'Pupil achievements fetched successfully',
+    type: SuccessResponseDto,
+  })
   async getPupilAchievements(
     @Request() req: { user: UserResponseDto },
   ): Promise<SuccessResponseDto<Achievement[]>> {
@@ -50,6 +60,11 @@ export class AchievementsController {
     summary: 'Add pupil achievement',
   })
   @Roles(['Teacher'])
+  @ApiResponse({
+    status: 201,
+    description: 'Pupil achievement added successfully',
+    type: SuccessResponseDto,
+  })
   async addPupilAchievement(
     @Param('pupilId') pupilId: string,
     @Param('achievementName') achievementName: string,
@@ -66,6 +81,11 @@ export class AchievementsController {
     summary: 'Get achievements for specific pupil (admin/testing)',
   })
   @Roles(['Teacher', 'Pupil'])
+  @ApiResponse({
+    status: 200,
+    description: 'Pupil achievements fetched successfully',
+    type: SuccessResponseDto,
+  })
   async getPupilAchievementsById(
     @Param('pupilId') pupilId: string,
   ): Promise<SuccessResponseDto<Achievement[]>> {
@@ -78,6 +98,11 @@ export class AchievementsController {
     summary: 'Remove specific achievement from specific pupil',
   })
   @Roles(['Teacher'])
+  @ApiResponse({
+    status: 200,
+    description: 'Achievement removed from pupil successfully',
+    type: SuccessResponseDto,
+  })
   async removePupilAchievement(
     @Param('pupilId') pupilId: string,
     @Param('achievementId') achievementId: string,
@@ -94,6 +119,11 @@ export class AchievementsController {
     summary: 'Delete achievement by id (safety measure)',
   })
   @Roles(['Teacher', 'Pupil'])
+  @ApiResponse({
+    status: 200,
+    description: 'Achievement deleted successfully',
+    type: SuccessResponseDto,
+  })
   async remove(
     @Param('id') id: string,
   ): Promise<SuccessResponseDto<Achievement>> {

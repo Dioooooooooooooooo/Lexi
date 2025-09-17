@@ -58,29 +58,19 @@ export const useMiniGameStore = create<MiniGameStore>()(
         );
         logResult['duration'] = duration;
 
-        switch (currentMinigame.minigameType) {
-          case MinigameType.WordsFromLetters:
+        switch (currentMinigame.minigame_type) {
+          case 0: // sentence arrangement
+            logResult['answers'] = result.answers;
+            logResult['score'] = result.score;
+            break;
+          case 1: // choices
+            logResult['score'] = result.score;
+            break;
+          case 10: // word from letters
             logResult['correctAnswers'] = result.correctAnswers;
             logResult['incorrectAnswers'] = result.correctAnswers;
             logResult['score'] = logResult['correctAnswers'].length;
             logResult['streak'] = result.streak;
-            break;
-          // case MinigameType.FillInTheBlanks:
-          //   logResult["answers"] = result.answers;
-          //   logResult["score"] = result.score;
-          //   break;
-          case MinigameType.SentenceRearrangement:
-            logResult['answers'] = result.answers;
-            logResult['score'] = result.score;
-            break;
-          // case MinigameType.WordHunt:
-          //   logResult['score'] = result.score;
-          //   logResult['streak'] = result.streak;
-          //   logResult['correctAttempts'] = result.correctAttempts;
-          //   logResult['incorrectAttempts'] = result.incorrectAttempts;
-          //   break;
-          case MinigameType.Choices:
-            logResult['score'] = result.score;
             break;
         }
 

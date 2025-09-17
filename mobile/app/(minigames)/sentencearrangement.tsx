@@ -1,10 +1,14 @@
-import { useSentenceRearrangementMiniGameStore } from '@/stores/miniGameStore';
+import {
+  useMiniGameStore,
+  useSentenceRearrangementMiniGameStore,
+} from '@/stores/miniGameStore';
 import { arrange, bubble } from '@/types/bubble';
 import { MessageTypeEnum, personEnum } from '@/types/enum';
 import React, { useEffect, useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { makeBubble } from '@/utils/makeBubble';
+import { Minigame, SentenceRearrangement } from '@/models/Minigame';
 
 const SentenceArrangementBtn = ({
   text,
@@ -26,15 +30,12 @@ const SentenceArrangementBtn = ({
   );
 };
 
+// TODO: decouple from zustand
 const SentenceArrangementBubble = ({
-  partsblocks,
-  correctAnswer,
-  explanation,
+  minigame,
   onPress,
 }: {
-  partsblocks: string[];
-  correctAnswer: string;
-  explanation: string;
+  minigame: Minigame;
   onPress: (msg: bubble, msgType: MessageTypeEnum) => void;
 }) => {
   // const [isAudio, setIsAudio] = useState(false);
@@ -48,22 +49,24 @@ const SentenceArrangementBubble = ({
     resetGameState,
     setParts,
   } = useSentenceRearrangementMiniGameStore();
+  const metadata = JSON.parse(minigame.metadata) as SentenceRearrangement;
+  const { setCurrentMinigame, gameOver } = useMiniGameStore();
 
   // init bruh
   useEffect(() => {
     resetGameState();
-    setParts(partsblocks);
+    setParts(metadata.parts);
+    setCurrentMinigame(minigame);
   }, []);
 
-  console.log('correct answer', correctAnswer);
+  console.log('correct answer', metadata.correct_answer?.join(''));
   console.log('current asnwer joined', currentAnswer.join(''));
   console.log('parts', parts);
-  console.log('current', currentAnswer);
 
   useEffect(() => {
-    if (currentAnswer.length === partsblocks.length && isAnswered == true) {
+    if (currentAnswer.length === metadata.parts.length && isAnswered == true) {
       let bubble;
-      if (correctAnswer === currentAnswer.join('')) {
+      if (metadata.correct_answer.join('') === currentAnswer.join('')) {
         bubble = makeBubble("That's correct!", '', personEnum.Game);
       } else {
         bubble = makeBubble('Aww, try again next time!', '', personEnum.Game);
@@ -71,6 +74,7 @@ const SentenceArrangementBubble = ({
 
       setTimeout(() => onPress(bubble, MessageTypeEnum.STORY), 500);
       setIsFinished(true);
+
       return;
     }
     setIsAnswered(true);

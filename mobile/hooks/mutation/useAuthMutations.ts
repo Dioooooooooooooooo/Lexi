@@ -130,7 +130,7 @@ export const useUpdateProfile = () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
     },
     onError: (error: any) => {
-      console.error('Profile update failed:', error);
+      console.error('Profile update failed:', error.body);
     },
   });
 };
