@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { client } from './requests';
+import { authControllerRefreshToken, client } from './requests';
+import { createClient } from './requests/client';
 
 const ipAddress = process.env.EXPO_PUBLIC_IPADDRESS;
 
@@ -9,7 +10,7 @@ export { client };
 // Configure API client with token from AsyncStorage
 export const setupAuthToken = async () => {
   const token = await AsyncStorage.getItem('access_token');
-
+  console.log('access token:', token);
   // Update client configuration
   client.setConfig({
     baseUrl: `http://${ipAddress}:3000`,
@@ -18,6 +19,45 @@ export const setupAuthToken = async () => {
     },
   });
 };
+
+client.interceptors.request.use(async (request, opts) => {
+  const accessToken = await AsyncStorage.getItem('access_token');
+  if (accessToken) {
+    request.headers.set('Authorization', `Bearer ${accessToken}`);
+  }
+  return request;
+});
+
+client.interceptors.response.use(async (response, request, opts) => {
+  console.log('refresh token interceptor');
+  if (response.status === 401) {
+    console.log('status 401, attempting refresh token', response.status);
+    const refreshToken = await AsyncStorage.getItem('refresh_token');
+    if (!refreshToken) return response;
+
+    try {
+      const tokenResp = await authControllerRefreshToken({
+        body: { refresh_token: refreshToken },
+      });
+
+      const newAccessToken = tokenResp.data?.data.access_token as string;
+      const newRefreshToken = tokenResp.data?.data.refresh_token as string;
+      if (newAccessToken) {
+        await AsyncStorage.setItem('access_token', newAccessToken);
+        await AsyncStorage.setItem('refresh_token', newRefreshToken);
+
+        request.headers.set('Authorization', `Bearer ${newAccessToken}`);
+        const retryResponse = await (opts.fetch ?? globalThis.fetch)(request);
+        console.log('refreshed token');
+        return retryResponse;
+      }
+    } catch (err) {
+      console.error('Token refresh failed');
+      return response;
+    }
+  }
+  return response;
+});
 
 // Initialize auth on module load
 setupAuthToken();

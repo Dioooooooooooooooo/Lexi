@@ -7,14 +7,22 @@ import { dictionaryControllerDefinition } from '../api/requests';
 // =============================================================================
 
 export const useDictionaryDefinition = (word: string) => {
+  console.log('dictionary word:', word);
   return useQuery({
     queryKey: [...queryKeys.dictionary.all, 'definition', word] as const,
     queryFn: async () => {
-      await setupAuthToken();
-      const res = await dictionaryControllerDefinition({
-        path: { word }
-      });
-      return res.data?.data;
+      try {
+        await setupAuthToken();
+        const res = await dictionaryControllerDefinition({
+          path: { word },
+        });
+
+        const defs = res.data.data as Array<{ shortdef?: string[] }>;
+        return defs[0]?.shortdef?.[0] ?? '';
+      } catch (err) {
+        console.error('error fetching defintion', err);
+        return [];
+      }
     },
     staleTime: 10 * 60 * 1000, // 10 minutes - definitions don't change often
     retry: (failureCount, error: any) => {

@@ -15,7 +15,7 @@ import { Text } from '@/components/ui/text';
 import { Message } from '@/types/message';
 import { Minigame } from '@/models/Minigame';
 import { useThrottle } from '@/hooks/utils/useThrottle';
-import { useRandomMinigamesByMaterial } from '@/hooks';
+import { useDictionaryDefinition, useRandomMinigamesByMaterial } from '@/hooks';
 import { useWordsFromLettersMiniGameStore } from '@/stores/miniGameStore';
 
 const iconMap: Record<string, any> = {
@@ -61,7 +61,9 @@ const Read = () => {
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [chunkIndex, setChunkIndex] = useState(0);
   const [word, setWord] = useState<string | null>(null);
-  const { data, isLoading: isDictionaryLoading } = useDictionary(word || '');
+  const { data, isLoading: isDictionaryLoading } = useDictionaryDefinition(
+    word || '',
+  );
   const bubbleCount = useRef(0);
   const minigameCount = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -74,6 +76,8 @@ const Read = () => {
     useRandomMinigamesByMaterial(selectedContent?.id);
   const { setWords, setLetters } = useWordsFromLettersMiniGameStore();
 
+  console.log('dictionary data:', data);
+
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: false });
   }, [messages]);
@@ -81,9 +85,6 @@ const Read = () => {
   // parse each chunk into (chat/story) bubble type with props
   const parsedBubbles = useMemo<Message[]>(() => {
     if (!selectedContent?.content || !minigames) return [];
-
-    // setWords(words);
-    // setLetters(letters);
 
     return selectedContent.content
       .split(/(?=\[\w*\])|(?=\$[A-Z]+\$)/g)
@@ -250,7 +251,7 @@ const Read = () => {
                     ? (() => {
                         return (
                           <ChoicesBubble
-                            minigame={msg.payload}
+                            minigame={msg.payload as Minigame}
                             onPress={addStoryMessage}
                           />
                         );
@@ -259,7 +260,7 @@ const Read = () => {
                       ? (() => {
                           return (
                             <SentenceArrangementBubble
-                              minigame={msg.payload}
+                              minigame={msg.payload as Minigame}
                               onPress={addStoryMessage}
                             />
                           );

@@ -14,10 +14,16 @@ export const useReadingMaterials = () => {
   return useQuery({
     queryKey: queryKeys.readingMaterials.list(),
     queryFn: async () => {
-      await setupAuthToken();
-      const res = await readingMaterialsControllerFindAll();
-      return res.data?.data; // Extract actual data from SuccessResponseDto
+      try {
+        await setupAuthToken();
+        const res = await readingMaterialsControllerFindAll();
+        return res.data?.data ?? [];
+      } catch (err) {
+        console.log('stories fetching error:', err);
+        throw err; // ✅ so React Query knows it failed
+      }
     },
+
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 };

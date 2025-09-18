@@ -37,6 +37,8 @@ function HomeScreen() {
   const [isSearching, setIsSearching] = useState(false);
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
 
+  // console.log('stories', stories);
+
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
     console.log('TODAY', today, 'LOGINTREAKS:', lastLoginStreak);

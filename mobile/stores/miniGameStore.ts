@@ -268,6 +268,9 @@ interface WordsFromLettersGameState {
   streak: number;
   lives: number;
 
+  firstWord: string;
+  setFirstWord: (word: string) => void;
+
   shuffleLetters: () => void;
 
   setLetters: (letters: string[]) => void;
@@ -301,7 +304,9 @@ export const useWordsFromLettersMiniGameStore =
         incorrectAnswers: [],
         streak: 0,
         lives: 3,
+        firstWord: '',
 
+        setFirstWord: (word: string) => set({ firstWord: word }),
         shuffleLetters: () =>
           set(state => {
             const letterStatus = state.letters.map((letter, index) => ({

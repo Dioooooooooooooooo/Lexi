@@ -131,6 +131,7 @@ const SignIn = () => {
 
       // After successful login, fetch user data
       const userResult = await refetchUser();
+      console.log('logged in user:', userResult);
 
       if (userResult.data) {
         Toast.show({
@@ -138,7 +139,7 @@ const SignIn = () => {
           text1: 'Authentication Success',
         });
         router.replace('/home');
-        setUser(userResult.data.data);
+        setUser(userResult.data);
       } else {
         // No user profile found, redirect to complete signup
         router.push({

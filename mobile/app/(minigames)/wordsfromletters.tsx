@@ -17,6 +17,8 @@ import { useCreateMinigameLog } from '@/services/minigameService';
 import { useUserStore } from '@/stores/userStore';
 import { useWordsFromLettersMinigame } from '@/hooks';
 import { useReadingContentStore } from '@/stores/readingContentStore';
+import { Button } from '@/components/ui/button';
+import { router } from 'expo-router';
 
 export default function WordsFromLetters() {
   const { mutate: triggerCreateMinigameLog } = useCreateMinigameLog();
@@ -38,13 +40,12 @@ export default function WordsFromLetters() {
     addCorrectAnswer,
     incorrectAnswers,
     addIncorrectAnswer,
-    streak,
-    incrementStreak,
-    resetStreak,
     resetGameState,
+    setFirstWord,
   } = useWordsFromLettersMiniGameStore();
 
-  const { gameOver, incrementMinigamesIndex } = useMiniGameStore();
+  const { gameOver } = useMiniGameStore();
+  const [firstGuess, isFirstGuess] = useState(false);
   console.log('wfl words:', words, 'wfl letters:', letters);
 
   console.log('correct answers', correctAnswers);
@@ -57,19 +58,21 @@ export default function WordsFromLetters() {
     if (!guess.includes('')) {
       const word = guess.join('').toLowerCase();
       if (words.includes(word)) {
-        incrementStreak();
         setIsCorrect(true);
         CorrectSound.play();
 
         if (!correctAnswers.includes(word)) {
           addCorrectAnswer(word);
+          if (!firstGuess) {
+            setFirstWord(word);
+            isFirstGuess(true);
+          }
         }
 
         setTimeout(resetGuess, 500);
       } else {
         IncorrectSound.play();
         addIncorrectAnswer(word);
-        resetStreak();
         decrementLives();
         setIsCorrect(false);
         setTimeout(resetGuess, 500);
@@ -87,7 +90,7 @@ export default function WordsFromLetters() {
           const minigameLog = gameOver({
             correctAnswers,
             incorrectAnswers,
-            streak,
+            // streak,
           });
 
           if (!minigameLog) {
@@ -103,6 +106,7 @@ export default function WordsFromLetters() {
         setTimeout(() => {
           resetGameState();
         }, 500);
+        router.push('/(minigames)/results/definition');
       } catch (error) {
         console.error(
           'Error during Words From Letter game over logic: ',
