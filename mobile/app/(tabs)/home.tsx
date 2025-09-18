@@ -1,32 +1,24 @@
-import React, { memo, useEffect, useState, useCallback, useRef } from 'react';
-import { router } from 'expo-router';
-import {
-  useRecommendedStories,
-  useStories,
-} from '@/services/ReadingMaterialService';
 import ReadingContent from '@/components/ReadingContent';
-import { useFocusEffect } from '@react-navigation/native';
 import { ReadingMaterial } from '@/models/ReadingMaterial';
+import { useFocusEffect } from '@react-navigation/native';
+import { router } from 'expo-router';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 
 //Components
+import { Text } from '@/components/ui/text';
 import {
-  Image,
   Dimensions,
+  Image,
   Keyboard,
   ScrollView,
   TouchableOpacity,
   View,
-  Pressable,
 } from 'react-native';
-import { Text } from '@/components/ui/text';
 
-import { useUserStore } from '@/stores/userStore';
-import { useReadingContentStore } from '@/stores/readingContentStore';
 import { HeaderSearchBar } from '@/components/HeaderSearchBar';
-import {
-  useReadingMaterials,
-  useReadingMaterialsRecommendations,
-} from '@/hooks';
+import { useReadingMaterials } from '@/hooks';
+import { useReadingContentStore } from '@/stores/readingContentStore';
+import { useUserStore } from '@/stores/userStore';
 
 function HomeScreen() {
   const { data: stories, isLoading: isStoriesLoading } = useReadingMaterials();

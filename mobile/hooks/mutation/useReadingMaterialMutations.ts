@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
-import { ReadingMaterialsService, type PostReadingMaterialsData } from '../api/requests';
+import { readingMaterialsControllerCreate } from '../api/requests';
 
 // =============================================================================
 // READING MATERIAL MUTATIONS - Data Modification Hooks
@@ -8,18 +8,21 @@ import { ReadingMaterialsService, type PostReadingMaterialsData } from '../api/r
 
 export const useCreateReadingMaterial = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: async (data: PostReadingMaterialsData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return ReadingMaterialsService.postReadingMaterials(data);
+      const res = await readingMaterialsControllerCreate({
+        body: data
+      });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate reading materials list to refetch updated data
       queryClient.invalidateQueries({ queryKey: queryKeys.readingMaterials.list() });
       // Also invalidate recommendations as new material might affect them
-      queryClient.invalidateQueries({ 
-        queryKey: queryKeys.readingMaterials.recommendations() 
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.readingMaterials.recommendations()
       });
     },
     onError: (error: any) => {

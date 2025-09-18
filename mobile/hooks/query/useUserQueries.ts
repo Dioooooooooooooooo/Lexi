@@ -1,6 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
-import { UserService, type GetUserSearchData } from '../api/requests';
+import {
+  userControllerGetLoginStreak,
+  userControllerGetTotalSessions,
+  userControllerSearchUsers,
+} from '../api/requests';
 
 // =============================================================================
 // USER QUERIES - Data Fetching Hooks
@@ -11,7 +15,8 @@ export const useUserStreak = () => {
     queryKey: [...queryKeys.user.all, 'streak'] as const,
     queryFn: async () => {
       await setupAuthToken();
-      return UserService.getUserMeStreak();
+      const res = await userControllerGetLoginStreak();
+      return res.data?.data;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: (failureCount, error: any) => {
@@ -28,7 +33,8 @@ export const useUserSessions = () => {
     queryKey: [...queryKeys.user.all, 'sessions'] as const,
     queryFn: async () => {
       await setupAuthToken();
-      return UserService.getUserMeSessions();
+      const res = await userControllerGetTotalSessions();
+      return res.data?.data;
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
     retry: (failureCount, error: any) => {
@@ -40,7 +46,7 @@ export const useUserSessions = () => {
   });
 };
 
-export const useUserSearch = (searchData: GetUserSearchData) => {
+export const useUserSearch = (searchData: { query: string; role?: string }) => {
   return useQuery({
     queryKey: [
       ...queryKeys.user.all,
@@ -50,7 +56,10 @@ export const useUserSearch = (searchData: GetUserSearchData) => {
     ] as const,
     queryFn: async () => {
       await setupAuthToken();
-      return UserService.getUserSearch(searchData);
+      const res = await userControllerSearchUsers({
+        query: { query: searchData.query, role: searchData.role || 'all' }
+      });
+      return res.data?.data;
     },
     staleTime: 30 * 1000, // 30 seconds
     retry: (failureCount, error: any) => {

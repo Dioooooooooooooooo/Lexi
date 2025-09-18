@@ -1,5 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { ClassroomsService } from '../api/requests';
+import {
+  classroomsControllerFindAll,
+  classroomsControllerFindOne
+} from '../api/requests';
 import { queryKeys } from '../api/apiUtils';
 
 // =============================================================================
@@ -9,17 +12,21 @@ import { queryKeys } from '../api/apiUtils';
 export const useClassrooms = () => {
   return useQuery({
     queryKey: queryKeys.classrooms.list(),
-    queryFn: () => ClassroomsService.getClassrooms(),
+    queryFn: async () => {
+      const res = await classroomsControllerFindAll();
+      return res.data?.data;
+    },
     staleTime: 2 * 60 * 1000, // 2 minutes
-    select: (response: any) => response.data,
-    placeholderData: [],
   });
 };
 
 export const useClassroomById = (id: string) => {
   return useQuery({
     queryKey: queryKeys.classrooms.detail(id),
-    queryFn: () => ClassroomsService.getClassroomsById({ id }),
+    queryFn: async () => {
+      const res = await classroomsControllerFindOne({ path: { id } });
+      return res.data?.data;
+    },
     enabled: !!id,
     staleTime: 2 * 60 * 1000, // 2 minutes
   });

@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
 import {
-  ActivityLogsService,
-  type GetClassroomActivityLogsByActivityIdData,
-  type GetClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogsData,
+  activityLogsControllerFindOne,
+  activityLogsControllerFindAll,
 } from '../api/requests';
 
 // =============================================================================
@@ -15,7 +14,10 @@ export const useActivityLogsByActivityId = (activityId: string) => {
     queryKey: [...queryKeys.activityLogs.all, 'by-activity', activityId] as const,
     queryFn: async () => {
       await setupAuthToken();
-      return ActivityLogsService.getClassroomActivityLogsByActivityId({ activityId });
+      const res = await activityLogsControllerFindOne({
+        path: { activityId }
+      });
+      return res.data?.data;
     },
     staleTime: 1 * 60 * 1000, // 1 minute
     retry: (failureCount, error: any) => {
@@ -28,14 +30,15 @@ export const useActivityLogsByActivityId = (activityId: string) => {
   });
 };
 
-export const useActivityLogsByClassroom = (classroomId: string) => {
+export const useActivityLogsByClassroom = (classroomId: string, activityId: string) => {
   return useQuery({
     queryKey: [...queryKeys.activityLogs.all, 'by-classroom', classroomId] as const,
     queryFn: async () => {
       await setupAuthToken();
-      return ActivityLogsService.getClassroomActivityLogsByActivityIdClassroomByClassroomIdActivityLogs({ 
-        classroomId 
+      const res = await activityLogsControllerFindAll({
+        path: { classroomId, activityId }
       });
+      return res.data?.data;
     },
     staleTime: 1 * 60 * 1000, // 1 minute
     retry: (failureCount, error: any) => {
@@ -44,6 +47,6 @@ export const useActivityLogsByClassroom = (classroomId: string) => {
       }
       return failureCount < 3;
     },
-    enabled: !!classroomId, // Only run query if classroomId is provided
+    enabled: !!(classroomId && activityId), // Only run query if both IDs are provided
   });
 };

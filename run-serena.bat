@@ -1,1 +1,1 @@
-uvx --from git+https://github.com/oraios/serena serena-mcp-server --context ide-assistant --project "D:\Babolat"
+uvx --from git+https://github.com/oraios/serena serena-mcp-server --context ide-assistant --project "D:\Babolat\Lexi"

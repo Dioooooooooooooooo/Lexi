@@ -1,11 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { queryKeys, setupAuthToken } from '../api/apiUtils';
 import {
-  ClassroomsService,
-  type PostClassroomsData,
-  type PatchClassroomsByIdData,
-  PostClassroomsJoinData,
+  classroomsControllerCreate,
+  classroomsControllerRemove,
+  classroomsControllerUpdate,
+  classroomsControllerJoin,
 } from '../api/requests';
-import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
 // =============================================================================
 // CLASSROOM MUTATIONS - Data Modification Hooks
@@ -15,9 +15,12 @@ export const useCreateClassroom = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: PostClassroomsData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return ClassroomsService.postClassrooms(data);
+      const res = await classroomsControllerCreate({
+        body: data,
+      });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate and refetch classrooms
@@ -33,11 +36,16 @@ export const useJoinClassroom = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: PostClassroomsJoinData) =>
-      ClassroomsService.postClassroomsJoin(data),
+    mutationFn: async (data: any) => {
+      await setupAuthToken();
+      const res = await classroomsControllerJoin({
+        body: data,
+      });
+      return res.data;
+    },
     onSuccess: (data, variables) => {
-      // Invalidate lists
-      // queryClient.invalidateQueries({ queryKey: queryKeys.classrooms.list() });
+      // Invalidate classroom lists to refresh data
+      queryClient.invalidateQueries({ queryKey: queryKeys.classrooms.list() });
     },
     onError: (error: any) => {
       console.error('Failed to update classroom:', error);
@@ -49,8 +57,20 @@ export const useUpdateClassroom = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: PatchClassroomsByIdData) =>
-      ClassroomsService.patchClassroomsById(data),
+    mutationFn: async ({
+      id,
+      ...updateData
+    }: {
+      id: string;
+      [key: string]: any;
+    }) => {
+      await setupAuthToken();
+      const res = await classroomsControllerUpdate({
+        path: { id },
+        body: updateData,
+      });
+      return res.data?.data;
+    },
     onSuccess: (data, variables) => {
       // Update the classroom in cache
       queryClient.setQueryData(queryKeys.classrooms.detail(variables.id), data);
@@ -67,7 +87,13 @@ export const useDeleteClassroom = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => ClassroomsService.deleteClassroomsById({ id }),
+    mutationFn: async (id: string) => {
+      await setupAuthToken();
+      const res = await classroomsControllerRemove({
+        path: { id },
+      });
+      return res.data?.data;
+    },
     onSuccess: () => {
       // Invalidate all classroom queries
       queryClient.invalidateQueries({ queryKey: queryKeys.classrooms.all });

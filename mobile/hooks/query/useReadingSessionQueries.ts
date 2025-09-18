@@ -1,6 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
-import { ReadingSessionsService } from '../api/requests';
+import {
+  readingSessionsControllerFindAll,
+  readingSessionsControllerFindOne,
+} from '../api/requests';
 
 // =============================================================================
 // READING SESSION QUERIES - Data Fetching Hooks
@@ -11,7 +14,8 @@ export const useReadingSessions = () => {
     queryKey: queryKeys.readingSessions.list(),
     queryFn: async () => {
       await setupAuthToken();
-      return ReadingSessionsService.getReadingSessions();
+      const res = await readingSessionsControllerFindAll();
+      return res.data?.data;
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
     retry: (failureCount, error: any) => {
@@ -28,7 +32,10 @@ export const useReadingSessionById = (id: string) => {
     queryKey: queryKeys.readingSessions.detail(id),
     queryFn: async () => {
       await setupAuthToken();
-      return ReadingSessionsService.getReadingSessionsById({ id });
+      const res = await readingSessionsControllerFindOne({
+        path: { id }
+      });
+      return res.data?.data;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: (failureCount, error: any) => {
