@@ -88,69 +88,50 @@ const SignIn = () => {
     }
 
     setIsLoading(true);
-    //   try {
-    //     let response = await apiLogin(form.email, form.password);
-    //     await AsyncStorage.setItem('accessToken', response.data.access_token);
-    //     await AsyncStorage.setItem('refreshToken', response.data.refresh_token);
-
-    //     response = await getProfile();
-
-    //     const userData = response.data;
-
-    //     if (userData) {
-    //       const user = extractUser(response.data);
-    //       setUser(user);
-    //       Toast.show({
-    //         type: 'success',
-    //         text1: 'Authentication Success',
-    //       });
-    //       router.replace('/home');
-    //     } else {
-    //       router.push({
-    //         pathname: '/signup3',
-    //         params: { fromProviderAuth: 'false' },
-    //       });
-    //     }
-    //   } catch (error: any) {
-    //     Toast.show({
-    //       type: 'error',
-    //       text1: 'Authentication Failed',
-    //       text2: error.message,
-    //     });
-    //   } finally {
-    //     setIsLoading(false);
-    //   }
-    // };
 
     try {
-      // Use TanStack Query mutation for login
-      await loginMutation.mutateAsync({
+      // Use TanStack Query mutation for login - this will throw if login fails
+      const loginResult = await loginMutation.mutateAsync({
         email: form.email,
         password: form.password,
       });
 
-      // After successful login, fetch user data
-      const userResult = await refetchUser();
+      // Only proceed if login actually succeeded
+      if (loginResult && loginResult.data) {
+        console.log('✅ Login successful, fetching user profile...');
+        console.log('🔍 Login result data:', loginResult.data);
+        
+        // After successful login, fetch user data
+        const userResult = await refetchUser();
+        console.log('🔍 User fetch result:', userResult);
+        console.log('🔍 User fetch result data:', userResult.data);
 
-      if (userResult.data) {
-        Toast.show({
-          type: 'success',
-          text1: 'Authentication Success',
-        });
-        router.replace('/home');
-        setUser(userResult.data.data);
+        if (userResult.data) {
+          console.log('✅ User data found, setting user in store');
+          setUser(userResult.data);
+          Toast.show({
+            type: 'success',
+            text1: 'Authentication Success',
+          });
+          router.replace('/home');
+        } else {
+          console.log('❌ No user data found, redirecting to signup');
+          // No user profile found, redirect to complete signup
+          router.push({
+            pathname: '/signup3',
+            params: { fromProviderAuth: 'false' },
+          });
+        }
       } else {
-        // No user profile found, redirect to complete signup
-        router.push({
-          pathname: '/signup3',
-          params: { fromProviderAuth: 'false' },
-        });
+        console.error('❌ Login failed - no valid response data');
+        throw new Error('Login failed - invalid response');
       }
     } catch (error: any) {
+      console.error('❌ Login failed:', error);
       Toast.show({
         type: 'error',
         text1: 'Authentication Failed',
-        text2: error.message,
+        text2: error.message || 'Please check your credentials',
       });
     } finally {
       setIsLoading(false);
