@@ -21,14 +21,36 @@ export const useRegister = () => {
 
   return useMutation({
     mutationFn: (formData: Record<string, any>) => {
+      console.log('🔍 Registration Debug - EXPO_PUBLIC_IPADDRESS:', process.env.EXPO_PUBLIC_IPADDRESS);
+      console.log('🔍 Registration Debug - Client config:', client.getConfig());
+      console.log('🔍 Registration Debug - Form data:', formData);
+
       const transformedData = transformRegistrationData(formData);
+      console.log('🔍 Registration Debug - Transformed data:', transformedData);
+      console.log('🔍 Registration Debug - Starting registration request...');
+
       return authControllerRegister({
         body: transformedData,
       });
     },
     onSuccess: async response => {
+      console.log('🎉 Registration Success - Response:', response);
+
+      // Check if response contains an error (hey-api might call onSuccess for failed requests)
+      if (response.error) {
+        console.error('❌ Registration failed but onSuccess called:', response.error);
+        throw new Error(response.error.message || 'Registration failed');
+      }
+
+      // Check for HTTP error status codes that hey-api treats as success
+      if (response.response?.status && response.response.status >= 400) {
+        console.error('❌ Registration failed with status:', response.response.status);
+        console.error('❌ Registration error body:', response.data);
+        throw new Error(response.data?.message || `Registration failed with status ${response.response.status}`);
+      }
+
       // Response is AuthResponseDto (register returns this directly)
-      if (response.data) {
+      if (response.data && response.data.access_token) {
         await AsyncStorage.setItem('access_token', response.data.access_token);
         if (response.data.refresh_token) {
           await AsyncStorage.setItem(
@@ -45,10 +67,19 @@ export const useRegister = () => {
 
         // Invalidate auth queries
         queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
+      } else {
+        console.error('❌ Registration response missing required data:', response.data);
+        throw new Error('Registration response missing access token');
       }
     },
     onError: (error: any) => {
-      console.error('Registration failed:', error);
+      console.error('❌ Registration failed:', error);
+      console.error('❌ Registration error details:', {
+        message: error.message,
+        status: error.status,
+        body: error.body,
+        stack: error.stack
+      });
     },
   });
 };

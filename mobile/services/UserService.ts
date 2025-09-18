@@ -123,18 +123,33 @@ export const useHandleUpdateProfile = () => {
 };
 
 export const checkUserExist = async (fieldType: string, fieldValue: string) => {
-  const response = await axiosInstance.get(
-    `/auth/check-user?fieldType=${fieldType}&fieldValue=${fieldValue}`,
-    {
-      validateStatus: () => true,
-    },
-  );
+  console.log('🔍 Check User Exist - fieldType:', fieldType, 'fieldValue:', fieldValue);
 
-  if (response.status === 429) {
-    throw Error('Slow down!');
+  try {
+    // Use hey-api client directly for check-user endpoint
+    const { client } = await import('../hooks/api/requests/client.gen');
+
+    const response = await client.get({
+      url: `/auth/check-user?fieldType=${fieldType}&fieldValue=${fieldValue}`,
+    });
+
+    console.log('✅ Check User Exist - Response:', response);
+
+    if (response.status === 429) {
+      throw Error('Slow down!');
+    }
+
+    return response.data;
+  } catch (error: any) {
+    console.error('❌ Check User Exist - Error:', error);
+
+    // If it's a 409 (user exists), that's expected, not an error for our purposes
+    if (error.status === 409) {
+      return error.body || { statusCode: 409 };
+    }
+
+    throw error;
   }
-
-  return response.data;
 };
 
 export const deleteAccount = async () => {

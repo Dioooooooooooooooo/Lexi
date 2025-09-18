@@ -39,20 +39,29 @@ export default function Step3() {
     const form = fromProviderAuth ? providerRegisterForm : registerForm;
     const isEmpty = !form.role?.trim();
 
+    console.log('📝 Registration Step - Form data:', form);
+    console.log('📝 Registration Step - isEmpty:', isEmpty);
+
     setIsInvalid(isEmpty);
     if (isEmpty) return;
 
+    console.log('🚀 Registration Step - Starting registration...');
     setIsLoading(true);
 
     try {
       if (fromProviderAuth) {
+        console.log('👤 Registration Step - Using provider auth flow');
         // For provider auth, update the profile
         await updateProfileMutation.mutateAsync({ requestBody: form });
       } else {
+        console.log('📧 Registration Step - Using regular registration flow');
         // For regular registration, use the register mutation
         await registerMutation.mutateAsync(form);
       }
 
+      console.log(
+        '✅ Registration Step - Registration successful, navigating...',
+      );
       if (form.role === 'Pupil') {
         router.push('/signup4');
       } else {
@@ -63,12 +72,14 @@ export default function Step3() {
         router.push('/home');
       }
     } catch (error: any) {
+      console.error('❌ Registration Step - Error caught:', error);
       Toast.show({
         type: 'error',
         text1: 'Registration Failed.',
         text2: error.message || 'Unknown error occurred',
       });
     } finally {
+      console.log('🏁 Registration Step - Finished, setting loading to false');
       setIsLoading(false);
     }
   };

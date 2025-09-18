@@ -1,14 +1,13 @@
-import React, { useContext, useState } from 'react';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useRegisterFormContext } from './_layout';
 import { checkUserExist } from '@/services/UserService';
 import { validateField } from '@/utils/utils';
+import { router, useLocalSearchParams } from 'expo-router';
+import React, { useState } from 'react';
+import { useRegisterFormContext } from './_layout';
 
-import { View, ScrollView, TouchableOpacity } from 'react-native';
-import { Text } from '@/components/ui/text';
-import { Button } from '~/components/ui/button';
-import { Input } from '~/components/ui/input';
 import BackHeader from '@/components/BackHeader';
+import { Text } from '@/components/ui/text';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { Input } from '~/components/ui/input';
 
 export default function Step2() {
   const { fromProviderAuth } = useLocalSearchParams();
