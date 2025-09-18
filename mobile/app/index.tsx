@@ -6,10 +6,11 @@ import { useMiniGameStore } from '@/stores/miniGameStore';
 //Components
 import { ScrollView, View, Image, TouchableOpacity, Text } from 'react-native';
 import { useRefreshToken } from '@/hooks';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Index() {
   const user = useUserStore(state => state.user);
-  const currentMinigame = useMiniGameStore(state => state.currentMinigame);
+  // const currentMinigame = useMiniGameStore(state => state.currentMinigame);
   useRefreshToken();
 
   function splashscreen() {
@@ -17,11 +18,7 @@ export default function Index() {
   }
 
   if (user) {
-    if (currentMinigame && user.role === 'Pupil') {
-      return <Redirect href="/minigames/play" />;
-    } else {
-      return <Redirect href="/(tabs)/home" />;
-    }
+    return <Redirect href="/(tabs)/home" />;
   } else {
     setTimeout(splashscreen, 1000);
   }

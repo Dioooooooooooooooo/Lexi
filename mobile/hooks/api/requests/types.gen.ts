@@ -206,7 +206,7 @@ export type EnrollPupilDto = {
     /**
      * Array of Pupil Ids
      */
-    pupil_ids: Array<Array<unknown>>;
+    pupil_ids: Array<string>;
 };
 
 export type UnEnrollPupilDto = {
@@ -217,7 +217,7 @@ export type UnEnrollPupilDto = {
     /**
      * Array of Pupil Ids
      */
-    pupil_ids: Array<Array<unknown>>;
+    pupil_ids: Array<string>;
 };
 
 export type JoinClassroomDto = {
@@ -425,28 +425,6 @@ export type CreateActivityLogDto = {
      * Minigame log Id
      */
     minigame_log_id: string;
-};
-
-export type AppControllerGetHelloData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/';
-};
-
-export type AppControllerGetHelloResponses = {
-    200: unknown;
-};
-
-export type AppControllerHealthCheckData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/health';
-};
-
-export type AppControllerHealthCheckResponses = {
-    200: unknown;
 };
 
 export type AuthControllerRegisterData = {
@@ -872,7 +850,7 @@ export type PupilsControllerUpdatePupilProfileResponses = {
     /**
      * Pupil profile successfully updated
      */
-    201: SuccessResponseDto;
+    200: SuccessResponseDto;
 };
 
 export type PupilsControllerUpdatePupilProfileResponse = PupilsControllerUpdatePupilProfileResponses[keyof PupilsControllerUpdatePupilProfileResponses];
@@ -931,7 +909,9 @@ export type PupilsControllerGetGlobalPupilLeaderboardResponse = PupilsController
 
 export type PupilsControllerGetPupilLeaderBoardByPupilIdData = {
     body?: never;
-    path?: never;
+    path: {
+        pupilId: string;
+    };
     query?: never;
     url: '/pupils/leaderboard/{pupilId}';
 };
@@ -962,8 +942,13 @@ export type ClassroomsControllerFindAllData = {
 };
 
 export type ClassroomsControllerFindAllResponses = {
-    200: unknown;
+    /**
+     * Classrooms fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ClassroomsControllerFindAllResponse = ClassroomsControllerFindAllResponses[keyof ClassroomsControllerFindAllResponses];
 
 export type ClassroomsControllerCreateData = {
     body: CreateClassroomDto;
@@ -973,8 +958,13 @@ export type ClassroomsControllerCreateData = {
 };
 
 export type ClassroomsControllerCreateResponses = {
-    201: unknown;
+    /**
+     * Classroom created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type ClassroomsControllerCreateResponse = ClassroomsControllerCreateResponses[keyof ClassroomsControllerCreateResponses];
 
 export type ClassroomsControllerEnrollData = {
     body: EnrollPupilDto;
@@ -984,8 +974,13 @@ export type ClassroomsControllerEnrollData = {
 };
 
 export type ClassroomsControllerEnrollResponses = {
-    201: unknown;
+    /**
+     * Pupils enrolled successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type ClassroomsControllerEnrollResponse = ClassroomsControllerEnrollResponses[keyof ClassroomsControllerEnrollResponses];
 
 export type ClassroomsControllerUnEnrollData = {
     body: UnEnrollPupilDto;
@@ -995,8 +990,13 @@ export type ClassroomsControllerUnEnrollData = {
 };
 
 export type ClassroomsControllerUnEnrollResponses = {
-    201: unknown;
+    /**
+     * Pupils unenrolled successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ClassroomsControllerUnEnrollResponse = ClassroomsControllerUnEnrollResponses[keyof ClassroomsControllerUnEnrollResponses];
 
 export type ClassroomsControllerJoinData = {
     body: JoinClassroomDto;
@@ -1017,8 +1017,13 @@ export type ClassroomsControllerLeaveData = {
 };
 
 export type ClassroomsControllerLeaveResponses = {
-    201: unknown;
+    /**
+     * Left classroom successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ClassroomsControllerLeaveResponse = ClassroomsControllerLeaveResponses[keyof ClassroomsControllerLeaveResponses];
 
 export type ClassroomsControllerRemoveData = {
     body?: never;
@@ -1030,8 +1035,13 @@ export type ClassroomsControllerRemoveData = {
 };
 
 export type ClassroomsControllerRemoveResponses = {
-    200: unknown;
+    /**
+     * Classroom deleted successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ClassroomsControllerRemoveResponse = ClassroomsControllerRemoveResponses[keyof ClassroomsControllerRemoveResponses];
 
 export type ClassroomsControllerFindOneData = {
     body?: never;
@@ -1043,8 +1053,13 @@ export type ClassroomsControllerFindOneData = {
 };
 
 export type ClassroomsControllerFindOneResponses = {
-    200: unknown;
+    /**
+     * Classroom fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ClassroomsControllerFindOneResponse = ClassroomsControllerFindOneResponses[keyof ClassroomsControllerFindOneResponses];
 
 export type ClassroomsControllerUpdateData = {
     body: UpdateClassroomDto;
@@ -1056,8 +1071,13 @@ export type ClassroomsControllerUpdateData = {
 };
 
 export type ClassroomsControllerUpdateResponses = {
-    200: unknown;
+    /**
+     * Classroom updated successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ClassroomsControllerUpdateResponse = ClassroomsControllerUpdateResponses[keyof ClassroomsControllerUpdateResponses];
 
 export type MinigamesControllerCreateWflMinigameData = {
     body: CreateWordsFromLettersGame;
@@ -1067,8 +1087,13 @@ export type MinigamesControllerCreateWflMinigameData = {
 };
 
 export type MinigamesControllerCreateWflMinigameResponses = {
-    201: unknown;
+    /**
+     * Words From Letters minigame created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type MinigamesControllerCreateWflMinigameResponse = MinigamesControllerCreateWflMinigameResponses[keyof MinigamesControllerCreateWflMinigameResponses];
 
 export type MinigamesControllerCreateChoicesMinigameData = {
     body: CreateChoicesGame;
@@ -1078,8 +1103,13 @@ export type MinigamesControllerCreateChoicesMinigameData = {
 };
 
 export type MinigamesControllerCreateChoicesMinigameResponses = {
-    201: unknown;
+    /**
+     * Choices minigame created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type MinigamesControllerCreateChoicesMinigameResponse = MinigamesControllerCreateChoicesMinigameResponses[keyof MinigamesControllerCreateChoicesMinigameResponses];
 
 export type MinigamesControllerCreateSrMinigameData = {
     body: CreateSentenceRearrangementGame;
@@ -1089,8 +1119,13 @@ export type MinigamesControllerCreateSrMinigameData = {
 };
 
 export type MinigamesControllerCreateSrMinigameResponses = {
-    201: unknown;
+    /**
+     * Sentence Rearrangement minigame created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type MinigamesControllerCreateSrMinigameResponse = MinigamesControllerCreateSrMinigameResponses[keyof MinigamesControllerCreateSrMinigameResponses];
 
 export type MinigamesControllerFindMinigamesByMaterialIdData = {
     body?: never;
@@ -1102,8 +1137,13 @@ export type MinigamesControllerFindMinigamesByMaterialIdData = {
 };
 
 export type MinigamesControllerFindMinigamesByMaterialIdResponses = {
-    200: unknown;
+    /**
+     * Random minigames fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type MinigamesControllerFindMinigamesByMaterialIdResponse = MinigamesControllerFindMinigamesByMaterialIdResponses[keyof MinigamesControllerFindMinigamesByMaterialIdResponses];
 
 export type MinigamesControllerFindMinigamesBySessionIdData = {
     body?: never;
@@ -1115,8 +1155,13 @@ export type MinigamesControllerFindMinigamesBySessionIdData = {
 };
 
 export type MinigamesControllerFindMinigamesBySessionIdResponses = {
-    200: unknown;
+    /**
+     * Minigames fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type MinigamesControllerFindMinigamesBySessionIdResponse = MinigamesControllerFindMinigamesBySessionIdResponses[keyof MinigamesControllerFindMinigamesBySessionIdResponses];
 
 export type MinigamesControllerFindWordsFromLettersMinigameData = {
     body?: never;
@@ -1128,8 +1173,13 @@ export type MinigamesControllerFindWordsFromLettersMinigameData = {
 };
 
 export type MinigamesControllerFindWordsFromLettersMinigameResponses = {
-    200: unknown;
+    /**
+     * Words from Letters minigame fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type MinigamesControllerFindWordsFromLettersMinigameResponse = MinigamesControllerFindWordsFromLettersMinigameResponses[keyof MinigamesControllerFindWordsFromLettersMinigameResponses];
 
 export type MinigamesControllerGetMinigamesCompletionData = {
     body?: never;
@@ -1141,8 +1191,13 @@ export type MinigamesControllerGetMinigamesCompletionData = {
 };
 
 export type MinigamesControllerGetMinigamesCompletionResponses = {
-    201: unknown;
+    /**
+     * Reading session completed successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type MinigamesControllerGetMinigamesCompletionResponse = MinigamesControllerGetMinigamesCompletionResponses[keyof MinigamesControllerGetMinigamesCompletionResponses];
 
 export type MinigamesControllerCreateSentenceRearrangementLogData = {
     body: CreateMinigameLogDto;
@@ -1152,8 +1207,13 @@ export type MinigamesControllerCreateSentenceRearrangementLogData = {
 };
 
 export type MinigamesControllerCreateSentenceRearrangementLogResponses = {
-    201: unknown;
+    /**
+     * Sentence Rearrangement Log created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type MinigamesControllerCreateSentenceRearrangementLogResponse = MinigamesControllerCreateSentenceRearrangementLogResponses[keyof MinigamesControllerCreateSentenceRearrangementLogResponses];
 
 export type MinigamesControllerCreateChoicesLogData = {
     body: CreateMinigameLogDto;
@@ -1163,8 +1223,13 @@ export type MinigamesControllerCreateChoicesLogData = {
 };
 
 export type MinigamesControllerCreateChoicesLogResponses = {
-    201: unknown;
+    /**
+     * Choices log created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type MinigamesControllerCreateChoicesLogResponse = MinigamesControllerCreateChoicesLogResponses[keyof MinigamesControllerCreateChoicesLogResponses];
 
 export type MinigamesControllerCreateWordsFromLettersLogData = {
     body: CreateMinigameLogDto;
@@ -1174,8 +1239,13 @@ export type MinigamesControllerCreateWordsFromLettersLogData = {
 };
 
 export type MinigamesControllerCreateWordsFromLettersLogResponses = {
-    201: unknown;
+    /**
+     * Words From Letters log created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type MinigamesControllerCreateWordsFromLettersLogResponse = MinigamesControllerCreateWordsFromLettersLogResponses[keyof MinigamesControllerCreateWordsFromLettersLogResponses];
 
 export type ReadingSessionsControllerFindAllData = {
     body?: never;
@@ -1185,8 +1255,13 @@ export type ReadingSessionsControllerFindAllData = {
 };
 
 export type ReadingSessionsControllerFindAllResponses = {
-    200: unknown;
+    /**
+     * Reading sessions fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ReadingSessionsControllerFindAllResponse = ReadingSessionsControllerFindAllResponses[keyof ReadingSessionsControllerFindAllResponses];
 
 export type ReadingSessionsControllerCreateData = {
     body: CreateReadingSessionDto;
@@ -1196,8 +1271,13 @@ export type ReadingSessionsControllerCreateData = {
 };
 
 export type ReadingSessionsControllerCreateResponses = {
-    201: unknown;
+    /**
+     * Reading session created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type ReadingSessionsControllerCreateResponse = ReadingSessionsControllerCreateResponses[keyof ReadingSessionsControllerCreateResponses];
 
 export type ReadingSessionsControllerRemoveData = {
     body?: never;
@@ -1209,8 +1289,13 @@ export type ReadingSessionsControllerRemoveData = {
 };
 
 export type ReadingSessionsControllerRemoveResponses = {
-    200: unknown;
+    /**
+     * Reading session deleted successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ReadingSessionsControllerRemoveResponse = ReadingSessionsControllerRemoveResponses[keyof ReadingSessionsControllerRemoveResponses];
 
 export type ReadingSessionsControllerFindOneData = {
     body?: never;
@@ -1222,8 +1307,13 @@ export type ReadingSessionsControllerFindOneData = {
 };
 
 export type ReadingSessionsControllerFindOneResponses = {
-    200: unknown;
+    /**
+     * Reading session fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ReadingSessionsControllerFindOneResponse = ReadingSessionsControllerFindOneResponses[keyof ReadingSessionsControllerFindOneResponses];
 
 export type ReadingSessionsControllerUpdateData = {
     body: UpdateReadingSessionDto;
@@ -1235,8 +1325,13 @@ export type ReadingSessionsControllerUpdateData = {
 };
 
 export type ReadingSessionsControllerUpdateResponses = {
-    200: unknown;
+    /**
+     * Reading session updated successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ReadingSessionsControllerUpdateResponse = ReadingSessionsControllerUpdateResponses[keyof ReadingSessionsControllerUpdateResponses];
 
 export type ReadingMaterialsControllerFindAllData = {
     body?: never;
@@ -1246,8 +1341,13 @@ export type ReadingMaterialsControllerFindAllData = {
 };
 
 export type ReadingMaterialsControllerFindAllResponses = {
-    200: unknown;
+    /**
+     * Reading materials fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ReadingMaterialsControllerFindAllResponse = ReadingMaterialsControllerFindAllResponses[keyof ReadingMaterialsControllerFindAllResponses];
 
 export type ReadingMaterialsControllerCreateData = {
     body: CreateReadingMaterialDto;
@@ -1257,8 +1357,13 @@ export type ReadingMaterialsControllerCreateData = {
 };
 
 export type ReadingMaterialsControllerCreateResponses = {
-    201: unknown;
+    /**
+     * Reading material created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type ReadingMaterialsControllerCreateResponse = ReadingMaterialsControllerCreateResponses[keyof ReadingMaterialsControllerCreateResponses];
 
 export type ReadingMaterialsControllerFindRecommendationsData = {
     body?: never;
@@ -1268,8 +1373,13 @@ export type ReadingMaterialsControllerFindRecommendationsData = {
 };
 
 export type ReadingMaterialsControllerFindRecommendationsResponses = {
-    200: unknown;
+    /**
+     * Recommended reading materials fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ReadingMaterialsControllerFindRecommendationsResponse = ReadingMaterialsControllerFindRecommendationsResponses[keyof ReadingMaterialsControllerFindRecommendationsResponses];
 
 export type ReadingMaterialsControllerFindOneData = {
     body?: never;
@@ -1281,8 +1391,13 @@ export type ReadingMaterialsControllerFindOneData = {
 };
 
 export type ReadingMaterialsControllerFindOneResponses = {
-    200: unknown;
+    /**
+     * Reading material fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ReadingMaterialsControllerFindOneResponse = ReadingMaterialsControllerFindOneResponses[keyof ReadingMaterialsControllerFindOneResponses];
 
 export type GenresControllerFindAllData = {
     body?: never;
@@ -1292,8 +1407,13 @@ export type GenresControllerFindAllData = {
 };
 
 export type GenresControllerFindAllResponses = {
-    200: unknown;
+    /**
+     * Genres fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type GenresControllerFindAllResponse = GenresControllerFindAllResponses[keyof GenresControllerFindAllResponses];
 
 export type GenresControllerCreateData = {
     body: CreateGenreDto;
@@ -1303,8 +1423,13 @@ export type GenresControllerCreateData = {
 };
 
 export type GenresControllerCreateResponses = {
-    201: unknown;
+    /**
+     * Genre created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type GenresControllerCreateResponse = GenresControllerCreateResponses[keyof GenresControllerCreateResponses];
 
 export type AchievementsControllerGetPupilAchievementsData = {
     body?: never;
@@ -1314,8 +1439,13 @@ export type AchievementsControllerGetPupilAchievementsData = {
 };
 
 export type AchievementsControllerGetPupilAchievementsResponses = {
-    200: unknown;
+    /**
+     * Pupil achievements fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type AchievementsControllerGetPupilAchievementsResponse = AchievementsControllerGetPupilAchievementsResponses[keyof AchievementsControllerGetPupilAchievementsResponses];
 
 export type AchievementsControllerAddPupilAchievementData = {
     body?: never;
@@ -1328,8 +1458,13 @@ export type AchievementsControllerAddPupilAchievementData = {
 };
 
 export type AchievementsControllerAddPupilAchievementResponses = {
-    201: unknown;
+    /**
+     * Pupil achievement added successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type AchievementsControllerAddPupilAchievementResponse = AchievementsControllerAddPupilAchievementResponses[keyof AchievementsControllerAddPupilAchievementResponses];
 
 export type AchievementsControllerGetPupilAchievementsByIdData = {
     body?: never;
@@ -1341,8 +1476,13 @@ export type AchievementsControllerGetPupilAchievementsByIdData = {
 };
 
 export type AchievementsControllerGetPupilAchievementsByIdResponses = {
-    200: unknown;
+    /**
+     * Pupil achievements fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type AchievementsControllerGetPupilAchievementsByIdResponse = AchievementsControllerGetPupilAchievementsByIdResponses[keyof AchievementsControllerGetPupilAchievementsByIdResponses];
 
 export type AchievementsControllerRemovePupilAchievementData = {
     body?: never;
@@ -1355,8 +1495,13 @@ export type AchievementsControllerRemovePupilAchievementData = {
 };
 
 export type AchievementsControllerRemovePupilAchievementResponses = {
-    200: unknown;
+    /**
+     * Achievement removed from pupil successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type AchievementsControllerRemovePupilAchievementResponse = AchievementsControllerRemovePupilAchievementResponses[keyof AchievementsControllerRemovePupilAchievementResponses];
 
 export type AchievementsControllerRemoveData = {
     body?: never;
@@ -1368,8 +1513,13 @@ export type AchievementsControllerRemoveData = {
 };
 
 export type AchievementsControllerRemoveResponses = {
-    200: unknown;
+    /**
+     * Achievement deleted successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type AchievementsControllerRemoveResponse = AchievementsControllerRemoveResponses[keyof AchievementsControllerRemoveResponses];
 
 export type ActivityControllerFindAllByClassroomIdData = {
     body?: never;
@@ -1381,8 +1531,13 @@ export type ActivityControllerFindAllByClassroomIdData = {
 };
 
 export type ActivityControllerFindAllByClassroomIdResponses = {
-    200: unknown;
+    /**
+     * Activities of classroom fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ActivityControllerFindAllByClassroomIdResponse = ActivityControllerFindAllByClassroomIdResponses[keyof ActivityControllerFindAllByClassroomIdResponses];
 
 export type ActivityControllerCreateData = {
     body: CreateActivityDto;
@@ -1394,12 +1549,18 @@ export type ActivityControllerCreateData = {
 };
 
 export type ActivityControllerCreateResponses = {
-    201: unknown;
+    /**
+     * Activity created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type ActivityControllerCreateResponse = ActivityControllerCreateResponses[keyof ActivityControllerCreateResponses];
 
 export type ActivityControllerRemoveData = {
     body?: never;
     path: {
+        classroomId: string;
         activityId: string;
     };
     query?: never;
@@ -1407,12 +1568,18 @@ export type ActivityControllerRemoveData = {
 };
 
 export type ActivityControllerRemoveResponses = {
-    200: unknown;
+    /**
+     * Activity deleted successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ActivityControllerRemoveResponse = ActivityControllerRemoveResponses[keyof ActivityControllerRemoveResponses];
 
 export type ActivityControllerFindOneData = {
     body?: never;
     path: {
+        classroomId: string;
         activityId: string;
     };
     query?: never;
@@ -1420,12 +1587,18 @@ export type ActivityControllerFindOneData = {
 };
 
 export type ActivityControllerFindOneResponses = {
-    200: unknown;
+    /**
+     * Activity fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ActivityControllerFindOneResponse = ActivityControllerFindOneResponses[keyof ActivityControllerFindOneResponses];
 
 export type ActivityControllerUpdateData = {
     body: UpdateActivityDto;
     path: {
+        classroomId: string;
         activityId: string;
     };
     query?: never;
@@ -1433,8 +1606,13 @@ export type ActivityControllerUpdateData = {
 };
 
 export type ActivityControllerUpdateResponses = {
-    200: unknown;
+    /**
+     * Activity updated successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ActivityControllerUpdateResponse = ActivityControllerUpdateResponses[keyof ActivityControllerUpdateResponses];
 
 export type UserControllerGetLoginStreakData = {
     body?: never;
@@ -1444,8 +1622,13 @@ export type UserControllerGetLoginStreakData = {
 };
 
 export type UserControllerGetLoginStreakResponses = {
-    200: unknown;
+    /**
+     * Login streak fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type UserControllerGetLoginStreakResponse = UserControllerGetLoginStreakResponses[keyof UserControllerGetLoginStreakResponses];
 
 export type UserControllerUpdateLoginStreakData = {
     body?: never;
@@ -1455,8 +1638,13 @@ export type UserControllerUpdateLoginStreakData = {
 };
 
 export type UserControllerUpdateLoginStreakResponses = {
-    200: unknown;
+    /**
+     * Login streak updated successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type UserControllerUpdateLoginStreakResponse = UserControllerUpdateLoginStreakResponses[keyof UserControllerUpdateLoginStreakResponses];
 
 export type UserControllerGetTotalSessionsData = {
     body?: never;
@@ -1466,8 +1654,13 @@ export type UserControllerGetTotalSessionsData = {
 };
 
 export type UserControllerGetTotalSessionsResponses = {
-    200: unknown;
+    /**
+     * Total sessions fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type UserControllerGetTotalSessionsResponse = UserControllerGetTotalSessionsResponses[keyof UserControllerGetTotalSessionsResponses];
 
 export type UserControllerCreateSessionData = {
     body?: never;
@@ -1477,8 +1670,13 @@ export type UserControllerCreateSessionData = {
 };
 
 export type UserControllerCreateSessionResponses = {
-    201: unknown;
+    /**
+     * Session created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type UserControllerCreateSessionResponse = UserControllerCreateSessionResponses[keyof UserControllerCreateSessionResponses];
 
 export type UserControllerEndSessionData = {
     body?: never;
@@ -1490,8 +1688,13 @@ export type UserControllerEndSessionData = {
 };
 
 export type UserControllerEndSessionResponses = {
-    200: unknown;
+    /**
+     * Session ended successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type UserControllerEndSessionResponse = UserControllerEndSessionResponses[keyof UserControllerEndSessionResponses];
 
 export type UserControllerSearchUsersData = {
     body?: never;
@@ -1504,8 +1707,13 @@ export type UserControllerSearchUsersData = {
 };
 
 export type UserControllerSearchUsersResponses = {
-    200: unknown;
+    /**
+     * Users fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type UserControllerSearchUsersResponse = UserControllerSearchUsersResponses[keyof UserControllerSearchUsersResponses];
 
 export type ActivityLogsControllerFindOneData = {
     body?: never;
@@ -1517,25 +1725,36 @@ export type ActivityLogsControllerFindOneData = {
 };
 
 export type ActivityLogsControllerFindOneResponses = {
-    200: unknown;
+    /**
+     * Activity logs for activity fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ActivityLogsControllerFindOneResponse = ActivityLogsControllerFindOneResponses[keyof ActivityLogsControllerFindOneResponses];
 
 export type ActivityLogsControllerCreateData = {
     body: CreateActivityLogDto;
     path: {
-        '/activityId': string;
+        activityId: string;
     };
     query?: never;
     url: '/classroom/activity-logs/{activityId}';
 };
 
 export type ActivityLogsControllerCreateResponses = {
-    201: unknown;
+    /**
+     * Activity Log created successfully
+     */
+    201: SuccessResponseDto;
 };
+
+export type ActivityLogsControllerCreateResponse = ActivityLogsControllerCreateResponses[keyof ActivityLogsControllerCreateResponses];
 
 export type ActivityLogsControllerFindAllData = {
     body?: never;
     path: {
+        activityId: string;
         classroomId: string;
     };
     query?: never;
@@ -1543,8 +1762,13 @@ export type ActivityLogsControllerFindAllData = {
 };
 
 export type ActivityLogsControllerFindAllResponses = {
-    200: unknown;
+    /**
+     * Activity logs for classroom fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type ActivityLogsControllerFindAllResponse = ActivityLogsControllerFindAllResponses[keyof ActivityLogsControllerFindAllResponses];
 
 export type DictionaryControllerDefinitionData = {
     body?: never;
@@ -1556,8 +1780,29 @@ export type DictionaryControllerDefinitionData = {
 };
 
 export type DictionaryControllerDefinitionResponses = {
-    200: unknown;
+    /**
+     * Definition fetched successfully
+     */
+    200: SuccessResponseDto;
 };
+
+export type DictionaryControllerDefinitionResponse = DictionaryControllerDefinitionResponses[keyof DictionaryControllerDefinitionResponses];
+
+export type ImagekitControllerUploadImageData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/upload/image';
+};
+
+export type ImagekitControllerUploadImageResponses = {
+    /**
+     * Image uploaded successfully
+     */
+    201: SuccessResponseDto;
+};
+
+export type ImagekitControllerUploadImageResponse = ImagekitControllerUploadImageResponses[keyof ImagekitControllerUploadImageResponses];
 
 export type ClientOptions = {
     baseUrl: 'http://localhost:3000' | (string & {});

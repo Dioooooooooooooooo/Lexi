@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
-import { GenresService, type PostGenresData } from '../api/requests';
+import { genresControllerCreate } from '../api/requests';
 
 // =============================================================================
 // GENRE MUTATIONS - Data Modification Hooks
@@ -8,11 +8,14 @@ import { GenresService, type PostGenresData } from '../api/requests';
 
 export const useCreateGenre = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: async (data: PostGenresData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return GenresService.postGenres(data);
+      const res = await genresControllerCreate({
+        body: data
+      });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate genres list to refetch updated data

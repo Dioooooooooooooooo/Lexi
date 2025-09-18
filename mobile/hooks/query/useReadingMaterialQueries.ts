@@ -1,6 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
-import { ReadingMaterialsService } from '../api/requests';
+import {
+  readingMaterialsControllerFindAll,
+  readingMaterialsControllerFindOne,
+  readingMaterialsControllerFindRecommendations,
+} from '../api/requests';
 
 // =============================================================================
 // READING MATERIAL QUERIES - Data Fetching Hooks
@@ -11,15 +15,10 @@ export const useReadingMaterials = () => {
     queryKey: queryKeys.readingMaterials.list(),
     queryFn: async () => {
       await setupAuthToken();
-      return ReadingMaterialsService.getReadingMaterials();
+      const res = await readingMaterialsControllerFindAll();
+      return res.data?.data; // Extract actual data from SuccessResponseDto
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
-    retry: (failureCount, error: any) => {
-      if (error?.status === 401) {
-        return false;
-      }
-      return failureCount < 3;
-    },
   });
 };
 
@@ -28,9 +27,10 @@ export const useReadingMaterialById = (id: string) => {
     queryKey: queryKeys.readingMaterials.detail(id),
     queryFn: async () => {
       await setupAuthToken();
-      return ReadingMaterialsService.getReadingMaterialsById({ id });
+      const res = await readingMaterialsControllerFindOne({ path: { id } });
+      return res.data?.data; // Extract actual data from SuccessResponseDto
     },
-    staleTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 60 * 60 * 1000, // 10 minutes
     retry: (failureCount, error: any) => {
       if (error?.status === 401) {
         return false;
@@ -46,7 +46,8 @@ export const useReadingMaterialsRecommendations = () => {
     queryKey: queryKeys.readingMaterials.recommendations(),
     queryFn: async () => {
       await setupAuthToken();
-      return ReadingMaterialsService.getReadingMaterialsRecommendations();
+      const res = await readingMaterialsControllerFindRecommendations();
+      return res.data?.data; // Extract actual data from SuccessResponseDto
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
     retry: (failureCount, error: any) => {

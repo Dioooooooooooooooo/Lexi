@@ -1,32 +1,24 @@
-import React, { memo, useEffect, useState, useCallback, useRef } from 'react';
-import { router } from 'expo-router';
-import {
-  useRecommendedStories,
-  useStories,
-} from '@/services/ReadingMaterialService';
 import ReadingContent from '@/components/ReadingContent';
-import { useFocusEffect } from '@react-navigation/native';
 import { ReadingMaterial } from '@/models/ReadingMaterial';
+import { useFocusEffect } from '@react-navigation/native';
+import { router } from 'expo-router';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 
 //Components
+import { Text } from '@/components/ui/text';
 import {
-  Image,
   Dimensions,
+  Image,
   Keyboard,
   ScrollView,
   TouchableOpacity,
   View,
-  Pressable,
 } from 'react-native';
-import { Text } from '@/components/ui/text';
 
-import { useUserStore } from '@/stores/userStore';
-import { useReadingContentStore } from '@/stores/readingContentStore';
 import { HeaderSearchBar } from '@/components/HeaderSearchBar';
-import {
-  useReadingMaterials,
-  useReadingMaterialsRecommendations,
-} from '@/hooks';
+import { useReadingMaterials } from '@/hooks';
+import { useReadingContentStore } from '@/stores/readingContentStore';
+import { useUserStore } from '@/stores/userStore';
 
 function HomeScreen() {
   const { data: stories, isLoading: isStoriesLoading } = useReadingMaterials();
@@ -174,9 +166,11 @@ function HomeScreen() {
 
   const showSearchResults = searchQuery.trim() !== '';
 
-  if (!isStoriesLoading) {
-    console.log(stories, 'gidle');
-  }
+  // if (!isStoriesLoading) {
+  //   console.log(stories, 'gidle');
+  // } else {
+  //   console.log('loading stories...');
+  // }
 
   return (
     <View style={{ flex: 1 }}>
@@ -313,12 +307,12 @@ function HomeScreen() {
 
             <View className="flex-1 gap-4 w-full p-8">
               <Text className="text-2xl font-poppins-bold">Explore</Text>
-              {/* {isStoriesLoading ? (
+              {isStoriesLoading || !stories ? (
                 <Text>Loading stories...</Text>
               ) : (
                 <View className="flex flex-row justify-between flex-wrap">
-                  {stories.data.length > 0 ? (
-                    stories?.data.map(item => (
+                  {stories.length > 0 ? (
+                    stories?.map(item => (
                       <View key={item.id}>
                         <ReadingContent
                           type="ScrollView"
@@ -339,7 +333,7 @@ function HomeScreen() {
                     </Text>
                   )}
                 </View>
-              )} */}
+              )}
             </View>
           </>
         )}

@@ -1,6 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
-import { UserService, type PutUserMeSessionsBySessionIdData } from '../api/requests';
+import {
+  userControllerUpdateLoginStreak,
+  userControllerCreateSession,
+  userControllerEndSession,
+} from '../api/requests';
 
 // =============================================================================
 // USER MUTATIONS - Data Modification Hooks
@@ -12,7 +16,8 @@ export const useUpdateUserStreak = () => {
   return useMutation({
     mutationFn: async () => {
       await setupAuthToken();
-      return UserService.putUserMeStreak();
+      const res = await userControllerUpdateLoginStreak();
+      return res.data?.data;
     },
     onSuccess: (data) => {
       // Update streak in cache
@@ -32,7 +37,8 @@ export const useCreateUserSession = () => {
   return useMutation({
     mutationFn: async () => {
       await setupAuthToken();
-      return UserService.postUserMeSessions();
+      const res = await userControllerCreateSession();
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate user sessions list to refetch updated data
@@ -50,9 +56,12 @@ export const useUpdateUserSession = () => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: async (data: PutUserMeSessionsBySessionIdData) => {
+    mutationFn: async (data: { sessionId: string }) => {
       await setupAuthToken();
-      return UserService.putUserMeSessionsBySessionId(data);
+      const res = await userControllerEndSession({
+        path: { sessionId: data.sessionId }
+      });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate user sessions list to refetch updated data

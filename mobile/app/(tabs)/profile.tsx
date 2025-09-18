@@ -16,8 +16,14 @@ import { Achievement } from '@/models/Achievement';
 import { useProfileStats } from '@/services/UserService';
 import { useAuthStore } from '@/stores/authStore';
 import { useMiniGameStore } from '@/stores/miniGameStore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native-paper';
+import {
+  useAchievements,
+  useReadingSessions,
+  useUserSessions,
+  useUserStreak,
+} from '@/hooks';
 const STREAK_COLOR = '#FF663E';
 
 export default function Profile() {
@@ -27,6 +33,11 @@ export default function Profile() {
   const logout = useAuthStore(state => state.logout);
   const isPupil = user?.role === 'Pupil';
 
+  // const achievementsQuery = useAchievements();
+  // const screenTimeQuery = useUserSessions();
+  // const loginStreakQuery = useUserStreak();
+  // const totalBooksQuery = useReadingSessions();
+
   const [
     achievementsQuery,
     screenTimeQuery,
@@ -34,11 +45,14 @@ export default function Profile() {
     totalBooksQuery,
   ] = useProfileStats(isPupil);
 
+  setAchievements(achievementsQuery.data || []);
+
   if (
-    achievementsQuery.isLoading ||
-    screenTimeQuery.isLoading ||
-    loginStreakQuery.isLoading ||
-    totalBooksQuery.isLoading
+    isPupil &&
+    (achievementsQuery.isLoading ||
+      screenTimeQuery.isLoading ||
+      loginStreakQuery.isLoading ||
+      totalBooksQuery.isLoading)
   ) {
     return (
       <View className="flex-1 justify-center items-center absolute inset-0 z-50">
@@ -47,8 +61,6 @@ export default function Profile() {
       </View>
     );
   }
-
-  setAchievements(achievementsQuery.data);
 
   const formatScreenTime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
@@ -89,12 +101,7 @@ export default function Profile() {
             <Image
               source={
                 user?.avatar
-                  ? {
-                      uri: `${API_URL.replace(
-                        /\/api\/?$/,
-                        '/',
-                      )}${user.avatar.replace(/^\/+/, '')}`,
-                    }
+                  ? { uri: user.avatar }
                   : require('@/assets/images/default_pfp.png')
               }
               className="rounded-full shadow-lg w-full h-full"
@@ -146,7 +153,7 @@ export default function Profile() {
               <View className="flex flex-col flex-wrap justify-between">
                 <View className="flex flex-row">
                   <ProfileStat
-                    level={`${loginStreakQuery.data.longestStreak}`}
+                    level={`${loginStreakQuery.data?.longest_streak}`}
                     description="Longest Streak"
                     icon={<StreakIcon color={STREAK_COLOR} size={28} />}
                   />
@@ -160,14 +167,14 @@ export default function Profile() {
                   <ProfileStat
                     level={
                       screenTimeQuery !== undefined
-                        ? formatScreenTime(screenTimeQuery.data)
+                        ? formatScreenTime(screenTimeQuery.data || 0)
                         : '0'
                     }
                     description="Total Screentime"
                     icon={<Smartphone color="black" />}
                   />
                   <ProfileStat
-                    level={`${achievementsQuery.data.length}`}
+                    level={`${achievementsQuery.data?.length}`}
                     description="Achievements"
                     icon={<Star color="#FFD43B" />}
                   />

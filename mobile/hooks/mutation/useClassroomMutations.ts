@@ -4,6 +4,7 @@ import {
   classroomsControllerCreate,
   classroomsControllerRemove,
   classroomsControllerUpdate,
+  classroomsControllerJoin,
 } from '../api/requests';
 
 // =============================================================================
@@ -16,9 +17,10 @@ export const useCreateClassroom = () => {
   return useMutation({
     mutationFn: async (data: any) => {
       await setupAuthToken();
-      return classroomsControllerCreate({
+      const res = await classroomsControllerCreate({
         body: data,
       });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate and refetch classrooms
@@ -26,6 +28,27 @@ export const useCreateClassroom = () => {
     },
     onError: (error: any) => {
       console.error('Failed to create classroom:', error);
+    },
+  });
+};
+
+export const useJoinClassroom = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: any) => {
+      await setupAuthToken();
+      const res = await classroomsControllerJoin({
+        body: data,
+      });
+      return res.data;
+    },
+    onSuccess: (data, variables) => {
+      // Invalidate classroom lists to refresh data
+      queryClient.invalidateQueries({ queryKey: queryKeys.classrooms.list() });
+    },
+    onError: (error: any) => {
+      console.error('Failed to update classroom:', error);
     },
   });
 };
@@ -42,10 +65,11 @@ export const useUpdateClassroom = () => {
       [key: string]: any;
     }) => {
       await setupAuthToken();
-      return classroomsControllerUpdate({
+      const res = await classroomsControllerUpdate({
         path: { id },
         body: updateData,
       });
+      return res.data?.data;
     },
     onSuccess: (data, variables) => {
       // Update the classroom in cache
@@ -65,9 +89,10 @@ export const useDeleteClassroom = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       await setupAuthToken();
-      return classroomsControllerRemove({
+      const res = await classroomsControllerRemove({
         path: { id },
       });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate all classroom queries

@@ -53,6 +53,7 @@ export const queryKeys = {
     list: () => [...queryKeys.classrooms.all, 'list'] as const,
     detail: (id: string) =>
       [...queryKeys.classrooms.all, 'detail', id] as const,
+    // join:()
   },
   // Minigames keys
   minigames: {

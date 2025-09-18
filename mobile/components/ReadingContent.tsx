@@ -14,6 +14,8 @@ function ReadingContent(props: ReadingMaterial) {
     () => useGetCoverFromGDrive(props.cover),
     [props.cover],
   );
+
+  // console.log(props, 'gangngangangnng');
   const onPress = () => {
     setSelectedContent(props);
     router.push(`/content/${props.id}`);

@@ -36,7 +36,7 @@ export default function ClassroomScreen() {
     <View className="px-8">
       {isLoading ? (
         <Text>Loading classrooms...</Text>
-      ) : classrooms.length > 0 ? (
+      ) : classrooms ? (
         <View>
           {classrooms.map(item => (
             <ClassroomCard key={item.id} classroom={{ ...item }} />

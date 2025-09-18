@@ -1,8 +1,9 @@
+import { Minigame } from '@/models/Minigame';
 import { arrange, bubble, choice } from './bubble';
 import { MessageTypeEnum } from './enum';
 
 export type Message = {
   id: number;
   type: MessageTypeEnum;
-  payload: bubble | choice | arrange;
+  payload: bubble | Minigame;
 };

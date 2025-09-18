@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  MinigamesService,
-  type PostMinigamesLogsSentenceRearrangementData,
-  type PostMinigamesLogsChoicesData,
-  type PostMinigamesLogsWordsFromLettersData,
-  type PostMinigamesWordsFromLettersData,
-  type PostMinigamesChoicesData,
-  type PostMinigamesSentenceRearrangementData,
+  minigamesControllerGetMinigamesCompletion,
+  minigamesControllerCreateSentenceRearrangementLog,
+  minigamesControllerCreateChoicesLog,
+  minigamesControllerCreateWordsFromLettersLog,
+  minigamesControllerCreateWflMinigame,
+  minigamesControllerCreateChoicesMinigame,
+  minigamesControllerCreateSrMinigame,
 } from '../api/requests';
 import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
@@ -20,9 +20,10 @@ export const useCompleteMinigameSession = () => {
   return useMutation({
     mutationFn: async (readingSessionId: string) => {
       await setupAuthToken();
-      return MinigamesService.postMinigamesByReadingSessionIdComplete({
-        readingSessionId,
+      const res = await minigamesControllerGetMinigamesCompletion({
+        path: { readingSessionID: readingSessionId },
       });
+      return res.data?.data;
     },
     onSuccess: (_, variables) => {
       // Invalidate session-related queries
@@ -42,9 +43,12 @@ export const useCreateSentenceRearrangementLog = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: PostMinigamesLogsSentenceRearrangementData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return MinigamesService.postMinigamesLogsSentenceRearrangement(data);
+      const res = await minigamesControllerCreateSentenceRearrangementLog({
+        body: data
+      });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate minigame related queries
@@ -60,9 +64,12 @@ export const useCreateChoicesLog = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: PostMinigamesLogsChoicesData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return MinigamesService.postMinigamesLogsChoices(data);
+      const res = await minigamesControllerCreateChoicesLog({
+        body: data
+      });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate minigame related queries
@@ -78,9 +85,12 @@ export const useCreateWordsFromLettersLog = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: PostMinigamesLogsWordsFromLettersData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return MinigamesService.postMinigamesLogsWordsFromLetters(data);
+      const res = await minigamesControllerCreateWordsFromLettersLog({
+        body: data
+      });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate minigame related queries
@@ -100,9 +110,12 @@ export const useCreateWordsFromLettersMinigame = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: PostMinigamesWordsFromLettersData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return MinigamesService.postMinigamesWordsFromLetters(data);
+      const res = await minigamesControllerCreateWflMinigame({
+        body: data
+      });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate minigame related queries
@@ -118,9 +131,12 @@ export const useCreateChoicesMinigame = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: PostMinigamesChoicesData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return MinigamesService.postMinigamesChoices(data);
+      const res = await minigamesControllerCreateChoicesMinigame({
+        body: data
+      });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate minigame related queries
@@ -136,9 +152,12 @@ export const useCreateSentenceRearrangementMinigame = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: PostMinigamesSentenceRearrangementData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return MinigamesService.postMinigamesSentenceRearrangement(data);
+      const res = await minigamesControllerCreateSrMinigame({
+        body: data
+      });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate minigame related queries

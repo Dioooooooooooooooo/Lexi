@@ -13,11 +13,9 @@ export default function ClassroomHeader({
   joinCode,
 }: ClassroomDetailsProp) {
   return (
-    <View className="h-[200px] w-full rounded-bl-[40px] bg-yellowOrange p-4">
-      <View className="p-2">
+    <View className="h-[150px] w-full rounded-bl-[40px] bg-yellowOrange p-4">
+      <View className="flex flex-row justify-between items-center px-4 h-full">
         <BackHeader />
-      </View>
-      <View className="flex flex-row justify-between items-center px-4 h-full border">
         <View>
           <Text className="text-[22px] font-poppins-bold leading-tight">
             {name}

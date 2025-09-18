@@ -1,19 +1,19 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from 'react';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSequence,
   withTiming,
-} from "react-native-reanimated";
-import { CorrectSound, IncorrectSound } from "@/utils/sounds";
-import { useFillInTheBlankMiniGameStore } from "@/stores/miniGameStore";
-import { useMiniGameStore } from "@/stores/miniGameStore";
-import { View, ScrollView, TouchableOpacity, BackHandler } from "react-native";
-import { Text } from "~/components/ui/text";
-import { Heart } from "lucide-react-native";
-import { Minigame, MinigameType } from "@/models/Minigame";
-import { useCreateMinigameLog } from "@/services/minigameService";
-import { useUserStore } from "@/stores/userStore";
+} from 'react-native-reanimated';
+import { CorrectSound, IncorrectSound } from '@/utils/sounds';
+import { useFillInTheBlankMiniGameStore } from '@/stores/miniGameStore';
+import { useMiniGameStore } from '@/stores/miniGameStore';
+import { View, ScrollView, TouchableOpacity, BackHandler } from 'react-native';
+import { Text } from '~/components/ui/text';
+import { Heart } from 'lucide-react-native';
+import { Minigame, MinigameType } from '@/models/Minigame';
+import { useCreateMinigameLog } from '@/services/minigameService';
+import { useUserStore } from '@/stores/userStore';
 
 export default function FillInTheBlank({
   minigame,
@@ -23,7 +23,7 @@ export default function FillInTheBlank({
   nextGame: () => void;
 }) {
   const { mutate: triggerCreateMinigameLog } = useCreateMinigameLog();
-  const userRole = useUserStore((state) => state.user?.role);
+  const userRole = useUserStore(state => state.user?.role);
 
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [answer, setAnswer] = useState<string | null>(null);
@@ -47,7 +47,7 @@ export default function FillInTheBlank({
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
+      'hardwareBackPress',
       () => {
         return true;
       },
@@ -79,15 +79,15 @@ export default function FillInTheBlank({
     if (lives <= 0 || answer === correctAnswer) {
       try {
         let score = answer === correctAnswer ? 1 : 0;
-        console.log("FIll in the blank Game Over");
-        if (userRole === "Pupil") {
+        console.log('FIll in the blank Game Over');
+        if (userRole === 'Pupil') {
           const minigameLog = gameOver({
             answers,
             score,
           });
 
           if (!minigameLog) {
-            throw Error("Minigame Log is null");
+            throw Error('Minigame Log is null');
           }
 
           triggerCreateMinigameLog({
@@ -101,7 +101,7 @@ export default function FillInTheBlank({
         }, 500);
       } catch (error) {
         console.error(
-          "Error during Fill in the blank game over logic: ",
+          'Error during Fill in the blank game over logic: ',
           error,
         );
       }
@@ -115,11 +115,11 @@ export default function FillInTheBlank({
     if (choices[index] === correctAnswer) {
       CorrectSound.play();
       setIsCorrect(true);
-      await new Promise((res) => setTimeout(res, 500));
+      await new Promise(res => setTimeout(res, 500));
     } else {
       IncorrectSound.play();
       setIsCorrect(false);
-      await new Promise((res) => setTimeout(res, 500));
+      await new Promise(res => setTimeout(res, 500));
       setIsCorrect(null);
       setAnswer(null);
       decrementLives();
@@ -132,17 +132,17 @@ export default function FillInTheBlank({
 
   const borderClass =
     isCorrect === true
-      ? "border-green-500"
+      ? 'border-green-500'
       : isCorrect === false
-        ? "border-red-500"
-        : "";
+        ? 'border-red-500'
+        : '';
 
   const textClass =
     isCorrect === true
-      ? "!text-green-500"
+      ? '!text-green-500'
       : isCorrect === false
-        ? "!text-red-500"
-        : "";
+        ? '!text-red-500'
+        : '';
 
   return (
     <ScrollView className="bg-lightGray">
@@ -150,7 +150,7 @@ export default function FillInTheBlank({
         <View className="flex gap-12 py-16">
           <View className="flex gap-4">
             <View className="flex flex-row gap-2 justify-center items-center">
-              <Text className="text-3xl font-black text-indigo-600 ">
+              <Text className="text-3xl font-poppins-bold text-indigo-600 ">
                 Fill in the Blank
               </Text>
             </View>
@@ -170,18 +170,18 @@ export default function FillInTheBlank({
               className={borderClass}
             >
               <Text className="text-2xl font-semibold flex flex-row flex-wrap">
-                {phrases.split("{{blank}}")[0]}
+                {phrases.split('{{blank}}')[0]}
                 <Text
                   className={`text-2xl font-semibold flex flex-row flex-wrap underline ${textClass} text-blue-500`}
                 >
                   {answer ||
-                    "_".repeat(
+                    '_'.repeat(
                       choices.length > 0
                         ? Math.max(...choices.map((c: any) => c.length))
                         : 5,
                     )}
                 </Text>
-                {phrases.split("{{blank}}")[1]}
+                {phrases.split('{{blank}}')[1]}
               </Text>
             </Animated.View>
 

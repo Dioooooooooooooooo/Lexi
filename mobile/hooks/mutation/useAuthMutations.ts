@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
+import { client } from '../api/requests/client.gen';
 import {
   authControllerChangePassword,
   authControllerLogin,
@@ -9,7 +10,6 @@ import {
   authControllerRegister,
   authControllerUpdateProfile,
 } from '../api/requests/sdk.gen';
-import { client } from '../api/requests/client.gen';
 import { transformRegistrationData } from '../utils/authTransformers';
 
 // =============================================================================
@@ -58,7 +58,10 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: (credentials: { email: string; password: string }) => {
-      console.log('🔍 Login Debug - EXPO_PUBLIC_IPADDRESS:', process.env.EXPO_PUBLIC_IPADDRESS);
+      console.log(
+        '🔍 Login Debug - EXPO_PUBLIC_IPADDRESS:',
+        process.env.EXPO_PUBLIC_IPADDRESS,
+      );
       console.log('🔍 Login Debug - Client config:', client.getConfig());
       console.log('🔍 Login Debug - Starting login request...');
 
@@ -92,11 +95,11 @@ export const useLogin = () => {
       console.error('Login failed:', error);
     },
   });
-};;;
+};
 
 export const useRefreshToken = () => {
   const queryClient = useQueryClient();
-
+  console.log('refresh tok');
   return useMutation({
     mutationFn: (refreshToken: string) =>
       authControllerRefreshToken({
@@ -125,7 +128,7 @@ export const useRefreshToken = () => {
       console.error('Refresh token failed:', error);
     },
   });
-};;;
+};
 
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
@@ -146,10 +149,10 @@ export const useUpdateProfile = () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
     },
     onError: (error: any) => {
-      console.error('Profile update failed:', error);
+      console.error('Profile update failed:', error.body);
     },
   });
-};;;
+};
 
 export const useChangePassword = () => {
   return useMutation({
@@ -169,7 +172,7 @@ export const useChangePassword = () => {
       console.error('Password change failed:', error);
     },
   });
-};;;
+};
 
 export const useLogout = () => {
   const queryClient = useQueryClient();
@@ -197,7 +200,7 @@ export const useLogout = () => {
       queryClient.clear();
     },
   });
-};;;
+};
 
 // =============================================================================
 // PROVIDER AUTH MUTATIONS - TODO: Implement these to replace authStore.providerAuth()

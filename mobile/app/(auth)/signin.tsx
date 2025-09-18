@@ -163,7 +163,7 @@ const SignIn = () => {
         <BackHeader />
 
         <View className="flex gap-3 justify-around">
-          <Text className="font-black text-2xl">Welcome Back!</Text>
+          <Text className="font-poppins-bold text-2xl">Welcome Back!</Text>
 
           <View className="flex gap-2">
             <View className="relative">

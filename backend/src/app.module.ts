@@ -24,6 +24,9 @@ import { createKeyv } from '@keyv/redis';
 import { Keyv } from '@keyv/redis';
 import { CacheableMemory } from 'cacheable';
 import { DictionaryModule } from './app/dictionary/dictionary.module';
+import { ImagekitModule } from './app/imagekit/imagekit.module';
+import { MulterModule } from '@nestjs/platform-express';
+import multer from 'multer';
 
 @Module({
   imports: [
@@ -56,6 +59,10 @@ import { DictionaryModule } from './app/dictionary/dictionary.module';
       },
     }),
 
+    MulterModule.register({
+      storage: multer.memoryStorage(),
+    }),
+
     DatabaseModule,
     EmailModule,
     AuthModule,
@@ -71,6 +78,7 @@ import { DictionaryModule } from './app/dictionary/dictionary.module';
     UserModule,
     ActivityLogsModule,
     DictionaryModule,
+    ImagekitModule,
   ],
   controllers: [AppController],
   providers: [AppService],
