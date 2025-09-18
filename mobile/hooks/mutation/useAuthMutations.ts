@@ -35,6 +35,8 @@ export const useRegister = () => {
     },
     onSuccess: async response => {
       console.log('🎉 Registration Success - Response:', response);
+      console.log('🔍 Registration Success - Status:', response.response?.status);
+      console.log('🔍 Registration Success - Data:', response.data);
 
       // Check if response contains an error (hey-api might call onSuccess for failed requests)
       if (response.error) {
@@ -49,27 +51,46 @@ export const useRegister = () => {
         throw new Error(response.data?.message || `Registration failed with status ${response.response.status}`);
       }
 
-      // Response is AuthResponseDto (register returns this directly)
-      if (response.data && response.data.access_token) {
-        await AsyncStorage.setItem('access_token', response.data.access_token);
-        if (response.data.refresh_token) {
-          await AsyncStorage.setItem(
-            'refresh_token',
-            response.data.refresh_token,
-          );
+      // Check for successful status codes (200, 201)
+      if (response.response?.status && (response.response.status < 200 || response.response.status >= 300)) {
+        console.error('❌ Registration unexpected status:', response.response.status);
+        throw new Error(`Registration failed with unexpected status ${response.response.status}`);
+      }
+
+      // Validate that we have the expected response data structure
+      if (!response.data) {
+        console.error('❌ Registration response missing data');
+        throw new Error('Registration response missing data');
+      }
+
+      // Backend returns: { data: { access_token, refresh_token }, message }
+      // So we need to check response.data.data.access_token, not response.data.access_token
+      const authData = response.data.data;
+      if (!authData || !authData.access_token) {
+        console.error('❌ Registration response missing access token:', response.data);
+        throw new Error('Registration response missing access token - user may not have been created in database');
+      }
+
+      console.log('✅ Registration validation passed, storing tokens...');
+
+      try {
+        // Store tokens from the nested data structure
+        await AsyncStorage.setItem('access_token', authData.access_token);
+        if (authData.refresh_token) {
+          await AsyncStorage.setItem('refresh_token', authData.refresh_token);
         }
 
         // Update client configuration with new token
         await setupAuthToken();
 
-        // Use the user data that's already in the response
-        queryClient.setQueryData(queryKeys.auth.me(), response.data.user);
-
-        // Invalidate auth queries
+        // Since the registration response doesn't include user data,
+        // invalidate auth queries to trigger a fresh user fetch
         queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
-      } else {
-        console.error('❌ Registration response missing required data:', response.data);
-        throw new Error('Registration response missing access token');
+
+        console.log('✅ Registration completed successfully');
+      } catch (storageError) {
+        console.error('❌ Failed to store registration data:', storageError);
+        throw new Error('Registration succeeded but failed to store authentication data');
       }
     },
     onError: (error: any) => {
@@ -82,7 +103,7 @@ export const useRegister = () => {
       });
     },
   });
-};
+};;;
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
@@ -207,6 +228,8 @@ export const useChangePassword = () => {
 
 export const useLogout = () => {
   const queryClient = useQueryClient();
+  const setUser = useUserStore(state => state.setUser);
+  const setLastLoginStreak = useUserStore(state => state.setLastLoginStreak);
 
   return useMutation({
     mutationFn: async () => {
@@ -217,21 +240,31 @@ export const useLogout = () => {
       // Clear tokens
       AsyncStorage.removeItem('access_token');
       AsyncStorage.removeItem('refresh_token');
+      
+      // Clear user from store (this will also clear the persisted user data)
+      setUser(null);
+      
+      // Reset login streak to allow fresh streak modal on next login
+      setLastLoginStreak(null);
+      
       // Update client configuration without token
       setupAuthToken();
+      
       // Clear all queries
       queryClient.clear();
     },
     onError: (error: any) => {
       console.error('Logout failed:', error);
-      // Even if logout fails, clear local tokens
+      // Even if logout fails, clear local tokens and user
       AsyncStorage.removeItem('access_token');
       AsyncStorage.removeItem('refresh_token');
+      setUser(null);
+      setLastLoginStreak(null);
       setupAuthToken();
       queryClient.clear();
     },
   });
-};
+};;;
 
 // =============================================================================
 // PROVIDER AUTH MUTATIONS - TODO: Implement these to replace authStore.providerAuth()

@@ -13,17 +13,13 @@ import ProfileStat from '@/components/ProfileStat';
 import { CurrentTierName, ProgressBar } from '@/components/ProgressBar';
 import { StreakIcon } from '@/components/Streak';
 import { Achievement } from '@/models/Achievement';
-import { useProfileStats } from '@/services/UserService';
 import { useAuthStore } from '@/stores/authStore';
 import { useMiniGameStore } from '@/stores/miniGameStore';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native-paper';
-import {
-  useAchievements,
-  useReadingSessions,
-  useUserSessions,
-  useUserStreak,
-} from '@/hooks';
+import { useAchievements } from '@/hooks/query/useAchievementQueries';
+import { useReadingSessions } from '@/hooks/query/useReadingSessionQueries';
+import { useUserSessions, useUserStreak } from '@/hooks/query/useUserQueries';
 const STREAK_COLOR = '#FF663E';
 
 export default function Profile() {
@@ -33,31 +29,57 @@ export default function Profile() {
   const logout = useAuthStore(state => state.logout);
   const isPupil = user?.role === 'Pupil';
 
-  // const achievementsQuery = useAchievements();
-  // const screenTimeQuery = useUserSessions();
-  // const loginStreakQuery = useUserStreak();
-  // const totalBooksQuery = useReadingSessions();
+  // Debug logging
+  console.log('🔍 Profile Debug - User state:', user);
+  console.log('🔍 Profile Debug - User role:', user?.role);
+  console.log('🔍 Profile Debug - isPupil:', isPupil);
 
-  const [
-    achievementsQuery,
-    screenTimeQuery,
-    loginStreakQuery,
-    totalBooksQuery,
-  ] = useProfileStats(isPupil);
+  // Determine if we should show data for pupils
+  const shouldShowData = isPupil && user?.role === 'Pupil';
 
-  setAchievements(achievementsQuery.data || []);
+  // Use individual hey-api hooks instead of the problematic useProfileStats
+  // Always call hooks (React rules) but only use data when appropriate
+  const achievementsQuery = useAchievements();
+  const screenTimeQuery = useUserSessions();
+  const loginStreakQuery = useUserStreak();
+  const totalBooksQuery = useReadingSessions();
 
-  if (
-    isPupil &&
-    (achievementsQuery.isLoading ||
+  // Only set achievements for pupils when data is available
+  useEffect(() => {
+    if (shouldShowData && achievementsQuery.data) {
+      setAchievements(achievementsQuery.data);
+    }
+  }, [achievementsQuery.data, shouldShowData, setAchievements]);
+
+  // If user is not loaded yet, show loading
+  if (!user) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text className="mt-2">Loading user profile...</Text>
+      </View>
+    );
+  }
+
+  // Only show loading for Pupils when their queries are actually loading
+  // Teachers don't need these queries, so skip this loading check for them
+  if (shouldShowData && (
+      achievementsQuery.isLoading ||
       screenTimeQuery.isLoading ||
       loginStreakQuery.isLoading ||
-      totalBooksQuery.isLoading)
+      totalBooksQuery.isLoading
+    )
   ) {
+    console.log('🔍 Profile Debug - Pupil queries loading:', {
+      achievements: achievementsQuery.isLoading,
+      screenTime: screenTimeQuery.isLoading,
+      loginStreak: loginStreakQuery.isLoading,
+      totalBooks: totalBooksQuery.isLoading
+    });
     return (
-      <View className="flex-1 justify-center items-center absolute inset-0 z-50">
+      <View className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" color="#0000ff" />
-        <Text className="mt-2">Loading...</Text>
+        <Text className="mt-2">Loading profile data...</Text>
       </View>
     );
   }
@@ -74,7 +96,13 @@ export default function Profile() {
     router.replace('/');
   };
 
-  console.log(user, 'user woa');
+  console.log('🔍 Profile Debug - Final render decision:', {
+    user: user,
+    role: user?.role,
+    isPupil: isPupil,
+    renderingPupilView: user?.role === 'Pupil'
+  });
+
   return (
     <ScrollView className="bg-background">
       <View className="h-[150px] w-full rounded-bl-[40px] bg-yellowOrange p-4 rounded-xl border-lightGray border-b-4">
@@ -140,7 +168,7 @@ export default function Profile() {
                 </>
               ) : (
                 <>
-                  <Text className="text-xl font-poppins-bold">Teacher</Text>
+                  <Text className="text-xl font-poppins-bold">{user?.role}</Text>
                 </>
               )}
             </View>
@@ -153,12 +181,12 @@ export default function Profile() {
               <View className="flex flex-col flex-wrap justify-between">
                 <View className="flex flex-row">
                   <ProfileStat
-                    level={`${loginStreakQuery.data?.longest_streak}`}
+                    level={`${loginStreakQuery.data?.longest_streak || 0}`}
                     description="Longest Streak"
                     icon={<StreakIcon color={STREAK_COLOR} size={28} />}
                   />
                   <ProfileStat
-                    level={`${totalBooksQuery.data}`}
+                    level={`${totalBooksQuery.data?.length || 0}`}
                     description="Books Read"
                     icon={<Book color="blue" />}
                   />
@@ -166,15 +194,15 @@ export default function Profile() {
                 <View className="flex flex-row">
                   <ProfileStat
                     level={
-                      screenTimeQuery !== undefined
-                        ? formatScreenTime(screenTimeQuery.data || 0)
+                      screenTimeQuery.data && Array.isArray(screenTimeQuery.data)
+                        ? formatScreenTime(screenTimeQuery.data.length * 30 || 0) // Estimate 30 min per session
                         : '0'
                     }
                     description="Total Screentime"
                     icon={<Smartphone color="black" />}
                   />
                   <ProfileStat
-                    level={`${achievementsQuery.data?.length}`}
+                    level={`${achievementsQuery.data?.length || 0}`}
                     description="Achievements"
                     icon={<Star color="#FFD43B" />}
                   />
@@ -197,11 +225,6 @@ export default function Profile() {
                 </View>
 
                 <View className="flex-row flex gap-4">
-                  {/* {achievementsQuery.data.map(
-                    (a: Achievement, index: number) => (
-                      <AwardIcon badge={`${a.badge}`} key={index} />
-                    ),
-                  )} */}
                   {achievementsQuery.data?.length > 0 ? (
                     achievementsQuery.data.map(
                       (a: Achievement, index: number) => (
@@ -231,7 +254,7 @@ export default function Profile() {
                 source={require('assets/images/teacher-profile.png')}
                 resizeMode="contain"
               />
-              <Text className="p-2 py-6 ">This user is a teacher!</Text>
+              <Text className="p-2 py-6 ">This user is a {user?.role?.toLowerCase()}!</Text>
             </View>
           )}
         </View>

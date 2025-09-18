@@ -1,6 +1,7 @@
-import { getLoginStreak, recordLoginStreak } from '@/services/UserService';
 import { useUserStore } from '@/stores/userStore';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+import { useUserStreak } from '@/hooks/query/useUserQueries';
+import { useUpdateUserStreak } from '@/hooks/mutation/useUserMutations';
 import React, { useEffect, useState } from 'react';
 import { Text } from '@/components/ui/text';
 import { View, TouchableOpacity, Modal, Dimensions } from 'react-native';
@@ -35,36 +36,44 @@ const LoginStreak: React.FC<LoginStreakProps> = ({ isVisible, onClose }) => {
   const today = new Date().getDay();
   const currentDayIndex = today === 0 ? 6 : today - 1;
 
-  const { mutateAsync: recordLoginStreakMutation } = useMutation({
-    mutationFn: recordLoginStreak,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['loginStreak'] });
-    },
-  });
+  // Use the proper TanStack Query hook for streak data
+  const { data: streakData, isLoading: isStreakLoading } = useUserStreak();
 
-  const loginStreakCount = async () => {
-    try {
-      return await recordLoginStreakMutation().then(response => {
-        console.log('Login streak count: ', response);
-        setStreak(response.currentStreak);
-      });
-    } catch (error) {
-      console.error('Error fetching login streak: ', error);
+  // Use the proper hey-api mutation for recording streak
+  const updateStreakMutation = useUpdateUserStreak();
+
+  // Update streak from query data when available
+  useEffect(() => {
+    if (streakData && streakData.currentStreak !== undefined) {
+      console.log('Setting streak from query data:', streakData.currentStreak);
+      setStreak(streakData.currentStreak);
     }
-  };
+  }, [streakData, setStreak]);
 
   const activeWeekdaysDisplay = () => {
     const updatedActiveWeekdays = Array(7).fill(false);
     for (let i = currentDayIndex; i > currentDayIndex - streak && i >= 0; i--) {
       updatedActiveWeekdays[i] = true;
-      // console.log(updatedActiveWeekdays);
     }
     setActiveWeekdays(updatedActiveWeekdays);
   };
 
+  // Record login streak when modal becomes visible
   useEffect(() => {
-    loginStreakCount();
-  }, []);
+    if (isVisible) {
+      updateStreakMutation.mutate(undefined, {
+        onSuccess: (data) => {
+          console.log('✅ Login streak recorded successfully:', data);
+          if (data && data.currentStreak !== undefined) {
+            setStreak(data.currentStreak);
+          }
+        },
+        onError: (error) => {
+          console.error('❌ Error recording login streak:', error);
+        }
+      });
+    }
+  }, [isVisible]);
 
   useEffect(() => {
     activeWeekdaysDisplay();
