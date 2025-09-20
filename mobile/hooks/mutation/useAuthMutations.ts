@@ -135,6 +135,7 @@ export const useUpdateProfile = () => {
 
   return useMutation({
     mutationFn: async (data: any) => {
+      console.log("to update: ", data)
       await setupAuthToken();
       return authControllerUpdateProfile({
         body: data,
@@ -149,7 +150,7 @@ export const useUpdateProfile = () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
     },
     onError: (error: any) => {
-      console.error('Profile update failed:', error.body);
+      console.error('Profile update failed:', error);
     },
   });
 };

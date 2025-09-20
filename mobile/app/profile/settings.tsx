@@ -98,15 +98,14 @@ export default function Settings() {
       const changes = getChangedFields(user, profile);
       if (Object.keys(changes).length > 0) {
         if (changes.avatar) {
-          const uploadedAvatar = await handleUploadAvatar.mutateAsync(avatarFile);
-          console.log('uploaded: ', uploadedAvatar);
-          changes.avatar = uploadedAvatar;
+          changes.avatar = avatarFile;
         }
-      
-        console.log("Changes form: ", changes);
+
+        console.log('Changes form: ', changes);
         const res = await handleProfileUpdate(changes);
+        console.log("Change success: ", res);
         if (res) {
-          const updatedUser = extractUser(res.data);
+          const updatedUser = extractUser(res);
           updateProfile(updatedUser);
         }
       } else {
@@ -118,6 +117,7 @@ export default function Settings() {
         text1: 'Profile Updated',
       });
     } catch (error: any) {
+      console.log(error)
       Toast.show({
         type: 'error',
         text1: 'Update Profile Failed',
@@ -158,6 +158,7 @@ export default function Settings() {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
+      base64: true
     });
 
     if (!result.canceled) {
@@ -185,10 +186,7 @@ export default function Settings() {
                       }
                     : user?.avatar
                       ? {
-                          uri: `${API_URL.replace(
-                            /\/api\/?$/,
-                            '/',
-                          )}${user.avatar.replace(/^\/+/, '')}`,
+                          uri: user.avatar,
                         }
                       : require('@/assets/images/default_pfp.png')
                 }

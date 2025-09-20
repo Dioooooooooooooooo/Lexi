@@ -120,8 +120,8 @@ export const getFormDataImageFromPickerAsset = async (
     uri: fileUri,
     type: asset.type + '/' + extension,
     name: asset.fileName,
+    base64: asset.base64,
   };
-  console.log(file);
   return file;
 };
 

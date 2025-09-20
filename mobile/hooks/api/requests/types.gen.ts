@@ -163,6 +163,12 @@ export type UpdateProfileDto = {
      * Avatar
      */
     avatar?: string;
+    /**
+     * Avatar File
+     */
+    avatarFile?: {
+        [key: string]: unknown;
+    };
 };
 
 export type ChangePasswordDto = {

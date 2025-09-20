@@ -6,6 +6,13 @@ export default {
       name: '@hey-api/client-fetch',
       runtimeConfigPath: '../hey-api',
       exportFromIndex: true,
+      schemaMappings: {
+        // map binary strings to File
+        string: ({ format }) => {
+          if (format === 'binary') return 'File';
+          return null;
+        },
+      },
     },
   ],
 };

@@ -67,6 +67,7 @@ export const useHandleUpdateProfile = () => {
       'username',
       'email',
       'avatar',
+      'avatarFile',
       'phone',
     ];
     const passwordFields = [
@@ -102,9 +103,7 @@ export const useHandleUpdateProfile = () => {
         });
         console.log('Password change response:', res);
       } else if (hasPupilFields || hasAuthFields) {
-        const res = await updateProfileMutation.mutateAsync({
-          requestBody: transformedForm,
-        });
+        const res = await updateProfileMutation.mutateAsync(transformedForm);
         console.log('Profile update response:', res);
       } else {
         console.warn('No valid fields to update.');

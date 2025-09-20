@@ -27,4 +27,24 @@ export class ImagekitService {
       throw new Error('Image upload failed');
     }
   }
+
+  async uploadImageJson(file: {
+    uri: string; // original uri from RN picker (optional for reference)
+    type: string; // e.g. "image/jpeg"
+    name: string; // e.g. "avatar.jpg"
+    base64: string; // base64 encoded file contents
+  }) {
+    try {
+      const uploaded = await this.imageKit.upload({
+        file: `data:${file.type};base64,${file.base64}`,
+        fileName: file.name,
+      });
+
+      console.log('Successfully uploaded: ', uploaded);
+
+      return uploaded.url;
+    } catch (error) {
+      throw new Error('Image upload failed');
+    }
+  }
 }

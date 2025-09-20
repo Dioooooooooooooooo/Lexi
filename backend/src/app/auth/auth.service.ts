@@ -25,6 +25,7 @@ import {
   ResetPasswordDto,
   UpdateProfileDto,
 } from './dto/auth.dto';
+import { ImagekitService } from '../imagekit/imagekit.service';
 
 @Injectable()
 export class AuthService {
@@ -34,6 +35,7 @@ export class AuthService {
     // EmailService injected to send onboarding / reset / verify emails
     private readonly emailService: EmailService,
     private readonly userService: UserService,
+    private readonly imageKitService: ImagekitService,
   ) {}
 
   async register(registerDto: RegisterDto) {
@@ -432,6 +434,14 @@ export class AuthService {
       if (existingUser) {
         throw new ConflictException('Email already exists');
       }
+    }
+    console.log(updateProfileDto);
+
+    if (updateProfileDto.avatarFile) {
+      const avatarUrl = await this.imageKitService.uploadImageJson(updateProfileDto.avatarFile);
+      updateProfileDto.avatar = avatarUrl;
+
+      console.log(updateProfileDto);
     }
 
     // Update user

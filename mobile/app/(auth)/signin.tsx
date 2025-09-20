@@ -138,7 +138,7 @@ const SignIn = () => {
           text1: 'Authentication Success',
         });
         router.replace('/home');
-        setUser(userResult.data.data);
+        setUser(userResult.data);
       } else {
         // No user profile found, redirect to complete signup
         router.push({
