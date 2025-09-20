@@ -5,14 +5,14 @@
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "DARK_MODE=media pnpm exec expo run:android",
+    "android": "expo start",
     "ios": "DARK_MODE=media expo run:ios",
     "web": "DARK_MODE=media expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,md}\" \"!utils/long_fantasy_story_dataset.json\"",
-    "openapi:spec": "curl -o swagger.json http://localhost:3000/docs-json",
-    "openapi:client": "openapi-rq -i swagger.json -c fetch -o ./lib/hooks --format prettier",
+    "openapi:spec": "curl -o swagger.json http://localhost:3000/api/docs-json",
+    "openapi:client": "npx @hey-api/openapi-ts",
     "dev:with-api": "pnpm run openapi:spec && pnpm run openapi:client && pnpm run start"
   },
   "jest": {
@@ -52,7 +52,7 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "expo": "~52.0.0",
+    "expo": "~52.0.47",
     "expo-blur": "~14.0.3",
     "expo-constants": "~17.0.8",
     "expo-file-system": "~18.0.12",
@@ -77,7 +77,6 @@
     "react-native": "0.76.9",
     "react-native-cheerio": "^1.0.0-rc.4",
     "react-native-css-interop": "^0.1.22",
-    "react-native-fbsdk-next": "^13.4.1",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-paper": "^5.14.5",
     "react-native-reanimated": "~3.16.1",
@@ -98,20 +97,24 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
-    "@7nohe/openapi-react-query-codegen": "^1.6.2",
     "@babel/core": "^7.25.2",
+    "@hey-api/openapi-ts": "^0.83.1",
     "@react-native-community/cli": "latest",
     "@types/jest": "^29.5.12",
     "@types/lodash.throttle": "^4.1.9",
     "@types/react": "~18.3.12",
     "@types/react-test-renderer": "^18.3.0",
+    "eslint": "^8.57.1",
+    "eslint-config-expo": "~8.0.1",
+    "eslint-import-resolver-typescript": "^4.4.4",
     "jest": "^29.2.1",
     "jest-expo": "~52.0.6",
     "jscodeshift": "^0.15.2",
     "prettier": "^3.6.2",
     "react-test-renderer": "18.3.1",
     "swagger-typescript-api": "^13.2.8",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "eslint-import-resolver-babel-module": "^5.3.2"
   },
   "private": true
 }

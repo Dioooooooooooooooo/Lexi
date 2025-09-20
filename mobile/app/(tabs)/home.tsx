@@ -1,32 +1,24 @@
-import React, { memo, useEffect, useState, useCallback, useRef } from 'react';
-import { router } from 'expo-router';
-import {
-  useRecommendedStories,
-  useStories,
-} from '@/services/ReadingMaterialService';
 import ReadingContent from '@/components/ReadingContent';
-import { useFocusEffect } from '@react-navigation/native';
 import { ReadingMaterial } from '@/models/ReadingMaterial';
+import { useFocusEffect } from '@react-navigation/native';
+import { router } from 'expo-router';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 
 //Components
+import { Text } from '@/components/ui/text';
 import {
-  Image,
   Dimensions,
+  Image,
   Keyboard,
   ScrollView,
   TouchableOpacity,
   View,
-  Pressable,
 } from 'react-native';
-import { Text } from '@/components/ui/text';
 
-import { useUserStore } from '@/stores/userStore';
-import { useReadingContentStore } from '@/stores/readingContentStore';
 import { HeaderSearchBar } from '@/components/HeaderSearchBar';
-import {
-  useReadingMaterials,
-  useReadingMaterialsRecommendations,
-} from '@/hooks';
+import { useReadingMaterials } from '@/hooks';
+import { useReadingContentStore } from '@/stores/readingContentStore';
+import { useUserStore } from '@/stores/userStore';
 
 function HomeScreen() {
   const { data: stories, isLoading: isStoriesLoading } = useReadingMaterials();
@@ -47,16 +39,35 @@ function HomeScreen() {
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
+    const fullDate = new Date().toString();
     console.log('TODAY', today, 'LOGINTREAKS:', lastLoginStreak);
-    if (today !== lastLoginStreak && user?.role === 'Pupil') {
+    console.log('🔍 VM Full Date:', fullDate);
+    console.log('🔍 VM Timezone:', Intl.DateTimeFormat().resolvedOptions().timeZone);
+    console.log('🔍 Streak Modal Debug - User:', user);
+    console.log('🔍 Streak Modal Debug - User role:', user?.role);
+
+    // Temporary test mode - set to true to always show modal for testing
+    const FORCE_SHOW_MODAL_FOR_TESTING = false;
+
+    if ((today !== lastLoginStreak || FORCE_SHOW_MODAL_FOR_TESTING) && user?.role === 'Pupil') {
+      console.log('🎉 Streak Modal - Showing modal for new day login');
       const timer = setTimeout(() => {
         setShowStreakModal(true);
-        setLastLoginStreak(today);
+        if (!FORCE_SHOW_MODAL_FOR_TESTING) {
+          setLastLoginStreak(today);
+        }
       }, 500);
 
       return () => clearTimeout(timer);
+    } else {
+      console.log('🔍 Streak Modal - Not showing because:', {
+        sameDay: today === lastLoginStreak,
+        notPupil: user?.role !== 'Pupil',
+        noUser: !user,
+        testMode: FORCE_SHOW_MODAL_FOR_TESTING
+      });
     }
-  }, []);
+  }, [user, lastLoginStreak]); // Added dependencies
 
   const performSearch = useCallback(
     (query: string) => {

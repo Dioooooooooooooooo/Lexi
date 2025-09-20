@@ -1,16 +1,15 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { queryKeys, setupAuthToken } from '../api/apiUtils';
+import { client } from '../api/requests/client.gen';
 import {
-  AuthenticationService,
-  OpenAPI,
-  type PostAuthRegisterData,
-  type PostAuthLoginData,
-  type PostAuthRefreshData,
-  type PatchAuthMeData,
-  type PostAuthChangePasswordData,
-  type PostAuthLogoutData,
-} from '../api/requests';
-import { setupAuthToken, queryKeys } from '../api/apiUtils';
+  authControllerChangePassword,
+  authControllerLogin,
+  authControllerLogout,
+  authControllerRefreshToken,
+  authControllerRegister,
+  authControllerUpdateProfile,
+} from '../api/requests/sdk.gen';
 import { transformRegistrationData } from '../utils/authTransformers';
 
 // =============================================================================
@@ -22,64 +21,124 @@ export const useRegister = () => {
 
   return useMutation({
     mutationFn: (formData: Record<string, any>) => {
+      console.log('🔍 Registration Debug - EXPO_PUBLIC_IPADDRESS:', process.env.EXPO_PUBLIC_IPADDRESS);
+      console.log('🔍 Registration Debug - Client config:', client.getConfig());
+      console.log('🔍 Registration Debug - Form data:', formData);
+
       const transformedData = transformRegistrationData(formData);
-      return AuthenticationService.postAuthRegister({
-        requestBody: transformedData,
+      console.log('🔍 Registration Debug - Transformed data:', transformedData);
+      console.log('🔍 Registration Debug - Starting registration request...');
+
+      return authControllerRegister({
+        body: transformedData,
       });
     },
     onSuccess: async response => {
-      // Response already has user data (AuthResponseDto)
-      await AsyncStorage.setItem('access_token', response.access_token);
-      if (response.refresh_token) {
-        await AsyncStorage.setItem('refresh_token', response.refresh_token);
+      console.log('🎉 Registration Success - Response:', response);
+      console.log('🔍 Registration Success - Status:', response.response?.status);
+      console.log('🔍 Registration Success - Data:', response.data);
+
+      // Check if response contains an error (hey-api might call onSuccess for failed requests)
+      if (response.error) {
+        console.error('❌ Registration failed but onSuccess called:', response.error);
+        throw new Error(response.error.message || 'Registration failed');
       }
 
-      // Set token in OpenAPI config
-      OpenAPI.TOKEN = response.access_token;
+      // Check for HTTP error status codes that hey-api treats as success
+      if (response.response?.status && response.response.status >= 400) {
+        console.error('❌ Registration failed with status:', response.response.status);
+        console.error('❌ Registration error body:', response.data);
+        throw new Error(response.data?.message || `Registration failed with status ${response.response.status}`);
+      }
 
-      // Use the user data that's already in the response
-      queryClient.setQueryData(queryKeys.auth.me(), response.user);
+      // Check for successful status codes (200, 201)
+      if (response.response?.status && (response.response.status < 200 || response.response.status >= 300)) {
+        console.error('❌ Registration unexpected status:', response.response.status);
+        throw new Error(`Registration failed with unexpected status ${response.response.status}`);
+      }
 
-      // Invalidate auth queries
-      queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
+      // Validate that we have the expected response data structure
+      if (!response.data) {
+        console.error('❌ Registration response missing data');
+        throw new Error('Registration response missing data');
+      }
+
+      // Backend returns: { data: { access_token, refresh_token }, message }
+      // So we need to check response.data.data.access_token, not response.data.access_token
+      const authData = response.data.data;
+      if (!authData || !authData.access_token) {
+        console.error('❌ Registration response missing access token:', response.data);
+        throw new Error('Registration response missing access token - user may not have been created in database');
+      }
+
+      console.log('✅ Registration validation passed, storing tokens...');
+
+      try {
+        // Store tokens from the nested data structure
+        await AsyncStorage.setItem('access_token', authData.access_token);
+        if (authData.refresh_token) {
+          await AsyncStorage.setItem('refresh_token', authData.refresh_token);
+        }
+
+        // Update client configuration with new token
+        await setupAuthToken();
+
+        // Since the registration response doesn't include user data,
+        // invalidate auth queries to trigger a fresh user fetch
+        queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
+
+        console.log('✅ Registration completed successfully');
+      } catch (storageError) {
+        console.error('❌ Failed to store registration data:', storageError);
+        throw new Error('Registration succeeded but failed to store authentication data');
+      }
     },
     onError: (error: any) => {
-      console.error('Registration failed:', error);
+      console.error('❌ Registration failed:', error);
+      console.error('❌ Registration error details:', {
+        message: error.message,
+        status: error.status,
+        body: error.body,
+        stack: error.stack
+      });
     },
   });
-};
+};;;
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (credentials: { email: string; password: string }) => {
-      console.log('paramore');
-      const data: PostAuthLoginData = {
-        requestBody: {
+      console.log(
+        '🔍 Login Debug - EXPO_PUBLIC_IPADDRESS:',
+        process.env.EXPO_PUBLIC_IPADDRESS,
+      );
+      console.log('🔍 Login Debug - Client config:', client.getConfig());
+      console.log('🔍 Login Debug - Starting login request...');
+
+      return authControllerLogin({
+        body: {
           email: credentials.email,
           password: credentials.password,
         },
-      };
-      const res = AuthenticationService.postAuthLogin(data);
-      console.log('HMHHMMM', res);
-      return res;
+      });
     },
     onSuccess: async response => {
-      const data = (response as any)?.data;
+      // Store tokens from response.data (login returns SuccessResponseDto)
+      if (response.data && response.data.data) {
+        const authData = response.data.data as any;
+        if (authData.access_token) {
+          await AsyncStorage.setItem('access_token', authData.access_token);
+        }
 
-      console.log('whole tibook token', data);
-
-      // Store tokens
-      if (data?.access_token) {
-        await AsyncStorage.setItem('access_token', data.access_token);
-        OpenAPI.TOKEN = data.access_token;
-        console.log('login token', OpenAPI.TOKEN);
+        if (authData.refresh_token) {
+          await AsyncStorage.setItem('refresh_token', authData.refresh_token);
+        }
       }
 
-      if (data?.refresh_token) {
-        await AsyncStorage.setItem('refresh_token', data.refresh_token);
-      }
+      // Update client configuration with new token
+      await setupAuthToken();
 
       // Invalidate to trigger user query (login doesn't return user data)
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
@@ -94,23 +153,31 @@ export const useRefreshToken = () => {
   const queryClient = useQueryClient();
   console.log('refresh tok');
   return useMutation({
-    mutationFn: async (data: PostAuthRefreshData) => {
-      console.log(data, 'jusqo');
-      await AuthenticationService.postAuthRefresh(data);
-    },
-    onSuccess: data => {
-      // Update token
-      console.log('refreshed', data);
-      const token = (data as any)?.data?.access_token;
-      if (token) {
-        OpenAPI.TOKEN = token;
-        AsyncStorage.setItem('access_token', token);
+    mutationFn: (refreshToken: string) =>
+      authControllerRefreshToken({
+        body: { refresh_token: refreshToken },
+      }),
+    onSuccess: async response => {
+      // Store new tokens from response.data
+      if (response.data && response.data.data) {
+        const authData = response.data.data as any;
+        if (authData.access_token) {
+          await AsyncStorage.setItem('access_token', authData.access_token);
+        }
+
+        if (authData.refresh_token) {
+          await AsyncStorage.setItem('refresh_token', authData.refresh_token);
+        }
       }
-      // Invalidate auth queries
+
+      // Update client configuration with new token
+      await setupAuthToken();
+
+      // Invalidate to trigger user query
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
     },
     onError: (error: any) => {
-      console.error('Token refresh failed:', error);
+      console.error('Refresh token failed:', error);
     },
   });
 };
@@ -119,13 +186,17 @@ export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: PatchAuthMeData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return AuthenticationService.patchAuthMe(data);
+      return authControllerUpdateProfile({
+        body: data,
+      });
     },
-    onSuccess: data => {
-      // Update profile in cache
-      queryClient.setQueryData(queryKeys.auth.me(), data);
+    onSuccess: response => {
+      // Update profile in cache from response.data (update returns SuccessResponseDto)
+      if (response.data && response.data.data) {
+        queryClient.setQueryData(queryKeys.auth.me(), response.data.data);
+      }
       // Invalidate related queries
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
     },
@@ -137,9 +208,17 @@ export const useUpdateProfile = () => {
 
 export const useChangePassword = () => {
   return useMutation({
-    mutationFn: async (data: PostAuthChangePasswordData) => {
+    mutationFn: async (data: {
+      currentPassword: string;
+      newPassword: string;
+    }) => {
       await setupAuthToken();
-      return AuthenticationService.postAuthChangePassword(data);
+      return authControllerChangePassword({
+        body: {
+          current_password: data.currentPassword,
+          new_password: data.newPassword,
+        },
+      });
     },
     onError: (error: any) => {
       console.error('Password change failed:', error);
@@ -149,28 +228,43 @@ export const useChangePassword = () => {
 
 export const useLogout = () => {
   const queryClient = useQueryClient();
+  const setUser = useUserStore(state => state.setUser);
+  const setLastLoginStreak = useUserStore(state => state.setLastLoginStreak);
 
   return useMutation({
-    mutationFn: async (data: PostAuthLogoutData = {}) => {
+    mutationFn: async () => {
       await setupAuthToken();
-      return AuthenticationService.postAuthLogout(data);
+      return authControllerLogout();
     },
     onSuccess: () => {
-      // Clear token
-      OpenAPI.TOKEN = undefined;
+      // Clear tokens
       AsyncStorage.removeItem('access_token');
+      AsyncStorage.removeItem('refresh_token');
+      
+      // Clear user from store (this will also clear the persisted user data)
+      setUser(null);
+      
+      // Reset login streak to allow fresh streak modal on next login
+      setLastLoginStreak(null);
+      
+      // Update client configuration without token
+      setupAuthToken();
+      
       // Clear all queries
       queryClient.clear();
     },
     onError: (error: any) => {
       console.error('Logout failed:', error);
-      // Even if logout fails, clear local token
-      OpenAPI.TOKEN = undefined;
+      // Even if logout fails, clear local tokens and user
       AsyncStorage.removeItem('access_token');
+      AsyncStorage.removeItem('refresh_token');
+      setUser(null);
+      setLastLoginStreak(null);
+      setupAuthToken();
       queryClient.clear();
     },
   });
-};
+};;;
 
 // =============================================================================
 // PROVIDER AUTH MUTATIONS - TODO: Implement these to replace authStore.providerAuth()

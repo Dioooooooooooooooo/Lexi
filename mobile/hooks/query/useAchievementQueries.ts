@@ -1,5 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { AchievementsService } from '../api/requests';
+import {
+  achievementsControllerGetPupilAchievements,
+  achievementsControllerGetPupilAchievementsById
+} from '../api/requests';
 import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
 // =============================================================================
@@ -11,7 +14,8 @@ export const useAchievements = () => {
     queryKey: queryKeys.achievements.list(),
     queryFn: async () => {
       await setupAuthToken();
-      return AchievementsService.getAchievements();
+      const res = await achievementsControllerGetPupilAchievements();
+      return res.data?.data;
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
     retry: (failureCount, error: any) => {
@@ -28,7 +32,10 @@ export const useAchievementsByPupil = (pupilId: string) => {
     queryKey: queryKeys.achievements.byPupil(pupilId),
     queryFn: async () => {
       await setupAuthToken();
-      return AchievementsService.getAchievementsPupilsByPupilId({ pupilId });
+      const res = await achievementsControllerGetPupilAchievementsById({
+        path: { pupilId }
+      });
+      return res.data?.data;
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
     retry: (failureCount, error: any) => {

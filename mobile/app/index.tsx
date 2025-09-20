@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Redirect, router } from 'expo-router'; // Or useNavigation if using React Navigation
 import { useUserStore } from '@/stores/userStore';
 import { useMiniGameStore } from '@/stores/miniGameStore';
+import { useAuthMe } from '@/hooks/query/useAuthQueries';
 
 //Components
 import { ScrollView, View, Image, TouchableOpacity, Text } from 'react-native';
@@ -10,67 +11,76 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Index() {
   const user = useUserStore(state => state.user);
-  // const currentMinigame = useMiniGameStore(state => state.currentMinigame);
+  const setUser = useUserStore(state => state.setUser);
+  const [isValidatingAuth, setIsValidatingAuth] = React.useState(true);
+  const { data: authData, isLoading: isAuthLoading, error: authError } = useAuthMe();
+  
   useRefreshToken();
+
+  // Validate authentication state on app start
+  useEffect(() => {
+    const validateAuth = async () => {
+      try {
+        // Check if we have stored tokens
+        const accessToken = await AsyncStorage.getItem('access_token');
+        
+        if (!accessToken) {
+          console.log('🔍 No access token found, clearing user state');
+          setUser(null);
+          setIsValidatingAuth(false);
+          return;
+        }
+
+        // If we have a token but the auth query failed with 401, clear everything
+        if (authError && (authError as any)?.status === 401) {
+          console.log('🔍 Invalid token detected, clearing auth state');
+          await AsyncStorage.removeItem('access_token');
+          await AsyncStorage.removeItem('refresh_token');
+          setUser(null);
+          setIsValidatingAuth(false);
+          return;
+        }
+
+        // If auth query succeeded, update user state
+        if (authData) {
+          console.log('✅ Valid authentication confirmed');
+          setUser(authData);
+        }
+        
+        setIsValidatingAuth(false);
+      } catch (error) {
+        console.error('❌ Auth validation error:', error);
+        setUser(null);
+        setIsValidatingAuth(false);
+      }
+    };
+
+    validateAuth();
+  }, [authData, authError, setUser]);
 
   function splashscreen() {
     router.replace('/(auth)/carousel');
   }
 
-  if (user) {
+  // Show loading while validating authentication
+  if (isValidatingAuth || isAuthLoading) {
+    return (
+      <View className="bg-yellowOrange flex-1 justify-center items-center">
+        <Text className="text-lg">Validating authentication...</Text>
+        <Text className="text-3xl font-poppins-bold">LexiLearner</Text>
+      </View>
+    );
+  }
+
+  // If user is authenticated and valid, redirect to home
+  if (user && authData) {
     return <Redirect href="/(tabs)/home" />;
   } else {
+    // No valid authentication, show splash and redirect to auth
     setTimeout(splashscreen, 1000);
   }
 
   return (
-    // <ScrollView
-    //   className="bg-yellowOrange h-full"
-    //   contentContainerStyle={{
-    //     flexGrow: 1,
-    //     justifyContent: "space-around",
-    //     alignItems: "center",
-    //   }}
-    // >
-    //   <View className="h-[60vh] w-full rounded-bl-[40px] bg-white">
-    //     <View className="flex-1 justify-between">
-    //       <Text className="text-orange font-poppins-bold text-[30px] m-12 mt-18">
-    //         Improve reading,{"\n"}Improve fun!
-    //       </Text>
-    //       <Image
-    //         source={require("@/assets/images/Juicy/girl-with-pencil.png")}
-    //         className="w-[40vh] h-[40vh] self-end"
-    //         resizeMode="contain"
-    //       />
-    //     </View>
-    //   </View>
-
-    //   {/* <View className="absolute w-[600px] h-[600px] bg-background-0 rounded-full -top-20 left-0 -z-10"></View> */}
-
-    //   <View className="flex-1 w-full flex flex-col justify-around items-center">
-    //     <Text className="text-[30px] font-poppins-bold text-orange mt-8">
-    //       LexiLearner
-    //     </Text>
-
-    //     <View className="w-full gap-2 px-6 items-center">
-    //       <TouchableOpacity
-    //         onPress={() => router.push("/signup")}
-    //         className="w-4/5 bg-orange border border-dropShadowColor rounded-xl border-b-4 p-3 items-center"
-    //       >
-    //         <Text className="text-white text-md font-poppins-bold">Register</Text>
-    //       </TouchableOpacity>
-
-    //       <TouchableOpacity
-    //         onPress={() => router.push("/signin")}
-    //         className="w-4/5 border border-dropShadowColor bg-white rounded-xl border-b-4 p-3 items-center"
-    //       >
-    //         <Text className="text-orange text-md font-poppins-bold leading-tight">
-    //           Log In
-    //         </Text>
-    //       </TouchableOpacity>
-    //     </View>
-    //   </View>
-    // </ScrollView>
     <View className="bg-yellowOrange flex-1">
       <View className="items-center justify-center">
         <Text className="justify-center text-lg ">Welcome to</Text>

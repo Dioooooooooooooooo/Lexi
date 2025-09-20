@@ -1,6 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
-import { OpenAPI, ReadingMaterialsService } from '../api/requests';
+import {
+  readingMaterialsControllerFindAll,
+  readingMaterialsControllerFindOne,
+  readingMaterialsControllerFindRecommendations,
+} from '../api/requests';
 
 // =============================================================================
 // READING MATERIAL QUERIES - Data Fetching Hooks
@@ -9,32 +13,12 @@ import { OpenAPI, ReadingMaterialsService } from '../api/requests';
 export const useReadingMaterials = () => {
   return useQuery({
     queryKey: queryKeys.readingMaterials.list(),
-    // queryFn: async () => {
-    //   await setupAuthToken();
-    //   return await ReadingMaterialsService.getReadingMaterials();
-    // },
     queryFn: async () => {
       await setupAuthToken();
-      console.log('debugging fucks');
-      try {
-        const res = await ReadingMaterialsService.getReadingMaterials();
-        console.log('reading materials raw:', res.data[0]);
-        return res;
-      } catch (err) {
-        console.error('reading materials error:', err);
-        throw err; // rethrow so React Query sees it
-      }
+      const res = await readingMaterialsControllerFindAll();
+      return res.data?.data; // Extract actual data from SuccessResponseDto
     },
-
-    staleTime: 2 * 60 * 1000, // 2 minutes for quick debugging
-    // retry: (failureCount, error: any) => {
-    //   if (error?.status === 401) {
-    //     return false;
-    //   }
-    //   return failureCount < 3;
-    // },
-    select: (response: any) => response.data,
-    placeholderData: [],
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 };
 
@@ -43,7 +27,8 @@ export const useReadingMaterialById = (id: string) => {
     queryKey: queryKeys.readingMaterials.detail(id),
     queryFn: async () => {
       await setupAuthToken();
-      return ReadingMaterialsService.getReadingMaterialsById({ id });
+      const res = await readingMaterialsControllerFindOne({ path: { id } });
+      return res.data?.data; // Extract actual data from SuccessResponseDto
     },
     staleTime: 60 * 60 * 1000, // 10 minutes
     retry: (failureCount, error: any) => {
@@ -61,7 +46,8 @@ export const useReadingMaterialsRecommendations = () => {
     queryKey: queryKeys.readingMaterials.recommendations(),
     queryFn: async () => {
       await setupAuthToken();
-      return ReadingMaterialsService.getReadingMaterialsRecommendations();
+      const res = await readingMaterialsControllerFindRecommendations();
+      return res.data?.data; // Extract actual data from SuccessResponseDto
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
     retry: (failureCount, error: any) => {

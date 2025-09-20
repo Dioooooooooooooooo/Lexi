@@ -1,7 +1,7 @@
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { router } from "expo-router";
-import { TouchableOpacity } from "react-native";
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { router } from 'expo-router';
+import { TouchableOpacity } from 'react-native';
 
 export default function BackHeader({ onPress }: { onPress?: () => void }) {
   return (

@@ -1,4 +1,4 @@
-import type { RegisterDto } from '../api/requests';
+import type { RegisterDto } from '../api/requests/types.gen';
 
 // Transform UI form data to API format
 export const transformRegistrationData = (formData: Record<string, any>): RegisterDto => {

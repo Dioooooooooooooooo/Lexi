@@ -44,7 +44,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document, {
-    // jsonDocumentUrl: 'api/swagger.json',
     jsonDocumentUrl: 'api/docs-json',
     customSiteTitle: 'LexiLearner API Documentation',
     customfavIcon: '/favicon.ico',
@@ -81,7 +80,7 @@ async function bootstrap() {
   );
 
   try {
-    await app.listen(port);
+    await app.listen(port, '0.0.0.0');
   } catch (err: any) {
     if (err && err.code === 'EADDRINUSE') {
       console.error(

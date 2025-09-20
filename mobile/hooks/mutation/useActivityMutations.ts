@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
 import {
-  ActivitiesService,
-  type DeleteClassroomsByClassroomIdActivityByActivityIdData,
-  type PatchClassroomsByClassroomIdActivityByActivityIdData,
-  type PostClassroomsByClassroomIdActivityData,
+  activityControllerCreate,
+  activityControllerUpdate,
+  activityControllerRemove,
 } from '../api/requests';
 
 // =============================================================================
@@ -15,9 +14,13 @@ export const useCreateActivity = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: PostClassroomsByClassroomIdActivityData) => {
+    mutationFn: async (data: { classroomId: string; body: any }) => {
       await setupAuthToken();
-      return ActivitiesService.postClassroomsByClassroomIdActivity(data);
+      const res = await activityControllerCreate({
+        path: { classroomId: data.classroomId },
+        body: data.body
+      });
+      return res.data?.data;
     },
     onSuccess: (data, variables) => {
       // Invalidate activities list for the classroom
@@ -39,17 +42,17 @@ export const useUpdateActivity = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (
-      data: PatchClassroomsByClassroomIdActivityByActivityIdData,
-    ) => {
+    mutationFn: async (data: { classroomId: string; activityId: string; body: any }) => {
       await setupAuthToken();
-      return ActivitiesService.patchClassroomsByClassroomIdActivityByActivityId(
-        data,
-      );
+      const res = await activityControllerUpdate({
+        path: { classroomId: data.classroomId, activityId: data.activityId },
+        body: data.body
+      });
+      return res.data?.data;
     },
     onSuccess: (data, variables) => {
       // Update the specific activity in cache if we have classroom ID
-      const classroomId = (variables as any).classroomId;
+      const classroomId = variables.classroomId;
       if (classroomId) {
         queryClient.setQueryData(
           queryKeys.activities.detail(classroomId, variables.activityId),
@@ -74,30 +77,30 @@ export const useDeleteActivity = (classroomId?: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (
-      data: DeleteClassroomsByClassroomIdActivityByActivityIdData,
-    ) => {
+    mutationFn: async (data: { classroomId: string; activityId: string }) => {
       await setupAuthToken();
-      return ActivitiesService.deleteClassroomsByClassroomIdActivityByActivityId(
-        data,
-      );
+      const res = await activityControllerRemove({
+        path: { classroomId: data.classroomId, activityId: data.activityId }
+      });
+      return res.data?.data;
     },
     onSuccess: (_, variables) => {
-      if (classroomId) {
+      const resolvedClassroomId = classroomId || variables.classroomId;
+      if (resolvedClassroomId) {
         // Invalidate activities list for the classroom
         queryClient.invalidateQueries({
-          queryKey: queryKeys.activities.byClassroom(classroomId),
+          queryKey: queryKeys.activities.byClassroom(resolvedClassroomId),
         });
         // Remove the specific activity from cache
         queryClient.removeQueries({
           queryKey: queryKeys.activities.detail(
-            classroomId,
+            resolvedClassroomId,
             variables.activityId,
           ),
         });
         // Also invalidate classroom details as it might show activity count
         queryClient.invalidateQueries({
-          queryKey: queryKeys.classrooms.detail(classroomId),
+          queryKey: queryKeys.classrooms.detail(resolvedClassroomId),
         });
       } else {
         // If we don't have classroomId, invalidate all activities

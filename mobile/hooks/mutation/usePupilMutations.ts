@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { PupilsService, type PatchPupilsMeData } from '../api/requests';
+import { pupilsControllerUpdatePupilProfile } from '../api/requests';
 import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
 // =============================================================================
@@ -10,9 +10,12 @@ export const useUpdatePupilProfile = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: PatchPupilsMeData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return PupilsService.patchPupilsMe(data);
+      const res = await pupilsControllerUpdatePupilProfile({
+        body: data
+      });
+      return res.data?.data;
     },
     onSuccess: data => {
       // Update pupil profile in cache

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
-import { DictionaryService, type GetDictionaryDictionaryByWordData } from '../api/requests';
+import { dictionaryControllerDefinition } from '../api/requests';
 
 // =============================================================================
 // DICTIONARY QUERIES - Data Fetching Hooks
@@ -11,7 +11,10 @@ export const useDictionaryDefinition = (word: string) => {
     queryKey: [...queryKeys.dictionary.all, 'definition', word] as const,
     queryFn: async () => {
       await setupAuthToken();
-      return DictionaryService.getDictionaryDictionaryByWord({ word });
+      const res = await dictionaryControllerDefinition({
+        path: { word }
+      });
+      return res.data?.data;
     },
     staleTime: 10 * 60 * 1000, // 10 minutes - definitions don't change often
     retry: (failureCount, error: any) => {

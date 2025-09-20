@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
 import {
-  ReadingSessionsService,
-  type PostReadingSessionsData,
-  type PatchReadingSessionsByIdData,
-  type DeleteReadingSessionsByIdData,
+  readingSessionsControllerCreate,
+  readingSessionsControllerUpdate,
+  readingSessionsControllerRemove,
 } from '../api/requests';
 
 // =============================================================================
@@ -13,11 +12,14 @@ import {
 
 export const useCreateReadingSession = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: async (data: PostReadingSessionsData) => {
+    mutationFn: async (data: any) => {
       await setupAuthToken();
-      return ReadingSessionsService.postReadingSessions(data);
+      const res = await readingSessionsControllerCreate({
+        body: data
+      });
+      return res.data?.data;
     },
     onSuccess: () => {
       // Invalidate reading sessions list to refetch updated data
@@ -31,11 +33,15 @@ export const useCreateReadingSession = () => {
 
 export const useUpdateReadingSession = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: async (data: PatchReadingSessionsByIdData) => {
+    mutationFn: async (data: { id: string; body: any }) => {
       await setupAuthToken();
-      return ReadingSessionsService.patchReadingSessionsById(data);
+      const res = await readingSessionsControllerUpdate({
+        path: { id: data.id },
+        body: data.body
+      });
+      return res.data?.data;
     },
     onSuccess: (updatedData, variables) => {
       // Update the specific reading session in cache
@@ -54,11 +60,14 @@ export const useUpdateReadingSession = () => {
 
 export const useDeleteReadingSession = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: async (data: DeleteReadingSessionsByIdData) => {
+    mutationFn: async (data: { id: string }) => {
       await setupAuthToken();
-      return ReadingSessionsService.deleteReadingSessionsById(data);
+      const res = await readingSessionsControllerRemove({
+        path: { id: data.id }
+      });
+      return res.data?.data;
     },
     onSuccess: (_, variables) => {
       // Remove the specific reading session from cache

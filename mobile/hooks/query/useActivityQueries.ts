@@ -1,5 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { ActivitiesService } from '../api/requests';
+import {
+  activityControllerFindAllByClassroomId,
+  activityControllerFindOne
+} from '../api/requests';
 import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
 // =============================================================================
@@ -11,7 +14,10 @@ export const useActivitiesByClassroom = (classroomId: string) => {
     queryKey: queryKeys.activities.byClassroom(classroomId),
     queryFn: async () => {
       await setupAuthToken();
-      return ActivitiesService.getClassroomsByClassroomIdActivity({ classroomId });
+      const res = await activityControllerFindAllByClassroomId({
+        path: { classroomId }
+      });
+      return res.data?.data;
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
     retry: (failureCount, error: any) => {
@@ -29,7 +35,10 @@ export const useActivityById = (classroomId: string, activityId: string) => {
     queryKey: queryKeys.activities.detail(classroomId, activityId),
     queryFn: async () => {
       await setupAuthToken();
-      return ActivitiesService.getClassroomsByClassroomIdActivityByActivityId({ activityId });
+      const res = await activityControllerFindOne({
+        path: { classroomId, activityId }
+      });
+      return res.data?.data;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: (failureCount, error: any) => {

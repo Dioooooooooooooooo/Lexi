@@ -1,21 +1,21 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { router } from 'expo-router';
+import { checkUserExist } from '@/services/UserService';
+import { useAuthStore } from '@/stores/authStore';
 import { useGlobalStore } from '@/stores/globalStore';
 import { validateField } from '@/utils/utils';
-import { checkUserExist } from '@/services/UserService';
+import { router } from 'expo-router';
+import React, { useState } from 'react';
 import { useRegisterFormContext } from './_layout';
-import { useAuthStore } from '@/stores/authStore';
 
 //Components
-import { TouchableOpacity, View, ScrollView, Alert } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { Eye, EyeOff, Mail, KeyRound, UserRound } from 'lucide-react-native';
+import { Eye, EyeOff, KeyRound, Mail, UserRound } from 'lucide-react-native';
+import { Alert, ScrollView, TouchableOpacity, View } from 'react-native';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import BackHeader from '@/components/BackHeader';
+import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 export default function Step1() {
   const { isLoading, setIsLoading } = useGlobalStore();
