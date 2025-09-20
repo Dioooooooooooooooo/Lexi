@@ -16,6 +16,7 @@ export const useDictionaryDefinition = (word: string) => {
           path: { word },
         });
 
+        console.log('dictionary def', res.data);
         const defs = res.data.data as Array<{ shortdef?: string[] }>;
         return defs[0]?.shortdef?.[0] ?? '';
       } catch (err) {

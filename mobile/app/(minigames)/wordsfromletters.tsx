@@ -38,18 +38,19 @@ export default function WordsFromLetters() {
     incorrectAnswers,
     addIncorrectAnswer,
     resetGameState,
-    firstWord,
-    setFirstWord,
   } = useWordsFromLettersMiniGameStore();
 
   const { gameOver } = useMiniGameStore();
   const [firstGuess, isFirstGuess] = useState(false);
+  const [firstWord, setFirstWord] = useState('');
   console.log('wfl words:', words, 'wfl letters:', letters);
 
-  console.log('correct answers', correctAnswers);
+  // console.log('correct answers', correctAnswers);
+  console.log('guessed first word', firstWord);
 
   useEffect(() => {
     resetGameState();
+    setFirstWord('');
   }, []);
 
   useEffect(() => {
@@ -106,7 +107,10 @@ export default function WordsFromLetters() {
         }, 500);
         console.log('Moving to definition');
         if (firstWord) {
-          router.push('/(minigames)/results/definition');
+          router.push({
+            pathname: '/(minigames)/results/definition',
+            params: { word: firstWord },
+          });
         }
       } catch (error) {
         console.error(

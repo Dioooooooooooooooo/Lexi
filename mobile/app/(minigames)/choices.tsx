@@ -10,6 +10,7 @@ import { View, TouchableOpacity, Image } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { makeBubble } from '@/utils/makeBubble';
 import { Choices, Minigame } from '@/models/Minigame';
+import { useCreateChoicesLog } from '@/hooks';
 
 const ChoicesBubble = ({
   minigame,
@@ -20,21 +21,18 @@ const ChoicesBubble = ({
 }) => {
   const metadata = JSON.parse(minigame.metadata) as Choices;
   const [isPressed, setIsPressed] = useState(false);
-  const [score, setScore] = useState(0);
   const { setCurrentMinigame, gameOver } = useMiniGameStore();
+  const { mutateAsync: createLog } = useCreateChoicesLog();
 
   useEffect(() => {
     setCurrentMinigame(minigame);
   }, []);
 
-  useEffect(() => {
-    gameOver({ score });
-  }, [isPressed]);
-
-  const onBtnPress = (ans: Choice) => {
+  const onBtnPress = async (ans: Choice) => {
     let answer = '';
+    let score = 0;
     if (ans.answer) {
-      setScore(1);
+      score = 1;
       answer = "That's correct!";
     } else {
       answer = 'Aww, try again next time!';
@@ -45,6 +43,9 @@ const ChoicesBubble = ({
 
     onPress(bubble, MessageTypeEnum.STORY);
     setTimeout(() => onPress(responseBubble, MessageTypeEnum.STORY), 500);
+
+    const minigameLog = gameOver({ score: score });
+    await createLog(minigameLog);
   };
 
   return (

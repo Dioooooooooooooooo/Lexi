@@ -49,6 +49,7 @@ export const useUpdateReadingSession = () => {
         path: { id: data.id },
         body: data.body,
       });
+      // console.log('update session', res);
       return res.data?.data;
     },
     onSuccess: (updatedData, variables) => {

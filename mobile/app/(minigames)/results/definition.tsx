@@ -1,17 +1,19 @@
 import BackHeader from '@/components/BackHeader';
 import { Text } from '@/components/ui/text';
 import { useDictionaryDefinition } from '@/hooks';
-import { useWordsFromLettersMiniGameStore } from '@/stores/miniGameStore';
+import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 
 export default function Definition() {
-  const { firstWord } = useWordsFromLettersMiniGameStore();
+  const params = useLocalSearchParams();
   const { data, isLoading: isDictionaryLoading } = useDictionaryDefinition(
-    firstWord || '',
+    params.word as string,
   );
 
-  if (!isDictionaryLoading) {
+  console.log('word def', params);
+
+  if (isDictionaryLoading) {
     return (
       <View>
         <Text>Loading Word Definition...</Text>
@@ -20,11 +22,21 @@ export default function Definition() {
   }
 
   return (
-    <View>
+    <View className="bg-lightGray p-8 flex-1">
       <BackHeader />
-      <Text>You guessed...</Text>
-      <Text>{firstWord}</Text>
-      <Text>{data}</Text>
+      <View className="items-center gap-2">
+        <View className="items-center">
+          <Text>You guessed...</Text>
+          <Text className="font-poppins-bold text-3xl">{params.word}</Text>
+        </View>
+        <Text className="text-center">{data}</Text>
+
+        <Image
+          source={require('@/assets/images/Juicy/Woman-reading.png')}
+          style={{ width: '70%', height: '70%' }}
+          resizeMode="contain"
+        />
+      </View>
     </View>
   );
 }

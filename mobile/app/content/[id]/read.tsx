@@ -1,5 +1,5 @@
 import ChoicesBubble from '@/app/(minigames)/choices';
-import SentenceRearrangementBubble from '@/app/(minigames)/sentenceraarrangement';
+import SentenceRearrangementBubble from '@/app/(minigames)/sentencerearrangement';
 import ReadContentHeader from '@/components/ReadContentHeader';
 import ChatBubble from '@/components/Reading/ChatBubble';
 import { Button } from '@/components/ui/button';
@@ -64,6 +64,8 @@ function minigameProvider(
       payload: minigame,
     };
     return arrangeBubble;
+  } else {
+    return null;
   }
 }
 
@@ -98,36 +100,17 @@ const Read = () => {
   const onBackPress = () => {
     if (readingSession.current?.id) {
       updateReadingSessionProgress(readingSession.current?.id, chunkIndex);
+      updateReadingSession({
+        id: readingSession.current?.id!,
+        body: { completion_percentage: chunkIndex },
+      });
     }
+    router.back();
     return true;
   };
 
+  // Better BackHandler setup - place this in a separate useEffect
   useEffect(() => {
-    const initSession = async () => {
-      const pastSession = await getPastSession(selectedContent.id);
-      console.log('Past Session:', pastSession);
-      let currentSession = pastSession;
-      if (!pastSession) {
-        console.log('Creating new reading session');
-        const newReadingSession = await createReadingSession({
-          reading_material_id: selectedContent?.id,
-        });
-        await addSession(newReadingSession);
-        await setCurrentSession(newReadingSession);
-
-        currentSession = newReadingSession;
-      } else {
-        await setCurrentSession(pastSession);
-        setMessages(parsedBubbles.slice(0, pastSession.completion_percentage));
-        setChunkIndex(pastSession.completion_percentage);
-      }
-
-      readingSession.current = currentSession;
-      console.log('current session', readingSession.current);
-    };
-
-    initSession();
-
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       onBackPress,
@@ -136,7 +119,7 @@ const Read = () => {
     return () => {
       backHandler.remove();
     };
-  }, []);
+  }, [chunkIndex]); // Add chunkIndex as dependency since onBackPress uses it
 
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: false });
@@ -171,6 +154,41 @@ const Read = () => {
       })
       .filter((b): b is Message => b !== null);
   }, [selectedContent?.content, minigames]);
+
+  useEffect(() => {
+    const initSession = async () => {
+      const pastSession = getPastSession(selectedContent.id);
+      let currentSession = pastSession;
+      if (!pastSession) {
+        console.log('Creating new reading session');
+        const newReadingSession = await createReadingSession({
+          reading_material_id: selectedContent?.id,
+        });
+        addSession(newReadingSession);
+        setCurrentSession(newReadingSession);
+
+        currentSession = newReadingSession;
+      } else {
+        console.log('Using past session');
+        setCurrentSession(pastSession);
+        setMessages(parsedBubbles.slice(0, pastSession.completion_percentage));
+        setChunkIndex(pastSession.completion_percentage);
+      }
+
+      readingSession.current = currentSession;
+      console.log('current session', readingSession.current);
+    };
+
+    initSession();
+  }, [
+    selectedContent.content,
+    parsedBubbles,
+    getPastSession,
+    selectedContent.id,
+    createReadingSession,
+    addSession,
+    setCurrentSession,
+  ]);
 
   useEffect(() => {
     if (minigames) {
@@ -227,6 +245,10 @@ const Read = () => {
     }
   });
 
+  const completedStory = useThrottle(() => {
+    router.push({ pathname: '/(minigames)/wordsfromletters' });
+  });
+
   const defineWord = (word: string) => {
     if (word.length < 2) return;
     setWord(word);
@@ -266,6 +288,8 @@ const Read = () => {
       </View>
     );
   }
+
+  // console.log('mgsgs', parsedBubbles);
 
   return (
     <View className="flex-1 bg-lightGray">
@@ -311,7 +335,7 @@ const Read = () => {
                     ? (() => {
                         return (
                           <ChoicesBubble
-                            minigame={msg.payload}
+                            minigame={msg.payload as Minigame}
                             onPress={addStoryMessage}
                           />
                         );
@@ -320,7 +344,7 @@ const Read = () => {
                       ? (() => {
                           return (
                             <SentenceRearrangementBubble
-                              minigame={msg.payload}
+                              minigame={msg.payload as Minigame}
                               onPress={addStoryMessage}
                             />
                           );
@@ -349,16 +373,7 @@ const Read = () => {
                 </View>
 
                 {/* Button */}
-                <Button
-                  variant="secondary"
-                  onPress={() => {
-                    console.log(
-                      minigames[minigames.length - 1].metadata,
-                      'buzzkill',
-                    );
-                    router.push({ pathname: '/(minigames)/wordsfromletters' });
-                  }}
-                >
+                <Button variant="secondary" onPress={() => completedStory()}>
                   <Text className="font-poppins-bold text-black">
                     Story Completed
                   </Text>

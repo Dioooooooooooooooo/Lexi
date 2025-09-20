@@ -89,9 +89,9 @@ export const useMiniGameStore = create<MiniGameStore>()(
         }
 
         let minigameLog: MinigameLog = {
-          minigameId: currentMinigame.id,
-          pupilId: user.pupil.id,
-          readingSessionId: currentReadingSession.id,
+          minigame_id: currentMinigame.id,
+          pupil_id: user.pupil.id,
+          reading_session_id: currentReadingSession.id,
           result: JSON.stringify(logResult),
         };
         set({ gameStartTime: null });

@@ -46,7 +46,7 @@ export const useCreateSentenceRearrangementLog = () => {
     mutationFn: async (data: any) => {
       await setupAuthToken();
       const res = await minigamesControllerCreateSentenceRearrangementLog({
-        body: data
+        body: data,
       });
       return res.data?.data;
     },
@@ -67,7 +67,7 @@ export const useCreateChoicesLog = () => {
     mutationFn: async (data: any) => {
       await setupAuthToken();
       const res = await minigamesControllerCreateChoicesLog({
-        body: data
+        body: data,
       });
       return res.data?.data;
     },
@@ -88,7 +88,7 @@ export const useCreateWordsFromLettersLog = () => {
     mutationFn: async (data: any) => {
       await setupAuthToken();
       const res = await minigamesControllerCreateWordsFromLettersLog({
-        body: data
+        body: data,
       });
       return res.data?.data;
     },
@@ -113,7 +113,7 @@ export const useCreateWordsFromLettersMinigame = () => {
     mutationFn: async (data: any) => {
       await setupAuthToken();
       const res = await minigamesControllerCreateWflMinigame({
-        body: data
+        body: data,
       });
       return res.data?.data;
     },
@@ -134,7 +134,7 @@ export const useCreateChoicesMinigame = () => {
     mutationFn: async (data: any) => {
       await setupAuthToken();
       const res = await minigamesControllerCreateChoicesMinigame({
-        body: data
+        body: data,
       });
       return res.data?.data;
     },
@@ -155,7 +155,7 @@ export const useCreateSentenceRearrangementMinigame = () => {
     mutationFn: async (data: any) => {
       await setupAuthToken();
       const res = await minigamesControllerCreateSrMinigame({
-        body: data
+        body: data,
       });
       return res.data?.data;
     },

@@ -9,6 +9,7 @@ import { View, Image, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { makeBubble } from '@/utils/makeBubble';
 import { Minigame, SentenceRearrangement } from '@/models/Minigame';
+import { useCreateSentenceRearrangementLog } from '@/hooks';
 
 const SentenceRearrangementBtn = ({
   text,
@@ -51,6 +52,7 @@ const SentenceRearrangementBubble = ({
   } = useSentenceRearrangementMiniGameStore();
   const metadata = JSON.parse(minigame.metadata) as SentenceRearrangement;
   const { setCurrentMinigame, gameOver } = useMiniGameStore();
+  const { mutateAsync: createLog } = useCreateSentenceRearrangementLog();
 
   // init bruh
   useEffect(() => {
@@ -64,24 +66,38 @@ const SentenceRearrangementBubble = ({
   console.log('parts', parts);
 
   useEffect(() => {
-    if (currentAnswer.length === metadata.parts.length && isAnswered == true) {
-      let bubble;
-      if (metadata.correct_answer.join('') === currentAnswer.join('')) {
-        bubble = makeBubble("That's correct!", '', personEnum.Game);
-      } else {
-        bubble = makeBubble('Aww, try again next time!', '', personEnum.Game);
+    const initSession = async () => {
+      let score = 0;
+      if (
+        currentAnswer.length === metadata.parts.length &&
+        isAnswered === true
+      ) {
+        let bubble;
+        console.log('Sentence Rearrangement minigame finished!');
+        if (metadata.correct_answer.join('') === currentAnswer.join('')) {
+          bubble = makeBubble("That's correct!", '', personEnum.Game);
+          score = 1;
+        } else {
+          bubble = makeBubble('Aww, try again next time!', '', personEnum.Game);
+        }
+
+        setTimeout(() => onPress(bubble, MessageTypeEnum.STORY), 500);
+        setIsFinished(true);
+        const minigameLog = gameOver({
+          answers: currentAnswer,
+          score: score,
+        });
+
+        console.log('minigame log created', minigameLog);
+        const log = await createLog(minigameLog);
+        console.log('log:', log);
+
+        return;
       }
+      setIsAnswered(true);
+    };
 
-      setTimeout(() => onPress(bubble, MessageTypeEnum.STORY), 500);
-      setIsFinished(true);
-      // gameOver({
-      //   currentAnswer,
-      //   1
-      // });
-
-      return;
-    }
-    setIsAnswered(true);
+    initSession();
   }, [currentAnswer]);
 
   return (
