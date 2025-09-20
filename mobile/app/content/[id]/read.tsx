@@ -88,9 +88,9 @@ const Read = () => {
   const { mutateAsync: createReadingSession } = useCreateReadingSession();
   const { mutateAsync: updateReadingSession } = useUpdateReadingSession();
   const { setWords, setLetters } = useWordsFromLettersMiniGameStore();
-  const setCurrentSession = useReadingSessionStore(
-    state => state.setCurrentSession,
-  );
+  // const setCurrentSession = useReadingSessionStore(
+  //   state => state.setCurrentSession,
+  // );
   const getPastSession = useReadingSessionStore(state => state.getPastSession);
   const updateReadingSessionProgress = useReadingSessionStore(
     state => state.updateReadingSessionProgress,
@@ -165,12 +165,12 @@ const Read = () => {
           reading_material_id: selectedContent?.id,
         });
         addSession(newReadingSession);
-        setCurrentSession(newReadingSession);
+        // setCurrentSession(newReadingSession);
 
         currentSession = newReadingSession;
       } else {
         console.log('Using past session');
-        setCurrentSession(pastSession);
+        // setCurrentSession(pastSession);
         setMessages(parsedBubbles.slice(0, pastSession.completion_percentage));
         setChunkIndex(pastSession.completion_percentage);
       }
@@ -187,7 +187,6 @@ const Read = () => {
     selectedContent.id,
     createReadingSession,
     addSession,
-    setCurrentSession,
   ]);
 
   useEffect(() => {
