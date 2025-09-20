@@ -23,6 +23,7 @@ import { useThrottle } from '@/hooks/utils/useThrottle';
 import {
   useCreateReadingSession,
   useRandomMinigamesByMaterial,
+  useRandomMinigamesBySession,
   useUpdateReadingSession,
 } from '@/hooks';
 import { useWordsFromLettersMiniGameStore } from '@/stores/miniGameStore';
@@ -84,7 +85,7 @@ const Read = () => {
   );
   const [isFinished, setIsFinished] = useState(false);
   const { data: minigames, isLoading: isMinigameLoading } =
-    useRandomMinigamesByMaterial(selectedContent?.id);
+    useRandomMinigamesBySession(selectedContent?.id);
   const { mutateAsync: createReadingSession } = useCreateReadingSession();
   const { mutateAsync: updateReadingSession } = useUpdateReadingSession();
   const { setWords, setLetters } = useWordsFromLettersMiniGameStore();
@@ -157,7 +158,7 @@ const Read = () => {
 
   useEffect(() => {
     const initSession = async () => {
-      const pastSession = getPastSession(selectedContent.id);
+      const pastSession = await getPastSession(selectedContent.id);
       let currentSession = pastSession;
       if (!pastSession) {
         console.log('Creating new reading session');

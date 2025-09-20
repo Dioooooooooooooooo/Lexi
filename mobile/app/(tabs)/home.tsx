@@ -16,7 +16,10 @@ import {
 } from 'react-native';
 
 import { HeaderSearchBar } from '@/components/HeaderSearchBar';
-import { useReadingMaterials } from '@/hooks';
+import {
+  useReadingMaterials,
+  useReadingMaterialsRecommendations,
+} from '@/hooks';
 import { useReadingContentStore } from '@/stores/readingContentStore';
 import { useUserStore } from '@/stores/userStore';
 
@@ -24,8 +27,8 @@ function HomeScreen() {
   const { data: stories, isLoading: isStoriesLoading } = useReadingMaterials();
   const [showStreak, setShowStreakModal] = useState(false);
   const user = useUserStore(state => state.user);
-  // const { data: recommendations, isLoading: isRecommendationsLoading } =
-  //   useReadingMaterialsRecommendations();
+  const { data: recommendations, isLoading: isRecommendationsLoading } =
+    useReadingMaterialsRecommendations();
   const lastLoginStreak = useUserStore(state => state.lastLoginStreak);
   const setLastLoginStreak = useUserStore(state => state.setLastLoginStreak);
   const setSelectedContent = useReadingContentStore(
@@ -42,14 +45,20 @@ function HomeScreen() {
     const fullDate = new Date().toString();
     console.log('TODAY', today, 'LOGINTREAKS:', lastLoginStreak);
     console.log('🔍 VM Full Date:', fullDate);
-    console.log('🔍 VM Timezone:', Intl.DateTimeFormat().resolvedOptions().timeZone);
+    console.log(
+      '🔍 VM Timezone:',
+      Intl.DateTimeFormat().resolvedOptions().timeZone,
+    );
     console.log('🔍 Streak Modal Debug - User:', user);
     console.log('🔍 Streak Modal Debug - User role:', user?.role);
 
     // Temporary test mode - set to true to always show modal for testing
     const FORCE_SHOW_MODAL_FOR_TESTING = false;
 
-    if ((today !== lastLoginStreak || FORCE_SHOW_MODAL_FOR_TESTING) && user?.role === 'Pupil') {
+    if (
+      (today !== lastLoginStreak || FORCE_SHOW_MODAL_FOR_TESTING) &&
+      user?.role === 'Pupil'
+    ) {
       console.log('🎉 Streak Modal - Showing modal for new day login');
       const timer = setTimeout(() => {
         setShowStreakModal(true);
@@ -64,7 +73,7 @@ function HomeScreen() {
         sameDay: today === lastLoginStreak,
         notPupil: user?.role !== 'Pupil',
         noUser: !user,
-        testMode: FORCE_SHOW_MODAL_FOR_TESTING
+        testMode: FORCE_SHOW_MODAL_FOR_TESTING,
       });
     }
   }, [user, lastLoginStreak]); // Added dependencies
@@ -300,11 +309,14 @@ function HomeScreen() {
                   Recommended
                 </Text>
 
-                {/* <ScrollView horizontal={true}>
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                >
                   {isRecommendationsLoading ? (
                     <Text>Loading stories...</Text>
                   ) : (
-                    recommendations.data.map((r, index) => (
+                    recommendations.map((r, index) => (
                       <View className="w-[90vw]" key={index}>
                         <ReadingContent
                           type={'Recommended'}
@@ -320,7 +332,7 @@ function HomeScreen() {
                       </View>
                     ))
                   )}
-                </ScrollView> */}
+                </ScrollView>
               </View>
             )}
 
