@@ -1,7 +1,7 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ReadingSession } from "@/models/ReadingSession";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ReadingSession } from '@/models/ReadingSession';
 
 interface ReadingSessionStore {
   currentSession: ReadingSession | null;
@@ -13,7 +13,7 @@ interface ReadingSessionStore {
 
   updateReadingSessionProgress: (
     readingSessionId: string,
-    percentage: number
+    percentage: number,
   ) => void;
 
   currentlyReading: ReadingSession[];
@@ -29,7 +29,7 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
       setCurrentSession: (session: ReadingSession | null) =>
         set({ currentSession: session }),
       addSession: (session: ReadingSession) =>
-        set((state) => ({
+        set(state => ({
           sessions: state.sessions ? [...state.sessions, session] : [session],
         })),
 
@@ -37,26 +37,26 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
         const sessions = get().sessions ?? [];
         return (
           sessions.find(
-            (session) =>
-              session.readingMaterialId === readingMaterialId &&
-              session.completionPercentage < 100
+            session =>
+              session.reading_material_id === readingMaterialId &&
+              session.completion_percentage < 100,
           ) ?? null
         );
       },
 
       updateReadingSessionProgress: (
         readingSessionId: string,
-        percentage: number
+        percentage: number,
       ) =>
-        set((state) => ({
+        set(state => ({
           sessions:
-            state.sessions?.map((session) =>
+            state.sessions?.map(session =>
               session.id === readingSessionId
                 ? {
                     ...session,
-                    completionPercentage: percentage,
+                    completion_percentage: percentage,
                   }
-                : session
+                : session,
             ) ?? null,
         })),
       currentlyReading: [],
@@ -64,19 +64,19 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
         set({ currentlyReading: currentlyReading }),
     }),
     {
-      name: "reading-session-store",
+      name: 'reading-session-store',
       storage: {
-        getItem: async (name) => {
+        getItem: async name => {
           const value = await AsyncStorage.getItem(name);
           return value ? JSON.parse(value) : null;
         },
         setItem: async (name, value) => {
           await AsyncStorage.setItem(name, JSON.stringify(value));
         },
-        removeItem: async (name) => {
+        removeItem: async name => {
           await AsyncStorage.removeItem(name);
         },
       },
-    }
-  )
+    },
+  ),
 );

@@ -16,7 +16,7 @@ export const useRandomMinigamesByMaterial = (readingMaterialId: string) => {
     queryFn: async () => {
       await setupAuthToken();
       const res = await minigamesControllerFindMinigamesByMaterialId({
-        path: { readingMaterialID: readingMaterialId }
+        path: { readingMaterialID: readingMaterialId },
       });
       return res.data?.data;
     },
@@ -31,7 +31,7 @@ export const useRandomMinigamesBySession = (readingSessionId: string) => {
     queryFn: async () => {
       await setupAuthToken();
       const res = await minigamesControllerFindMinigamesBySessionId({
-        path: { readingSessionID: readingSessionId }
+        path: { readingSessionID: readingSessionId },
       });
       return res.data?.data;
     },
@@ -46,7 +46,7 @@ export const useWordsFromLettersMinigame = (readingMaterialId: string) => {
     queryFn: async () => {
       await setupAuthToken();
       const res = await minigamesControllerFindWordsFromLettersMinigame({
-        path: { readingMaterialID: readingMaterialId }
+        path: { readingMaterialID: readingMaterialId },
       });
       return res.data?.data;
     },

@@ -2,7 +2,7 @@ import {
   useMiniGameStore,
   useSentenceRearrangementMiniGameStore,
 } from '@/stores/miniGameStore';
-import { arrange, bubble } from '@/types/bubble';
+import { bubble } from '@/types/bubble';
 import { MessageTypeEnum, personEnum } from '@/types/enum';
 import React, { useEffect, useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
@@ -10,7 +10,7 @@ import { Text } from '@/components/ui/text';
 import { makeBubble } from '@/utils/makeBubble';
 import { Minigame, SentenceRearrangement } from '@/models/Minigame';
 
-const SentenceArrangementBtn = ({
+const SentenceRearrangementBtn = ({
   text,
   disabled,
   onPress,
@@ -31,7 +31,7 @@ const SentenceArrangementBtn = ({
 };
 
 // TODO: decouple from zustand
-const SentenceArrangementBubble = ({
+const SentenceRearrangementBubble = ({
   minigame,
   onPress,
 }: {
@@ -74,13 +74,15 @@ const SentenceArrangementBubble = ({
 
       setTimeout(() => onPress(bubble, MessageTypeEnum.STORY), 500);
       setIsFinished(true);
+      // gameOver({
+      //   currentAnswer,
+      //   1
+      // });
 
       return;
     }
     setIsAnswered(true);
   }, [currentAnswer]);
-
-  console.log('is answered', isAnswered);
 
   return (
     <View>
@@ -96,7 +98,7 @@ const SentenceArrangementBubble = ({
           <Text className="mb-2">What do you think the next sentence is?</Text>
           <View className="flex-row flex-wrap gap-2">
             {currentAnswer.map((part, index) => (
-              <SentenceArrangementBtn
+              <SentenceRearrangementBtn
                 key={index}
                 text={part}
                 onPress={() => removePartFromCurrentAnswer(index)}
@@ -112,7 +114,7 @@ const SentenceArrangementBubble = ({
           <View className="flex-1 border-2 border-accentBlue border-b-4 rounded-md p-3 bg-vibrantBlue">
             <View className="flex-wrap flex-row gap-2">
               {parts.map((part, index) => (
-                <SentenceArrangementBtn
+                <SentenceRearrangementBtn
                   key={index}
                   text={part}
                   onPress={() => {
@@ -130,4 +132,4 @@ const SentenceArrangementBubble = ({
   );
 };
 
-export default SentenceArrangementBubble;
+export default SentenceRearrangementBubble;

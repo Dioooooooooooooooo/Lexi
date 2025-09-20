@@ -1,9 +1,8 @@
 export interface ReadingSession {
   id: string;
-  pupilId: string;
-  readingMaterialId: string;
-  completionPercentage: number;
-
-  startedAt: string;
-  completedAt: string;
+  pupil_id: string;
+  reading_material_id: string;
+  completion_percentage: number;
+  started_at: string;
+  completed_at: string;
 }

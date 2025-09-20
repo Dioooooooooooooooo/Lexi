@@ -108,14 +108,14 @@ const AnswerPart = memo(
   },
 );
 
-export default function SentenceArrangement({
+export default function SentenceRearrangement({
   minigame,
   nextGame,
 }: {
   minigame: Minigame;
   nextGame: () => void;
 }) {
-  const sentenceArrangementData = React.useMemo(
+  const SentenceRearrangementData = React.useMemo(
     () => ({
       correctAnswer: JSON.parse(minigame.metaData).correctAnswer,
       parts: JSON.parse(minigame.metaData).parts,
@@ -161,15 +161,15 @@ export default function SentenceArrangement({
 
     if (parts.length === 0) {
       setCorrectAnswer(
-        sentenceArrangementData.correctAnswer.map(
+        SentenceRearrangementData.correctAnswer.map(
           (text: string): string => text,
         ),
       );
-      setParts(sentenceArrangementData.parts);
+      setParts(SentenceRearrangementData.parts);
     }
 
     setColorIndices(
-      sentenceArrangementData.parts.map(
+      SentenceRearrangementData.parts.map(
         (_: any, idx: number): number => idx % 2,
       ),
     );
@@ -252,10 +252,12 @@ export default function SentenceArrangement({
           await new Promise(res => setTimeout(res, 500));
           decrementLives();
           resetCurrentAnswer();
-          setParts(sentenceArrangementData.parts);
+          setParts(SentenceRearrangementData.parts);
           // Reset color indices
           setColorIndices(
-            sentenceArrangementData.parts.map((_: any, idx: number) => idx % 2),
+            SentenceRearrangementData.parts.map(
+              (_: any, idx: number) => idx % 2,
+            ),
           );
           setAnswerColorIndices([]);
           setIsCorrect(null);

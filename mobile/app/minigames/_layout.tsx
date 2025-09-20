@@ -9,7 +9,7 @@ export default function MinigamesLayout() {
       <Stack.Screen name="wordsfromletters" />
       <Stack.Screen name="Choices" />
       <Stack.Screen name="fillintheblanks" />
-      <Stack.Screen name="sentencearrangement" />
+      <Stack.Screen name="SentenceRearrangement" />
     </Stack>
   );
 }

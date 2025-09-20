@@ -1,22 +1,33 @@
 import ChoicesBubble from '@/app/(minigames)/choices';
-import SentenceArrangementBubble from '@/app/(minigames)/sentencearrangement';
+import SentenceRearrangementBubble from '@/app/(minigames)/sentenceraarrangement';
 import ReadContentHeader from '@/components/ReadContentHeader';
 import ChatBubble from '@/components/Reading/ChatBubble';
 import { Button } from '@/components/ui/button';
 import { useDictionary } from '@/services/DictionaryService';
 import { useReadingContentStore } from '@/stores/readingContentStore';
-import { arrange, bubble, choice } from '@/types/bubble';
+import { bubble } from '@/types/bubble';
 import { MessageTypeEnum, personEnum } from '@/types/enum';
 import { makeBubble } from '@/utils/makeBubble';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ScrollView, useWindowDimensions, View } from 'react-native';
+import {
+  BackHandler,
+  ScrollView,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Message } from '@/types/message';
 import { Minigame } from '@/models/Minigame';
 import { useThrottle } from '@/hooks/utils/useThrottle';
-import { useRandomMinigamesByMaterial } from '@/hooks';
+import {
+  useCreateReadingSession,
+  useRandomMinigamesByMaterial,
+  useUpdateReadingSession,
+} from '@/hooks';
 import { useWordsFromLettersMiniGameStore } from '@/stores/miniGameStore';
+import { useReadingSessionStore } from '@/stores/readingSessionStore';
+import { ReadingSession } from '@/models/ReadingSession';
 
 const iconMap: Record<string, any> = {
   Story: require('@/assets/images/storyIcons/narrator.png'),
@@ -37,7 +48,6 @@ function minigameProvider(
 ) {
   // 1 = choices, 0 = arrangement
   const minigame = minigames[minigameCount];
-  const metadata = JSON.parse(minigame.metadata);
 
   // CHOICES
   if (minigame.minigame_type === 1) {
@@ -58,13 +68,14 @@ function minigameProvider(
 }
 
 const Read = () => {
-  const [messages, setMessages] = useState<Array<Message>>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [chunkIndex, setChunkIndex] = useState(0);
   const [word, setWord] = useState<string | null>(null);
   const { data, isLoading: isDictionaryLoading } = useDictionary(word || '');
   const bubbleCount = useRef(0);
   const minigameCount = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
+  const readingSession = useRef<ReadingSession>(null);
   const { height: screenHeight } = useWindowDimensions();
   const selectedContent = useReadingContentStore(
     state => state.selectedContent,
@@ -72,7 +83,60 @@ const Read = () => {
   const [isFinished, setIsFinished] = useState(false);
   const { data: minigames, isLoading: isMinigameLoading } =
     useRandomMinigamesByMaterial(selectedContent?.id);
+  const { mutateAsync: createReadingSession } = useCreateReadingSession();
+  const { mutateAsync: updateReadingSession } = useUpdateReadingSession();
   const { setWords, setLetters } = useWordsFromLettersMiniGameStore();
+  const setCurrentSession = useReadingSessionStore(
+    state => state.setCurrentSession,
+  );
+  const getPastSession = useReadingSessionStore(state => state.getPastSession);
+  const updateReadingSessionProgress = useReadingSessionStore(
+    state => state.updateReadingSessionProgress,
+  );
+  const addSession = useReadingSessionStore(state => state.addSession);
+
+  const onBackPress = () => {
+    if (readingSession.current?.id) {
+      updateReadingSessionProgress(readingSession.current?.id, chunkIndex);
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    const initSession = async () => {
+      const pastSession = await getPastSession(selectedContent.id);
+      console.log('Past Session:', pastSession);
+      let currentSession = pastSession;
+      if (!pastSession) {
+        console.log('Creating new reading session');
+        const newReadingSession = await createReadingSession({
+          reading_material_id: selectedContent?.id,
+        });
+        await addSession(newReadingSession);
+        await setCurrentSession(newReadingSession);
+
+        currentSession = newReadingSession;
+      } else {
+        await setCurrentSession(pastSession);
+        setMessages(parsedBubbles.slice(0, pastSession.completion_percentage));
+        setChunkIndex(pastSession.completion_percentage);
+      }
+
+      readingSession.current = currentSession;
+      console.log('current session', readingSession.current);
+    };
+
+    initSession();
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      onBackPress,
+    );
+
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
 
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: false });
@@ -81,9 +145,6 @@ const Read = () => {
   // parse each chunk into (chat/story) bubble type with props
   const parsedBubbles = useMemo<Message[]>(() => {
     if (!selectedContent?.content || !minigames) return [];
-
-    // setWords(words);
-    // setLetters(letters);
 
     return selectedContent.content
       .split(/(?=\[\w*\])|(?=\$[A-Z]+\$)/g)
@@ -123,7 +184,7 @@ const Read = () => {
       setWords(words);
       setLetters(letters);
     }
-  }, [minigames]);
+  }, [minigames, readingSession]);
 
   // Word definition bubble
   useEffect(() => {
@@ -161,7 +222,7 @@ const Read = () => {
       setChunkIndex(prev => prev + 1);
     }
 
-    if (chunkIndex == parsedBubbles.length) {
+    if (chunkIndex === parsedBubbles.length) {
       setIsFinished(true);
     }
   });
@@ -210,7 +271,7 @@ const Read = () => {
     <View className="flex-1 bg-lightGray">
       <ReadContentHeader
         title={selectedContent?.title!}
-        handleBack={() => router.back()}
+        handleBack={onBackPress}
         background="white"
       />
 
@@ -258,7 +319,7 @@ const Read = () => {
                     : msg.type === MessageTypeEnum.ARRANGE
                       ? (() => {
                           return (
-                            <SentenceArrangementBubble
+                            <SentenceRearrangementBubble
                               minigame={msg.payload}
                               onPress={addStoryMessage}
                             />

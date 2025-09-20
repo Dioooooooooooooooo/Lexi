@@ -5,15 +5,15 @@ import React, {
   memo,
   useEffect,
   useRef,
-} from "react";
-import cheerio from "react-native-cheerio";
-import RenderHtml from "react-native-render-html";
-import Tts from "react-native-tts";
-import axios from "axios";
-import { useReadingContentStore } from "@/stores/readingContentStore";
+} from 'react';
+// import cheerio from "react-native-cheerio";
+import RenderHtml from 'react-native-render-html';
+import Tts from 'react-native-tts';
+import axios from 'axios';
+import { useReadingContentStore } from '@/stores/readingContentStore';
 
-import { useDefinitionStore } from "@/stores/definitionStore";
-import { useTranslationStore } from "@/stores/translationStore";
+import { useDefinitionStore } from '@/stores/definitionStore';
+import { useTranslationStore } from '@/stores/translationStore';
 
 //Components
 import {
@@ -25,31 +25,31 @@ import {
   ScrollView,
   ActivityIndicator,
   BackHandler,
-} from "react-native";
-import { FlashList } from "@shopify/flash-list";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Input } from "~/components/ui/input";
-import { faVolumeUp } from "@fortawesome/free-solid-svg-icons";
-import { Check } from "lucide-react-native";
+} from 'react-native';
+import { FlashList } from '@shopify/flash-list';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { Input } from '~/components/ui/input';
+import { faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { Check } from 'lucide-react-native';
 
-import { useReadingSessionStore } from "@/stores/readingSessionStore";
+import { useReadingSessionStore } from '@/stores/readingSessionStore';
 import {
   useCreateReadingSession,
   useUpdateReadingSession,
-} from "@/services/ReadingSessionService";
-import { ReadingSession } from "@/models/ReadingSession";
-import { router } from "expo-router";
-import { useUserStore } from "@/stores/userStore";
-import ReadContentHeader from "@/components/ReadContentHeader";
-import LoadingScreen from "@/components/LoadingScreen";
-import LoadingScreenForm from "@/components/LoadingScreenForm";
+} from '@/services/ReadingSessionService';
+import { ReadingSession } from '@/models/ReadingSession';
+import { router } from 'expo-router';
+import { useUserStore } from '@/stores/userStore';
+import ReadContentHeader from '@/components/ReadContentHeader';
+import LoadingScreen from '@/components/LoadingScreen';
+import LoadingScreenForm from '@/components/LoadingScreenForm';
 
 export default function Read() {
   const { width } = useWindowDimensions();
   const selectedContent = useReadingContentStore(
-    (state) => state.selectedContent
+    state => state.selectedContent,
   );
-  const fontSize = useReadingContentStore((state) => state.fontSize);
+  const fontSize = useReadingContentStore(state => state.fontSize);
 
   const scrollPercentageRef = useRef(0);
   const lastOffsetY = useRef(0);
@@ -61,35 +61,31 @@ export default function Read() {
   const [visibleHeight, setVisibleHeight] = useState(0);
   const [isScrollEndReached, setScrollEndReached] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
-  const [selectedWord, setSelectedWord] = useState("");
+  const [selectedWord, setSelectedWord] = useState('');
   const [isDefinitionLoading, setIsDefinitionLoading] = useState(false);
   const [definitionVisible, setDefinitionVisible] = useState(false);
-  const [html, setHtml] = useState("");
-  const [translation, setTranslation] = useState("");
+  const [html, setHtml] = useState('');
+  const [translation, setTranslation] = useState('');
   const [isContentReady, setIsContentReady] = useState(false);
 
-  const getDefinition = useDefinitionStore((state) => state.getDefinition);
-  const storeDefinition = useDefinitionStore((state) => state.storeDefinition);
+  const getDefinition = useDefinitionStore(state => state.getDefinition);
+  const storeDefinition = useDefinitionStore(state => state.storeDefinition);
 
-  const getTranslation = useTranslationStore((state) => state.getTranslation);
-  const storeTranslation = useTranslationStore(
-    (state) => state.storeTranslation
-  );
+  const getTranslation = useTranslationStore(state => state.getTranslation);
+  const storeTranslation = useTranslationStore(state => state.storeTranslation);
 
   const setCurrentSession = useReadingSessionStore(
-    (state) => state.setCurrentSession
+    state => state.setCurrentSession,
   );
-  const getPastSession = useReadingSessionStore(
-    (state) => state.getPastSession
-  );
+  const getPastSession = useReadingSessionStore(state => state.getPastSession);
   const updateReadingSessionProgress = useReadingSessionStore(
-    (state) => state.updateReadingSessionProgress
+    state => state.updateReadingSessionProgress,
   );
 
   const { mutateAsync: createReadingSession } = useCreateReadingSession();
   const { mutateAsync: updateReadingSession } = useUpdateReadingSession();
 
-  const userRole = useUserStore((state) => state.user?.role);
+  const userRole = useUserStore(state => state.user?.role);
 
   if (!selectedContent) {
     return null;
@@ -101,7 +97,7 @@ export default function Read() {
 
   useEffect(() => {
     if (!isContentReady) return;
-    if (userRole === "Teacher") return;
+    if (userRole === 'Teacher') return;
 
     const initSession = async () => {
       let pastSession = getPastSession(selectedContent.id);
@@ -122,8 +118,8 @@ export default function Read() {
     };
 
     const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
+      'hardwareBackPress',
+      backAction,
     );
 
     return () => {
@@ -134,7 +130,7 @@ export default function Read() {
   const handleBack = () => {
     updateReadingSessionProgress(
       currentSessionRef.current!!.id,
-      scrollPercentageRef.current
+      scrollPercentageRef.current,
     );
     setCurrentSession(null);
   };
@@ -148,37 +144,37 @@ export default function Read() {
 
     try {
       const formData = new URLSearchParams();
-      formData.append("from", "en_US");
-      formData.append("to", "ceb_PH");
-      formData.append("text", word);
-      formData.append("platform", "dp");
+      formData.append('from', 'en_US');
+      formData.append('to', 'ceb_PH');
+      formData.append('text', word);
+      formData.append('platform', 'dp');
 
       const { data } = await axios.post(
-        "https://corsproxy.io/?url=https://lingvanex.com/translation/translate",
+        'https://corsproxy.io/?url=https://lingvanex.com/translation/translate',
         formData,
         {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
-        }
+        },
       );
       storeTranslation(word, data.result);
       setTranslation(data.result);
     } catch (error) {
-      console.error("Translation error:", error);
-      setTranslation("Translation failed");
+      console.error('Translation error:', error);
+      setTranslation('Translation failed');
     }
   };
 
   const fetchDefinition = useCallback(async (word: string) => {
     try {
       const { data } = await axios.get(
-        `https://corsproxy.io/?url=https://googledictionary.freecollocation.com/meaning?word=${word}`
+        `https://corsproxy.io/?url=https://googledictionary.freecollocation.com/meaning?word=${word}`,
       );
       console.log(data);
       return data;
     } catch (error) {
-      console.error("Definition error:", error);
+      console.error('Definition error:', error);
       return null;
     }
   }, []);
@@ -187,7 +183,7 @@ export default function Read() {
     async (word: string) => {
       if (!word.trim()) return;
 
-      setTranslation("");
+      setTranslation('');
       let definition = getDefinition(word);
       if (definition !== undefined) {
         setHtml(definition);
@@ -213,10 +209,10 @@ export default function Read() {
 
         const $ = cheerio.load(data);
         $('script, style, link[rel="stylesheet"]').remove();
-        $("#smaller").closest("div").remove();
-        $("img.forEmbed").remove();
+        $('#smaller').closest('div').remove();
+        $('img.forEmbed').remove();
 
-        const html = $("#forEmbed").html();
+        const html = $('#forEmbed').html();
         if (html === null) {
           const notFoundHtml = `
           <div style="text-align: center; padding: 20px;">
@@ -232,7 +228,7 @@ export default function Read() {
         }
       } catch (error) {
         if (!axios.isCancel(error)) {
-          console.error("Error:", error);
+          console.error('Error:', error);
           const errorHtml = `
           <div style="text-align: center; padding: 20px;">
             <p style="font-size: 18px; color: #888;">❌ Error loading definition</p>
@@ -244,17 +240,17 @@ export default function Read() {
         setIsDefinitionLoading(false);
       }
     },
-    [fetchDefinition, getDefinition, storeDefinition]
+    [fetchDefinition, getDefinition, storeDefinition],
   );
 
   const handleWordPress = useCallback(
     (word: string) => {
-      const cleanedWord = word.replace(/[^\w\s]/gi, "");
+      const cleanedWord = word.replace(/[^\w\s]/gi, '');
       setSelectedWord(cleanedWord);
       setDefinitionVisible(true);
       handleDisplayDefinition(cleanedWord);
     },
-    [handleDisplayDefinition]
+    [handleDisplayDefinition],
   );
 
   const handlePronounce = useCallback(() => {
@@ -264,16 +260,16 @@ export default function Read() {
   }, [selectedWord]);
 
   const paragraphs = useMemo(() => {
-    if (!selectedContent || typeof selectedContent.content !== "string")
+    if (!selectedContent || typeof selectedContent.content !== 'string')
       return [];
     return selectedContent.content
-      .split("\n\n")
-      .filter((paragraph) => paragraph.trim().length > 0);
+      .split('\n\n')
+      .filter(paragraph => paragraph.trim().length > 0);
   }, [selectedContent]);
 
   const processedParagraphs = useMemo(() => {
-    return paragraphs.map((paragraph) => ({
-      words: paragraph.split(" ").filter((word) => word.trim().length > 0),
+    return paragraphs.map(paragraph => ({
+      words: paragraph.split(' ').filter(word => word.trim().length > 0),
     }));
   }, [paragraphs]);
 
@@ -294,14 +290,14 @@ export default function Read() {
           ))}
         </View>
       );
-    }
+    },
   );
 
   const renderParagraph = useCallback(
     ({ item }: { item: any }) => (
       <ParagraphItem words={item.words} fontSize={fontSize} />
     ),
-    [fontSize]
+    [fontSize],
   );
 
   const estimatedItemSize = useMemo(() => {
@@ -365,9 +361,9 @@ export default function Read() {
   }, [isContentReady, onCheckpoint, contentHeight, visibleHeight]);
 
   const handleFinishReadingSession = async () => {
-    if (userRole === "Teacher") {
+    if (userRole === 'Teacher') {
       router.replace({
-        pathname: "/minigames/play",
+        pathname: '/minigames/play',
       });
     }
 
@@ -381,7 +377,7 @@ export default function Read() {
     updateReadingSession(updatedSession);
 
     router.replace({
-      pathname: "/minigames/play",
+      pathname: '/minigames/play',
     });
   };
 
@@ -415,7 +411,7 @@ export default function Read() {
           onScroll={handleScroll}
           scrollEventThrottle={16}
           removeClippedSubviews={true}
-          onLayout={(e) => {
+          onLayout={e => {
             const height = e.nativeEvent.layout.height;
             setVisibleHeight(height);
 
@@ -431,7 +427,7 @@ export default function Read() {
               setScrollEndReached(true);
             }
           }}
-          onLoad={(elapsedTimeInMs) => {
+          onLoad={elapsedTimeInMs => {
             setIsContentReady(true);
           }}
         />
