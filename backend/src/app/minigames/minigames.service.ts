@@ -1,4 +1,10 @@
-import { ClassSerializerInterceptor, Inject, Injectable, NotFoundException, UseInterceptors } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Inject,
+  Injectable,
+  NotFoundException,
+  UseInterceptors,
+} from '@nestjs/common';
 
 import { Kysely, sql } from 'kysely';
 import {
@@ -215,13 +221,48 @@ export class MinigamesService {
     const randomMinigames = await this.db
       .selectFrom('public.minigames as m')
       .where('m.reading_material_id', '=', readingMaterialID)
-      .distinctOn('part_num')
       .selectAll('m')
-      .orderBy(({ ref }) => ref('m.part_num'))
-      .orderBy(sql`random()`)
+      .orderBy('m.part_num')
       .execute();
 
-    return randomMinigames;
+    return this.pickMinigamesNoConsecutiveSameType(randomMinigames);
+  }
+
+  pickMinigamesNoConsecutiveSameType(allMinigames: Minigame[]): Minigame[] {
+    // group by part_num
+    const grouped: Record<number, Minigame[]> = {};
+    for (const m of allMinigames) {
+      if (!grouped[m.part_num]) grouped[m.part_num] = [];
+      grouped[m.part_num].push(m);
+    }
+
+    const result: Minigame[] = [];
+    let prevType: number | null;
+
+    const partNums = Object.keys(grouped)
+      .map(Number)
+      .sort((a, b) => a - b);
+
+    for (const part of partNums) {
+      const options = grouped[part];
+
+      // Filter out same-type as previous part
+      let candidates = options.filter(o => o.minigame_type !== prevType);
+
+      // If no candidates left, fallback to full set
+      if (candidates.length === 0) {
+        candidates = options;
+      }
+
+      // Random pick
+      const choice = candidates[Math.floor(Math.random() * candidates.length)];
+      result.push(choice);
+
+      // Update prevType
+      prevType = choice.minigame_type;
+    }
+
+    return result;
   }
 
   async getWordsFromLettersMinigame(

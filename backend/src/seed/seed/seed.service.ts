@@ -126,7 +126,7 @@ export class SeedService {
 
       let choices = [];
       if (material.minigames.Choices) {
-        const choices = this.CreateMinigamesList(
+        choices = this.CreateMinigamesList(
           material.minigames.Choices,
           MinigameType.Choices,
           readingMatId,
