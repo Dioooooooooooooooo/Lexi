@@ -1,19 +1,19 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { CreateReadingSessionDto } from "./dto/create-reading-session.dto";
-import { UpdateReadingSessionDto } from "./dto/update-reading-session.dto";
-import { Kysely } from "kysely";
-import { DB } from "@/database/db";
-import { JwtAccessTokenPayload } from "@/common/types/jwt.types";
-import { getCurrentRequest } from "@/common/utils/request-context";
-import { NewReadingSession } from "@/database/schemas";
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { CreateReadingSessionDto } from './dto/create-reading-session.dto';
+import { UpdateReadingSessionDto } from './dto/update-reading-session.dto';
+import { Kysely } from 'kysely';
+import { DB } from '@/database/db';
+import { JwtAccessTokenPayload } from '@/common/types/jwt.types';
+import { getCurrentRequest } from '@/common/utils/request-context';
+import { NewReadingSession } from '@/database/schemas';
 
 @Injectable()
 export class ReadingSessionsService {
-  constructor(@Inject("DATABASE") private readonly db: Kysely<DB>) {}
+  constructor(@Inject('DATABASE') private readonly db: Kysely<DB>) {}
 
   async create(createReadingSessionDto: CreateReadingSessionDto) {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
 
     const newReadingSession: NewReadingSession = {
       ...createReadingSessionDto,
@@ -22,7 +22,7 @@ export class ReadingSessionsService {
     };
 
     return await this.db
-      .insertInto("public.reading_sessions")
+      .insertInto('public.reading_sessions')
       .values(newReadingSession)
       .returningAll()
       .executeTakeFirst();
@@ -30,36 +30,54 @@ export class ReadingSessionsService {
 
   async findAll() {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
     return await this.db
-      .selectFrom("public.reading_sessions")
-      .where("pupil_id", "=", user.pupil.id)
+      .selectFrom('public.reading_sessions')
+      .where('pupil_id', '=', user.pupil.id)
       .selectAll()
       .execute();
   }
 
   async findOne(id: string) {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
-    return await this.db
-      .selectFrom("public.reading_sessions")
-      .where("pupil_id", "=", user.pupil.id)
-      .where("id", "=", id)
+    const user: JwtAccessTokenPayload = req['user'];
+    const readingSession = await this.db
+      .selectFrom('public.reading_sessions as rs')
       .selectAll()
+      .where('rs.pupil_id', '=', user.pupil.id)
+      .where('rs.id', '=', id)
+      .groupBy('rs.id')
       .executeTakeFirstOrThrow(
         () => new NotFoundException(`Reading session with id ${id} not found`),
       );
+
+    const logs = await this.db
+      .selectFrom('public.minigame_logs as ml')
+      .where('ml.reading_session_id', '=', id)
+      .select(['id', 'minigame_id', 'result'])
+      .execute();
+
+    const minigameIds = logs.map(l => l.minigame_id);
+
+    const minigames = await this.db
+      .selectFrom('public.minigames')
+      .where('id', 'in', minigameIds)
+      .orderBy('part_num')
+      .selectAll()
+      .execute();
+
+    return { ...readingSession, minigame_logs: logs, minigames: minigames };
   }
 
   async update(id: string, updateReadingSessionDto: UpdateReadingSessionDto) {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
 
     return await this.db
-      .updateTable("public.reading_sessions")
+      .updateTable('public.reading_sessions')
       .set(updateReadingSessionDto)
-      .where("id", "=", id)
-      .where("pupil_id", "=", user.pupil.id)
+      .where('id', '=', id)
+      .where('pupil_id', '=', user.pupil.id)
       .returningAll()
       .executeTakeFirstOrThrow(
         () => new NotFoundException(`Reading session with id ${id} not found`),
@@ -68,12 +86,12 @@ export class ReadingSessionsService {
 
   async remove(id: string) {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
 
     return await this.db
-      .deleteFrom("public.reading_sessions")
-      .where("id", "=", id)
-      .where("pupil_id", "=", user.pupil.id)
+      .deleteFrom('public.reading_sessions')
+      .where('id', '=', id)
+      .where('pupil_id', '=', user.pupil.id)
       .returningAll()
       .executeTakeFirstOrThrow(
         () => new NotFoundException(`Reading session with id ${id} not found`),
