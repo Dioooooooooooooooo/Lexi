@@ -6,10 +6,14 @@ import { DB } from '@/database/db';
 import { JwtAccessTokenPayload } from '@/common/types/jwt.types';
 import { getCurrentRequest } from '@/common/utils/request-context';
 import { NewReadingSession } from '@/database/schemas';
+import { MinigamesService } from '../minigames/minigames.service';
 
 @Injectable()
 export class ReadingSessionsService {
-  constructor(@Inject('DATABASE') private readonly db: Kysely<DB>) {}
+  constructor(
+    @Inject('DATABASE') private readonly db: Kysely<DB>,
+    private readonly minigamesService: MinigamesService,
+  ) {}
 
   async create(createReadingSessionDto: CreateReadingSessionDto) {
     const req = getCurrentRequest();
@@ -21,11 +25,17 @@ export class ReadingSessionsService {
       started_at: new Date(),
     };
 
-    return await this.db
+    const readingSession = await this.db
       .insertInto('public.reading_sessions')
       .values(newReadingSession)
       .returningAll()
       .executeTakeFirst();
+
+    const minigames = await this.minigamesService.getRandomMinigamesBySessionID(
+      readingSession.id,
+    );
+
+    return { ...readingSession, minigames: minigames };
   }
 
   async findAll() {
