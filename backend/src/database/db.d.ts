@@ -3,12 +3,13 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from 'kysely';
+import type { ColumnType } from "kysely";
 
-export type Generated<T> =
-  T extends ColumnType<infer S, infer I, infer U>
-    ? ColumnType<S, I | undefined, U>
-    : ColumnType<T, T | undefined, T>;
+export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
+  ? ColumnType<S, I | undefined, U>
+  : ColumnType<T, T | undefined, T>;
+
+export type Int8 = ColumnType<string, bigint | number | string, bigint | number | string>;
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
@@ -147,6 +148,19 @@ export interface Classrooms {
   updated_at: Timestamp | null;
 }
 
+export interface ClassroomView {
+  created_at: Timestamp | null;
+  description: string | null;
+  id: string | null;
+  join_code: string | null;
+  name: string | null;
+  pupil_count: Int8 | null;
+  teacher_first_name: string | null;
+  teacher_id: string | null;
+  teacher_last_name: string | null;
+  updated_at: Timestamp | null;
+}
+
 export interface Genres {
   created_at: Generated<Timestamp | null>;
   id: Generated<string>;
@@ -159,7 +173,7 @@ export interface MinigameLogs {
   minigame_id: string | null;
   pupil_id: string | null;
   reading_session_id: string | null;
-  result: number | null;
+  result: string | null;
 }
 
 export interface Minigames {
@@ -236,7 +250,6 @@ export interface Teachers {
 export interface DB {
   'auth.auth_providers': AuthAuthProviders;
   'auth.email_verification_tokens': AuthEmailVerificationTokens;
-  'auth.login_logs': AuthLoginLogs;
   'auth.login_streaks': AuthLoginStreaks;
   'auth.password_reset_tokens': AuthPasswordResetTokens;
   'auth.permissions': AuthPermissions;
@@ -247,53 +260,30 @@ export interface DB {
   'auth.user_roles': AuthUserRoles;
   'auth.users': AuthUsers;
 
-  'public.classroom_enrollment': ClassroomEnrollment;
-  'public.classrooms': Classrooms;
-  'public.genres': Genres;
-  'public.minigame_logs': MinigameLogs;
-  'public.minigames': Minigames;
-  'public.pupil_achievements': PupilAchievements;
-  'public.pupil_leaderboard': PupilLeaderboard;
-  'public.pupils': Pupils;
-  'public.reading_material_genres': ReadingMaterialGenres;
-  'public.reading_materials': ReadingMaterials;
-  'public.reading_sessions': ReadingSessions;
-  'public.teachers': Teachers;
-  'public.achievements': Achievements;
-  'public.activities': Activities;
-  'public.pupil_achievements': PupilAchievements;
-}
-
-export interface ActivityLogs {
-  id: Generated<string>;
-  activity_id: string | null;
-  minigame_log_id: string | null;
-  completed_at: Timestamp | null;
-}
-
-export interface DB {
-  'auth.auth_providers': AuthAuthProviders;
-  'auth.email_verification_tokens': AuthEmailVerificationTokens;
-  'auth.login_streaks': AuthLoginStreaks;
-  'auth.sessions': AuthSessions;
-  'auth.password_reset_tokens': AuthPasswordResetTokens;
-  'auth.permissions': AuthPermissions;
-  'auth.refresh_tokens': AuthRefreshTokens;
-  'auth.role_permissions': AuthRolePermissions;
-  'auth.roles': AuthRoles;
-  'auth.user_roles': AuthUserRoles;
-  'auth.users': AuthUsers;
-  'public.classrooms': Classrooms;
-  'public.genres': Genres;
-  'public.minigame_logs': MinigameLogs;
-  'public.minigames': Minigames;
-  'public.pupil_leaderboard': PupilLeaderboard;
-  'public.pupils': Pupils;
-  'public.reading_material_genres': ReadingMaterialGenres;
-  'public.reading_materials': ReadingMaterials;
-  'public.reading_sessions': ReadingSessions;
-  'public.teachers': Teachers;
   'public.achievements': Achievements;
   'public.activities': Activities;
   'public.activity_logs': ActivityLogs;
+  'public.classroom_enrollment': ClassroomEnrollment;
+  'public.classroom_view': ClassroomView;
+  'public.classrooms': Classrooms;
+  'public.genres': Genres;
+  'public.minigame_logs': MinigameLogs;
+  'public.minigames': Minigames;
+  'public.pupil_achievements': PupilAchievements;
+  'public.pupil_leaderboard': PupilLeaderboard;
+  'public.pupils': Pupils;
+  'public.reading_material_genres': ReadingMaterialGenres;
+  'public.reading_materials': ReadingMaterials;
+  'public.reading_sessions': ReadingSessions;
+  'public.teachers': Teachers;
 }
+
+
+
+
+
+
+
+
+
+

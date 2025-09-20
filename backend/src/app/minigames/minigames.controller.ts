@@ -27,7 +27,7 @@ import { SuccessResponseDto } from '@/common/dto';
 import { CompleteReadingSessionDto } from './dto/complete-reading-session.dto';
 import { RolesGuard } from '../auth/role-guard';
 import { Roles } from '@/decorators/roles.decorator';
-import { Min } from 'class-validator';
+import { UpdateMinigameLogDto } from './dto/update-minigame-log.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -129,6 +129,156 @@ export class MinigamesController {
     };
   }
 
+  @Get('logs/:readingSessionID')
+  @ApiOperation({ summary: 'Get minigame logs for session id' })
+  @ApiResponse({
+    status: 200,
+    description: 'Minigame logs successfully fetched.',
+    type: SuccessResponseDto<MinigameLog[]>,
+  })
+  async findMinigamelogsByReadingSessionID(
+    @Param('readingSessionID') readingSessionId: string,
+  ): Promise<SuccessResponseDto<MinigameLog[]>> {
+    const minigameLogs =
+      await this.minigamesService.getLogsByReadingSessionID(readingSessionId);
+    return {
+      message: 'Minigame logs for reading session successfully fetched.',
+      data: minigameLogs,
+    };
+  }
+
+  @Post('logs/SentenceRearrangement')
+  @ApiOperation({
+    summary: 'Create a log for SentenceRearrangement minigame',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Sentence Rearrangement Log created successfully',
+    type: SuccessResponseDto<MinigameLog>,
+  })
+  async createSentenceRearrangementLog(
+    @Body() minigameLogDto: CreateMinigameLogDto,
+  ): Promise<SuccessResponseDto<MinigameLog>> {
+    const minigamelog = await this.minigamesService.createMinigameLog(
+      MinigameType.SentenceRearrangement,
+      minigameLogDto,
+    );
+
+    return {
+      message: 'Sentence Rearrangement Log successfully created.',
+      data: minigamelog,
+    };
+  }
+
+  @Patch('logs/SentenceRearrangement')
+  @ApiOperation({ summary: 'Update log for SentenceRearrangement' })
+  @ApiResponse({
+    status: 200,
+    description: 'Sentence Rearrangement Log updated successfully.',
+    type: SuccessResponseDto<MinigameLog>,
+  })
+  async updateSentenceRearrangementLog(
+    @Body() minigameLogDto: UpdateMinigameLogDto,
+  ): Promise<SuccessResponseDto<MinigameLog>> {
+    const minigamelog = await this.minigamesService.updateMinigameLog(
+      MinigameType.SentenceRearrangement,
+      minigameLogDto,
+    );
+
+    return {
+      message: 'Sentence Rearrangement Log updated successfully.',
+      data: minigamelog,
+    };
+  }
+
+  @Post('logs/Choices')
+  @ApiOperation({
+    summary: 'Create a log for Choices minigame',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Choices log created successfully',
+    type: SuccessResponseDto<MinigameLog>,
+  })
+  async createChoicesLog(
+    @Body() minigameLogDto: CreateMinigameLogDto,
+  ): Promise<SuccessResponseDto<MinigameLog>> {
+    const minigamelog = await this.minigamesService.createMinigameLog(
+      MinigameType.Choices,
+      minigameLogDto,
+    );
+
+    return {
+      message: 'Choices log successfully created.',
+      data: minigamelog,
+    };
+  }
+
+  @Patch('logs/Choices')
+  @ApiOperation({ summary: 'Update log for Choices' })
+  @ApiResponse({
+    status: 200,
+    description: 'Choices Log updated successfully.',
+    type: SuccessResponseDto<MinigameLog>,
+  })
+  async updateChoicesLog(
+    @Body() minigameLogDto: UpdateMinigameLogDto,
+  ): Promise<SuccessResponseDto<MinigameLog>> {
+    const minigamelog = await this.minigamesService.updateMinigameLog(
+      MinigameType.Choices,
+      minigameLogDto,
+    );
+
+    return {
+      message: 'Choices Log updated successfully.',
+      data: minigamelog,
+    };
+  }
+
+  @Post('logs/WordsFromLetters')
+  @ApiOperation({
+    summary: 'Create a log for WordsFromLetters minigame',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Words From Letters log created successfully',
+    type: SuccessResponseDto<MinigameLog>,
+  })
+  async createWordsFromLettersLog(
+    @Body() minigameLogDto: CreateMinigameLogDto,
+  ): Promise<SuccessResponseDto<MinigameLog>> {
+    const minigamelog = await this.minigamesService.createMinigameLog(
+      MinigameType.WordsFromLetters,
+      minigameLogDto,
+    );
+
+    return {
+      message: 'Words From Letters log successfully created.',
+      data: minigamelog,
+    };
+  }
+
+  @Patch('logs/WordsFromLetters')
+  @ApiOperation({ summary: 'Update log for WordsFromLetters' })
+  @ApiResponse({
+    status: 200,
+    description: 'WordsFromLetters Log updated successfully.',
+    type: SuccessResponseDto<MinigameLog>,
+  })
+  async updateWordsFromLettersLog(
+    @Body() minigameLogDto: UpdateMinigameLogDto,
+  ): Promise<SuccessResponseDto<MinigameLog>> {
+    const minigamelog = await this.minigamesService.updateMinigameLog(
+      MinigameType.WordsFromLetters,
+      minigameLogDto,
+    );
+
+    return {
+      message: 'WordsFromLetters Log updated successfully.',
+      data: minigamelog,
+    };
+  }
+
   @Get(':readingSessionID/random')
   @ApiOperation({
     summary: 'Get 3 random minigames for a specific reading session',
@@ -199,75 +349,6 @@ export class MinigamesController {
     return {
       message: 'Reading session successfully completed.',
       data: sessionComplete,
-    };
-  }
-
-  @Post('logs/SentenceRearrangement')
-  @ApiOperation({
-    summary: 'Create a log for SentenceRearrangement minigame',
-  })
-  @ApiResponse({
-    status: 201,
-    description: 'Sentence Rearrangement Log created successfully',
-    type: SuccessResponseDto<MinigameLog>,
-  })
-  async createSentenceRearrangementLog(
-    @Body() minigameLogDto: CreateMinigameLogDto,
-  ): Promise<SuccessResponseDto<MinigameLog>> {
-    const minigamelog = await this.minigamesService.createMinigameLog(
-      MinigameType.SentenceRearrangement,
-      minigameLogDto,
-    );
-
-    return {
-      message: 'Sentence Rearrangement Log successfully created.',
-      data: minigamelog,
-    };
-  }
-
-  @Post('logs/Choices')
-  @ApiOperation({
-    summary: 'Create a log for Choices minigame',
-  })
-  @ApiResponse({
-    status: 201,
-    description: 'Choices log created successfully',
-    type: SuccessResponseDto<MinigameLog>,
-  })
-  async createChoicesLog(
-    @Body() minigameLogDto: CreateMinigameLogDto,
-  ): Promise<SuccessResponseDto<MinigameLog>> {
-    const minigamelog = await this.minigamesService.createMinigameLog(
-      MinigameType.Choices,
-      minigameLogDto,
-    );
-
-    return {
-      message: 'Choices log successfully created.',
-      data: minigamelog,
-    };
-  }
-
-  @Post('logs/WordsFromLetters')
-  @ApiOperation({
-    summary: 'Create a log for WordsFromLetters minigame',
-  })
-  @ApiResponse({
-    status: 201,
-    description: 'Words From Letters log created successfully',
-    type: SuccessResponseDto<MinigameLog>,
-  })
-  async createWordsFromLettersLog(
-    @Body() minigameLogDto: CreateMinigameLogDto,
-  ): Promise<SuccessResponseDto<MinigameLog>> {
-    const minigamelog = await this.minigamesService.createMinigameLog(
-      MinigameType.WordsFromLetters,
-      minigameLogDto,
-    );
-
-    return {
-      message: 'Words From Letters log successfully created.',
-      data: minigamelog,
     };
   }
 }
