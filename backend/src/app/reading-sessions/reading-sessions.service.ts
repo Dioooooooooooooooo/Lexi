@@ -57,7 +57,16 @@ export class ReadingSessionsService {
       .select(['id', 'minigame_id', 'result'])
       .execute();
 
-    return { ...readingSession, minigame_logs: logs };
+    const minigameIds = logs.map(l => l.minigame_id);
+
+    const minigames = await this.db
+      .selectFrom('public.minigames')
+      .where('id', 'in', minigameIds)
+      .orderBy('part_num')
+      .selectAll()
+      .execute();
+
+    return { ...readingSession, minigame_logs: logs, minigames: minigames };
   }
 
   async update(id: string, updateReadingSessionDto: UpdateReadingSessionDto) {

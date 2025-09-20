@@ -279,6 +279,29 @@ export class MinigamesController {
     };
   }
 
+  @Get('sessions/:readingSessionID')
+  @ApiOperation({
+    summary: 'Get saved minigames for a specific reading session',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Minigames fetched successfully',
+    type: SuccessResponseDto<Minigame[]>,
+  })
+  async findMinigamesBySessionID(
+    @Param('readingSessionID') readingSessionID: string,
+  ): Promise<SuccessResponseDto<Minigame[]>> {
+    const minigames =
+      await this.minigamesService.getAssignedMinigamesBySessionID(
+        readingSessionID,
+      );
+
+    return {
+      message: 'Minigames successfully fetched',
+      data: minigames,
+    };
+  }
+
   @Get(':readingSessionID/random')
   @ApiOperation({
     summary: 'Get 3 random minigames for a specific reading session',
@@ -288,7 +311,7 @@ export class MinigamesController {
     description: 'Minigames fetched successfully',
     type: SuccessResponseDto<Minigame[]>,
   })
-  async findMinigamesBySessionID(
+  async findRandomMinigamesBySessionID(
     @Param('readingSessionID') readingSessionID: string,
   ): Promise<SuccessResponseDto<Minigame[]>> {
     // Logic to fetch random minigames for a specific reading session

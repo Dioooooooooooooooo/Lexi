@@ -34,6 +34,23 @@ export class MinigamesService {
     private readonly readingMaterialService: ReadingMaterialsService,
   ) {}
 
+  async getAssignedMinigamesBySessionID(
+    readingSessionId: string,
+  ): Promise<Minigame[]> {
+    return await this.db
+      .selectFrom('public.minigames as m')
+      .leftJoin('public.minigame_logs as ml', 'ml.minigame_id', 'm.id')
+      .leftJoin(
+        'public.reading_sessions as rs',
+        'rs.id',
+        'ml.reading_session_id',
+      )
+      .where('rs.id', '=', readingSessionId)
+      .selectAll('m')
+      .orderBy('m.part_num')
+      .execute();
+  }
+
   async createMinigame(
     minigameType: MinigameType,
     request: CreateMinigameDto,
