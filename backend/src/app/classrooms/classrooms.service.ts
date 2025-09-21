@@ -3,21 +3,21 @@ import {
   Inject,
   Injectable,
   NotFoundException,
-} from "@nestjs/common";
-import { CreateClassroomDto } from "./dto/create-classroom.dto";
-import { UpdateClassroomDto } from "./dto/update-classroom.dto";
-import { JoinClassroomDto } from "./dto/join-classroom.dto";
-import { LeaveClassroomDto } from "./dto/leave-classroom.dto";
-import { JwtAccessTokenPayload } from "@/common/types/jwt.types";
-import { EnrollPupilDto, UnEnrollPupilDto } from "./dto/pupil-classroom.dto";
-import { Kysely } from "kysely";
-import { DB } from "@/database/db";
+} from '@nestjs/common';
+import { CreateClassroomDto } from './dto/create-classroom.dto';
+import { UpdateClassroomDto } from './dto/update-classroom.dto';
+import { JoinClassroomDto } from './dto/join-classroom.dto';
+import { LeaveClassroomDto } from './dto/leave-classroom.dto';
+import { JwtAccessTokenPayload } from '@/common/types/jwt.types';
+import { EnrollPupilDto, UnEnrollPupilDto } from './dto/pupil-classroom.dto';
+import { Kysely } from 'kysely';
+import { DB } from '@/database/db';
 import {
   Classroom,
   NewClassroom,
   NewClassroomEnrollment,
-} from "@/database/schemas";
-import { getCurrentRequest } from "@/common/utils/request-context";
+} from '@/database/schemas';
+import { getCurrentRequest } from '@/common/utils/request-context';
 
 @Injectable()
 export class ClassroomsService {
@@ -35,7 +35,7 @@ export class ClassroomsService {
     };
 
     const classroom = await this.db
-      .insertInto('public.classrooms')
+      .insertInto('public.classroom_view')
       .values(newClassroom)
       .returningAll()
       .executeTakeFirst();
@@ -53,7 +53,7 @@ export class ClassroomsService {
       });
 
     return await this.db
-      .insertInto("public.classroom_enrollment")
+      .insertInto('public.classroom_enrollment')
       .values(newClassroomEnrollment)
       .returningAll()
       .execute()
@@ -74,16 +74,16 @@ export class ClassroomsService {
 
   async unenroll(unEnrollPupilDto: UnEnrollPupilDto) {
     return await this.db
-      .deleteFrom("public.classroom_enrollment")
-      .where("pupil_id", "in", unEnrollPupilDto.pupil_ids)
-      .where("classroom_id", "=", unEnrollPupilDto.classroom_id)
+      .deleteFrom('public.classroom_enrollment')
+      .where('pupil_id', 'in', unEnrollPupilDto.pupil_ids)
+      .where('classroom_id', '=', unEnrollPupilDto.classroom_id)
       .returningAll()
       .execute();
   }
 
   async join(joinClassroomDto: JoinClassroomDto) {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
 
     const classroom = await this.findByCode(joinClassroomDto.code);
 
@@ -93,14 +93,14 @@ export class ClassroomsService {
     };
 
     await this.db
-      .insertInto("public.classroom_enrollment")
+      .insertInto('public.classroom_enrollment')
       .values(newClassroomEnrollment)
       .returningAll()
       .executeTakeFirstOrThrow()
       .catch(err => {
-        if (err.code === "23505") {
+        if (err.code === '23505') {
           throw new ConflictException(
-            "Pupil is already enrolled in this classroom",
+            'Pupil is already enrolled in this classroom',
           );
         }
         throw err;
@@ -109,12 +109,12 @@ export class ClassroomsService {
 
   async leave(leaveClassroomDto: LeaveClassroomDto) {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
 
     await this.db
-      .deleteFrom("public.classroom_enrollment")
-      .where("pupil_id", "=", user.pupil.id)
-      .where("classroom_id", "=", leaveClassroomDto.classroom_id)
+      .deleteFrom('public.classroom_enrollment')
+      .where('pupil_id', '=', user.pupil.id)
+      .where('classroom_id', '=', leaveClassroomDto.classroom_id)
       .returningAll()
       .executeTakeFirstOrThrow(
         () =>
@@ -126,34 +126,34 @@ export class ClassroomsService {
 
   async findAll(): Promise<Classroom[]> {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
 
     const role = user.role;
-    if (role === "Teacher") {
+    if (role === 'Teacher') {
       return await this.db
-        .selectFrom("public.classrooms")
-        .where("teacher_id", "=", user.teacher.id)
+        .selectFrom('public.classroom_view')
+        .where('teacher_id', '=', user.teacher.id)
         .selectAll()
         .execute();
     }
 
     return await this.db
-      .selectFrom("public.classrooms as c")
-      .leftJoin("public.classroom_enrollment as ce", "ce.classroom_id", "c.id")
-      .where("ce.pupil_id", "=", user.pupil.id)
+      .selectFrom('public.classroom_view as cv')
+      .leftJoin('public.classroom_enrollment as ce', 'ce.classroom_id', 'cv.id')
+      .where('ce.pupil_id', '=', user.pupil.id)
       .selectAll()
       .execute();
   }
 
   async findOne(id: string): Promise<Classroom> {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req["user"];
+    const user: JwtAccessTokenPayload = req['user'];
 
-    if (user.role === "Teacher") {
+    if (user.role === 'Teacher') {
       return await this.db
-        .selectFrom("public.classrooms as p")
-        .where("p.id", "=", id)
-        .where("teacher_id", "=", user.teacher.id)
+        .selectFrom('public.classroom_view as cv')
+        .where('cv.id', '=', id)
+        .where('teacher_id', '=', user.teacher.id)
         .selectAll()
         .executeTakeFirstOrThrow(
           () =>
@@ -164,10 +164,10 @@ export class ClassroomsService {
     }
 
     return await this.db
-      .selectFrom("public.classrooms as c")
-      .leftJoin("public.classroom_enrollment as ce", "ce.classroom_id", "c.id")
-      .where("c.id", "=", id)
-      .where("ce.pupil_id", "=", user.pupil.id)
+      .selectFrom('public.classroom_view as cv')
+      .leftJoin('public.classroom_enrollment as ce', 'ce.classroom_id', 'cv.id')
+      .where('cv.id', '=', id)
+      .where('ce.pupil_id', '=', user.pupil.id)
       .selectAll()
       .executeTakeFirstOrThrow(
         () =>
@@ -185,7 +185,7 @@ export class ClassroomsService {
     const user: JwtAccessTokenPayload = req['user'];
 
     const classroom = await this.db
-      .updateTable('public.classrooms')
+      .updateTable('public.classroom_view')
       .set(updateClassroomDto)
       .where('id', '=', id)
       .where('teacher_id', '=', user.teacher.id)
@@ -205,7 +205,7 @@ export class ClassroomsService {
     const user: JwtAccessTokenPayload = req['user'];
 
     const classroom = await this.db
-      .deleteFrom('public.classrooms')
+      .deleteFrom('public.classroom_view')
       .where('id', '=', id)
       .where('teacher_id', '=', user.teacher.id)
       .returningAll()
@@ -221,8 +221,8 @@ export class ClassroomsService {
 
   async findByCode(code: string): Promise<Classroom> {
     return await this.db
-      .selectFrom("public.classrooms")
-      .where("join_code", "=", code)
+      .selectFrom('public.classroom_view')
+      .where('join_code', '=', code)
       .selectAll()
       .executeTakeFirstOrThrow(
         () => new NotFoundException(`Classroom with code ${code} not found`),
