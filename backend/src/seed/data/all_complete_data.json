@@ -3489,7 +3489,7 @@
         {
           "part_num": 1,
           "correct_answer": ["But many", "coral reefs", "are in trouble"],
-          "parts": ["But many", "coral reefs", "are in trouble"],
+          "parts": ["are in trouble", "But many", "coral reefs"],
           "explanation": "Next sentence of the passage."
         },
         {
@@ -3501,10 +3501,10 @@
             "by the thousands"
           ],
           "parts": [
-            "The nets",
             "were filled",
-            "with wriggling fish",
-            "by the thousands"
+            "The nets",
+            "by the thousands",
+            "with wriggling fish"
           ],
           "explanation": "Abundance can be overwhelming when it comes all at once."
         },
@@ -3517,10 +3517,10 @@
             "was hauled onto the boats"
           ],
           "parts": [
-            "Fish",
-            "leapt and struggled",
             "as the catch",
-            "was hauled onto the boats"
+            "Fish",
+            "was hauled onto the boats",
+            "leapt and struggled"
           ],
           "explanation": "Life in the nets mirrors a desperate struggle for freedom."
         },
@@ -3533,9 +3533,9 @@
             "piling high on deck"
           ],
           "parts": [
-            "The sea’s gift",
-            "was gathered",
             "in baskets and nets",
+            "was gathered",
+            "The sea’s gift",
             "piling high on deck"
           ],
           "explanation": "The ocean provided generously, almost more than expected."
@@ -4462,10 +4462,10 @@
             "in groups"
           ],
           "parts": [
-            "A good example",
-            "of this",
             "is when we yawn",
-            "in groups"
+            "A good example",
+            "in groups",
+            "of this"
           ],
           "explanation": "This is the next sentence."
         }
@@ -6400,16 +6400,14 @@
           "correct_answer": [
             "Laughter boosts the",
             "immune system",
-            "and",
-            "adds another layer of",
+            "and adds another layer of",
             "protection from disease"
           ],
           "parts": [
+            "protection from disease",
             "Laughter boosts the",
             "immune system",
-            "and",
-            "adds another layer of",
-            "protection from disease"
+            "and adds another layer of"
           ],
           "explanation": "This is the next sentence."
         }
@@ -6495,10 +6493,10 @@
             "to be harmful"
           ],
           "parts": [
-            "However,",
+            "to be harmful",
             "this action",
-            "does not have",
-            "to be harmful"
+            "However,",
+            "does not have"
           ],
           "explanation": "Next sentence."
         },
@@ -6506,21 +6504,13 @@
           "part_num": 2,
           "correct_answer": [
             "Expressing our feelings",
-            "can help others",
-            "understand",
-            "the source of",
-            "our anger",
-            "rather than fear",
-            "its consequences"
+            "can help others understand",
+            "the source of our anger"
           ],
           "parts": [
-            "Expressing our feelings",
-            "can help others",
-            "understand",
-            "the source of",
-            "our anger",
-            "rather than fear",
-            "its consequences"
+            "the source of our anger",
+            "can help others understand",
+            "Expressing our feelings"
           ],
           "explanation": "Next sentence."
         }
@@ -8358,24 +8348,16 @@
         {
           "part_num": 1,
           "correct_answer": [
-            "Yet",
-            "another explanation",
-            "is",
-            "that",
-            "dreaming",
-            "is our brain's way of",
+            "Yet, another explanation is that",
+            "dreaming is our brain's way of",
             "fixing and organizing",
             "all the information we have"
           ],
           "parts": [
-            "Yet",
-            "another explanation",
-            "is",
-            "that",
-            "dreaming",
-            "is our brain's way of",
-            "fixing and organizing",
-            "all the information we have"
+            "all the information we have",
+            "dreaming is our brain's way of",
+            "Yet, another explanation is that",
+            "fixing and organizing"
           ],
           "explanation": "This is the next passage."
         },
@@ -8388,8 +8370,8 @@
           ],
           "parts": [
             "Some believe",
-            "dreams are simply",
-            "another way of thinking"
+            "another way of thinking",
+            "dreams are simply"
           ],
           "explanation": "This reflects the view that dreaming is not separate from thought, but just another form of it."
         }
@@ -9759,24 +9741,16 @@
         {
           "part_num": 1,
           "correct_answer": [
-            "As a",
-            "meteoroid",
-            "comes into the",
-            "air",
-            "near the",
-            "earth,",
-            "it catches",
-            "fire"
+            "As a meteoroid",
+            "comes into the air",
+            "near the earth,",
+            "it catches fire"
           ],
           "parts": [
-            "As a",
-            "meteoroid",
-            "comes into the",
-            "air",
-            "near the",
-            "earth,",
-            "it catches",
-            "fire"
+            "As a meteoroid",
+            "it catches fire",
+            "near the earth,",
+            "comes into the air"
           ],
           "explanation": "The passage is the next sentence."
         },
@@ -9796,16 +9770,14 @@
           "correct_answer": [
             "If a piece of",
             "meteoroid",
-            "falls to the ground,",
-            "it is called a",
-            "meteorite"
+            "falls to the ground",
+            "it is called a meteorite"
           ],
           "parts": [
             "If a piece of",
-            "meteoroid",
-            "falls to the ground,",
-            "it is called a",
-            "meteorite"
+            "falls to the ground",
+            "it is called a meteorite",
+            "meteoroid"
           ],
           "explanation": "The passage is the next sentence."
         },
@@ -9827,22 +9799,16 @@
         {
           "part_num": 3,
           "correct_answer": [
-            "Perhaps",
-            "spacecrafts",
+            "Perhaps spacecrafts",
             "can be covered with a",
-            "metal",
-            "skin",
-            "that will seal",
-            "itself"
+            "metal skin",
+            "that will seal itself"
           ],
           "parts": [
-            "Perhaps",
-            "spacecrafts",
             "can be covered with a",
-            "metal",
-            "skin",
-            "that will seal",
-            "itself"
+            "metal skin",
+            "Perhaps spacecrafts",
+            "that will seal itself"
           ],
           "explanation": "This is the next passage."
         },
@@ -10870,42 +10836,32 @@
         {
           "part_num": 1,
           "correct_answer": [
-            "Almost all",
-            "beetles",
-            "have tough front",
-            "wings",
-            "which are colorful",
-            "and",
-            "carry beautiful",
-            "patterns"
+            "Almost all beetles",
+            "have tough front wings",
+            "which are colorful and",
+            "carry beautiful patterns"
           ],
           "parts": [
-            "Almost all",
-            "beetles",
-            "have tough front",
-            "wings",
-            "which are colorful",
-            "and",
-            "carry beautiful",
-            "patterns"
+            "Almost all beetles",
+            "carry beautiful patterns",
+            "which are colorful and",
+            "have tough front wings"
           ],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 2,
           "correct_answer": [
-            "Beetles",
-            "have mouth parts",
-            "designed",
-            "for chewing different",
+            "Beetles have mouth parts",
+            "designed for",
+            "chewing different",
             "food"
           ],
           "parts": [
-            "Beetles",
-            "have mouth parts",
-            "designed",
-            "for chewing different",
-            "food"
+            "designed for",
+            "food",
+            "chewing different",
+            "Beetles have mouth parts"
           ],
           "explanation": "This is the next passage."
         },
@@ -10918,9 +10874,9 @@
             "to leaves, fruits, and even poisonous plants"
           ],
           "parts": [
-            "Beetles can chew",
-            "a wide variety of food",
             "from dung and insects",
+            "a wide variety of food",
+            "Beetles can chew",
             "to leaves, fruits, and even poisonous plants"
           ],
           "explanation": "This highlights the beetles’ adaptability in diet, showing how their chewing mouth parts let them survive almost anywhere."
@@ -12104,10 +12060,10 @@
             "almost ninety miles per hour"
           ],
           "parts": [
-            "A chimney",
-            "swift",
             "flies",
-            "almost ninety miles per hour"
+            "A chimney",
+            "almost ninety miles per hour",
+            "swift"
           ],
           "explanation": "This is the next sentence."
         },
@@ -12117,35 +12073,29 @@
             "A hydroplane",
             "skims across",
             "the top of the water",
-            "at",
-            "nearly",
-            "300 miles an hour"
+            "at nearly 300 miles an hour"
           ],
           "parts": [
-            "A hydroplane",
+            "at nearly 300 miles an hour",
             "skims across",
-            "the top of the water",
-            "at",
-            "nearly",
-            "300 miles an hour"
+            "A hydroplane",
+            "the top of the water"
           ],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 3,
           "correct_answer": [
-            "The",
-            "Earth",
-            "moves around the",
-            "sun",
+            "The Earth",
+            "moves around",
+            "the sun",
             "at 67,000 miles per hour"
           ],
           "parts": [
-            "The",
-            "Earth",
-            "moves around the",
-            "sun",
-            "at 67,000 miles per hour"
+            "at 67,000 miles per hour",
+            "the sun",
+            "The Earth",
+            "moves around"
           ],
           "explanation": "This is the next passage."
         },
@@ -12157,9 +12107,9 @@
             "than the speed of light"
           ],
           "parts": [
-            "Nothing known in science",
             "is faster",
-            "than the speed of light"
+            "than the speed of light",
+            "Nothing known in science"
           ],
           "explanation": "The passage closes by stressing light as the ultimate speed limit of the universe."
         }
@@ -13338,43 +13288,31 @@
           "part_num": 1,
           "correct_answer": [
             "There may be",
-            "half a million",
-            "asteroids",
+            "half a million asteroids",
             "whose diameters are",
-            "bigger",
-            "than one",
-            "kilometer"
+            "bigger than one kilometer"
           ],
           "parts": [
-            "There may be",
-            "half a million",
-            "asteroids",
             "whose diameters are",
-            "bigger",
-            "than one",
-            "kilometer"
+            "half a million asteroids",
+            "There may be",
+            "bigger than one kilometer"
           ],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 2,
           "correct_answer": [
-            "Unlike",
-            "asteroids,",
-            "meteoroids",
-            "are small",
-            "rocky bodies,",
+            "Unlike asteroids,",
+            "meteoroids are small rocky bodies,",
             "that are scattered in space",
             "and do not orbit the sun"
           ],
           "parts": [
-            "Unlike",
-            "asteroids,",
-            "meteoroids",
-            "are small",
-            "rocky bodies,",
+            "and do not orbit the sun",
+            "Unlike asteroids,",
             "that are scattered in space",
-            "and do not orbit the sun"
+            "meteoroids are small rocky bodies,"
           ],
           "explanation": "This is the next passage."
         },
@@ -13387,10 +13325,10 @@
             "shooting stars"
           ],
           "parts": [
-            "The faint flashes of",
+            "shooting stars",
             "light",
             "they make are called",
-            "shooting stars"
+            "The faint flashes of"
           ],
           "explanation": "This is the next passage."
         }
@@ -16121,9 +16059,9 @@
             "of the ocean’s roar"
           ],
           "parts": [
+            "of the ocean’s roar",
             "A seashell can hold",
-            "echoes that remind us",
-            "of the ocean’s roar"
+            "echoes that remind us"
           ],
           "explanation": "The seashell is compared to a palace filled with sounds of the sea, giving it a magical quality."
         }
@@ -16572,41 +16510,29 @@
         {
           "part_num": 1,
           "correct_answer": [
-            "On a",
-            "deep,",
-            "midsummer day,",
+            "On a deep, midsummer day,",
             "yet her mouth",
-            "will turn to",
-            "pouting",
+            "will turn to pouting",
             "in a most capricious way"
           ],
           "parts": [
-            "On a",
-            "deep,",
-            "midsummer day,",
+            "in a most capricious way",
+            "will turn to pouting",
             "yet her mouth",
-            "will turn to",
-            "pouting",
-            "in a most capricious way"
+            "On a deep, midsummer day,"
           ],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 2,
-          "correct_answer": [
-            "Hers",
-            "is the",
-            "laughter",
-            "from the",
-            "spirit"
-          ],
-          "parts": ["Hers", "is the", "laughter", "from the", "spirit"],
+          "correct_answer": ["Hers is the", "laughter", "from the", "spirit"],
+          "parts": ["from the", "laughter", "Hers is the", "spirit"],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 3,
           "correct_answer": ["All the", "angels", "pause a", "moment"],
-          "parts": ["All the", "angels", "pause a", "moment"],
+          "parts": ["All the", "moment", "angels", "pause a"],
           "explanation": "This is the next passage."
         }
       ],
@@ -17426,20 +17352,17 @@
         {
           "part_num": 1,
           "correct_answer": [
-            "One",
-            "spider",
-            "wove a",
-            "web",
-            "like frost on a",
-            "window pane"
+            "One spider",
+            "wove a web",
+            "like frost",
+            "on a window pane"
           ],
           "parts": [
-            "One",
-            "spider",
-            "wove a",
-            "web",
-            "like frost on a",
-            "window pane"
+            "like frost",
+            "One spider",
+
+            "on a window pane",
+            "wove a web"
           ],
           "explanation": "This is the next passage."
         },
@@ -17452,10 +17375,10 @@
             "sunbeam kissed"
           ],
           "parts": [
-            "Motionless",
+            "sunbeam kissed",
             "hang the webs,",
-            "by the quiet",
-            "sunbeam kissed"
+            "Motionless",
+            "by the quiet"
           ],
           "explanation": "This is the next passage."
         },
@@ -17467,8 +17390,8 @@
             "a fairy-like world at night"
           ],
           "parts": [
-            "The spiders and the mist",
             "together created",
+            "The spiders and the mist",
             "a fairy-like world at night"
           ],
           "explanation": "The scene becomes magical, as if nature itself built an enchanted world."
@@ -18133,88 +18056,68 @@
         {
           "part_num": 1,
           "correct_answer": ["Though", "she was hesitant", ",", "she agreed"],
-          "parts": ["Though", "she was hesitant", ",", "she agreed"],
+          "parts": [",", "she was hesitant", "Though", "she agreed"],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 2,
           "correct_answer": [
-            "I",
-            "sat back down",
+            "I sat back down",
             "at our table",
-            "and",
-            "took the newspaper"
+            "and took the newspaper"
           ],
           "parts": [
-            "I",
-            "sat back down",
-            "at our table",
-            "and",
-            "took the newspaper"
+            "and took the newspaper",
+            "I sat back down",
+            "at our table"
           ],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 3,
           "correct_answer": [
-            "My dear,",
-            "let",
-            "me",
-            "tell",
-            "you",
-            "something.",
+            "My dear, let me tell",
+            "you something.",
             "A word",
-            "and",
-            "advice."
+            "and advice."
           ],
           "parts": [
-            "My dear,",
-            "let",
-            "me",
-            "tell",
-            "you",
-            "something.",
             "A word",
-            "and",
-            "advice."
+            "you something.",
+            "My dear, let me tell",
+            "and advice."
           ],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 4,
           "correct_answer": [
-            "Jasmine",
-            "blinked,",
-            "before",
-            "clasping her hands",
+            "Jasmine blinked,",
+            "before clasping",
+            "her hands",
             "together"
           ],
           "parts": [
-            "Jasmine",
-            "blinked,",
-            "before",
-            "clasping her hands",
-            "together"
+            "her hands",
+            "together",
+            "before clasping",
+            "Jasmine blinked,"
           ],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 5,
           "correct_answer": [
-            "Jasmine hugged",
-            "her mother",
+            "Jasmine hugged her mother",
             "with a bright smile,",
-            "feeling proud",
-            "of",
+            "feeling proud of",
             "her promise"
           ],
           "parts": [
-            "Jasmine hugged",
-            "her mother",
+            "her promise",
             "with a bright smile,",
-            "feeling proud",
-            "of",
-            "her promise"
+            "Jasmine hugged her mother",
+            "feeling proud of"
           ],
           "explanation": "This captures the warmth and determination Jasmine showed in the closing moment."
         }
@@ -22660,50 +22563,32 @@
         {
           "part_num": 1,
           "correct_answer": [
-            "Little Rabbit,",
-            "who lived nearby,",
-            "took out",
-            "his drum",
+            "Little Rabbit, who lived nearby,",
+            "took out his drum",
             "that his parents",
-            "gave him",
-            "for",
-            "his birthday"
+            "gave him for his birthday"
           ],
           "parts": [
-            "Little Rabbit,",
-            "who lived nearby,",
-            "took out",
-            "his drum",
+            "gave him for his birthday",
             "that his parents",
-            "gave him",
-            "for",
-            "his birthday"
+            "Little Rabbit, who lived nearby,",
+            "took out his drum"
           ],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 2,
           "correct_answer": [
-            "The",
-            "same thing",
-            "happened to",
-            "every animal",
-            "that passed by the",
-            "old tree",
-            "where the",
-            "Owl",
-            "slept"
+            "The same thing happened",
+            "to every animal that passed",
+            "by the old tree",
+            "where the Owl slept"
           ],
           "parts": [
-            "The",
-            "same thing",
-            "happened to",
-            "every animal",
-            "that passed by the",
-            "old tree",
-            "where the",
-            "Owl",
-            "slept"
+            "where the Owl slept",
+            "to every animal that passed",
+            "The same thing happened",
+            "by the old tree"
           ],
           "explanation": "This is the next passage."
         },
@@ -22716,10 +22601,10 @@
             "the villagers and animals"
           ],
           "parts": [
-            "From then on",
             "the owl",
-            "stopped bothering",
-            "the villagers and animals"
+            "From then on",
+            "the villagers and animals",
+            "stopped bothering"
           ],
           "explanation": "The owl gave up troubling them after that event."
         }
@@ -22730,15 +22615,15 @@
           "question": "Why did the Owl get angry at the three blind mice?",
           "choices": [
             {
-              "choice1": "Because they sang happily near her tree while she wanted to rest.",
+              "choice": "Because they sang happily near her tree while she wanted to rest.",
               "answer": true
             },
             {
-              "choice2": "Because they were eating her food without permission.",
+              "choice": "Because they were eating her food without permission.",
               "answer": false
             },
             {
-              "choice3": "Because they built a nest too close to her hollow.",
+              "choice": "Because they built a nest too close to her hollow.",
               "answer": false
             }
           ],
@@ -22749,15 +22634,15 @@
           "question": "How did the three blind mice feel after the Owl scolded them?",
           "choices": [
             {
-              "choice1": "They felt disheartened and walked away quietly.",
+              "choice": "They felt disheartened and walked away quietly.",
               "answer": true
             },
             {
-              "choice2": "They argued with the Owl until she gave up.",
+              "choice": "They argued with the Owl until she gave up.",
               "answer": false
             },
             {
-              "choice3": "They laughed at the Owl’s words and kept singing.",
+              "choice": "They laughed at the Owl’s words and kept singing.",
               "answer": false
             }
           ],
@@ -22768,15 +22653,15 @@
           "question": "What does the Owl’s reaction to the mice show about her personality?",
           "choices": [
             {
-              "choice1": "She was easily irritated and disrespectful toward others.",
+              "choice": "She was easily irritated and disrespectful toward others.",
               "answer": true
             },
             {
-              "choice2": "She was patient and kind even when tired.",
+              "choice": "She was patient and kind even when tired.",
               "answer": false
             },
             {
-              "choice3": "She was curious and wanted to join their song.",
+              "choice": "She was curious and wanted to join their song.",
               "answer": false
             }
           ],
@@ -22788,15 +22673,15 @@
           "question": "What was Little Rabbit doing when he disturbed the Owl?",
           "choices": [
             {
-              "choice1": "He was playing the drum his parents gave him for his birthday.",
+              "choice": "He was playing the drum his parents gave him for his birthday.",
               "answer": true
             },
             {
-              "choice2": "He was digging a hole to hide food.",
+              "choice": "He was digging a hole to hide food.",
               "answer": false
             },
             {
-              "choice3": "He was singing loudly with the mice.",
+              "choice": "He was singing loudly with the mice.",
               "answer": false
             }
           ],
@@ -22807,15 +22692,15 @@
           "question": "How did the Owl respond to the Rabbit’s drumming?",
           "choices": [
             {
-              "choice1": "She threw a twig at him and insulted him.",
+              "choice": "She threw a twig at him and insulted him.",
               "answer": true
             },
             {
-              "choice2": "She asked him politely to play somewhere else.",
+              "choice": "She asked him politely to play somewhere else.",
               "answer": false
             },
             {
-              "choice3": "She ignored him and went back to sleep.",
+              "choice": "She ignored him and went back to sleep.",
               "answer": false
             }
           ],
@@ -22825,10 +22710,10 @@
           "part_num": 2,
           "question": "What emotion did the Rabbit feel after the Owl scolded him?",
           "choices": [
-            { "choice1": "He felt sad and discouraged.", "answer": true },
-            { "choice2": "He felt angry and shouted back.", "answer": false },
+            { "choice": "He felt sad and discouraged.", "answer": true },
+            { "choice": "He felt angry and shouted back.", "answer": false },
             {
-              "choice3": "He felt proud that he annoyed the Owl.",
+              "choice": "He felt proud that he annoyed the Owl.",
               "answer": false
             }
           ],
@@ -22840,15 +22725,15 @@
           "question": "What did the animals do when the Owl began hooting at night?",
           "choices": [
             {
-              "choice1": "They repeated her own insults back at her.",
+              "choice": "They repeated her own insults back at her.",
               "answer": true
             },
             {
-              "choice2": "They hid inside their homes, too afraid to answer.",
+              "choice": "They hid inside their homes, too afraid to answer.",
               "answer": false
             },
             {
-              "choice3": "They ignored her and continued sleeping.",
+              "choice": "They ignored her and continued sleeping.",
               "answer": false
             }
           ],
@@ -22858,13 +22743,13 @@
           "part_num": 3,
           "question": "How did the Owl feel when the animals shouted at her?",
           "choices": [
-            { "choice1": "She felt sad, guilty, and ashamed.", "answer": true },
+            { "choice": "She felt sad, guilty, and ashamed.", "answer": true },
             {
-              "choice2": "She felt proud that they noticed her power.",
+              "choice": "She felt proud that they noticed her power.",
               "answer": false
             },
             {
-              "choice3": "She felt nothing and continued hooting loudly.",
+              "choice": "She felt nothing and continued hooting loudly.",
               "answer": false
             }
           ],
@@ -22875,15 +22760,15 @@
           "question": "What did the Owl do after being scolded by the animals?",
           "choices": [
             {
-              "choice1": "She flew away and never returned to the forest.",
+              "choice": "She flew away and never returned to the forest.",
               "answer": true
             },
             {
-              "choice2": "She attacked the animals in revenge.",
+              "choice": "She attacked the animals in revenge.",
               "answer": false
             },
             {
-              "choice3": "She stayed in her tree and ignored them.",
+              "choice": "She stayed in her tree and ignored them.",
               "answer": false
             }
           ],
@@ -26180,27 +26065,23 @@
       "SentenceRearrangement": [
         {
           "part_num": 1,
-          "correct_answer": ["The night", "was", "dark", "and", "quiet"],
-          "parts": ["The night", "was", "dark", "and", "quiet"],
+          "correct_answer": ["The night was", "dark", "and", "quiet"],
+          "parts": ["quiet", "dark", "The night was", "and"],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 2,
           "correct_answer": [
-            "She stayed",
-            "there the whole night",
-            ",",
-            "but",
-            "no more mouse",
+            "She stayed there",
+            "the whole night,",
+            "but no more mouse",
             "came out"
           ],
           "parts": [
-            "She stayed",
-            "there the whole night",
-            ",",
-            "but",
-            "no more mouse",
-            "came out"
+            "the whole night,",
+            "came out",
+            "but no more mouse",
+            "She stayed there"
           ],
           "explanation": "This is the next passage."
         },
@@ -26208,31 +26089,24 @@
           "part_num": 3,
           "correct_answer": [
             "Suddenly,",
-            "the",
-            "purring",
-            "of",
+            "the purring of",
             "tiny kittens",
             "was heard"
           ],
-          "parts": [
-            "Suddenly,",
-            "the",
-            "purring",
-            "of",
-            "tiny kittens",
-            "was heard"
-          ],
+          "parts": ["tiny kittens", "the purring of", "Suddenly,", "was heard"],
           "explanation": "She discovered them hiding in a bush."
         },
         {
           "part_num": 4,
           "correct_answer": [
-            "Ming’s anger faded as she realized her kittens were safe and unharmed."
-          ],
-          "parts": [
             "Ming’s anger faded",
             "as she realized",
             "her kittens were safe and unharmed"
+          ],
+          "parts": [
+            "her kittens were safe and unharmed",
+            "Ming’s anger faded",
+            "as she realized"
           ],
           "explanation": "This emphasizes Ming’s shift from anger to relief upon seeing the truth."
         }
@@ -26243,15 +26117,15 @@
           "question": "Why did Ming warn Doggie when he came near the kittens?",
           "choices": [
             {
-              "choice1": "Because she was afraid he might harm them.",
+              "choice": "Because she was afraid he might harm them.",
               "answer": true
             },
             {
-              "choice2": "Because she wanted Doggie to take care of them.",
+              "choice": "Because she wanted Doggie to take care of them.",
               "answer": false
             },
             {
-              "choice3": "Because she planned to share food with him.",
+              "choice": "Because she planned to share food with him.",
               "answer": false
             }
           ],
@@ -26262,12 +26136,12 @@
           "question": "How did Doggie react after Ming warned him?",
           "choices": [
             {
-              "choice1": "He left quietly with his tail between his legs.",
+              "choice": "He left quietly with his tail between his legs.",
               "answer": true
             },
-            { "choice2": "He barked loudly to scare Ming.", "answer": false },
+            { "choice": "He barked loudly to scare Ming.", "answer": false },
             {
-              "choice3": "He stayed near the kittens to guard them.",
+              "choice": "He stayed near the kittens to guard them.",
               "answer": false
             }
           ],
@@ -26278,15 +26152,15 @@
           "question": "What does Ming’s warning show about her feelings as a mother?",
           "choices": [
             {
-              "choice1": "She was protective and cautious of her kittens’ safety.",
+              "choice": "She was protective and cautious of her kittens’ safety.",
               "answer": true
             },
             {
-              "choice2": "She was careless and left them unattended.",
+              "choice": "She was careless and left them unattended.",
               "answer": false
             },
             {
-              "choice3": "She was eager to let other animals handle them.",
+              "choice": "She was eager to let other animals handle them.",
               "answer": false
             }
           ],
@@ -26298,12 +26172,12 @@
           "question": "Why did Ming let the mouse go instead of eating it?",
           "choices": [
             {
-              "choice1": "Because she felt compassion, remembering her own kittens.",
+              "choice": "Because she felt compassion, remembering her own kittens.",
               "answer": true
             },
-            { "choice2": "Because she wasn’t hungry at all.", "answer": false },
+            { "choice": "Because she wasn’t hungry at all.", "answer": false },
             {
-              "choice3": "Because the mouse ran away too fast.",
+              "choice": "Because the mouse ran away too fast.",
               "answer": false
             }
           ],
@@ -26314,15 +26188,15 @@
           "question": "What did the mouse say that touched Ming’s heart?",
           "choices": [
             {
-              "choice1": "That it had children waiting who needed their mother.",
+              "choice": "That it had children waiting who needed their mother.",
               "answer": true
             },
             {
-              "choice2": "That it had plenty of food to share with her.",
+              "choice": "That it had plenty of food to share with her.",
               "answer": false
             },
             {
-              "choice3": "That it was too small and not worth eating.",
+              "choice": "That it was too small and not worth eating.",
               "answer": false
             }
           ],
@@ -26333,15 +26207,15 @@
           "question": "What trait of Ming is revealed when she spared the mouse?",
           "choices": [
             {
-              "choice1": "She could show empathy even to a creature she usually hunted.",
+              "choice": "She could show empathy even to a creature she usually hunted.",
               "answer": true
             },
             {
-              "choice2": "She was too weak to catch her prey.",
+              "choice": "She was too weak to catch her prey.",
               "answer": false
             },
             {
-              "choice3": "She was afraid of being bitten by the mouse.",
+              "choice": "She was afraid of being bitten by the mouse.",
               "answer": false
             }
           ],
@@ -26353,15 +26227,15 @@
           "question": "Why did Ming attack Doggie when she found the box empty?",
           "choices": [
             {
-              "choice1": "Because she suspected he took her kittens.",
+              "choice": "Because she suspected he took her kittens.",
               "answer": true
             },
             {
-              "choice2": "Because she wanted to play with him.",
+              "choice": "Because she wanted to play with him.",
               "answer": false
             },
             {
-              "choice3": "Because she thought Doggie had food.",
+              "choice": "Because she thought Doggie had food.",
               "answer": false
             }
           ],
@@ -26371,12 +26245,12 @@
           "part_num": 3,
           "question": "How did Doggie respond when Ming clawed and bit him?",
           "choices": [
-            { "choice1": "He barked in pain and confusion.", "answer": true },
+            { "choice": "He barked in pain and confusion.", "answer": true },
             {
-              "choice2": "He quickly admitted he took the kittens.",
+              "choice": "He quickly admitted he took the kittens.",
               "answer": false
             },
-            { "choice3": "He ran away into the forest.", "answer": false }
+            { "choice": "He ran away into the forest.", "answer": false }
           ],
           "explanation": "Doggie reacted in shock and pain, not knowing what was happening."
         },
@@ -26385,15 +26259,15 @@
           "question": "What fueled Ming’s anger during the fight with Doggie?",
           "choices": [
             {
-              "choice1": "The fear that her kittens had been taken or harmed.",
+              "choice": "The fear that her kittens had been taken or harmed.",
               "answer": true
             },
             {
-              "choice2": "The sound of the children playing.",
+              "choice": "The sound of the children playing.",
               "answer": false
             },
             {
-              "choice3": "The scent of food from the kitchen.",
+              "choice": "The scent of food from the kitchen.",
               "answer": false
             }
           ],
@@ -26405,11 +26279,11 @@
           "question": "Where did Ming finally find her missing kittens?",
           "choices": [
             {
-              "choice1": "With her master’s children, who were cuddling them.",
+              "choice": "With her master’s children, who were cuddling them.",
               "answer": true
             },
-            { "choice2": "Hidden under Doggie’s blanket.", "answer": false },
-            { "choice3": "Lost in the attic.", "answer": false }
+            { "choice": "Hidden under Doggie’s blanket.", "answer": false },
+            { "choice": "Lost in the attic.", "answer": false }
           ],
           "explanation": "Her kittens were safe with the children, who were only playing with them."
         },
@@ -26418,15 +26292,15 @@
           "question": "How did the children explain why they had the kittens?",
           "choices": [
             {
-              "choice1": "They said they just borrowed them for a while.",
+              "choice": "They said they just borrowed them for a while.",
               "answer": true
             },
             {
-              "choice2": "They said Doggie gave the kittens to them.",
+              "choice": "They said Doggie gave the kittens to them.",
               "answer": false
             },
             {
-              "choice3": "They said they found the kittens outside the house.",
+              "choice": "They said they found the kittens outside the house.",
               "answer": false
             }
           ],
@@ -26437,15 +26311,15 @@
           "question": "How did Ming likely feel after discovering her kittens safe with the children?",
           "choices": [
             {
-              "choice1": "Relieved to know they were unharmed.",
+              "choice": "Relieved to know they were unharmed.",
               "answer": true
             },
             {
-              "choice2": "Angry that they were still missing.",
+              "choice": "Angry that they were still missing.",
               "answer": false
             },
             {
-              "choice3": "Indifferent, since she had forgotten about them.",
+              "choice": "Indifferent, since she had forgotten about them.",
               "answer": false
             }
           ],
@@ -29124,56 +28998,44 @@
             "Drago",
             "stood out"
           ],
-          "parts": ["Among", "the many dragons,", "Drago", "stood out"],
+          "parts": ["Drago", "the many dragons,", "stood out", "Among"],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 2,
           "correct_answer": [
-            "Unbeknownst to",
-            "them",
-            ",",
+            "Unbeknownst to them,",
             "a soldier",
-            "overheard the conversation",
-            "and reported it to the",
-            "emperor"
+            "overheard the conversation and",
+            "reported it to the emperor"
           ],
           "parts": [
-            "Unbeknownst to",
-            "them",
-            ",",
             "a soldier",
-            "overheard the conversation",
-            "and reported it to the",
-            "emperor"
+            "reported it to the emperor",
+            "Unbeknownst to them,",
+            "overheard the conversation and"
           ],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 3,
-          "correct_answer": ["Drago's", "eyes", "burned", "with", "rage"],
-          "parts": ["Drago's", "eyes", "burned", "with", "rage"],
+          "correct_answer": ["Drago's eyes", "burned", "with", "rage"],
+          "parts": ["rage", "with", "Drago's eyes", "burned"],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 4,
           "correct_answer": [
-            "News spread,",
-            "and the remaining",
-            "dragons",
-            "left the",
-            "Lu Shing",
-            "Empire,",
+            "News spread, and the",
+            "remaining dragons left the",
+            "Lu Shing Empire,",
             "never to return"
           ],
           "parts": [
-            "News spread,",
-            "and the remaining",
-            "dragons",
-            "left the",
-            "Lu Shing",
-            "Empire,",
-            "never to return"
+            "never to return",
+            "Lu Shing Empire,",
+            "remaining dragons left the",
+            "News spread, and the"
           ],
           "explanation": "This is the next passage."
         }
@@ -35803,20 +35665,14 @@
         {
           "part_num": 1,
           "correct_answer": [
-            "Everyone",
-            "laughed",
-            "and",
-            "joined",
-            "in teasing",
+            "Everyone laughed and",
+            "joined in teasing",
             "the poor octopus"
           ],
           "parts": [
-            "Everyone",
-            "laughed",
-            "and",
-            "joined",
-            "in teasing",
-            "the poor octopus"
+            "the poor octopus",
+            "Everyone laughed and",
+            "joined in teasing"
           ],
           "explanation": "This is the next passage."
         },
@@ -35825,16 +35681,14 @@
           "correct_answer": [
             "Teacher Stick Fish",
             "began the class",
-            "when",
-            "suddenly an",
+            "when suddenly an",
             "emergency bell rang"
           ],
           "parts": [
-            "Teacher Stick Fish",
+            "emergency bell rang",
             "began the class",
-            "when",
-            "suddenly an",
-            "emergency bell rang"
+            "Teacher Stick Fish",
+            "when suddenly an"
           ],
           "explanation": "This is the next passage."
         },
@@ -35849,8 +35703,8 @@
           "parts": [
             "But it was too late",
             "the ravenous shark",
-            "blocked their path",
-            "jaws wide open"
+            "jaws wide open",
+            "blocked their path"
           ],
           "explanation": "This is the next passage."
         },
@@ -35862,8 +35716,8 @@
             "and shook her arms"
           ],
           "parts": [
-            "Her classmates",
             "gathered around Little Octopus",
+            "Her classmates",
             "and shook her arms"
           ],
           "explanation": "This is the next passage."
@@ -35875,15 +35729,15 @@
           "question": "Why was Little Octopus unable to sit in the front row?",
           "choices": [
             {
-              "choice1": "Because Goldfish drove her away with insults.",
+              "choice": "Because Goldfish drove her away with insults.",
               "answer": true
             },
             {
-              "choice2": "Because the teacher assigned her to the back.",
+              "choice": "Because the teacher assigned her to the back.",
               "answer": false
             },
             {
-              "choice3": "Because she preferred to sit alone.",
+              "choice": "Because she preferred to sit alone.",
               "answer": false
             }
           ],
@@ -35893,9 +35747,9 @@
           "part_num": 1,
           "question": "What word did Goldfish use to insult Little Octopus?",
           "choices": [
-            { "choice1": "Weirdo.", "answer": true },
-            { "choice2": "Coward.", "answer": false },
-            { "choice3": "Troublemaker.", "answer": false }
+            { "choice": "Weirdo.", "answer": true },
+            { "choice": "Coward.", "answer": false },
+            { "choice": "Troublemaker.", "answer": false }
           ],
           "explanation": "Goldfish mocked her by calling her a 'weirdo.'"
         },
@@ -35904,14 +35758,14 @@
           "question": "What does this moment reveal about the classroom environment?",
           "choices": [
             {
-              "choice1": "It was unkind and filled with teasing.",
+              "choice": "It was unkind and filled with teasing.",
               "answer": true
             },
             {
-              "choice2": "It was welcoming to every student.",
+              "choice": "It was welcoming to every student.",
               "answer": false
             },
-            { "choice3": "It was silent and peaceful.", "answer": false }
+            { "choice": "It was silent and peaceful.", "answer": false }
           ],
           "explanation": "The bullying shows the classroom was not friendly or supportive."
         },
@@ -35921,11 +35775,11 @@
           "question": "What advice from her mother did Little Octopus remember?",
           "choices": [
             {
-              "choice1": "Not to pick fights and to stay friendly.",
+              "choice": "Not to pick fights and to stay friendly.",
               "answer": true
             },
-            { "choice2": "To always sit in the front row.", "answer": false },
-            { "choice3": "To ignore her teachers completely.", "answer": false }
+            { "choice": "To always sit in the front row.", "answer": false },
+            { "choice": "To ignore her teachers completely.", "answer": false }
           ],
           "explanation": "Her mother reminded her to be patient and kind despite teasing."
         },
@@ -35934,14 +35788,14 @@
           "question": "How did Little Octopus respond to the bullying?",
           "choices": [
             {
-              "choice1": "She stayed silent and sat in the last row.",
+              "choice": "She stayed silent and sat in the last row.",
               "answer": true
             },
             {
-              "choice2": "She shouted back at her classmates.",
+              "choice": "She shouted back at her classmates.",
               "answer": false
             },
-            { "choice3": "She left the classroom in anger.", "answer": false }
+            { "choice": "She left the classroom in anger.", "answer": false }
           ],
           "explanation": "She chose not to fight back and quietly moved to the back."
         },
@@ -35950,15 +35804,15 @@
           "question": "What does Little Octopus’ decision show about her character?",
           "choices": [
             {
-              "choice1": "She was patient and remembered her mother’s guidance.",
+              "choice": "She was patient and remembered her mother’s guidance.",
               "answer": true
             },
             {
-              "choice2": "She was aggressive and quick to fight.",
+              "choice": "She was aggressive and quick to fight.",
               "answer": false
             },
             {
-              "choice3": "She was careless about her mother’s words.",
+              "choice": "She was careless about her mother’s words.",
               "answer": false
             }
           ],
@@ -35970,15 +35824,15 @@
           "question": "What warning did the principal give the school?",
           "choices": [
             {
-              "choice1": "That a shark was coming toward them.",
+              "choice": "That a shark was coming toward them.",
               "answer": true
             },
             {
-              "choice2": "That there was a fire in the school.",
+              "choice": "That there was a fire in the school.",
               "answer": false
             },
             {
-              "choice3": "That Teacher Stick Fish was leaving.",
+              "choice": "That Teacher Stick Fish was leaving.",
               "answer": false
             }
           ],
@@ -35988,9 +35842,9 @@
           "part_num": 3,
           "question": "What was the reaction of the students when the shark appeared?",
           "choices": [
-            { "choice1": "They screamed in fear.", "answer": true },
-            { "choice2": "They chased the shark away.", "answer": false },
-            { "choice3": "They stood quietly and watched.", "answer": false }
+            { "choice": "They screamed in fear.", "answer": true },
+            { "choice": "They chased the shark away.", "answer": false },
+            { "choice": "They stood quietly and watched.", "answer": false }
           ],
           "explanation": "Most students panicked, terrified of the predator."
         },
@@ -35999,15 +35853,15 @@
           "question": "How did Little Octopus act differently from the others?",
           "choices": [
             {
-              "choice1": "She bravely swam forward and squirted ink to confuse the shark.",
+              "choice": "She bravely swam forward and squirted ink to confuse the shark.",
               "answer": true
             },
             {
-              "choice2": "She ran away and hid with her classmates.",
+              "choice": "She ran away and hid with her classmates.",
               "answer": false
             },
             {
-              "choice3": "She called for her teacher to save them.",
+              "choice": "She called for her teacher to save them.",
               "answer": false
             }
           ],
@@ -36019,11 +35873,11 @@
           "question": "How did Mr. Sea Turtle and Teacher Stick Fish react after Little Octopus saved them?",
           "choices": [
             {
-              "choice1": "They thanked and praised her as a hero.",
+              "choice": "They thanked and praised her as a hero.",
               "answer": true
             },
-            { "choice2": "They ignored her bravery.", "answer": false },
-            { "choice3": "They scolded her for using ink.", "answer": false }
+            { "choice": "They ignored her bravery.", "answer": false },
+            { "choice": "They scolded her for using ink.", "answer": false }
           ],
           "explanation": "Both adults acknowledged and honored her courage."
         },
@@ -36032,14 +35886,14 @@
           "question": "What did her classmates say after the shark incident?",
           "choices": [
             {
-              "choice1": "They apologized for misjudging her and thanked her.",
+              "choice": "They apologized for misjudging her and thanked her.",
               "answer": true
             },
             {
-              "choice2": "They continued mocking her as before.",
+              "choice": "They continued mocking her as before.",
               "answer": false
             },
-            { "choice3": "They pretended nothing happened.", "answer": false }
+            { "choice": "They pretended nothing happened.", "answer": false }
           ],
           "explanation": "Her classmates admitted their mistake and showed gratitude."
         },
@@ -36047,13 +35901,13 @@
           "part_num": 4,
           "question": "What lesson did the classmates likely learn from this event?",
           "choices": [
-            { "choice1": "Not to judge others unfairly.", "answer": true },
+            { "choice": "Not to judge others unfairly.", "answer": true },
             {
-              "choice2": "That teasing others is always fun.",
+              "choice": "That teasing others is always fun.",
               "answer": false
             },
             {
-              "choice3": "That only teachers can save them from danger.",
+              "choice": "That only teachers can save them from danger.",
               "answer": false
             }
           ],
@@ -38074,18 +37928,16 @@
         {
           "part_num": 1,
           "correct_answer": [
-            "Growing up,",
-            "he",
+            "Growing up, he",
             "studied hard",
             "and",
             "graduated with honors"
           ],
           "parts": [
-            "Growing up,",
-            "he",
-            "studied hard",
+            "graduated with honors",
+            "Growing up, he",
             "and",
-            "graduated with honors"
+            "studied hard"
           ],
           "explanation": "This connects his poverty to his hopeful prayers."
         },
@@ -38093,21 +37945,15 @@
           "part_num": 2,
           "correct_answer": [
             "Despite his position,",
-            "he",
-            "still worked hard",
-            "until",
-            "he",
-            "owned a company",
-            "of his own"
+            "he still worked hard",
+            "until he owned",
+            "a company of his own"
           ],
           "parts": [
+            "he still worked hard",
+            "a company of his own",
             "Despite his position,",
-            "he",
-            "still worked hard",
-            "until",
-            "he",
-            "owned a company",
-            "of his own"
+            "until he owned"
           ],
           "explanation": "This is the next passage."
         },
@@ -38115,17 +37961,15 @@
           "part_num": 3,
           "correct_answer": [
             "He",
-            "got depressed",
-            "and",
+            "got depressed and",
             "began blaming",
             "the Almighty Father"
           ],
           "parts": [
             "He",
-            "got depressed",
-            "and",
-            "began blaming",
-            "the Almighty Father"
+            "the Almighty Father",
+            "got depressed and",
+            "began blaming"
           ],
           "explanation": "This connects his downfall to his blame."
         },
@@ -38135,15 +37979,13 @@
             "On that day,",
             "Emmanuel",
             "resubmitted himself",
-            "to",
-            "the Lord"
+            "to the Lord"
           ],
           "parts": [
-            "On that day,",
-            "Emmanuel",
             "resubmitted himself",
-            "to",
-            "the Lord"
+            "Emmanuel",
+            "On that day,",
+            "to the Lord"
           ],
           "explanation": "This is the final passage."
         }
@@ -40265,36 +40107,22 @@
           "part_num": 1,
           "correct_answer": [
             "While",
-            "other cars",
-            "bonded,",
+            "other cars bonded",
             "Reddy",
             "stayed solitary"
           ],
-          "parts": [
-            "While",
-            "other cars",
-            "bonded,",
-            "Reddy",
-            "stayed solitary"
-          ],
+          "parts": ["While", "Reddy", "stayed solitary", "other cars bonded"],
           "explanation": "This shows Reddy's isolation."
         },
         {
           "part_num": 2,
           "correct_answer": [
-            "One day,",
-            "he",
+            "One day, he",
             "will learn",
-            "his",
-            "lesson the hard way"
+            "his lesson",
+            "the hard way"
           ],
-          "parts": [
-            "One day,",
-            "he",
-            "will learn",
-            "his",
-            "lesson the hard way"
-          ],
+          "parts": ["his lesson", "will learn", "One day, he", "the hard way"],
           "explanation": "This foreshadows the crash."
         },
         {
@@ -40307,9 +40135,9 @@
           ],
           "parts": [
             "Reddy",
-            "ignored the",
+            "on his dashboard",
             "flashing red warning",
-            "on his dashboard"
+            "ignored the"
           ],
           "explanation": "This leads to the crash."
         },
@@ -40323,9 +40151,9 @@
           ],
           "parts": [
             "The neighborhood cars",
-            "pitied Reddy,",
+            "had led to his downfall.",
             "realizing his pride",
-            "had led to his downfall."
+            "pitied Reddy,"
           ],
           "explanation": "This paraphrases how the other cars reflected on Reddy’s accident as a consequence of arrogance."
         }
@@ -42909,17 +42737,15 @@
           "part_num": 1,
           "correct_answer": [
             "Every day after school,",
-            "Archie",
-            "locked himself in his room,",
-            "playing until",
-            "midnight or dawn"
+            "Archie locked himself",
+            "in his room, playing",
+            "until midnight or dawn"
           ],
           "parts": [
+            "Archie locked himself",
             "Every day after school,",
-            "Archie",
-            "locked himself in his room,",
-            "playing until",
-            "midnight or dawn"
+            "until midnight or dawn",
+            "in his room, playing"
           ],
           "explanation": "This sets the scene for his daily gaming habit."
         },
@@ -42932,28 +42758,26 @@
             "but she didn’t know how to stop him"
           ],
           "parts": [
-            "His mother",
-            "was called many times",
             "about his failing grades,",
-            "but she didn’t know how to stop him"
+            "but she didn’t know how to stop him",
+            "His mother",
+            "was called many times"
           ],
           "explanation": "This introduces the school issues caused by his addiction."
         },
         {
           "part_num": 3,
           "correct_answer": [
-            "Past midnight,",
-            "she",
+            "Past midnight, she",
             "peeked in—",
             "Archie",
             "was still playing"
           ],
           "parts": [
-            "Past midnight,",
-            "she",
             "peeked in—",
-            "Archie",
-            "was still playing"
+            "Past midnight, she",
+            "was still playing",
+            "Archie"
           ],
           "explanation": "This sets up the surreal event that follows."
         },
@@ -42966,9 +42790,9 @@
             "that harms life"
           ],
           "parts": [
-            "The doctor diagnosed him with",
-            "gaming addiction,",
             "a compulsive disorder",
+            "gaming addiction,",
+            "The doctor diagnosed him with",
             "that harms life"
           ],
           "explanation": "This reveals the serious nature of his condition."
@@ -47448,17 +47272,15 @@
           "part_num": 1,
           "correct_answer": [
             "She continued to",
-            "sob",
-            "and",
+            "sob and",
             "threw the pieces of paper",
             "in the trash bin"
           ],
           "parts": [
             "She continued to",
-            "sob",
-            "and",
+            "in the trash bin",
             "threw the pieces of paper",
-            "in the trash bin"
+            "sob and"
           ],
           "explanation": "This sentence describes Marian's actions after ripping her failed papers."
         },
@@ -47470,37 +47292,25 @@
             "your breakfast,",
             "honey"
           ],
-          "parts": ["No buts.", "Just take", "your breakfast,", "honey"],
+          "parts": ["Just take", "honey", "No buts.", "your breakfast,"],
           "explanation": "This sentence captures Marian's mother's firm yet caring insistence."
         },
         {
           "part_num": 3,
-          "correct_answer": [
-            "Marian Andrada.",
-            "Is",
-            "there",
-            "something wrong",
-            "?"
-          ],
-          "parts": ["Marian Andrada.", "Is", "there", "something wrong", "?"],
+          "correct_answer": ["Marian Andrada.", "Is there", "something wrong?"],
+          "parts": ["Is there", "Marian Andrada.", "something wrong?"],
           "explanation": "This sentence shows Mr. Andrada's concern and directness."
         },
         {
           "part_num": 4,
-          "correct_answer": [
-            "I'm sorry,",
-            "for",
-            "I",
-            "have disappointed",
-            "you"
-          ],
-          "parts": ["I'm sorry,", "for", "I", "have disappointed", "you"],
+          "correct_answer": ["I'm sorry,", "for I have", "disappointed you"],
+          "parts": ["disappointed you", "for I have", "I'm sorry,"],
           "explanation": "This sentence is Marian's confession to her parents about her exam results."
         },
         {
           "part_num": 5,
           "correct_answer": ["I am", "so lucky to be", "your daughter"],
-          "parts": ["I am", "so lucky to be", "your daughter"],
+          "parts": ["your daughter", "so lucky to be", "I am"],
           "explanation": "This sentence expresses Marian's gratitude and love for her parents."
         }
       ],
@@ -51105,37 +50915,31 @@
         {
           "part_num": 1,
           "correct_answer": [
-            "From afar,",
-            "the boy",
-            "saw",
-            "kids of his age",
+            "From afar, the boy",
+            "saw kids of his age",
             "joyfully running",
             "after one another"
           ],
           "parts": [
-            "From afar,",
-            "the boy",
-            "saw",
-            "kids of his age",
-            "joyfully running",
-            "after one another"
+            "saw kids of his age",
+            "after one another",
+            "From afar, the boy",
+            "joyfully running"
           ],
           "explanation": "This is the next passage."
         },
         {
           "part_num": 2,
           "correct_answer": [
-            "Papa,",
-            "if we sell all",
+            "Papa, if we sell all",
             "the salt in this sack,",
             "can I have a",
             "meal in that restaurant?"
           ],
           "parts": [
-            "Papa,",
-            "if we sell all",
-            "the salt in this sack,",
             "can I have a",
+            "the salt in this sack,",
+            "Papa, if we sell all",
             "meal in that restaurant?"
           ],
           "explanation": "This is the next passage."
@@ -51144,17 +50948,15 @@
           "part_num": 3,
           "correct_answer": [
             "Please keep",
-            "this pouch, young boy!",
-            "Put in here all",
-            "the money you earn",
+            "this pouch, young boy! Put in here",
+            "all the money you earn",
             "from selling salt"
           ],
           "parts": [
+            "this pouch, young boy! Put in here",
             "Please keep",
-            "this pouch, young boy!",
-            "Put in here all",
-            "the money you earn",
-            "from selling salt"
+            "from selling salt",
+            "all the money you earn"
           ],
           "explanation": "This is the next passage."
         }
@@ -53895,9 +53697,9 @@
           ],
           "parts": [
             "Parents",
-            "these days no longer",
+            "to discipline their children",
             "take the time",
-            "to discipline their children"
+            "these days no longer"
           ],
           "explanation": "This introduces the theme of modern parenting challenges."
         },
@@ -53910,10 +53712,10 @@
             "and discipline"
           ],
           "parts": [
-            "In the past",
-            "parents enforced rules",
+            "and discipline",
             "teaching respect",
-            "and discipline"
+            "In the past",
+            "parents enforced rules"
           ],
           "explanation": "This bridges the elder’s view of stricter parenting."
         }
@@ -55870,15 +55672,13 @@
           "part_num": 1,
           "correct_answer": [
             "And even if you lose",
-            "yourself",
-            "and don't know what to do,",
+            "yourself and don't know what to do,",
             "the memory of love",
             "will see you through"
           ],
           "parts": [
+            "yourself and don't know what to do,",
             "And even if you lose",
-            "yourself",
-            "and don't know what to do,",
             "the memory of love",
             "will see you through"
           ],
@@ -55887,20 +55687,16 @@
         {
           "part_num": 2,
           "correct_answer": [
-            "If",
-            "I should live forever,",
-            "and",
-            "all my dreams come true,",
+            "If I should live forever,",
+            "and all my dreams come true,",
             "my memories of love",
             "will be of you"
           ],
           "parts": [
-            "If",
-            "I should live forever,",
-            "and",
-            "all my dreams come true,",
-            "my memories of love",
-            "will be of you"
+            "will be of you",
+            "and all my dreams come true,",
+            "If I should live forever,",
+            "my memories of love"
           ],
           "explanation": "This connects dreams of forever to memories of love."
         },
@@ -55913,10 +55709,10 @@
             "would remain eternal"
           ],
           "parts": [
-            "Even if life",
             "lasted forever",
-            "the memories of love",
-            "would remain eternal"
+            "would remain eternal",
+            "Even if life",
+            "the memories of love"
           ],
           "explanation": "This bridges dreams of forever to love as a memory."
         },
@@ -55929,10 +55725,10 @@
             "we hold dear"
           ],
           "parts": [
-            "Love",
             "is remembered",
-            "through the people",
-            "we hold dear"
+            "Love",
+            "we hold dear",
+            "through the people"
           ],
           "explanation": "This transitions from abstract metaphors to personal reflection."
         },
@@ -55945,10 +55741,10 @@
             "that guides us home"
           ],
           "parts": [
-            "No matter the form",
             "love becomes",
-            "the memory",
-            "that guides us home"
+            "that guides us home",
+            "No matter the form",
+            "the memory"
           ],
           "explanation": "This closes the passage by tying love to remembrance."
         }
@@ -56828,16 +56624,14 @@
           "correct_answer": [
             "As black as ebony",
             "her curly hair is freeze,",
-            "as far as",
-            "the twilight years,",
+            "as far as the twilight years,",
             "in stature, she grows"
           ],
           "parts": [
-            "As black as ebony",
             "her curly hair is freeze,",
-            "as far as",
-            "the twilight years,",
-            "in stature, she grows"
+            "in stature, she grows",
+            "As black as ebony",
+            "as far as the twilight years,"
           ],
           "explanation": "This connects the imagery of aura and lips to her hair and growth."
         },
@@ -56851,9 +56645,9 @@
           ],
           "parts": [
             "As heavy as rain",
-            "when you heard her cry,",
             "but her laughter",
-            "is such sweet music to my ear"
+            "is such sweet music to my ear",
+            "when you heard her cry,"
           ],
           "explanation": "This bridges her temper to the contrast of crying and laughter."
         },
@@ -56866,10 +56660,10 @@
             "the child within"
           ],
           "parts": [
+            "the child within",
             "Despite imperfections",
-            "she remains radiant",
             "and will always be",
-            "the child within"
+            "she remains radiant"
           ],
           "explanation": "Connects contrasts to the final reflection."
         },
@@ -56882,8 +56676,8 @@
             "but for her essence"
           ],
           "parts": [
-            "The closing thought",
             "reveals she is cherished",
+            "The closing thought",
             "not for perfection",
             "but for her essence"
           ],
@@ -56899,9 +56693,9 @@
           ],
           "parts": [
             "Come what may,",
-            "she",
+            "child in me",
             "will always be the",
-            "child in me"
+            "she"
           ],
           "explanation": "This is the final passage."
         }
@@ -59428,50 +59222,48 @@
         {
           "part_num": 1,
           "correct_answer": [
-            "It was all much more tempting than the rule for participles,",
-            "but I had the strength to resist,",
-            "and hurried off to school."
+            "It was all much more tempting",
+            "than the rule for participles",
+            "but I had the strength to resist",
+            "and hurried off to school"
           ],
           "parts": [
-            "but I had the strength to resist,",
-            "and hurried off to school.",
-            "It was all much more tempting than the rule for participles,"
+            "than the rule for participles",
+            "but I had the strength to resist",
+            "and hurried off to school",
+            "It was all much more tempting"
           ],
           "explanation": "The narrator explains how tempting the outdoors was but resisted and went to school."
         },
         {
           "part_num": 2,
           "correct_answer": [
-            "Usually, when the school began, there was a great bustle—",
+            "Usually, when the school began,",
+            "there was a great bustle—",
             "the opening and closing of desks,",
-            "lessons repeated in unison, very loud,",
-            "with our hands over our ears to understand better,",
-            "and the teacher's ruler rapping on the table."
+            "lessons repeated in unison, very loud,"
           ],
           "parts": [
             "the opening and closing of desks,",
-            "lessons repeated in unison, very loud,",
-            "Usually, when the school began, there was a great bustle—",
-            "and the teacher's ruler rapping on the table.",
-            "with our hands over our ears to understand better,"
+            "Usually, when the school began,",
+            "there was a great bustle—",
+            "lessons repeated in unison, very loud,"
           ],
           "explanation": "This sentence describes the usual noisy start of class before the stillness surprised the narrator."
         },
         {
           "part_num": 3,
           "correct_answer": [
-            "Besides, the whole school seemed so strange and solemn.",
-            "The village people sat quietly like ourselves;",
-            "old Hauser, with his three-cornered hat,",
-            "the former mayor, the former postmaster and several others.",
-            "Everybody looked sad."
+            "the whole school",
+            "and solemn",
+            "Besides,",
+            "seemed so strange"
           ],
           "parts": [
-            "Everybody looked sad.",
-            "old Hauser, with his three-cornered hat,",
-            "the former mayor, the former postmaster and several others.",
-            "The village people sat quietly like ourselves;",
-            "Besides, the whole school seemed so strange and solemn."
+            "Besides,",
+            "the whole school",
+            "seemed so strange",
+            "and solemn"
           ],
           "explanation": "The narrator describes the solemn scene in the school with villagers sitting quietly and looking sad."
         },
@@ -66317,11 +66109,13 @@
           "correct_answer": [
             "Probably discussing some new Boy-Scout rule,",
             "Christopher thought,",
-            "but he slowed down as he was passing one of the tables."
+            "but he slowed down as",
+            "he was passing one of the tables"
           ],
           "parts": [
-            "but he slowed down as he was passing one of the tables.",
+            "but he slowed down as",
             "Christopher thought,",
+            "he was passing one of the tables",
             "Probably discussing some new Boy-Scout rule,"
           ],
           "explanation": "Christopher assumed they were discussing rules but still slowed down to listen."
@@ -68949,12 +68743,16 @@
         {
           "part_num": 1,
           "correct_answer": [
-            "They lived in an old stock room",
-            "which Mang Ricardo just repaired."
+            "They lived in",
+            "an old stock room",
+            "which Mang Ricardo",
+            "just repaired"
           ],
           "parts": [
-            "which Mang Ricardo just repaired.",
-            "They lived in an old stock room"
+            "an old stock room",
+            "just repaired",
+            "They lived in",
+            "which Mang Ricardo"
           ],
           "explanation": "This sentence explains their living condition after migrating."
         },
@@ -68994,11 +68792,11 @@
             "December 19 came,",
             "and during the class program,",
             "the teacher handed Christine a letter:",
-            "she would pick up her and her siblings on December 24."
+            "she would pick up her and her siblings on December 24"
           ],
           "parts": [
             "the teacher handed Christine a letter:",
-            "she would pick up her and her siblings on December 24.",
+            "she would pick up her and her siblings on December 24",
             "and during the class program,",
             "December 19 came,"
           ],
@@ -69006,20 +68804,8 @@
         },
         {
           "part_num": 5,
-          "correct_answer": [
-            "Christine prayed with a great smile.",
-            "\"Thank you Holy Creator",
-            "for bringing us wonderful people",
-            "this special holiday,\"",
-            "she said joyfully."
-          ],
-          "parts": [
-            "she said joyfully.",
-            "\"Thank you Holy Creator",
-            "Christine prayed with a great smile.",
-            "for bringing us wonderful people",
-            "this special holiday,\""
-          ],
+          "correct_answer": ["Christine", "prayed", "with a", "great smile"],
+          "parts": ["great smile", "prayed", "Christine", "with a"],
           "explanation": "Christine expressed her gratitude in a heartfelt prayer."
         }
       ],
@@ -74259,10 +74045,10 @@
           "correct_answer": [
             "After what felt",
             "like an eternity,",
-            "the food was finally ready."
+            "the food was finally ready"
           ],
           "parts": [
-            "the food was finally ready.",
+            "the food was finally ready",
             "After what felt",
             "like an eternity,"
           ],
@@ -74273,11 +74059,11 @@
           "correct_answer": [
             "Then came",
             "the oceans of macaroni,",
-            "stretching left and right."
+            "stretching left and right"
           ],
           "parts": [
             "the oceans of macaroni,",
-            "stretching left and right.",
+            "stretching left and right",
             "Then came"
           ],
           "explanation": "The macaroni is described vividly as oceans stretching across the table."
@@ -74287,11 +74073,11 @@
           "correct_answer": [
             "After the feast",
             "fit for a king was done,",
-            "I was stuffed like a turkey."
+            "I was stuffed like a turkey"
           ],
           "parts": [
             "fit for a king was done,",
-            "I was stuffed like a turkey.",
+            "I was stuffed like a turkey",
             "After the feast"
           ],
           "explanation": "The narrator humorously compares their fullness to being stuffed like a turkey."
