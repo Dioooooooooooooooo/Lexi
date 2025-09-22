@@ -1,3 +1,5 @@
+import { Minigame } from './Minigame';
+
 export interface ReadingSession {
   id: string;
   pupil_id: string;
@@ -5,4 +7,5 @@ export interface ReadingSession {
   completion_percentage: number;
   started_at: string;
   completed_at: string;
+  minigames: Minigame[];
 }

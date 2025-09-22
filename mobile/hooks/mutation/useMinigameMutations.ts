@@ -7,6 +7,9 @@ import {
   minigamesControllerCreateWflMinigame,
   minigamesControllerCreateChoicesMinigame,
   minigamesControllerCreateSrMinigame,
+  minigamesControllerUpdateChoicesLog,
+  minigamesControllerUpdateWordsFromLettersLog,
+  minigamesControllerUpdateSentenceRearrangementLog,
 } from '../api/requests';
 import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
@@ -45,9 +48,10 @@ export const useCreateSentenceRearrangementLog = () => {
   return useMutation({
     mutationFn: async (data: any) => {
       await setupAuthToken();
-      const res = await minigamesControllerCreateSentenceRearrangementLog({
+      const res = await minigamesControllerUpdateSentenceRearrangementLog({
         body: data,
       });
+      // console.log('senretenreas log update', res);
       return res.data?.data;
     },
     onSuccess: () => {
@@ -66,7 +70,7 @@ export const useCreateChoicesLog = () => {
   return useMutation({
     mutationFn: async (data: any) => {
       await setupAuthToken();
-      const res = await minigamesControllerCreateChoicesLog({
+      const res = await minigamesControllerUpdateChoicesLog({
         body: data,
       });
       return res.data?.data;
@@ -87,7 +91,7 @@ export const useCreateWordsFromLettersLog = () => {
   return useMutation({
     mutationFn: async (data: any) => {
       await setupAuthToken();
-      const res = await minigamesControllerCreateWordsFromLettersLog({
+      const res = await minigamesControllerUpdateWordsFromLettersLog({
         body: data,
       });
       return res.data?.data;

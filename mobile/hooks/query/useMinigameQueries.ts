@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import {
+  minigamesControllerFindMinigamelogsByReadingSessionId,
   minigamesControllerFindMinigamesByMaterialId,
   minigamesControllerFindMinigamesBySessionId,
   minigamesControllerFindWordsFromLettersMinigame,
 } from '../api/requests';
 import { setupAuthToken, queryKeys } from '../api/apiUtils';
+import { MinigameLog } from '@/models/MinigameLog';
 
 // =============================================================================
 // MINIGAME QUERIES - Data Fetching Hooks
@@ -51,6 +53,23 @@ export const useWordsFromLettersMinigame = (readingMaterialId: string) => {
       return res.data?.data;
     },
     enabled: !!readingMaterialId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+export const useMinigameLogsBySessionId = (sessionId: string) => {
+  return useQuery({
+    queryKey: queryKeys.minigames.minigameLogs(sessionId),
+    queryFn: async () => {
+      await setupAuthToken();
+      const res = await minigamesControllerFindMinigamelogsByReadingSessionId({
+        path: { readingSessionID: sessionId },
+      });
+
+      console.log("session's minigame logs", res.data);
+      return res.data?.data as MinigameLog[];
+    },
+    enabled: !!sessionId,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 };

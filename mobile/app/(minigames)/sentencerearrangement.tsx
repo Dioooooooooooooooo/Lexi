@@ -10,6 +10,12 @@ import { Text } from '@/components/ui/text';
 import { makeBubble } from '@/utils/makeBubble';
 import { Minigame, SentenceRearrangement } from '@/models/Minigame';
 import { useCreateSentenceRearrangementLog } from '@/hooks';
+import { useUserStore } from '@/stores/userStore';
+import {
+  MinigameLog,
+  MinigameLogResult,
+  MinigameLogResultInfo,
+} from '@/models/MinigameLog';
 
 const SentenceRearrangementBtn = ({
   text,
@@ -34,9 +40,11 @@ const SentenceRearrangementBtn = ({
 // TODO: decouple from zustand
 const SentenceRearrangementBubble = ({
   minigame,
+  minigameLog,
   onPress,
 }: {
   minigame: Minigame;
+  minigameLog: MinigameLog;
   onPress: (msg: bubble, msgType: MessageTypeEnum) => void;
 }) => {
   // const [isAudio, setIsAudio] = useState(false);
@@ -49,28 +57,45 @@ const SentenceRearrangementBubble = ({
     parts,
     resetGameState,
     setParts,
+    setCurrentAnswer,
   } = useSentenceRearrangementMiniGameStore();
   const metadata = JSON.parse(minigame.metadata) as SentenceRearrangement;
   const { setCurrentMinigame, gameOver } = useMiniGameStore();
   const { mutateAsync: createLog } = useCreateSentenceRearrangementLog();
+  const user = useUserStore(state => state.user);
+  const [result, setResult] = useState<MinigameLogResultInfo>();
+  const minigameLogResult = minigameLog.result
+    ? (JSON.parse(minigameLog.result) as MinigameLogResult)
+    : undefined;
 
   // init bruh
   useEffect(() => {
     resetGameState();
+
+    if (minigameLogResult) {
+      console.log('ararnrgemnet result', minigameLogResult.result);
+      const res = JSON.parse(minigameLogResult.result) as MinigameLogResultInfo;
+      setResult(res);
+      console.log('arrangement result', res);
+      setIsFinished(true);
+      setCurrentAnswer(res?.answers);
+
+      return;
+    }
+
     setParts(metadata.parts);
     setCurrentMinigame(minigame);
-  }, []);
+  }, [minigameLog]);
 
-  console.log('correct answer', metadata.correct_answer?.join(''));
-  console.log('current asnwer joined', currentAnswer.join(''));
-  console.log('parts', parts);
+  console.log('minigamelog for sentencerrange:', result);
 
   useEffect(() => {
     const initSession = async () => {
       let score = 0;
       if (
         currentAnswer.length === metadata.parts.length &&
-        isAnswered === true
+        isAnswered === true &&
+        isFinished === false
       ) {
         let bubble;
         console.log('Sentence Rearrangement minigame finished!');
@@ -88,9 +113,15 @@ const SentenceRearrangementBubble = ({
           score: score,
         });
 
-        console.log('minigame log created', minigameLog);
-        const log = await createLog(minigameLog);
-        console.log('log:', log);
+        // console.log('minigame log created', minigameLog);
+        const log = await createLog({
+          minigame_id: minigame.id,
+          reading_session_id: minigameLog?.reading_session_id,
+          pupil_id: user?.pupil.id,
+          result: JSON.stringify(minigameLog),
+        });
+
+        // console.log('updated arrangement minigamelog:', log);
 
         return;
       }

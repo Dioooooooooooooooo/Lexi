@@ -20,7 +20,7 @@ export const useCreateReadingSession = () => {
         const res = await readingSessionsControllerCreate({
           body: data,
         });
-        console.log('Reading Session useMutation:', res.data.data);
+        // console.log('Reading Session useMutation:', res.data.data);
         return res.data?.data;
       } catch (err) {
         console.error('Reading Session Creation failed:', err);

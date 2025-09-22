@@ -22,13 +22,11 @@ import { Minigame } from '@/models/Minigame';
 import { useThrottle } from '@/hooks/utils/useThrottle';
 import {
   useCreateReadingSession,
-  useRandomMinigamesByMaterial,
-  useRandomMinigamesBySession,
+  useMinigameLogsBySessionId,
   useUpdateReadingSession,
 } from '@/hooks';
 import { useWordsFromLettersMiniGameStore } from '@/stores/miniGameStore';
 import { useReadingSessionStore } from '@/stores/readingSessionStore';
-import { ReadingSession } from '@/models/ReadingSession';
 
 const iconMap: Record<string, any> = {
   Story: require('@/assets/images/storyIcons/narrator.png'),
@@ -64,6 +62,7 @@ function minigameProvider(
       type: MessageTypeEnum.ARRANGE,
       payload: minigame,
     };
+
     return arrangeBubble;
   } else {
     return null;
@@ -71,39 +70,109 @@ function minigameProvider(
 }
 
 const Read = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  // const [messages, setMessages] = useState<Message[]>([]);
   const [chunkIndex, setChunkIndex] = useState(0);
   const [word, setWord] = useState<string | null>(null);
-  const { data, isLoading: isDictionaryLoading } = useDictionary(word || '');
-  const bubbleCount = useRef(0);
-  const minigameCount = useRef(0);
+  const [minigames, setMinigames] = useState<Minigame[]>();
+  const [isFinished, setIsFinished] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
-  const readingSession = useRef<ReadingSession>(null);
   const { height: screenHeight } = useWindowDimensions();
+
   const selectedContent = useReadingContentStore(
     state => state.selectedContent,
   );
-  const [isFinished, setIsFinished] = useState(false);
-  const { data: minigames, isLoading: isMinigameLoading } =
-    useRandomMinigamesBySession(selectedContent?.id);
+  const { data, isLoading: isDictionaryLoading } = useDictionary(word || '');
   const { mutateAsync: createReadingSession } = useCreateReadingSession();
   const { mutateAsync: updateReadingSession } = useUpdateReadingSession();
   const { setWords, setLetters } = useWordsFromLettersMiniGameStore();
-  // const setCurrentSession = useReadingSessionStore(
-  //   state => state.setCurrentSession,
-  // );
   const getPastSession = useReadingSessionStore(state => state.getPastSession);
   const updateReadingSessionProgress = useReadingSessionStore(
     state => state.updateReadingSessionProgress,
   );
+  const setCurrentSession = useReadingSessionStore(
+    state => state.setCurrentSession,
+  );
+  const currentSession = useReadingSessionStore(state => state.currentSession);
   const addSession = useReadingSessionStore(state => state.addSession);
+  const { data: minigameLogs, isLoading: isMinigameLogsLoading } =
+    useMinigameLogsBySessionId(currentSession?.id || '');
+
+  const addMessage = useReadingSessionStore(state => state.addMessage);
+  const replaceLastMessage = useReadingSessionStore(
+    state => state.replaceLastMessage,
+  );
+  const removeMessage = useReadingSessionStore(state => state.removeMessage);
+
+  useEffect(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: false });
+    console.log('scroll');
+  }, [addMessage]);
+
+  useEffect(() => {
+    const initSession = async () => {
+      const pastSession = getPastSession(selectedContent.id);
+
+      if (!pastSession) {
+        const newReadingSession = await createReadingSession({
+          reading_material_id: selectedContent?.id,
+        });
+        addSession(newReadingSession);
+        setCurrentSession(newReadingSession);
+        setMinigames(newReadingSession.minigames);
+        setChunkIndex(newReadingSession.completion_percentage);
+      } else {
+        setCurrentSession(pastSession);
+        setMinigames(pastSession.minigames);
+        setChunkIndex(pastSession.completion_percentage);
+      }
+    };
+
+    initSession();
+    console.log('init');
+  }, []);
+
+  const messages = useReadingSessionStore(state => state.currentMessages);
+
+  // parse each chunk into (chat/story) bubble type with props
+  const parsedBubbles = useMemo<Message[]>(() => {
+    console.log('parse');
+    if (!selectedContent?.content || !minigames) return [];
+
+    let bubbleCount = 0;
+    let minigameCount = 0;
+    return selectedContent.content
+      .split(/(?=\[\w*\])|(?=\$[A-Z]+\$)/g)
+      .map(chunk => chunk.trim())
+      .filter(chunk => chunk.length > 0)
+      .map(chunk => {
+        const match = chunk.match(/^\[(\w*)\](.+)|^(\$[A-Z]+\$)/s);
+        if (!match) return null;
+        const [, person, text] = match;
+        if (chunk.includes('$MINIGAME')) {
+          return minigameProvider(minigameCount++, bubbleCount++, minigames);
+        }
+
+        const storyBubble: Message = {
+          id: bubbleCount++,
+          type: MessageTypeEnum.STORY,
+          payload: makeBubble(text.trim(), person || 'Story', personEnum.Story),
+        };
+        return storyBubble;
+      })
+      .filter((b): b is Message => b !== null);
+  }, [selectedContent?.content, minigames]);
 
   const onBackPress = () => {
-    if (readingSession.current?.id) {
-      updateReadingSessionProgress(readingSession.current?.id, chunkIndex);
+    if (currentSession) {
+      updateReadingSessionProgress(currentSession.id, chunkIndex);
       updateReadingSession({
-        id: readingSession.current?.id!,
-        body: { completion_percentage: chunkIndex },
+        id: currentSession.id!,
+        body: {
+          completion_percentage: Math.max(
+            chunkIndex,
+            currentSession.completion_percentage,
+          ),
+        },
       });
     }
     router.back();
@@ -122,74 +191,7 @@ const Read = () => {
     };
   }, [chunkIndex]); // Add chunkIndex as dependency since onBackPress uses it
 
-  useEffect(() => {
-    scrollViewRef.current?.scrollToEnd({ animated: false });
-  }, [messages]);
-
-  // parse each chunk into (chat/story) bubble type with props
-  const parsedBubbles = useMemo<Message[]>(() => {
-    if (!selectedContent?.content || !minigames) return [];
-
-    return selectedContent.content
-      .split(/(?=\[\w*\])|(?=\$[A-Z]+\$)/g)
-      .map(chunk => chunk.trim())
-      .filter(chunk => chunk.length > 0)
-      .map(chunk => {
-        const match = chunk.match(/^\[(\w*)\](.+)|^(\$[A-Z]+\$)/s);
-        if (!match) return null;
-        const [, person, text] = match;
-        if (chunk.includes('$MINIGAME')) {
-          return minigameProvider(
-            minigameCount.current++,
-            bubbleCount.current++,
-            minigames,
-          );
-        }
-
-        const storyBubble: Message = {
-          id: bubbleCount.current++,
-          type: MessageTypeEnum.STORY,
-          payload: makeBubble(text.trim(), person || 'Story', personEnum.Story),
-        };
-        return storyBubble;
-      })
-      .filter((b): b is Message => b !== null);
-  }, [selectedContent?.content, minigames]);
-
-  useEffect(() => {
-    const initSession = async () => {
-      const pastSession = await getPastSession(selectedContent.id);
-      let currentSession = pastSession;
-      if (!pastSession) {
-        console.log('Creating new reading session');
-        const newReadingSession = await createReadingSession({
-          reading_material_id: selectedContent?.id,
-        });
-        addSession(newReadingSession);
-        // setCurrentSession(newReadingSession);
-
-        currentSession = newReadingSession;
-      } else {
-        console.log('Using past session');
-        // setCurrentSession(pastSession);
-        setMessages(parsedBubbles.slice(0, pastSession.completion_percentage));
-        setChunkIndex(pastSession.completion_percentage);
-      }
-
-      readingSession.current = currentSession;
-      console.log('current session', readingSession.current);
-    };
-
-    initSession();
-  }, [
-    selectedContent.content,
-    parsedBubbles,
-    getPastSession,
-    selectedContent.id,
-    createReadingSession,
-    addSession,
-  ]);
-
+  // wfl init
   useEffect(() => {
     if (minigames) {
       const metadata = minigames[minigames.length - 1].metadata;
@@ -202,7 +204,8 @@ const Read = () => {
       setWords(words);
       setLetters(letters);
     }
-  }, [minigames, readingSession]);
+    console.log('wfl');
+  }, [minigames]);
 
   // Word definition bubble
   useEffect(() => {
@@ -210,7 +213,7 @@ const Read = () => {
 
     if (word) {
       const newMessage: Message = {
-        id: bubbleCount.current++,
+        id: messages.length,
         type: MessageTypeEnum.STORY,
         payload: {
           text: word,
@@ -221,29 +224,47 @@ const Read = () => {
       };
 
       if (
-        (messages[messages.length - 1].payload as bubble).type ==
+        (messages[messages.length - 1].payload as bubble).type ===
         personEnum.Description
       ) {
-        setMessages(prev => [...prev.slice(0, -1), newMessage]);
+        replaceLastMessage(newMessage);
       } else {
-        setMessages(prev => [...prev, newMessage]);
+        addMessage(newMessage);
       }
       setWord(null);
     }
-  }, [data, isDictionaryLoading]);
+    console.log('dict');
+  }, [word, data, isDictionaryLoading]);
 
   // next btn
   const onPress = useThrottle(() => {
-    if (chunkIndex < parsedBubbles!.length) {
+    if (
+      currentSession?.completion_percentage >= parsedBubbles.length ||
+      chunkIndex >= parsedBubbles.length
+    ) {
+      setIsFinished(true);
+      return;
+    }
+
+    if (
+      currentSession?.completion_percentage < parsedBubbles!.length ||
+      chunkIndex === parsedBubbles.length
+    ) {
       const newMessage = parsedBubbles[chunkIndex];
-      setMessages(prev => [...prev, newMessage]);
+      addMessage(newMessage);
       setChunkIndex(prev => prev + 1);
     }
 
-    if (chunkIndex === parsedBubbles.length) {
-      setIsFinished(true);
-    }
+    console.log('onpress');
   });
+
+  const getMinigameLogById = (minigameId: string) => {
+    const res = minigameLogs.find(
+      minigame => minigame.minigame_id === minigameId,
+    );
+    console.log('getminigamebyid', res);
+    return res;
+  };
 
   const completedStory = useThrottle(() => {
     router.push({ pathname: '/(minigames)/wordsfromletters' });
@@ -255,16 +276,23 @@ const Read = () => {
   };
 
   const onClosePress = (id: number) => {
-    setMessages(prev => prev.filter(msg => msg.id !== id));
+    removeMessage(id);
   };
 
   const addStoryMessage = (msg: bubble, msgType: MessageTypeEnum) => {
+    if (!msg) {
+      console.warn('tried to add undefined');
+      return;
+    }
+
     const newMsg: Message = {
-      id: bubbleCount.current++,
+      id: parsedBubbles.length,
       type: msgType,
       payload: msg,
     };
-    setMessages(prev => [...prev, newMsg]);
+
+    console.log('addstorymsg', newMsg);
+    addMessage(newMsg);
   };
 
   const isNextDisabled = () => {
@@ -281,21 +309,30 @@ const Read = () => {
     return false;
   };
 
-  if (isMinigameLoading) {
+  console.log('@MESSAGES:', messages);
+  console.log('@@CURRENT SESSION', currentSession);
+  console.log('@@@MINIGAMELOGS', minigameLogs);
+  console.log(
+    '@@@@PARSED BUBBLES LEN',
+    parsedBubbles.length,
+    '@@@@@CHUNK INDEX LEN',
+    chunkIndex,
+  );
+  // console.log('@@@@MINIGAMES', minigames);
+
+  if (!currentSession || isMinigameLogsLoading || !minigames || !messages) {
     return (
       <View className="flex-1 items-center justify-center">
-        <Text>Loading story & minigames…</Text>
+        <Text>Loading story...</Text>
       </View>
     );
   }
-
-  // console.log('mgsgs', parsedBubbles);
 
   return (
     <View className="flex-1 bg-lightGray">
       <ReadContentHeader
         title={selectedContent?.title!}
-        handleBack={onBackPress}
+        handleBack={() => router.back()}
         background="white"
       />
 
@@ -312,46 +349,58 @@ const Read = () => {
             style={{ minHeight: screenHeight }}
             className="flex justify-end"
           >
-            {messages.map(msg => (
-              <View key={msg.id} className="py-1">
-                {msg.type === MessageTypeEnum.STORY
-                  ? (() => {
-                      const bubblePayload = msg.payload as bubble;
-                      return (
-                        <ChatBubble
-                          bubble={bubblePayload}
-                          icon={getIconSource(bubblePayload.person)}
-                          showIcon={
-                            bubblePayload.type === personEnum.Story ||
-                            bubblePayload.type === personEnum.Game
-                          }
-                          onWordPress={defineWord}
-                          onClosePress={() => onClosePress(msg.id)}
-                        />
-                      );
-                    })()
-                  : // feel nako better ba naay minigame middle layer somewhere here??
-                    msg.type === MessageTypeEnum.CHOICES
+            {messages
+              .filter(
+                (msg): msg is Message => msg !== undefined && msg !== null,
+              )
+              .map((msg, index) => (
+                <View key={index} className="py-1">
+                  {msg.type === MessageTypeEnum.STORY
                     ? (() => {
+                        const bubblePayload = msg.payload as bubble;
                         return (
-                          <ChoicesBubble
-                            minigame={msg.payload as Minigame}
-                            onPress={addStoryMessage}
+                          <ChatBubble
+                            bubble={bubblePayload}
+                            icon={getIconSource(bubblePayload.person)}
+                            showIcon={
+                              bubblePayload.type === personEnum.Story ||
+                              bubblePayload.type === personEnum.Game
+                            }
+                            onWordPress={defineWord}
+                            onClosePress={() => onClosePress(msg.id)}
                           />
                         );
                       })()
-                    : msg.type === MessageTypeEnum.ARRANGE
+                    : // feel nako better ba naay minigame middle layer somewhere here??
+                      msg.type === MessageTypeEnum.CHOICES
                       ? (() => {
+                          const choicesMinigame = msg.payload as Minigame;
                           return (
-                            <SentenceRearrangementBubble
-                              minigame={msg.payload as Minigame}
+                            <ChoicesBubble
+                              minigame={choicesMinigame}
                               onPress={addStoryMessage}
+                              minigameLog={getMinigameLogById(
+                                choicesMinigame.id,
+                              )}
                             />
                           );
                         })()
-                      : null}
-              </View>
-            ))}
+                      : msg.type === MessageTypeEnum.ARRANGE
+                        ? (() => {
+                            const SentenceRearrange = msg.payload as Minigame;
+                            return (
+                              <SentenceRearrangementBubble
+                                minigame={SentenceRearrange}
+                                onPress={addStoryMessage}
+                                minigameLog={getMinigameLogById(
+                                  SentenceRearrange.id,
+                                )}
+                              />
+                            );
+                          })()
+                        : null}
+                </View>
+              ))}
           </View>
           <View className="py-4">
             {!isFinished ? (

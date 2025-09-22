@@ -13,9 +13,16 @@ export default function Index() {
   const user = useUserStore(state => state.user);
   const setUser = useUserStore(state => state.setUser);
   const [isValidatingAuth, setIsValidatingAuth] = React.useState(true);
-  const { data: authData, isLoading: isAuthLoading, error: authError } = useAuthMe();
-  
+  const {
+    data: authData,
+    isLoading: isAuthLoading,
+    error: authError,
+  } = useAuthMe();
+
   useRefreshToken();
+
+  // console.log('Clearing asyncstorage rq');
+  // AsyncStorage.clear();
 
   // Validate authentication state on app start
   useEffect(() => {
@@ -23,7 +30,7 @@ export default function Index() {
       try {
         // Check if we have stored tokens
         const accessToken = await AsyncStorage.getItem('access_token');
-        
+
         if (!accessToken) {
           console.log('🔍 No access token found, clearing user state');
           setUser(null);
@@ -46,7 +53,7 @@ export default function Index() {
           console.log('✅ Valid authentication confirmed');
           setUser(authData);
         }
-        
+
         setIsValidatingAuth(false);
       } catch (error) {
         console.error('❌ Auth validation error:', error);

@@ -44,7 +44,10 @@ export const useMiniGameStore = create<MiniGameStore>()(
 
       gameOver: (result: Record<string, any>): MinigameLog | null => {
         const currentMinigame = get().currentMinigame;
-        if (!currentMinigame) return null;
+        if (!currentMinigame) {
+          console.log('No current minigame');
+          return null;
+        }
 
         let logResult: Record<string, any> = {};
 
@@ -64,6 +67,7 @@ export const useMiniGameStore = create<MiniGameStore>()(
             logResult['score'] = result.score;
             break;
           case 1: // choices
+            logResult['answers'] = result.answers;
             logResult['score'] = result.score;
             break;
           case 10: // word from letters
@@ -94,6 +98,8 @@ export const useMiniGameStore = create<MiniGameStore>()(
           reading_session_id: currentReadingSession.id,
           result: JSON.stringify(logResult),
         };
+
+        console.log('game over minigame log', minigameLog);
         set({ gameStartTime: null });
         return minigameLog;
       },
@@ -428,6 +434,7 @@ interface SentenceRearrangementGameState {
   setParts: (parts: string[]) => void;
   addAnswer: (answer: string[]) => void;
   resetCurrentAnswer: () => void;
+  setCurrentAnswer: (answer: string[]) => void;
   addPartToCurrentAnswer: (part: string) => void;
   removePartFromCurrentAnswer: (index: number) => void;
   decrementLives: () => void;
@@ -455,6 +462,8 @@ export const useSentenceRearrangementMiniGameStore =
 
         addPartToCurrentAnswer: (part: string) =>
           set(state => ({ currentAnswer: [...state.currentAnswer, part] })),
+        setCurrentAnswer: (currentAnswer: string[]) =>
+          set({ currentAnswer: currentAnswer }),
 
         removePartFromCurrentAnswer: (index: number) =>
           set(state => {

@@ -64,6 +64,8 @@ export const queryKeys = {
       [...queryKeys.minigames.all, 'random-by-session', sessionId] as const,
     wordsFromLetters: (materialId: string) =>
       [...queryKeys.minigames.all, 'words-from-letters', materialId] as const,
+    minigameLogs: (sessionId: string) =>
+      [...queryKeys.minigames.all, 'minigame-logs', sessionId] as const,
   },
   // Achievements keys
   achievements: {
