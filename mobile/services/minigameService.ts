@@ -95,16 +95,9 @@ const createMinigameLog = async (
       case MinigameType.WordsFromLetters:
         url += 'wordsfromletters';
         break;
-      case MinigameType.FillInTheBlanks:
-        url += 'fillintheblanks';
-        break;
 
       case MinigameType.SentenceRearrangement:
         url += 'sentencerearrangement';
-        break;
-
-      case MinigameType.WordHunt:
-        url += 'wordhunt';
         break;
 
       case MinigameType.Choices:

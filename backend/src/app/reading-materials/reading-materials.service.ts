@@ -105,12 +105,14 @@ export class ReadingMaterialsService {
   ): Promise<ReadingMaterialWithGenres[]> {
     const pupil = await this.db
       .selectFrom('public.pupils')
-      .where('user_id', '=', userId)
+      .where('id', '=', userId)
       .selectAll()
-      .executeTakeFirstOrThrow(() => new NotFoundException('Pupil not found'));
+      .executeTakeFirstOrThrow(
+        () => new NotFoundException(`Pupil ${userId} not found`),
+      );
 
     // step 1: get completed sessions and include readingmaterial + genres
-    var completedSessions = await this.db
+    const completedSessions = await this.db
       .selectFrom('public.reading_sessions as rs')
       .innerJoin(
         'public.reading_materials as rm',

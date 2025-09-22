@@ -73,10 +73,10 @@ const SentenceRearrangementBubble = ({
     resetGameState();
 
     if (minigameLogResult) {
-      console.log('ararnrgemnet result', minigameLogResult.result);
+      // console.log('ararnrgemnet result', minigameLogResult.result);
       const res = JSON.parse(minigameLogResult.result) as MinigameLogResultInfo;
       setResult(res);
-      console.log('arrangement result', res);
+      // console.log('arrangement result', res);
       setIsFinished(true);
       setCurrentAnswer(res?.answers);
 
@@ -87,7 +87,7 @@ const SentenceRearrangementBubble = ({
     setCurrentMinigame(minigame);
   }, [minigameLog]);
 
-  console.log('minigamelog for sentencerrange:', result);
+  // console.log('minigamelog for sentencerrange:', result);
 
   useEffect(() => {
     const initSession = async () => {

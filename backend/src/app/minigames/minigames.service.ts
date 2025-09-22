@@ -101,7 +101,7 @@ export class MinigamesService {
         'rm.id',
         'rs.reading_material_id',
       )
-      .where('id', '=', readingSessionID)
+      .where('rs.id', '=', readingSessionID)
       .select(['rs.pupil_id', 'rs.reading_material_id', 'rm.difficulty'])
       .executeTakeFirstOrThrow(
         () => new NotFoundException('Reading session not found'),

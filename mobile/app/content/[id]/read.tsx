@@ -25,7 +25,10 @@ import {
   useMinigameLogsBySessionId,
   useUpdateReadingSession,
 } from '@/hooks';
-import { useWordsFromLettersMiniGameStore } from '@/stores/miniGameStore';
+import {
+  useMiniGameStore,
+  useWordsFromLettersMiniGameStore,
+} from '@/stores/miniGameStore';
 import { useReadingSessionStore } from '@/stores/readingSessionStore';
 
 const iconMap: Record<string, any> = {
@@ -70,7 +73,6 @@ function minigameProvider(
 }
 
 const Read = () => {
-  // const [messages, setMessages] = useState<Message[]>([]);
   const [chunkIndex, setChunkIndex] = useState(0);
   const [word, setWord] = useState<string | null>(null);
   const [minigames, setMinigames] = useState<Minigame[]>();
@@ -96,12 +98,14 @@ const Read = () => {
   const addSession = useReadingSessionStore(state => state.addSession);
   const { data: minigameLogs, isLoading: isMinigameLogsLoading } =
     useMinigameLogsBySessionId(currentSession?.id || '');
-
   const addMessage = useReadingSessionStore(state => state.addMessage);
   const replaceLastMessage = useReadingSessionStore(
     state => state.replaceLastMessage,
   );
   const removeMessage = useReadingSessionStore(state => state.removeMessage);
+  const setCurrentMinigame = useMiniGameStore(
+    state => state.setCurrentMinigame,
+  );
 
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: false });
@@ -255,18 +259,20 @@ const Read = () => {
       setChunkIndex(prev => prev + 1);
     }
 
-    console.log('onpress');
+    // console.log('onpress');
   });
 
   const getMinigameLogById = (minigameId: string) => {
     const res = minigameLogs.find(
       minigame => minigame.minigame_id === minigameId,
     );
-    console.log('getminigamebyid', res);
+    // console.log('getminigamebyid', res);o
     return res;
   };
 
   const completedStory = useThrottle(() => {
+    const wfl = minigames[minigames?.length - 1];
+    setCurrentMinigame(wfl);
     router.push({ pathname: '/(minigames)/wordsfromletters' });
   });
 
@@ -291,7 +297,7 @@ const Read = () => {
       payload: msg,
     };
 
-    console.log('addstorymsg', newMsg);
+    // console.log('addstorymsg', newMsg);
     addMessage(newMsg);
   };
 
@@ -309,15 +315,15 @@ const Read = () => {
     return false;
   };
 
-  console.log('@MESSAGES:', messages);
-  console.log('@@CURRENT SESSION', currentSession);
-  console.log('@@@MINIGAMELOGS', minigameLogs);
-  console.log(
-    '@@@@PARSED BUBBLES LEN',
-    parsedBubbles.length,
-    '@@@@@CHUNK INDEX LEN',
-    chunkIndex,
-  );
+  // console.log('@MESSAGES:', messages);
+  // console.log('@@CURRENT SESSION', currentSession);
+  // console.log('@@@MINIGAMELOGS', minigameLogs);
+  // console.log(
+  //   '@@@@PARSED BUBBLES LEN',
+  //   parsedBubbles.length,
+  //   '@@@@@CHUNK INDEX LEN',
+  //   chunkIndex,
+  // );
   // console.log('@@@@MINIGAMES', minigames);
 
   if (!currentSession || isMinigameLogsLoading || !minigames || !messages) {
@@ -410,7 +416,9 @@ const Read = () => {
                 }}
                 disabled={isNextDisabled()}
               >
-                <Text className="font-poppins-bold text-black">Next</Text>
+                <Text className="font-poppins-bold text-black">
+                  {chunkIndex === 0 ? 'Start' : 'Next'}
+                </Text>
               </Button>
             ) : (
               <View className="w-full items-center">

@@ -77,10 +77,10 @@ const ChoicesBubble = ({
     });
 
     responseBubbles(ans.choice, score >= 1, 500);
-    console.log('updated choices minigame log', log);
+    // console.log('updated choices minigame log', log);
   };
 
-  console.log('choices minigamelog:', result);
+  // console.log('choices minigamelog:', result);
 
   return (
     <View className="flex flex-row gap-2 items-end">
