@@ -4,11 +4,13 @@ import { queryKeys, setupAuthToken } from '../api/apiUtils';
 import { client } from '../api/requests/client.gen';
 import {
   authControllerChangePassword,
+  authControllerDeleteUser,
   authControllerLogin,
   authControllerLogout,
   authControllerRefreshToken,
   authControllerRegister,
   authControllerUpdateProfile,
+  imagekitControllerUploadImage,
 } from '../api/requests/sdk.gen';
 import { transformRegistrationData } from '../utils/authTransformers';
 import { useUserStore } from '@/stores/userStore';
@@ -253,7 +255,7 @@ export const useChangePassword = () => {
       });
     },
     onSuccess: response => {
-      console.log("success")
+      console.log('success');
       // Update profile in cache from response.data (update returns SuccessResponseDto)
       if (response.data && response.data.data) {
         queryClient.setQueryData(queryKeys.auth.me(), response.data.data);
@@ -303,6 +305,40 @@ export const useLogout = () => {
       setLastLoginStreak(null);
       setupAuthToken();
       queryClient.clear();
+    },
+  });
+};
+
+export const useUploadAvatar = () => {
+  return useMutation({
+    mutationFn: async avatar => {
+      await imagekitControllerUploadImage(avatar);
+    },
+    onSuccess: data => {
+      console.log('Upload successfuljjj: ', data);
+    },
+    onError: error => {
+      console.error('Error uploading avatar:', error.message);
+    },
+  });
+};
+
+export const useDeleteAccount = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => {
+      await setupAuthToken();
+      const res = await authControllerDeleteUser();
+      console.log('use mutation delete: ', res);
+      return res.data?.message;
+    },
+    onSuccess: () => {
+      // Invalidate all classroom queries
+      queryClient.invalidateQueries();
+    },
+    onError: (error: any) => {
+      console.error('Failed to delete user:', error);
     },
   });
 };

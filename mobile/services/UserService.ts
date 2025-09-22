@@ -6,13 +6,6 @@ import {
   useMutation,
   useQueries,
 } from '@tanstack/react-query';
-import { makeMultipartFormDataRequest } from '@/utils/utils';
-import { getAllReadingSessions } from './ReadingSessionService';
-import {
-  AchievementsService,
-  ReadingSessionsService,
-  UserService,
-} from '@/hooks/api/requests';
 import {
   setupAuthToken,
   useAuthMe,
@@ -21,20 +14,6 @@ import {
 } from '@/hooks';
 import { LoginStreak } from '@/models/LoginStreak';
 import { Achievement } from '@/models/Achievement';
-import axios from 'axios';
-
-export const getProfile = async () => {
-  try {
-    const response = await axiosInstance.get(`${API_URL}/auth/me`);
-
-    return response.data;
-  } catch (error: any) {
-    console.error('Error fetching profile:', error);
-    throw new Error(
-      error?.response?.data?.message || 'Failed to fetch profile',
-    );
-  }
-};
 
 export const useHandleUpdateProfile = () => {
   const updateProfileMutation = useUpdateProfile();
@@ -154,16 +133,6 @@ export const checkUserExist = async (fieldType: string, fieldValue: string) => {
   }
 };
 
-export const deleteAccount = async () => {
-  const response = await axiosInstance.delete(`${API_URL}/auth/me`);
-
-  if (response.status !== 200 && response.status !== 204) {
-    throw new Error(response.data.message);
-  }
-
-  return response.data;
-};
-
 export const uploadAvatar = async (avatar: {
   uri: string;
   type: string;
@@ -198,8 +167,9 @@ export const uploadAvatar = async (avatar: {
 
 export const useUploadAvatar = () => {
   return useMutation({
-    mutationFn: (avatar: { uri: string; type: string; name: string }) =>
-      uploadAvatar(avatar),
+    mutationFn: async (avatar: { uri: string; type: string; name: string }) => {
+      uploadAvatar(avatar);
+    },
     onSuccess: data => {
       console.log('Upload successfuljjj: ', data);
     },
