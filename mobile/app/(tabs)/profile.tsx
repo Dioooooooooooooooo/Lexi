@@ -1,7 +1,5 @@
 import { useUserStore } from '@/stores/userStore';
-import { API_URL } from '@/utils/constants';
 import { router } from 'expo-router';
-
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Book, Settings, Smartphone, Star, Zap } from 'lucide-react-native';
@@ -63,18 +61,18 @@ export default function Profile() {
 
   // Only show loading for Pupils when their queries are actually loading
   // Teachers don't need these queries, so skip this loading check for them
-  if (shouldShowData && (
-      achievementsQuery.isLoading ||
+  if (
+    shouldShowData &&
+    (achievementsQuery.isLoading ||
       screenTimeQuery.isLoading ||
       loginStreakQuery.isLoading ||
-      totalBooksQuery.isLoading
-    )
+      totalBooksQuery.isLoading)
   ) {
     console.log('🔍 Profile Debug - Pupil queries loading:', {
       achievements: achievementsQuery.isLoading,
       screenTime: screenTimeQuery.isLoading,
       loginStreak: loginStreakQuery.isLoading,
-      totalBooks: totalBooksQuery.isLoading
+      totalBooks: totalBooksQuery.isLoading,
     });
     return (
       <View className="flex-1 justify-center items-center">
@@ -100,7 +98,7 @@ export default function Profile() {
     user: user,
     role: user?.role,
     isPupil: isPupil,
-    renderingPupilView: user?.role === 'Pupil'
+    renderingPupilView: user?.role === 'Pupil',
   });
 
   return (
@@ -168,7 +166,9 @@ export default function Profile() {
                 </>
               ) : (
                 <>
-                  <Text className="text-xl font-poppins-bold">{user?.role}</Text>
+                  <Text className="text-xl font-poppins-bold">
+                    {user?.role}
+                  </Text>
                 </>
               )}
             </View>
@@ -194,8 +194,11 @@ export default function Profile() {
                 <View className="flex flex-row">
                   <ProfileStat
                     level={
-                      screenTimeQuery.data && Array.isArray(screenTimeQuery.data)
-                        ? formatScreenTime(screenTimeQuery.data.length * 30 || 0) // Estimate 30 min per session
+                      screenTimeQuery.data &&
+                      Array.isArray(screenTimeQuery.data)
+                        ? formatScreenTime(
+                            screenTimeQuery.data.length * 30 || 0,
+                          ) // Estimate 30 min per session
                         : '0'
                     }
                     description="Total Screentime"
@@ -254,7 +257,9 @@ export default function Profile() {
                 source={require('assets/images/teacher-profile.png')}
                 resizeMode="contain"
               />
-              <Text className="p-2 py-6 ">This user is a {user?.role?.toLowerCase()}!</Text>
+              <Text className="p-2 py-6 ">
+                This user is a {user?.role?.toLowerCase()}!
+              </Text>
             </View>
           )}
         </View>

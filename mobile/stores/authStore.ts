@@ -11,7 +11,7 @@ import { AuthenticationService } from '../hooks/api/requests';
 import { transformRegistrationData } from '../hooks/utils/authTransformers';
 import {
   refreshAccessToken,
-  signInWithFacebook,
+  // signInWithFacebook,
   signInWithGoogle,
   tokenAuth,
 } from '../services/AuthService';
@@ -69,13 +69,13 @@ export const useAuthStore = create<AuthStore>()(
               token = signIn.data?.idToken;
               response = await tokenAuth(0, token as string);
               break;
-            case 1:
-              signIn = await signInWithFacebook();
-              if (!signIn) {
-                throw Error('Signin Failed');
-              }
-              response = await tokenAuth(1, signIn as string);
-              break;
+            // case 1:
+            //   // // signIn = await signInWithFacebook();
+            //   // if (!signIn) {
+            //   //   throw Error('Signin Failed');
+            //   // }
+            //   // response = await tokenAuth(1, signIn as string);
+            //   break;
             default:
               console.warn('Invalid provider selected');
               return;

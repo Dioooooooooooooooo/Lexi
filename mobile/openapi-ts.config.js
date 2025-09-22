@@ -6,6 +6,9 @@ export default {
       name: '@hey-api/client-fetch',
       runtimeConfigPath: '../hey-api',
       exportFromIndex: true,
+      config: {
+        throwOnError: true,
+      },
     },
   ],
 };

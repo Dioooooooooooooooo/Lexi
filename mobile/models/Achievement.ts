@@ -4,8 +4,6 @@ export interface Achievement {
     description: string;
     badge: string;
     createdAt: string;
-    updatedAt: string;
-    string: string;
 }
 
 export interface PupilAchievement {

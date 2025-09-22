@@ -190,7 +190,7 @@ export class AuthService {
 
     if (userWithProvider.role === 'Pupil') {
       // Save login streak
-      void this.userService.updateLoginStreak(userWithProvider.id);
+      await this.userService.updateLoginStreak(userWithProvider.id);
     }
 
     // Generate JWT tokens

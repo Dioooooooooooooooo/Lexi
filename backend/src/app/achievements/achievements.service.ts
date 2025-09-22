@@ -80,13 +80,13 @@ export class AchievementsService {
 
   async getUserAchievements(pupilId: string): Promise<Achievement[]> {
     return await this.db
-      .selectFrom('public.pupil_achievements')
+      .selectFrom('public.pupil_achievements as pa')
       .innerJoin(
         'public.achievements',
         'public.achievements.id',
-        'public.pupil_achievements.achievement_id',
+        'pa.achievement_id',
       )
-      .where('public.pupil_achievements.pupil_id', '=', pupilId)
+      .where('pa.pupil_id', '=', pupilId)
       .select([
         'public.achievements.id',
         'public.achievements.name',
@@ -166,6 +166,54 @@ export class AchievementsService {
         .selectAll()
         .executeTakeFirst()) || null
     );
+  }
+
+  async addLoginAchievement(pupilId: string): Promise<PupilAchievement[]> {
+    const achievementMilestones = new Map([
+      [3, 'Getting Started'],
+      [7, 'One Week Wonder'],
+      [14, 'Consistency Champ'],
+      [30, 'Committed Learner'],
+      [180, 'Half-Year Hero'],
+    ]);
+
+    // Get longest loginstreak
+    const streak = await this.db
+      .selectFrom('auth.login_streaks as ls')
+      .where('ls.pupil_id', '=', pupilId)
+      .select('ls.longest_streak')
+      .executeTakeFirstOrThrow(
+        () =>
+          new NotFoundException(
+            `Login streak for pupil ${pupilId} not available.`,
+          ),
+      );
+
+    const longestStreak = streak.longest_streak;
+    const addedAchievements: PupilAchievement[] = [];
+
+    for (const [milestone, achievementName] of achievementMilestones) {
+      if (longestStreak >= milestone) {
+        const existing = await this.hasAchievement(pupilId, achievementName);
+        if (!existing) {
+          const achievement = await this.db
+            .selectFrom('public.achievements')
+            .where('name', '=', achievementName)
+            .selectAll()
+            .executeTakeFirst();
+
+          if (achievement) {
+            const pupilAchievement = await this.awardAchievementToUser(
+              pupilId,
+              achievement.id,
+            );
+            addedAchievements.push(pupilAchievement);
+          }
+        }
+      }
+    }
+
+    return addedAchievements;
   }
 
   async addBooksReadAchievement(pupilId: string): Promise<PupilAchievement[]> {

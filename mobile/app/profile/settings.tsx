@@ -106,7 +106,7 @@ export default function Settings() {
         console.log("Changes form: ", changes);
         const res = await handleProfileUpdate(changes);
         if (res) {
-          const updatedUser = extractUser(res.data);
+          const updatedUser = extractUser(res);
           updateProfile(updatedUser);
         }
       } else {
@@ -185,10 +185,7 @@ export default function Settings() {
                       }
                     : user?.avatar
                       ? {
-                          uri: `${API_URL.replace(
-                            /\/api\/?$/,
-                            '/',
-                          )}${user.avatar.replace(/^\/+/, '')}`,
+                          uri: user.avatar
                         }
                       : require('@/assets/images/default_pfp.png')
                 }
