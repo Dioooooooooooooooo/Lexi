@@ -340,6 +340,25 @@ export type CreateMinigameLogDto = {
     result: string;
 };
 
+export type UpdateMinigameLogDto = {
+    /**
+     * Minigame ID
+     */
+    minigame_id: string;
+    /**
+     * Pupil ID
+     */
+    pupil_id: string;
+    /**
+     * Reading Session ID
+     */
+    reading_session_id: string;
+    /**
+     * Minigame Result in JSON format
+     */
+    result: string;
+};
+
 export type CreateReadingSessionDto = {
     /**
      * Reading material id
@@ -1145,13 +1164,127 @@ export type MinigamesControllerFindMinigamesByMaterialIdResponses = {
 
 export type MinigamesControllerFindMinigamesByMaterialIdResponse = MinigamesControllerFindMinigamesByMaterialIdResponses[keyof MinigamesControllerFindMinigamesByMaterialIdResponses];
 
+export type MinigamesControllerFindMinigamelogsByReadingSessionIdData = {
+    body?: never;
+    path: {
+        readingSessionID: string;
+    };
+    query?: never;
+    url: '/minigames/logs/{readingSessionID}';
+};
+
+export type MinigamesControllerFindMinigamelogsByReadingSessionIdResponses = {
+    /**
+     * Minigame logs successfully fetched.
+     */
+    200: SuccessResponseDto;
+};
+
+export type MinigamesControllerFindMinigamelogsByReadingSessionIdResponse = MinigamesControllerFindMinigamelogsByReadingSessionIdResponses[keyof MinigamesControllerFindMinigamelogsByReadingSessionIdResponses];
+
+export type MinigamesControllerUpdateSentenceRearrangementLogData = {
+    body: UpdateMinigameLogDto;
+    path?: never;
+    query?: never;
+    url: '/minigames/logs/SentenceRearrangement';
+};
+
+export type MinigamesControllerUpdateSentenceRearrangementLogResponses = {
+    /**
+     * Sentence Rearrangement Log updated successfully.
+     */
+    200: SuccessResponseDto;
+};
+
+export type MinigamesControllerUpdateSentenceRearrangementLogResponse = MinigamesControllerUpdateSentenceRearrangementLogResponses[keyof MinigamesControllerUpdateSentenceRearrangementLogResponses];
+
+export type MinigamesControllerCreateSentenceRearrangementLogData = {
+    body: CreateMinigameLogDto;
+    path?: never;
+    query?: never;
+    url: '/minigames/logs/SentenceRearrangement';
+};
+
+export type MinigamesControllerCreateSentenceRearrangementLogResponses = {
+    /**
+     * Sentence Rearrangement Log created successfully
+     */
+    201: SuccessResponseDto;
+};
+
+export type MinigamesControllerCreateSentenceRearrangementLogResponse = MinigamesControllerCreateSentenceRearrangementLogResponses[keyof MinigamesControllerCreateSentenceRearrangementLogResponses];
+
+export type MinigamesControllerUpdateChoicesLogData = {
+    body: UpdateMinigameLogDto;
+    path?: never;
+    query?: never;
+    url: '/minigames/logs/Choices';
+};
+
+export type MinigamesControllerUpdateChoicesLogResponses = {
+    /**
+     * Choices Log updated successfully.
+     */
+    200: SuccessResponseDto;
+};
+
+export type MinigamesControllerUpdateChoicesLogResponse = MinigamesControllerUpdateChoicesLogResponses[keyof MinigamesControllerUpdateChoicesLogResponses];
+
+export type MinigamesControllerCreateChoicesLogData = {
+    body: CreateMinigameLogDto;
+    path?: never;
+    query?: never;
+    url: '/minigames/logs/Choices';
+};
+
+export type MinigamesControllerCreateChoicesLogResponses = {
+    /**
+     * Choices log created successfully
+     */
+    201: SuccessResponseDto;
+};
+
+export type MinigamesControllerCreateChoicesLogResponse = MinigamesControllerCreateChoicesLogResponses[keyof MinigamesControllerCreateChoicesLogResponses];
+
+export type MinigamesControllerUpdateWordsFromLettersLogData = {
+    body: UpdateMinigameLogDto;
+    path?: never;
+    query?: never;
+    url: '/minigames/logs/WordsFromLetters';
+};
+
+export type MinigamesControllerUpdateWordsFromLettersLogResponses = {
+    /**
+     * WordsFromLetters Log updated successfully.
+     */
+    200: SuccessResponseDto;
+};
+
+export type MinigamesControllerUpdateWordsFromLettersLogResponse = MinigamesControllerUpdateWordsFromLettersLogResponses[keyof MinigamesControllerUpdateWordsFromLettersLogResponses];
+
+export type MinigamesControllerCreateWordsFromLettersLogData = {
+    body: CreateMinigameLogDto;
+    path?: never;
+    query?: never;
+    url: '/minigames/logs/WordsFromLetters';
+};
+
+export type MinigamesControllerCreateWordsFromLettersLogResponses = {
+    /**
+     * Words From Letters log created successfully
+     */
+    201: SuccessResponseDto;
+};
+
+export type MinigamesControllerCreateWordsFromLettersLogResponse = MinigamesControllerCreateWordsFromLettersLogResponses[keyof MinigamesControllerCreateWordsFromLettersLogResponses];
+
 export type MinigamesControllerFindMinigamesBySessionIdData = {
     body?: never;
     path: {
         readingSessionID: string;
     };
     query?: never;
-    url: '/minigames/{readingSessionID}/random';
+    url: '/minigames/sessions/{readingSessionID}';
 };
 
 export type MinigamesControllerFindMinigamesBySessionIdResponses = {
@@ -1162,6 +1295,24 @@ export type MinigamesControllerFindMinigamesBySessionIdResponses = {
 };
 
 export type MinigamesControllerFindMinigamesBySessionIdResponse = MinigamesControllerFindMinigamesBySessionIdResponses[keyof MinigamesControllerFindMinigamesBySessionIdResponses];
+
+export type MinigamesControllerFindRandomMinigamesBySessionIdData = {
+    body?: never;
+    path: {
+        readingSessionID: string;
+    };
+    query?: never;
+    url: '/minigames/{readingSessionID}/random';
+};
+
+export type MinigamesControllerFindRandomMinigamesBySessionIdResponses = {
+    /**
+     * Minigames fetched successfully
+     */
+    200: SuccessResponseDto;
+};
+
+export type MinigamesControllerFindRandomMinigamesBySessionIdResponse = MinigamesControllerFindRandomMinigamesBySessionIdResponses[keyof MinigamesControllerFindRandomMinigamesBySessionIdResponses];
 
 export type MinigamesControllerFindWordsFromLettersMinigameData = {
     body?: never;
@@ -1198,54 +1349,6 @@ export type MinigamesControllerGetMinigamesCompletionResponses = {
 };
 
 export type MinigamesControllerGetMinigamesCompletionResponse = MinigamesControllerGetMinigamesCompletionResponses[keyof MinigamesControllerGetMinigamesCompletionResponses];
-
-export type MinigamesControllerCreateSentenceRearrangementLogData = {
-    body: CreateMinigameLogDto;
-    path?: never;
-    query?: never;
-    url: '/minigames/logs/SentenceRearrangement';
-};
-
-export type MinigamesControllerCreateSentenceRearrangementLogResponses = {
-    /**
-     * Sentence Rearrangement Log created successfully
-     */
-    201: SuccessResponseDto;
-};
-
-export type MinigamesControllerCreateSentenceRearrangementLogResponse = MinigamesControllerCreateSentenceRearrangementLogResponses[keyof MinigamesControllerCreateSentenceRearrangementLogResponses];
-
-export type MinigamesControllerCreateChoicesLogData = {
-    body: CreateMinigameLogDto;
-    path?: never;
-    query?: never;
-    url: '/minigames/logs/Choices';
-};
-
-export type MinigamesControllerCreateChoicesLogResponses = {
-    /**
-     * Choices log created successfully
-     */
-    201: SuccessResponseDto;
-};
-
-export type MinigamesControllerCreateChoicesLogResponse = MinigamesControllerCreateChoicesLogResponses[keyof MinigamesControllerCreateChoicesLogResponses];
-
-export type MinigamesControllerCreateWordsFromLettersLogData = {
-    body: CreateMinigameLogDto;
-    path?: never;
-    query?: never;
-    url: '/minigames/logs/WordsFromLetters';
-};
-
-export type MinigamesControllerCreateWordsFromLettersLogResponses = {
-    /**
-     * Words From Letters log created successfully
-     */
-    201: SuccessResponseDto;
-};
-
-export type MinigamesControllerCreateWordsFromLettersLogResponse = MinigamesControllerCreateWordsFromLettersLogResponses[keyof MinigamesControllerCreateWordsFromLettersLogResponses];
 
 export type ReadingSessionsControllerFindAllData = {
     body?: never;

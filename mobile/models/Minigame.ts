@@ -12,6 +12,7 @@ export interface WordsFromLetters {
 export interface SentenceRearrangement {
   correct_answer: string[];
   parts: string[];
+  currentAnswer?: string[];
   explanation: string;
 }
 

@@ -1,10 +1,23 @@
 export interface MinigameLog {
-  id?: string;
-  minigameId: string;
-  pupilId: string;
-  readingSessionId: string;
+  id: string;
+  minigame_id: string;
+  pupil_id: string;
+  reading_session_id: string;
   result: string;
   createdAt?: string;
+}
+
+export interface MinigameLogResultInfo {
+  duration: number;
+  score: number;
+  answers?: string[];
+}
+
+export interface MinigameLogResult {
+  minigame_id: string;
+  pupil_id: string;
+  reading_session_id: string;
+  result: string;
 }
 
 // result: JSON for MinigameLog

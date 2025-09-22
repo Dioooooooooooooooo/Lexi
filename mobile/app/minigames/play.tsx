@@ -9,7 +9,7 @@ import { useMiniGameStore } from '@/stores/miniGameStore';
 import { memo, useEffect } from 'react';
 import WordsFromLetters from './wordsfromletters';
 import FillInTheBlank from './fillintheblanks';
-import SentenceArrangement from './sentencearrangement';
+// import SentenceRearrangement from './SentenceRearrangement';
 import { Minigame, MinigameType } from '@/models/Minigame';
 import WordHunt from './wordhunt';
 import { View, Text, ActivityIndicator } from 'react-native';
@@ -27,6 +27,7 @@ import { useCreateAssignmentLog } from '@/services/ClassroomService';
 import { useUserStore } from '@/stores/userStore';
 import { useReadingContentStore } from '@/stores/readingContentStore';
 import Choices from './twotruthsonelie';
+import SentenceRearrangement from './sentencearrangement';
 
 const { width } = Dimensions.get('window');
 
@@ -193,7 +194,9 @@ function Play() {
       // case MinigameType.FillInTheBlanks:
       //   return <FillInTheBlank minigame={minigame} nextGame={nextGame} />;
       case MinigameType.SentenceRearrangement:
-        return <SentenceArrangement minigame={minigame} nextGame={nextGame} />;
+        return (
+          <SentenceRearrangement minigame={minigame} nextGame={nextGame} />
+        );
       // case MinigameType.WordHunt:
       //   return <WordHunt minigame={minigame} nextGame={nextGame} />;
       case MinigameType.Choices:

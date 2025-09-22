@@ -10,42 +10,77 @@ import { View, TouchableOpacity, Image } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { makeBubble } from '@/utils/makeBubble';
 import { Choices, Minigame } from '@/models/Minigame';
+import { useCreateChoicesLog } from '@/hooks';
+import { useUserStore } from '@/stores/userStore';
+import {
+  MinigameLog,
+  MinigameLogResult,
+  MinigameLogResultInfo,
+} from '@/models/MinigameLog';
 
 const ChoicesBubble = ({
   minigame,
+  minigameLog,
   onPress,
 }: {
   minigame: Minigame;
+  minigameLog: MinigameLog;
   onPress: (msg: bubble, msgType: MessageTypeEnum) => void;
 }) => {
   const metadata = JSON.parse(minigame.metadata) as Choices;
   const [isPressed, setIsPressed] = useState(false);
-  const [score, setScore] = useState(0);
   const { setCurrentMinigame, gameOver } = useMiniGameStore();
+  const { mutateAsync: createLog } = useCreateChoicesLog();
+  const [result, setResult] = useState<MinigameLogResultInfo>();
+  const user = useUserStore(state => state.user);
+  const minigameLogResult = minigameLog.result // result can be nullable
+    ? (JSON.parse(minigameLog.result) as MinigameLogResult)
+    : undefined;
+
+  const responseBubbles = (
+    answer: string,
+    isCorrect: boolean,
+    time: number,
+  ) => {
+    const response = isCorrect ? "That's correct!" : 'Aww, try again next time';
+
+    const bubble = makeBubble(answer, '', personEnum.Self);
+    console.log('answer bubble', bubble);
+    const responseBubble = makeBubble(response, 'Story', personEnum.Game);
+    console.log('response bubble', responseBubble);
+
+    onPress(bubble, MessageTypeEnum.STORY);
+    setTimeout(() => onPress(responseBubble, MessageTypeEnum.STORY), time);
+  };
 
   useEffect(() => {
     setCurrentMinigame(minigame);
-  }, []);
 
-  useEffect(() => {
-    gameOver({ score });
-  }, [isPressed]);
+    if (minigameLogResult) {
+      setIsPressed(true);
+    }
+  }, [minigameLog]);
 
-  const onBtnPress = (ans: Choice) => {
-    let answer = '';
+  const onBtnPress = async (ans: Choice) => {
+    let score = 0;
     if (ans.answer) {
-      setScore(1);
-      answer = "That's correct!";
-    } else {
-      answer = 'Aww, try again next time!';
+      score = 1;
     }
 
-    const bubble = makeBubble(ans.choice, '', personEnum.Self);
-    const responseBubble = makeBubble(answer, 'Story', personEnum.Game);
+    const minigameLog = gameOver({ answers: ans.choice, score: score });
+    // console.log('choices log', minigameLog);
+    const log = await createLog({
+      minigame_id: minigame.id,
+      reading_session_id: minigameLog?.reading_session_id,
+      pupil_id: user?.pupil?.id,
+      result: JSON.stringify(minigameLog),
+    });
 
-    onPress(bubble, MessageTypeEnum.STORY);
-    setTimeout(() => onPress(responseBubble, MessageTypeEnum.STORY), 500);
+    responseBubbles(ans.choice, score >= 1, 500);
+    console.log('updated choices minigame log', log);
   };
+
+  console.log('choices minigamelog:', result);
 
   return (
     <View className="flex flex-row gap-2 items-end">

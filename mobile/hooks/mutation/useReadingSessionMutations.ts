@@ -15,15 +15,23 @@ export const useCreateReadingSession = () => {
 
   return useMutation({
     mutationFn: async (data: any) => {
-      await setupAuthToken();
-      const res = await readingSessionsControllerCreate({
-        body: data
-      });
-      return res.data?.data;
+      try {
+        await setupAuthToken();
+        const res = await readingSessionsControllerCreate({
+          body: data,
+        });
+        // console.log('Reading Session useMutation:', res.data.data);
+        return res.data?.data;
+      } catch (err) {
+        console.error('Reading Session Creation failed:', err);
+        throw err;
+      }
     },
     onSuccess: () => {
       // Invalidate reading sessions list to refetch updated data
-      queryClient.invalidateQueries({ queryKey: queryKeys.readingSessions.list() });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.readingSessions.list(),
+      });
     },
     onError: (error: any) => {
       console.error('Create reading session failed:', error);
@@ -39,18 +47,21 @@ export const useUpdateReadingSession = () => {
       await setupAuthToken();
       const res = await readingSessionsControllerUpdate({
         path: { id: data.id },
-        body: data.body
+        body: data.body,
       });
+      // console.log('update session', res);
       return res.data?.data;
     },
     onSuccess: (updatedData, variables) => {
       // Update the specific reading session in cache
       queryClient.setQueryData(
         queryKeys.readingSessions.detail(variables.id),
-        updatedData
+        updatedData,
       );
       // Invalidate reading sessions list to refetch updated data
-      queryClient.invalidateQueries({ queryKey: queryKeys.readingSessions.list() });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.readingSessions.list(),
+      });
     },
     onError: (error: any) => {
       console.error('Update reading session failed:', error);
@@ -65,17 +76,19 @@ export const useDeleteReadingSession = () => {
     mutationFn: async (data: { id: string }) => {
       await setupAuthToken();
       const res = await readingSessionsControllerRemove({
-        path: { id: data.id }
+        path: { id: data.id },
       });
       return res.data?.data;
     },
     onSuccess: (_, variables) => {
       // Remove the specific reading session from cache
-      queryClient.removeQueries({ 
-        queryKey: queryKeys.readingSessions.detail(variables.id) 
+      queryClient.removeQueries({
+        queryKey: queryKeys.readingSessions.detail(variables.id),
       });
       // Invalidate reading sessions list to refetch updated data
-      queryClient.invalidateQueries({ queryKey: queryKeys.readingSessions.list() });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.readingSessions.list(),
+      });
     },
     onError: (error: any) => {
       console.error('Delete reading session failed:', error);
