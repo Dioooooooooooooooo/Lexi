@@ -114,7 +114,7 @@ export default function LevelUp() {
               router.dismiss();
             } else {
               router.push({
-                pathname: '/minigames/results/recommendation',
+                pathname: '/(minigames)/results/recommendation',
                 params: {
                   data: data,
                 },

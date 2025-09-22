@@ -12,13 +12,12 @@ import { Text } from '~/components/ui/text';
 import { Heart, Shuffle } from 'lucide-react-native';
 import { CorrectSound, IncorrectSound } from '@/utils/sounds';
 import { Progress } from '@/components/ui/progress';
-import { MinigameType } from '@/models/Minigame';
 import { useCreateMinigameLog } from '@/services/minigameService';
 import { useUserStore } from '@/stores/userStore';
 import { router } from 'expo-router';
+import { useCreateWordsFromLettersLog } from '@/hooks';
 
 export default function WordsFromLetters() {
-  const { mutate: triggerCreateMinigameLog } = useCreateMinigameLog();
   const userRole = useUserStore(state => state.user?.role);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const {
@@ -43,10 +42,13 @@ export default function WordsFromLetters() {
   const { gameOver } = useMiniGameStore();
   const [firstGuess, isFirstGuess] = useState(false);
   const [firstWord, setFirstWord] = useState('');
-  console.log('wfl words:', words, 'wfl letters:', letters);
+  const { mutateAsync: createLog } = useCreateWordsFromLettersLog();
+  const minigame = useMiniGameStore(state => state.currentMinigame);
+  const user = useUserStore(state => state.user);
+  // console.log('wfl words:', words, 'wfl letters:', letters);
 
   // console.log('correct answers', correctAnswers);
-  console.log('guessed first word', firstWord);
+  // console.log('guessed first word', firstWord);
 
   useEffect(() => {
     resetGameState();
@@ -80,45 +82,57 @@ export default function WordsFromLetters() {
   }, [guess]);
 
   useEffect(() => {
-    if (words.length === 0) return;
-    if (lives <= 0 || correctAnswers.length === words.length) {
-      try {
-        console.log('Words from letters Game Over');
+    const answer = async () => {
+      if (words.length === 0) return;
+      if (lives <= 0 || correctAnswers.length === words.length) {
+        try {
+          console.log('Words from letters Game Over');
 
-        if (userRole === 'Pupil') {
-          const minigameLog = gameOver({
-            correctAnswers,
-            incorrectAnswers,
-            // streak,
-          });
+          if (userRole === 'Pupil') {
+            const minigameLog = gameOver({
+              correctAnswers,
+              incorrectAnswers,
+              // streak,
+            });
 
-          if (!minigameLog) {
-            throw Error('Minigame Log is null');
+            // console.log('wfl minigamelog', minigameLog);
+
+            if (!minigameLog) {
+              throw Error('Minigame Log is null');
+            }
+
+            // update minigamelog
+            const log = await createLog({
+              minigame_id: minigame.id,
+              reading_session_id: minigameLog?.reading_session_id,
+              pupil_id: user?.pupil?.id,
+              result: JSON.stringify(minigameLog),
+            });
+
+            console.log('wfl logs', log);
           }
 
-          triggerCreateMinigameLog({
-            minigameLog,
-            type: MinigameType.WordsFromLetters,
-          });
-        }
+          setTimeout(() => {
+            resetGameState();
+          }, 500);
 
-        setTimeout(() => {
-          resetGameState();
-        }, 500);
-        console.log('Moving to definition');
-        if (firstWord) {
-          router.push({
-            pathname: '/(minigames)/results/definition',
-            params: { word: firstWord },
-          });
+          console.log('Moving to definition');
+          if (firstWord) {
+            router.push({
+              pathname: '/(minigames)/results/definition',
+              params: { word: firstWord },
+            });
+          }
+        } catch (error) {
+          console.error(
+            'Error during Words From Letter game over logic: ',
+            error,
+          );
         }
-      } catch (error) {
-        console.error(
-          'Error during Words From Letter game over logic: ',
-          error,
-        );
       }
-    }
+    };
+
+    answer();
   }, [lives, correctAnswers]);
 
   const resetGuess = useCallback(() => {
@@ -152,6 +166,13 @@ export default function WordsFromLetters() {
       removeUsedIndex(slotIndex);
     },
     [guess, setGuess, removeUsedIndex],
+  );
+
+  console.log(
+    'correctanswers:',
+    correctAnswers,
+    'incocererct:',
+    incorrectAnswers,
   );
 
   return (
@@ -220,6 +241,7 @@ export default function WordsFromLetters() {
   );
 }
 
+// eslint-disable-next-line react/display-name
 const LetterButton = memo(
   ({
     letter,
@@ -241,6 +263,7 @@ const LetterButton = memo(
   ),
 );
 
+// eslint-disable-next-line react/display-name
 const GuessSlot = memo(
   ({
     letter,
@@ -313,6 +336,7 @@ const GuessSlot = memo(
   },
 );
 
+// eslint-disable-next-line react/display-name
 const GuessContainer = memo(
   ({
     guess,

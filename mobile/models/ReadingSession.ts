@@ -1,4 +1,6 @@
+import { Achievement } from './Achievement';
 import { Minigame } from './Minigame';
+import { ReadingMaterial } from './ReadingMaterial';
 
 export interface ReadingSession {
   id: string;
@@ -8,4 +10,10 @@ export interface ReadingSession {
   started_at: string;
   completed_at: string;
   minigames: Minigame[];
+}
+
+export interface CompletedReadingSession {
+  achievements: Achievement[];
+  recommendations: ReadingMaterial[];
+  level: number;
 }
