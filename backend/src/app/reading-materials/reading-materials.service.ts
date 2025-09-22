@@ -4,9 +4,7 @@ import { Kysely, sql } from 'kysely';
 import { DB } from '@/database/db';
 import { GenresService } from '../genres/genres.service';
 import { ReadabilityService } from './readibility.service';
-import { ReadingMaterial } from '@/database/schemas';
 import { ReadingMaterialWithGenres } from './reading-materials.controller';
-import { rmSync } from 'fs';
 
 @Injectable()
 export class ReadingMaterialsService {
@@ -105,7 +103,7 @@ export class ReadingMaterialsService {
   ): Promise<ReadingMaterialWithGenres[]> {
     const pupil = await this.db
       .selectFrom('public.pupils')
-      .where('id', '=', userId)
+      .where('user_id', '=', userId)
       .selectAll()
       .executeTakeFirstOrThrow(
         () => new NotFoundException(`Pupil ${userId} not found`),

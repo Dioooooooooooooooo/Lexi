@@ -315,11 +315,11 @@ function HomeScreen() {
                 >
                   {isRecommendationsLoading ? (
                     <Text>Loading stories...</Text>
-                  ) : (
+                  ) : recommendations ? (
                     recommendations.map((r, index) => (
                       <View className="w-[90vw]" key={index}>
                         <ReadingContent
-                          type={'Recommended'}
+                          type="Recommended"
                           id={r.id}
                           content={r.content}
                           title={r.title}
@@ -331,6 +331,8 @@ function HomeScreen() {
                         />
                       </View>
                     ))
+                  ) : (
+                    <Text>No stories found...</Text>
                   )}
                 </ScrollView>
               </View>

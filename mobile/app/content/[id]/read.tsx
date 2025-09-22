@@ -243,14 +243,6 @@ const Read = () => {
   // next btn
   const onPress = useThrottle(() => {
     if (
-      currentSession?.completion_percentage >= parsedBubbles.length ||
-      chunkIndex >= parsedBubbles.length
-    ) {
-      setIsFinished(true);
-      return;
-    }
-
-    if (
       currentSession?.completion_percentage < parsedBubbles!.length ||
       chunkIndex === parsedBubbles.length
     ) {
@@ -409,7 +401,10 @@ const Read = () => {
               ))}
           </View>
           <View className="py-4">
-            {!isFinished ? (
+            {!(
+              currentSession?.completion_percentage >= parsedBubbles.length ||
+              chunkIndex >= parsedBubbles.length
+            ) ? (
               <Button
                 onPress={() => {
                   onPress();
