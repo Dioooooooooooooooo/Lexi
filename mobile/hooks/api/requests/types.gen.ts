@@ -653,6 +653,22 @@ export type AuthControllerVerifyEmailResponses = {
 
 export type AuthControllerVerifyEmailResponse = AuthControllerVerifyEmailResponses[keyof AuthControllerVerifyEmailResponses];
 
+export type AuthControllerDeleteUserData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/me';
+};
+
+export type AuthControllerDeleteUserResponses = {
+    /**
+     * User account deleted successfully
+     */
+    200: SuccessResponseDto;
+};
+
+export type AuthControllerDeleteUserResponse = AuthControllerDeleteUserResponses[keyof AuthControllerDeleteUserResponses];
+
 export type AuthControllerGetProfileData = {
     body?: never;
     path?: never;

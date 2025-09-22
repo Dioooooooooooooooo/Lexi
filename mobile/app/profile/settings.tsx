@@ -33,7 +33,7 @@ import Toast from 'react-native-toast-message';
 import { extractUser, User } from '@/models/User';
 import { API_URL } from '@/utils/constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuthMe } from '@/hooks';
+import { useAuthMe, useDeleteAccount } from '@/hooks';
 
 export default function Settings() {
   const [deleteAccountModalVisible, setDeleteAccountModalVisible] =
@@ -42,8 +42,9 @@ export default function Settings() {
   const [avatarFile, setAvatarFile] = useState<any>(null);
   const setIsLoading = useGlobalStore(state => state.setIsLoading);
   const handleProfileUpdate = useHandleUpdateProfile();
+  const handleDeleteAcc = useDeleteAccount();
   const updateProfile = useUserStore(state => state.updateProfile);
-  const deleteAccount = useUserStore(state => state.deleteAccount);
+  const logout = useAuthStore(state => state.logout);
   const { refetch: refetchUser } = useAuthMe();
   const setUser = useUserStore(state => state.setUser);
   const handleUploadAvatar = useUploadAvatar();
@@ -98,12 +99,13 @@ export default function Settings() {
       const changes = getChangedFields(user, profile);
       if (Object.keys(changes).length > 0) {
         if (changes.avatar) {
-          const uploadedAvatar = await handleUploadAvatar.mutateAsync(avatarFile);
+          const uploadedAvatar =
+            await handleUploadAvatar.mutateAsync(avatarFile);
           console.log('uploaded: ', uploadedAvatar);
           changes.avatar = uploadedAvatar;
         }
-      
-        console.log("Changes form: ", changes);
+
+        console.log('Changes form: ', changes);
         const res = await handleProfileUpdate(changes);
         if (res) {
           const updatedUser = extractUser(res);
@@ -131,7 +133,9 @@ export default function Settings() {
   const handleDeleteAccount = async () => {
     try {
       setIsLoading(true);
-      await deleteAccount();
+      const res = await handleDeleteAcc.mutateAsync();
+      console.log(res);
+      logout();
 
       Toast.show({
         type: 'success',
@@ -140,6 +144,8 @@ export default function Settings() {
       });
       setDeleteAccountModalVisible(false);
 
+      console.log('deleted account');
+      console.log('user: ', user);
       router.replace('/');
     } catch (error: any) {
       Toast.show({
@@ -185,7 +191,7 @@ export default function Settings() {
                       }
                     : user?.avatar
                       ? {
-                          uri: user.avatar
+                          uri: user.avatar,
                         }
                       : require('@/assets/images/default_pfp.png')
                 }

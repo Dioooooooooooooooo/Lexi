@@ -120,6 +120,7 @@ export class UserService {
       .leftJoin('auth.user_roles as ur', 'u.id', 'ur.user_id')
       .leftJoin('auth.roles as r', 'ur.role_id', 'r.id')
       .where('r.name', '=', role)
+      .where('u.is_deleted', '=', false)
       .select([
         'u.id',
         'u.email',

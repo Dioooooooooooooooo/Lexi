@@ -128,6 +128,7 @@ export interface AuthUsers {
   email: string;
   first_name: string;
   id: Generated<string>;
+  is_deleted: Generated<boolean | null>;
   is_email_verified: boolean | null;
   is_phone_verified: boolean | null;
   last_name: string;
@@ -253,9 +254,6 @@ export interface Teachers {
 }
 
 export interface DB {
-  'public.achievements': Achievements;
-  'public.activities': Activities;
-  'public.activity_logs': ActivityLogs;
   'auth.auth_providers': AuthAuthProviders;
   'auth.email_verification_tokens': AuthEmailVerificationTokens;
   'auth.login_streaks': AuthLoginStreaks;
@@ -267,6 +265,9 @@ export interface DB {
   'auth.sessions': AuthSessions;
   'auth.user_roles': AuthUserRoles;
   'auth.users': AuthUsers;
+  'public.achievements': Achievements;
+  'public.activities': Activities;
+  'public.activity_logs': ActivityLogs;
   'public.classroom_enrollment': ClassroomEnrollment;
   'public.classroom_view': ClassroomView;
   'public.classrooms': Classrooms;
@@ -281,3 +282,4 @@ export interface DB {
   'public.reading_sessions': ReadingSessions;
   'public.teachers': Teachers;
 }
+
