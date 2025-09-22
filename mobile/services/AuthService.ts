@@ -13,11 +13,11 @@ GoogleSignin.configure({
   scopes: ["profile", "email"],
 });
 
-import {
-  AccessToken,
-  AuthenticationToken,
-  LoginManager,
-} from "react-native-fbsdk-next";
+// import {
+//   AccessToken,
+//   AuthenticationToken,
+//   LoginManager,
+// } from "react-native-fbsdk-next";
 import { axiosInstance } from "@/utils/axiosInstance";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useUserStore } from "@/stores/userStore";
@@ -154,28 +154,28 @@ export const signInWithGoogle = async () => {
   }
 };
 
-export const signInWithFacebook = async () => {
-  try {
-    await LoginManager.logInWithPermissions(
-      ["public_profile", "email"],
-      "limited",
-      "my_nonce", // Optional
-    );
-    let token;
-    if (Platform.OS === "ios") {
-      // This token **cannot** be used to access the Graph API.
-      // https://developers.facebook.com/docs/facebook-login/limited-login/
-      const result = await AuthenticationToken.getAuthenticationTokenIOS();
-      // console.log(result?.authenticationToken);
-      //TODO IOS FACEBOOK
-    } else {
-      // This token can be used to access the Graph API.
-      const result = await AccessToken.getCurrentAccessToken();
-      token = result?.accessToken;
-      // console.log(result?.accessToken);
-    }
-    return token;
-  } catch (error) {
-    console.log(error);
-  }
-};
+// export const signInWithFacebook = async () => {
+//   try {
+//     await LoginManager.logInWithPermissions(
+//       ["public_profile", "email"],
+//       "limited",
+//       "my_nonce", // Optional
+//     );
+//     let token;
+//     if (Platform.OS === "ios") {
+//       // This token **cannot** be used to access the Graph API.
+//       // https://developers.facebook.com/docs/facebook-login/limited-login/
+//       const result = await AuthenticationToken.getAuthenticationTokenIOS();
+//       // console.log(result?.authenticationToken);
+//       //TODO IOS FACEBOOK
+//     } else {
+//       // This token can be used to access the Graph API.
+//       const result = await AccessToken.getCurrentAccessToken();
+//       token = result?.accessToken;
+//       // console.log(result?.accessToken);
+//     }
+//     return token;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };

@@ -7,5 +7,23 @@ export const createClientConfig: CreateClientConfig = config => {
   return {
     ...config,
     baseUrl: `http://${ipAddress}:3000`,
+    fetch: async (url, init) => {
+      const res = await fetch(url, init);
+
+      if (!res.ok) {
+        let errorBody: any = {};
+        try {
+          errorBody = await res.json();
+        } catch {
+          // ignore if body isn’t JSON
+        }
+
+        throw new Error(
+          errorBody?.message || errorBody?.error || res.statusText,
+        );
+      }
+
+      return res;
+    },
   };
 };

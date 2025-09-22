@@ -97,14 +97,10 @@ export const useHandleUpdateProfile = () => {
           new_password:
             updateProfileForm.password || updateProfileForm.new_password,
         };
-        const res = await changePasswordMutation.mutateAsync({
-          requestBody: passwordData,
-        });
+        const res = await changePasswordMutation.mutateAsync(passwordData);
         console.log('Password change response:', res);
       } else if (hasPupilFields || hasAuthFields) {
-        const res = await updateProfileMutation.mutateAsync({
-          requestBody: transformedForm,
-        });
+        const res = await updateProfileMutation.mutateAsync(transformedForm);
         console.log('Profile update response:', res);
       } else {
         console.warn('No valid fields to update.');
@@ -118,12 +114,18 @@ export const useHandleUpdateProfile = () => {
     }
 
     const updatedUser = await getUser();
+    console.log('Updated user: ', updatedUser);
     return updatedUser.data;
   };
 };
 
 export const checkUserExist = async (fieldType: string, fieldValue: string) => {
-  console.log('🔍 Check User Exist - fieldType:', fieldType, 'fieldValue:', fieldValue);
+  console.log(
+    '🔍 Check User Exist - fieldType:',
+    fieldType,
+    'fieldValue:',
+    fieldValue,
+  );
 
   try {
     // Use hey-api client directly for check-user endpoint
@@ -202,7 +204,7 @@ export const useUploadAvatar = () => {
       console.log('Upload successfuljjj: ', data);
     },
     onError: error => {
-      console.error('Error uploading avatar:', error);
+      console.error('Error uploading avatar:', error.message);
     },
   });
 };
