@@ -46,7 +46,7 @@ export default function ChangePassword() {
 
       const res = await handleProfileUpdate(form);
       if (res) {
-        const updatedUser = extractUser(res.data);
+        const updatedUser = extractUser(res);
         updateProfile(updatedUser);
       }
 

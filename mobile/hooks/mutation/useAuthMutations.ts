@@ -11,6 +11,7 @@ import {
   authControllerUpdateProfile,
 } from '../api/requests/sdk.gen';
 import { transformRegistrationData } from '../utils/authTransformers';
+import { useUserStore } from '@/stores/userStore';
 
 // =============================================================================
 // AUTH MUTATIONS - Data Modification Hooks
@@ -21,7 +22,10 @@ export const useRegister = () => {
 
   return useMutation({
     mutationFn: (formData: Record<string, any>) => {
-      console.log('🔍 Registration Debug - EXPO_PUBLIC_IPADDRESS:', process.env.EXPO_PUBLIC_IPADDRESS);
+      console.log(
+        '🔍 Registration Debug - EXPO_PUBLIC_IPADDRESS:',
+        process.env.EXPO_PUBLIC_IPADDRESS,
+      );
       console.log('🔍 Registration Debug - Client config:', client.getConfig());
       console.log('🔍 Registration Debug - Form data:', formData);
 
@@ -35,26 +39,46 @@ export const useRegister = () => {
     },
     onSuccess: async response => {
       console.log('🎉 Registration Success - Response:', response);
-      console.log('🔍 Registration Success - Status:', response.response?.status);
+      console.log(
+        '🔍 Registration Success - Status:',
+        response.response?.status,
+      );
       console.log('🔍 Registration Success - Data:', response.data);
 
       // Check if response contains an error (hey-api might call onSuccess for failed requests)
       if (response.error) {
-        console.error('❌ Registration failed but onSuccess called:', response.error);
+        console.error(
+          '❌ Registration failed but onSuccess called:',
+          response.error,
+        );
         throw new Error(response.error.message || 'Registration failed');
       }
 
       // Check for HTTP error status codes that hey-api treats as success
       if (response.response?.status && response.response.status >= 400) {
-        console.error('❌ Registration failed with status:', response.response.status);
+        console.error(
+          '❌ Registration failed with status:',
+          response.response.status,
+        );
         console.error('❌ Registration error body:', response.data);
-        throw new Error(response.data?.message || `Registration failed with status ${response.response.status}`);
+        throw new Error(
+          response.data?.message ||
+            `Registration failed with status ${response.response.status}`,
+        );
       }
 
       // Check for successful status codes (200, 201)
-      if (response.response?.status && (response.response.status < 200 || response.response.status >= 300)) {
-        console.error('❌ Registration unexpected status:', response.response.status);
-        throw new Error(`Registration failed with unexpected status ${response.response.status}`);
+      if (
+        response.response?.status &&
+        (response.response.status < 200 || response.response.status >= 300)
+      ) {
+        console.error(
+          '❌ Registration unexpected status:',
+          response.response.status,
+        );
+        throw new Error(
+          `Registration failed with unexpected status ${response.response.status}`,
+        );
       }
 
       // Validate that we have the expected response data structure
@@ -67,8 +91,13 @@ export const useRegister = () => {
       // So we need to check response.data.data.access_token, not response.data.access_token
       const authData = response.data.data;
       if (!authData || !authData.access_token) {
-        console.error('❌ Registration response missing access token:', response.data);
-        throw new Error('Registration response missing access token - user may not have been created in database');
+        console.error(
+          '❌ Registration response missing access token:',
+          response.data,
+        );
+        throw new Error(
+          'Registration response missing access token - user may not have been created in database',
+        );
       }
 
       console.log('✅ Registration validation passed, storing tokens...');
@@ -90,7 +119,9 @@ export const useRegister = () => {
         console.log('✅ Registration completed successfully');
       } catch (storageError) {
         console.error('❌ Failed to store registration data:', storageError);
-        throw new Error('Registration succeeded but failed to store authentication data');
+        throw new Error(
+          'Registration succeeded but failed to store authentication data',
+        );
       }
     },
     onError: (error: any) => {
@@ -99,11 +130,11 @@ export const useRegister = () => {
         message: error.message,
         status: error.status,
         body: error.body,
-        stack: error.stack
+        stack: error.stack,
       });
     },
   });
-};;;
+};
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
@@ -207,21 +238,31 @@ export const useUpdateProfile = () => {
 };
 
 export const useChangePassword = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: {
-      currentPassword: string;
-      newPassword: string;
+      current_password: string;
+      new_password: string;
     }) => {
       await setupAuthToken();
       return authControllerChangePassword({
         body: {
-          current_password: data.currentPassword,
-          new_password: data.newPassword,
+          current_password: data.current_password,
+          new_password: data.new_password,
         },
       });
     },
+    onSuccess: response => {
+      console.log("success")
+      // Update profile in cache from response.data (update returns SuccessResponseDto)
+      if (response.data && response.data.data) {
+        queryClient.setQueryData(queryKeys.auth.me(), response.data.data);
+      }
+      // Invalidate related queries
+      queryClient.invalidateQueries({ queryKey: queryKeys.auth.all });
+    },
     onError: (error: any) => {
-      console.error('Password change failed:', error);
+      console.error('Password change failed:', error.message);
     },
   });
 };
@@ -240,16 +281,16 @@ export const useLogout = () => {
       // Clear tokens
       AsyncStorage.removeItem('access_token');
       AsyncStorage.removeItem('refresh_token');
-      
+
       // Clear user from store (this will also clear the persisted user data)
       setUser(null);
-      
+
       // Reset login streak to allow fresh streak modal on next login
       setLastLoginStreak(null);
-      
+
       // Update client configuration without token
       setupAuthToken();
-      
+
       // Clear all queries
       queryClient.clear();
     },
@@ -264,7 +305,7 @@ export const useLogout = () => {
       queryClient.clear();
     },
   });
-};;;
+};
 
 // =============================================================================
 // PROVIDER AUTH MUTATIONS - TODO: Implement these to replace authStore.providerAuth()

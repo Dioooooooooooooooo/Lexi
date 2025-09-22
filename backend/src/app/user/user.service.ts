@@ -9,16 +9,16 @@ import {
 import { Kysely, sql } from 'kysely';
 import { UserResponseDto } from '../auth/dto/auth.dto';
 import { PupilsService } from '../pupils/pupils.service';
+import { AchievementsService } from '../achievements/achievements.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject('DATABASE') private readonly db: Kysely<DB>,
     private readonly pupilService: PupilsService,
+    private readonly achievementService: AchievementsService,
   ) {}
-  async updateLoginStreak(
-    user_id: string
-  ): Promise<LoginStreak | null> {
+  async updateLoginStreak(user_id: string): Promise<LoginStreak | null> {
     const pupil = await this.pupilService.getPupilProfile(user_id);
     let loginStreak = await this.db
       .selectFrom('auth.login_streaks')
@@ -72,6 +72,8 @@ export class UserService {
         .returningAll()
         .executeTakeFirst();
     }
+
+    await this.achievementService.addLoginAchievement(pupil.id);
 
     return loginStreak;
   }
@@ -141,6 +143,8 @@ export class UserService {
       })
       .returningAll()
       .executeTakeFirst();
+
+    await this.updateLoginStreak(user_id);
 
     return newSession;
   }
