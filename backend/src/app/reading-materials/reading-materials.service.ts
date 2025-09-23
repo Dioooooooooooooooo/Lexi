@@ -4,9 +4,7 @@ import { Kysely, sql } from 'kysely';
 import { DB } from '@/database/db';
 import { GenresService } from '../genres/genres.service';
 import { ReadabilityService } from './readibility.service';
-import { ReadingMaterial } from '@/database/schemas';
 import { ReadingMaterialWithGenres } from './reading-materials.controller';
-import { rmSync } from 'fs';
 
 @Injectable()
 export class ReadingMaterialsService {
@@ -107,10 +105,12 @@ export class ReadingMaterialsService {
       .selectFrom('public.pupils')
       .where('user_id', '=', userId)
       .selectAll()
-      .executeTakeFirstOrThrow(() => new NotFoundException('Pupil not found'));
+      .executeTakeFirstOrThrow(
+        () => new NotFoundException(`Pupil ${userId} not found`),
+      );
 
     // step 1: get completed sessions and include readingmaterial + genres
-    var completedSessions = await this.db
+    const completedSessions = await this.db
       .selectFrom('public.reading_sessions as rs')
       .innerJoin(
         'public.reading_materials as rm',

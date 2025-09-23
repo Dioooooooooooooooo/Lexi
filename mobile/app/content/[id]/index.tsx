@@ -55,11 +55,11 @@ function ContentIndex() {
           alt=""
         />
 
-        <View className="flex flex-row items-center">
+        <View className="flex flex-col items-center gap-4">
+          <MaterialDifficulty difficulty={selectedContent.difficulty} />
           <Text className="text-2xl font-poppins-bold">
             {selectedContent.title}
           </Text>
-          <MaterialDifficulty difficulty={selectedContent.difficulty} />
         </View>
 
         {selectedContent.description && (
@@ -116,7 +116,7 @@ export function MaterialDifficulty({ difficulty }: { difficulty: number }) {
 
   return (
     <View
-      className="ml-3 px-4 py-1 rounded-xl"
+      className="px-4 py-1 rounded-xl"
       style={{ backgroundColor: difficultyColor }}
     >
       <Text className="font-poppins-bold text-md">{difficultyName}</Text>

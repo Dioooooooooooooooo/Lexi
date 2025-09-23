@@ -58,7 +58,7 @@ export default function Achievements() {
           className="w-full bg-background border-accentBlue border-b-4 rounded-xl"
           onPress={() => {
             router.replace({
-              pathname: '/minigames/results/levelup',
+              pathname: '/(minigames)/results/levelup',
               params: {
                 data: data,
               },

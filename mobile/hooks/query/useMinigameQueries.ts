@@ -66,7 +66,7 @@ export const useMinigameLogsBySessionId = (sessionId: string) => {
         path: { readingSessionID: sessionId },
       });
 
-      console.log("session's minigame logs", res.data);
+      // console.log("session's minigame logs", res.data);
       return res.data?.data as MinigameLog[];
     },
     enabled: !!sessionId,

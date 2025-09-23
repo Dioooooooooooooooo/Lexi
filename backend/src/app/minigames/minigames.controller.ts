@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
   UseGuards,
   HttpStatus,
   HttpCode,
@@ -28,6 +29,7 @@ import { CompleteReadingSessionDto } from './dto/complete-reading-session.dto';
 import { RolesGuard } from '../auth/role-guard';
 import { Roles } from '@/decorators/roles.decorator';
 import { UpdateMinigameLogDto } from './dto/update-minigame-log.dto';
+import { UserResponseDto } from '../auth/dto/auth.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -364,11 +366,16 @@ export class MinigamesController {
   })
   async getMinigamesCompletion(
     @Param('readingSessionID') readingSessionID: string,
+    @Request() req: { user: UserResponseDto },
   ): Promise<SuccessResponseDto<CompleteReadingSessionDto>> {
     // Logic to fetch completion status of minigames for a specific reading session
     // return `Minigames completion for reading session ID: ${readingSessionID}`;
+    console.log('recommendations for user:', req.user.id);
     const sessionComplete =
-      await this.minigamesService.createMinigamesCompletion(readingSessionID);
+      await this.minigamesService.createMinigamesCompletion(
+        readingSessionID,
+        req.user.id,
+      );
     return {
       message: 'Reading session successfully completed.',
       data: sessionComplete,

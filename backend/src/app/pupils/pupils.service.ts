@@ -33,6 +33,7 @@ export class PupilsService {
       .selectFrom("auth.users as u")
       .innerJoin("public.pupils as p", "p.user_id", "u.id")
       .where("u.username", "=", username)
+      .where("u.is_deleted", "=", false)
       .select([
         "u.id as user_id",
         "u.first_name",

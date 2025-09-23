@@ -171,6 +171,7 @@ export class AuthService {
       ])
       .where('auth.users.email', '=', loginDto.email)
       .where('auth.auth_providers.provider_type', '=', 'email')
+      .where('auth.users.is_deleted', '=', false)
       .executeTakeFirst();
 
     if (!userWithProvider || !userWithProvider.password_hash) {
@@ -207,6 +208,19 @@ export class AuthService {
       refresh_token: tokens.refresh_token,
       user,
     };
+  }
+
+  async deleteUser(userId: string) {
+    const res = await this.db
+      .updateTable('auth.users as u')
+      .set({ is_deleted: true })
+      .where('u.id', '=', userId)
+      .returning(['is_deleted'])
+      .executeTakeFirstOrThrow(() => new NotFoundException('User not found'));
+
+    console.log('deleted: ', res.is_deleted);
+
+    return res;
   }
 
   async exchangeGoogleIdToken(idToken: string) {

@@ -93,6 +93,7 @@ export class MinigamesService {
 
   async createMinigamesCompletion(
     readingSessionID: string,
+    userId: string,
   ): Promise<CompleteReadingSessionDto> {
     const readingSession = await this.db
       .selectFrom('public.reading_sessions as rs')
@@ -101,7 +102,7 @@ export class MinigamesService {
         'rm.id',
         'rs.reading_material_id',
       )
-      .where('id', '=', readingSessionID)
+      .where('rs.id', '=', readingSessionID)
       .select(['rs.pupil_id', 'rs.reading_material_id', 'rm.difficulty'])
       .executeTakeFirstOrThrow(
         () => new NotFoundException('Reading session not found'),
@@ -194,9 +195,7 @@ export class MinigamesService {
         readingSession.pupil_id,
       );
     const newRecommendations =
-      await this.readingMaterialService.getRecommendedReadingMaterials(
-        readingSession.pupil_id,
-      );
+      await this.readingMaterialService.getRecommendedReadingMaterials(userId);
 
     return {
       achievements: newAchievements,

@@ -2,10 +2,6 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { User, extractUser } from '../models/User';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  deleteAccount as apiDeleteAccount,
-  useHandleUpdateProfile,
-} from '~/services/UserService';
 
 type UserStore = {
   user: User | null;
@@ -40,7 +36,6 @@ export const useUserStore = create<UserStore>()(
           }
         },
         deleteAccount: async () => {
-          await apiDeleteAccount();
           set({ user: null });
         },
         streak: 1,
