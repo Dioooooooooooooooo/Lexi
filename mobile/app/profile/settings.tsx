@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import {
   checkUserExist,
   useHandleUpdateProfile,
-  // useUploadAvatar,
+  useUploadAvatar,
 } from '@/services/UserService';
 import {
   getChangedFields,
@@ -33,7 +33,7 @@ import Toast from 'react-native-toast-message';
 import { extractUser, User } from '@/models/User';
 import { API_URL } from '@/utils/constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuthMe, useDeleteAccount, useUploadAvatar } from '@/hooks';
+import { useAuthMe, useDeleteAccount } from '@/hooks';
 
 export default function Settings() {
   const [deleteAccountModalVisible, setDeleteAccountModalVisible] =

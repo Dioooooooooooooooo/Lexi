@@ -166,18 +166,17 @@ export const uploadAvatar = async (avatar: {
 };
 
 export const useUploadAvatar = () => {
-  return use;
-  // return useMutation({
-  //   mutationFn: async (avatar: { uri: string; type: string; name: string }) => {
-  //     uploadAvatar(avatar);
-  //   },
-  //   onSuccess: data => {
-  //     console.log('Upload successfuljjj: ', data);
-  //   },
-  //   onError: error => {
-  //     console.error('Error uploading avatar:', error.message);
-  //   },
-  // });
+  return useMutation({
+    mutationFn: async (avatar: { uri: string; type: string; name: string }) => {
+      return uploadAvatar(avatar);
+    },
+    onSuccess: data => {
+      console.log('Upload successfuljjj: ', data);
+    },
+    onError: error => {
+      console.error('Error uploading avatar:', error.message);
+    },
+  });
 };
 
 export const createSession = async () => {

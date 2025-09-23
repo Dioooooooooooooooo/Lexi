@@ -313,17 +313,14 @@ export const useUploadAvatar = () => {
   return useMutation({
     mutationFn: async (file: { uri: string; type: string; name: string }) => {
       const formData = new FormData();
-      formData.append('file', {
+      formData.append('avatar', {
         uri: file.uri,
         type: file.type,
         name: file.name,
       } as any);
 
       await imagekitControllerUploadImage({
-        body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        body: formData
       });
     },
     onSuccess: data => {
