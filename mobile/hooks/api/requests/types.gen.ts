@@ -663,13 +663,6 @@ export type AuthControllerCheckUserData = {
     url: '/auth/check-user';
 };
 
-export type AuthControllerCheckUserErrors = {
-    /**
-     * User already exists
-     */
-    409: unknown;
-};
-
 export type AuthControllerCheckUserResponses = {
     /**
      * User exists.

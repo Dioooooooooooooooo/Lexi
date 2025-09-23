@@ -6,7 +6,7 @@ export const createClientConfig: CreateClientConfig = config => {
 
   return {
     ...config,
-    baseUrl: `http://${ipAddress}:3000`,
+    baseUrl: `${ipAddress}`,
     fetch: async (url, init) => {
       const res = await fetch(url, init);
 

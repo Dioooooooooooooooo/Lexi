@@ -9,7 +9,7 @@
 // export const API_URL = "http://192.168.1.28:5144/api";
 
 // CURRENT NESTJS BACKEND - LOCAL NETWORK IP FOR PHYSICAL PHONE TESTING
-export const API_URL = 'http://192.168.254.105:3000';
+// export const API_URL = 'http://192.168.254.105:3000';
 
 //JAKE
 // export const API_URL = "http://192.168.253.85:5144/api";
@@ -22,3 +22,5 @@ export const API_URL = 'http://192.168.254.105:3000';
 
 // export const API_URL = "http://192.168.113.170:5144/api";
 
+// Hosted server
+export const API_URL = 'https://bmlz3j4q-3000.use.devtunnels.ms';
