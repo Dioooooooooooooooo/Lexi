@@ -223,6 +223,45 @@ export class AuthService {
     return res;
   }
 
+  async checkUserExists(fieldType: string, fieldValue: string) {
+    if (
+      fieldType === '' ||
+      fieldType === null ||
+      fieldValue === '' ||
+      fieldValue === null
+    ) {
+      throw new BadRequestException('FieldType/FieldValue cannot be empty.');
+    }
+
+    var res;
+
+    switch (fieldType) {
+      case 'username':
+        res = await this.db
+          .selectFrom('auth.users as u')
+          .where('u.username', '=', fieldValue)
+          .selectAll()
+          .executeTakeFirst();
+
+        break;
+      case 'email':
+        res = await this.db
+          .selectFrom('auth.users as u')
+          .where('u.email', '=', fieldValue)
+          .selectAll()
+          .executeTakeFirst();
+        break;
+      default:
+        throw new BadRequestException('Invalid FieldType');
+    }
+
+    if (res) {
+      return true;
+    }
+
+    return false;
+  }
+
   async exchangeGoogleIdToken(idToken: string) {
     if (!idToken) throw new Error('id_token required');
 

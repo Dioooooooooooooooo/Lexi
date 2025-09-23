@@ -9,7 +9,6 @@ export { client };
 // Configure API client with token from AsyncStorage
 export const setupAuthToken = async () => {
   const token = await AsyncStorage.getItem('access_token');
-
   // Update client configuration
   client.setConfig({
     baseUrl: `http://${ipAddress}:3000`,
@@ -17,6 +16,8 @@ export const setupAuthToken = async () => {
       ...(token && { Authorization: `Bearer ${token}` }),
     },
   });
+
+  return token;
 };
 
 // Initialize auth on module load

@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import {
   achievementsControllerGetPupilAchievements,
   achievementsControllerGetPupilAchievementsById,
@@ -10,7 +10,7 @@ import { Achievement } from '@/models/Achievement';
 // ACHIEVEMENT QUERIES - Data Fetching Hooks
 // =============================================================================
 
-export const useAchievements = () => {
+export const useAchievements = (options?: Partial<UseQueryOptions<Achievement[]>>) => {
   return useQuery({
     queryKey: queryKeys.achievements.list(),
     queryFn: async () => {
@@ -29,6 +29,7 @@ export const useAchievements = () => {
       }
       return failureCount < 3;
     },
+    ...options
   });
 };
 

@@ -168,7 +168,7 @@ export const uploadAvatar = async (avatar: {
 export const useUploadAvatar = () => {
   return useMutation({
     mutationFn: async (avatar: { uri: string; type: string; name: string }) => {
-      uploadAvatar(avatar);
+      return uploadAvatar(avatar);
     },
     onSuccess: data => {
       console.log('Upload successfuljjj: ', data);

@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
 import {
   readingSessionsControllerFindAll,
@@ -9,7 +9,7 @@ import {
 // READING SESSION QUERIES - Data Fetching Hooks
 // =============================================================================
 
-export const useReadingSessions = () => {
+export const useReadingSessions = (options?: Partial<UseQueryOptions>) => {
   return useQuery({
     queryKey: queryKeys.readingSessions.list(),
     queryFn: async () => {
@@ -24,6 +24,7 @@ export const useReadingSessions = () => {
       }
       return failureCount < 3;
     },
+    ...options,
   });
 };
 
@@ -33,7 +34,7 @@ export const useReadingSessionById = (id: string) => {
     queryFn: async () => {
       await setupAuthToken();
       const res = await readingSessionsControllerFindOne({
-        path: { id }
+        path: { id },
       });
       return res.data?.data;
     },

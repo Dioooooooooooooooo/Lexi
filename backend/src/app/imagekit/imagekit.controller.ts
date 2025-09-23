@@ -7,12 +7,13 @@ import {
 import { ImagekitService } from './imagekit.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SuccessResponseDto } from '@/common/dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiConsumes, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('upload')
 export class ImagekitController {
   constructor(private readonly imagekitService: ImagekitService) {}
 
+  @ApiConsumes('multipart/form-data')
   @Post('image')
   @ApiOperation({ summary: 'Upload image to ImageKit' })
   @ApiResponse({

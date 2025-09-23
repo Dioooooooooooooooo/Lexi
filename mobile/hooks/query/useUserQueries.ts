@@ -1,16 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
 import {
   userControllerGetLoginStreak,
   userControllerGetTotalSessions,
   userControllerSearchUsers,
 } from '../api/requests';
+import { LoginStreak } from '@/models/LoginStreak';
 
 // =============================================================================
 // USER QUERIES - Data Fetching Hooks
 // =============================================================================
 
-export const useUserStreak = () => {
+export const useUserStreak = (options?: Partial<UseQueryOptions>) => {
   return useQuery({
     queryKey: [...queryKeys.user.all, 'streak'] as const,
     queryFn: async () => {
@@ -25,10 +26,11 @@ export const useUserStreak = () => {
       }
       return failureCount < 3;
     },
+    ...options
   });
 };
 
-export const useUserSessions = () => {
+export const useUserSessions = (options?: Partial<UseQueryOptions>) => {
   return useQuery({
     queryKey: [...queryKeys.user.all, 'sessions'] as const,
     queryFn: async () => {
@@ -43,6 +45,7 @@ export const useUserSessions = () => {
       }
       return failureCount < 3;
     },
+    ...options
   });
 };
 

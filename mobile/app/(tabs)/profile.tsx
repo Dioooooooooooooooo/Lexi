@@ -37,10 +37,10 @@ export default function Profile() {
 
   // Use individual hey-api hooks instead of the problematic useProfileStats
   // Always call hooks (React rules) but only use data when appropriate
-  const achievementsQuery = useAchievements();
-  const screenTimeQuery = useUserSessions();
-  const loginStreakQuery = useUserStreak();
-  const totalBooksQuery = useReadingSessions();
+  const achievementsQuery = useAchievements({ enabled: isPupil });
+  const screenTimeQuery = useUserSessions({ enabled: isPupil });
+  const loginStreakQuery = useUserStreak({ enabled: isPupil });
+  const totalBooksQuery = useReadingSessions({ enabled: isPupil });
 
   // Only set achievements for pupils when data is available
   useEffect(() => {

@@ -11,6 +11,9 @@ import {
   Query,
   Req,
   Delete,
+  Res,
+  HttpException,
+  ConflictException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
@@ -39,6 +42,7 @@ import {
 } from './dto/auth.dto';
 import { ErrorResponseDto, SuccessResponseDto } from '@/common/dto';
 import { OAuth2Client } from 'google-auth-library';
+import { Response } from 'express';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -422,6 +426,31 @@ export class AuthController {
     return { message: 'Email verified successfully' };
   }
 
+  @Get('check-user')
+  @ApiOperation({
+    summary: 'Check to see if user exists',
+    description: 'Throws an error if user does exist.',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User exists.',
+  })
+  async checkUser(
+    @Query('fieldType') fieldType: string,
+    @Query('fieldValue') fieldValue: string,
+  ) {
+    const res = await this.authService.checkUserExists(fieldType, fieldValue);
+
+    if (res) {
+      return new HttpException(
+        { statusCode: HttpStatus.CONFLICT, message: 'User already exist.' },
+        HttpStatus.CONFLICT,
+      );
+    }
+
+    return { message: 'User does not exist.' };
+  }
+
   @Get('me')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth('JWT-auth')
@@ -453,6 +482,7 @@ export class AuthController {
   getProfile(
     @Request() req: { user: UserResponseDto },
   ): SuccessResponseDto<UserResponseDto> {
+    console.log('getting ', req.user);
     return { message: 'User profile retrieved successfully', data: req.user };
   }
 
