@@ -1,5 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { authControllerGetProfile, authControllerVerifyToken } from '../api/requests/sdk.gen';
+import {
+  authControllerGetProfile,
+  authControllerVerifyToken,
+} from '../api/requests/sdk.gen';
 import { setupAuthToken, queryKeys } from '../api/apiUtils';
 
 // =============================================================================
@@ -10,7 +13,10 @@ export const useAuthMe = () => {
   return useQuery({
     queryKey: queryKeys.auth.me(),
     queryFn: async () => {
-      await setupAuthToken();
+      const token = await setupAuthToken();
+      if (!token) {
+        throw { status: 401, message: 'No token' }; 
+      }
       const res = await authControllerGetProfile();
       return res.data?.data;
     },
@@ -37,3 +43,7 @@ export const useVerifyToken = () => {
     retry: false, // Don't retry token verification
   });
 };
+
+export const useCheckUserExists = () => {
+  
+}

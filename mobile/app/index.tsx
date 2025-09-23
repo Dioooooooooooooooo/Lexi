@@ -8,6 +8,7 @@ import { useAuthMe } from '@/hooks/query/useAuthQueries';
 import { ScrollView, View, Image, TouchableOpacity, Text } from 'react-native';
 import { useRefreshToken } from '@/hooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { extractUser } from '@/models/User';
 
 export default function Index() {
   const user = useUserStore(state => state.user);
@@ -51,7 +52,7 @@ export default function Index() {
         // If auth query succeeded, update user state
         if (authData) {
           console.log('✅ Valid authentication confirmed');
-          setUser(authData);
+          setUser(extractUser(authData));
         }
 
         setIsValidatingAuth(false);
@@ -71,6 +72,8 @@ export default function Index() {
 
   // Show loading while validating authentication
   if (isValidatingAuth || isAuthLoading) {
+    console.log('isvalidating: ', isValidatingAuth);
+    console.log('isAuthLoading:', isAuthLoading);
     return (
       <View className="bg-yellowOrange flex-1 justify-center items-center">
         <Text className="text-lg">Validating authentication...</Text>

@@ -69,26 +69,6 @@ export default function Step1() {
     let isValid = true;
 
     try {
-      // Check email
-      console.log(registerForm.email + ' ' + registerForm.username);
-      console.log(registerForm.username);
-      const emailResponse = await checkUserExist('email', registerForm.email);
-      console.log('Email check complete:', emailResponse);
-
-      if (emailResponse?.statusCode === 409) {
-        newErrors.email = 'Email is already in use';
-        isValid = false;
-      }
-    } catch (error) {
-      console.error('Email check failed:', error);
-      Alert.alert(
-        'Connection Error',
-        'Unable to verify email. Please check your connection and try again.',
-      );
-      return false;
-    }
-
-    try {
       // Check username
       const usernameResponse = await checkUserExist(
         'username',
@@ -96,7 +76,7 @@ export default function Step1() {
       );
       console.log('Username check complete:', usernameResponse);
 
-      if (usernameResponse?.statusCode === 409) {
+      if (usernameResponse?.status === 409) {
         newErrors.username = 'Username is already taken';
         isValid = false;
       }
@@ -105,6 +85,26 @@ export default function Step1() {
       Alert.alert(
         'Connection Error',
         'Unable to verify username. Please check your connection and try again.',
+      );
+      return false;
+    }
+
+    try {
+      // Check email
+      console.log(registerForm.email + ' ' + registerForm.username);
+      console.log(registerForm.username);
+      const emailResponse = await checkUserExist('email', registerForm.email);
+      console.log('Email check complete:', emailResponse);
+
+      if (emailResponse?.status === 409) {
+        newErrors.email = 'Email is already in use';
+        isValid = false;
+      }
+    } catch (error) {
+      console.error('Email check failed:', error);
+      Alert.alert(
+        'Connection Error',
+        'Unable to verify email. Please check your connection and try again.',
       );
       return false;
     }

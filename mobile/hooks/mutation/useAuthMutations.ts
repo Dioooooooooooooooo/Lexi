@@ -311,8 +311,20 @@ export const useLogout = () => {
 
 export const useUploadAvatar = () => {
   return useMutation({
-    mutationFn: async avatar => {
-      await imagekitControllerUploadImage(avatar);
+    mutationFn: async (file: { uri: string; type: string; name: string }) => {
+      const formData = new FormData();
+      formData.append('file', {
+        uri: file.uri,
+        type: file.type,
+        name: file.name,
+      } as any);
+
+      await imagekitControllerUploadImage({
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
     },
     onSuccess: data => {
       console.log('Upload successfuljjj: ', data);
