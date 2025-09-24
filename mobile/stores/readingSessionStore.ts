@@ -3,22 +3,28 @@ import { persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ReadingSession } from '@/models/ReadingSession';
 import { Message } from '@/types/message';
+import { User } from '@/models/User';
 
 interface ReadingSessionStore {
   currentSession: ReadingSession | null;
   currentMessages: Message[] | null;
-  sessions: Record<string, ReadingSession>; // key: sessionId
-  messages: Record<string, Message[]>; // key: sessionId
+  currentSessionKey: string | null;
 
-  addMessage: (message: Message) => void;
+  sessions: Record<string, ReadingSession>;
+
+  // key: sessionId or teacherId-readingMatId
+  messages: Record<string, Message[]>;
+
+  setCurrentSessionKey: (userId: string, readingMatId: string) => void;
+  addMessage: (message: Message, user: User, readingMatId: string) => void;
   removeMessage: (messageId: number) => void;
   replaceLastMessage: (message: Message) => void;
-  getCurrentMessages: () => Message[];
 
   setCurrentSession: (session: ReadingSession | null) => void;
   addSession: (session: ReadingSession) => void;
   getPastSession: (readingMaterialId: string) => ReadingSession | null;
   getSessionByReadingId: (readingMaterialId: string) => ReadingSession | null;
+  clearSession: () => void;
 
   updateReadingSessionProgress: (
     readingSessionId: string,
@@ -33,20 +39,31 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
   persist(
     (set, get) => ({
       currentSession: null,
+      currentSessionKey: null,
       sessions: {},
       messages: {},
 
       get currentMessages() {
+        console.log('messages get current how');
         const current = get().currentSession;
+        const sessionKey = get().currentSessionKey;
 
-        console.log('currentsession', current);
-        if (!current) return [];
+        if (!current) {
+          return get().messages[sessionKey] ?? [];
+        }
+
         return get().messages[current.id] ?? [];
       },
 
-      addMessage: message =>
+      addMessage: (message, user, readingMatId) =>
         set(state => {
-          const sessionId = get().currentSession?.id;
+          let sessionId = null;
+          console.log('sesison key sdhkjfhsk', get().currentSessionKey);
+          if (user.role === 'Teacher') {
+            sessionId = `${user.id}-${readingMatId}`;
+          } else {
+            sessionId = get().currentSession?.id;
+          }
 
           console.log('addmsg current session', sessionId);
           if (!sessionId) return state;
@@ -91,18 +108,32 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
           };
         }),
 
-      getCurrentMessages: () => {
-        const current = get().currentSession;
-        if (!current) return [];
-        return get().messages[current.id] ?? [];
-      },
+      setCurrentSessionKey: (userId, readingMatId) =>
+        set({
+          currentSessionKey: `${userId}-${readingMatId}`,
+        }),
 
       // Sessions
       setCurrentSession: session =>
         set(state => {
-          const currentMessages = session
-            ? (state.messages[session.id] ?? [])
-            : [];
+          const sessionKey = get().currentSessionKey;
+
+          console.log('is this where the stories are initalized', sessionKey);
+
+          // console.log('session', session.id, 'session stories', state.messages);
+
+          if (!session) {
+            console.log('pero mo lampos sya diri');
+            const currentMessages = state.messages[sessionKey] ?? [];
+            return { currentSession: null, currentMessages };
+          }
+
+          // const currentMessages = session
+          //   ? (state.messages[session.id] ?? [])
+          //   : [];
+          const currentMessages = state.messages[session.id] ?? [];
+
+          console.log('taysa brjshdkjas', currentMessages);
           return { currentSession: session, currentMessages };
         }),
 
@@ -113,6 +144,14 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
             [session.id]: session,
           },
         })),
+
+      clearSession: () =>
+        set({
+          currentSession: null,
+          currentMessages: null,
+          sessions: {}, // key: sessionId
+          messages: {},
+        }),
 
       getPastSession: readingMaterialId => {
         const sessions = Object.values(get().sessions);

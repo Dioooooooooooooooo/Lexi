@@ -23,6 +23,7 @@ import { useThrottle } from '@/hooks/utils/useThrottle';
 import {
   useCreateReadingSession,
   useMinigameLogsBySessionId,
+  useRandomMinigamesByMaterial,
   useUpdateReadingSession,
 } from '@/hooks';
 import {
@@ -30,6 +31,7 @@ import {
   useWordsFromLettersMiniGameStore,
 } from '@/stores/miniGameStore';
 import { useReadingSessionStore } from '@/stores/readingSessionStore';
+import { useUserStore } from '@/stores/userStore';
 
 const iconMap: Record<string, any> = {
   Story: require('@/assets/images/storyIcons/narrator.png'),
@@ -46,9 +48,10 @@ export function getIconSource(icon: string) {
 function minigameProvider(
   minigameCount: number,
   bubbleCount: number,
-  minigames: Minigame[],
+  minigames?: Minigame[],
 ) {
   // 1 = choices, 0 = arrangement
+  if (!minigames || minigames.length < 0) return null;
   const minigame = minigames[minigameCount];
 
   // CHOICES
@@ -76,7 +79,6 @@ const Read = () => {
   const [chunkIndex, setChunkIndex] = useState(0);
   const [word, setWord] = useState<string | null>(null);
   const [minigames, setMinigames] = useState<Minigame[]>();
-  const [isFinished, setIsFinished] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
   const { height: screenHeight } = useWindowDimensions();
 
@@ -96,8 +98,13 @@ const Read = () => {
   );
   const currentSession = useReadingSessionStore(state => state.currentSession);
   const addSession = useReadingSessionStore(state => state.addSession);
+  const setCurrentSessionKey = useReadingSessionStore(
+    state => state.setCurrentSessionKey,
+  );
   const { data: minigameLogs, isLoading: isMinigameLogsLoading } =
     useMinigameLogsBySessionId(currentSession?.id || '');
+  const { data: minigamesTeacher, isLoading: isMinigamesTeacherLoading } =
+    useRandomMinigamesByMaterial(selectedContent.id);
   const addMessage = useReadingSessionStore(state => state.addMessage);
   const replaceLastMessage = useReadingSessionStore(
     state => state.replaceLastMessage,
@@ -106,16 +113,30 @@ const Read = () => {
   const setCurrentMinigame = useMiniGameStore(
     state => state.setCurrentMinigame,
   );
+  const user = useUserStore(state => state.user);
 
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: false });
     console.log('scroll');
   }, [addMessage]);
 
+  // console.log(minigamesTeacher, 'minigamesteach');
+
   useEffect(() => {
     const initSession = async () => {
+      if (user.role === 'Teacher') {
+        if (minigamesTeacher) {
+          console.log('usre is a teacher');
+          setMinigames(minigamesTeacher);
+          setCurrentSessionKey(user?.id, selectedContent.id);
+          setCurrentSession(null);
+          return;
+        }
+      }
+
       const pastSession = getPastSession(selectedContent.id);
 
+      console.log('user is pupil fr');
       if (!pastSession) {
         const newReadingSession = await createReadingSession({
           reading_material_id: selectedContent?.id,
@@ -133,7 +154,7 @@ const Read = () => {
 
     initSession();
     console.log('init');
-  }, []);
+  }, [minigamesTeacher]);
 
   const messages = useReadingSessionStore(state => state.currentMessages);
 
@@ -164,7 +185,7 @@ const Read = () => {
         return storyBubble;
       })
       .filter((b): b is Message => b !== null);
-  }, [selectedContent?.content, minigames]);
+  }, [selectedContent?.content, minigames, minigamesTeacher]);
 
   const onBackPress = () => {
     if (currentSession) {
@@ -233,7 +254,7 @@ const Read = () => {
       ) {
         replaceLastMessage(newMessage);
       } else {
-        addMessage(newMessage);
+        addMessage(newMessage, user, selectedContent?.id);
       }
       setWord(null);
     }
@@ -244,10 +265,10 @@ const Read = () => {
   const onPress = useThrottle(() => {
     if (
       currentSession?.completion_percentage < parsedBubbles!.length ||
-      chunkIndex === parsedBubbles.length
+      chunkIndex < parsedBubbles.length
     ) {
       const newMessage = parsedBubbles[chunkIndex];
-      addMessage(newMessage);
+      addMessage(newMessage, user, selectedContent.id);
       setChunkIndex(prev => prev + 1);
     }
 
@@ -290,7 +311,7 @@ const Read = () => {
     };
 
     // console.log('addstorymsg', newMsg);
-    addMessage(newMsg);
+    addMessage(newMsg, user, selectedContent.id);
   };
 
   const isNextDisabled = () => {
@@ -307,7 +328,7 @@ const Read = () => {
     return false;
   };
 
-  // console.log('@MESSAGES:', messages);
+  console.log('@MESSAGES:', messages);
   // console.log('@@CURRENT SESSION', currentSession);
   // console.log('@@@MINIGAMELOGS', minigameLogs);
   // console.log(
@@ -316,9 +337,15 @@ const Read = () => {
   //   '@@@@@CHUNK INDEX LEN',
   //   chunkIndex,
   // );
-  // console.log('@@@@MINIGAMES', minigames);
+  console.log('@@@@MINIGAMES', minigames);
 
-  if (!currentSession || isMinigameLogsLoading || !minigames || !messages) {
+  if (
+    (user.role === 'Pupil' && !currentSession) ||
+    (user.role === 'Pupil' && isMinigameLogsLoading) ||
+    isMinigamesTeacherLoading ||
+    !minigames ||
+    !messages
+  ) {
     return (
       <View className="flex-1 items-center justify-center">
         <Text>Loading story...</Text>
