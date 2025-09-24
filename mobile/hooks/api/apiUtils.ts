@@ -11,7 +11,7 @@ export const setupAuthToken = async () => {
   const token = await AsyncStorage.getItem('access_token');
   // Update client configuration
   client.setConfig({
-    baseUrl: `${ipAddress}`,
+    baseUrl: `http://${ipAddress}:3000`,
     headers: {
       ...(token && { Authorization: `Bearer ${token}` }),
     },
