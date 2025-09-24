@@ -14,6 +14,7 @@ interface ReadingSessionStore {
 
   // key: sessionId or teacherId-readingMatId
   messages: Record<string, Message[]>;
+  chunkIndex: Record<string, number>;
 
   setCurrentSessionKey: (userId: string, readingMatId: string) => void;
   addMessage: (message: Message, user: User, readingMatId: string) => void;
@@ -22,7 +23,10 @@ interface ReadingSessionStore {
 
   setCurrentSession: (session: ReadingSession | null) => void;
   addSession: (session: ReadingSession) => void;
-  getPastSession: (readingMaterialId: string) => ReadingSession | null;
+  getPastSession: (
+    user: User,
+    readingMaterialId: string,
+  ) => ReadingSession | null | number;
   getSessionByReadingId: (readingMaterialId: string) => ReadingSession | null;
   clearSession: () => void;
 
@@ -42,6 +46,7 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
       currentSessionKey: null,
       sessions: {},
       messages: {},
+      chunkIndex: {},
 
       get currentMessages() {
         console.log('messages get current how');
@@ -57,12 +62,15 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
 
       addMessage: (message, user, readingMatId) =>
         set(state => {
-          let sessionId = null;
-          console.log('sesison key sdhkjfhsk', get().currentSessionKey);
+          let sessionId: string | null = null;
+
           if (user.role === 'Teacher') {
             sessionId = `${user.id}-${readingMatId}`;
+            // safely increment only the teacher’s session
+            const currentIndex = state.chunkIndex[sessionId] ?? 0;
+            state.chunkIndex[sessionId] = currentIndex + 1;
           } else {
-            sessionId = get().currentSession?.id;
+            sessionId = get().currentSession?.id ?? null;
           }
 
           console.log('addmsg current session', sessionId);
@@ -75,7 +83,8 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
               ...state.messages,
               [sessionId]: newMessages,
             },
-            currentMessages: newMessages, // <-- keep in sync
+            currentMessages: newMessages, // keep in sync
+            chunkIndex: { ...state.chunkIndex }, // only changed for teacher sessions
           };
         }),
 
@@ -120,17 +129,17 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
 
           console.log('is this where the stories are initalized', sessionKey);
 
-          // console.log('session', session.id, 'session stories', state.messages);
-
           if (!session) {
             console.log('pero mo lampos sya diri');
             const currentMessages = state.messages[sessionKey] ?? [];
-            return { currentSession: null, currentMessages };
+            const currChunkIndex = state.chunkIndex[sessionKey] ?? 0;
+            return {
+              currentSession: null,
+              currentMessages,
+              chunkIndex: { ...state.chunkIndex, [sessionKey]: currChunkIndex },
+            };
           }
 
-          // const currentMessages = session
-          //   ? (state.messages[session.id] ?? [])
-          //   : [];
           const currentMessages = state.messages[session.id] ?? [];
 
           console.log('taysa brjshdkjas', currentMessages);
@@ -149,11 +158,21 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
         set({
           currentSession: null,
           currentMessages: null,
+          chunkIndex: {},
           sessions: {}, // key: sessionId
           messages: {},
         }),
 
-      getPastSession: readingMaterialId => {
+      getPastSession: (user, readingMaterialId) => {
+        if (user.role === 'Teacher') {
+          console.log('hayst');
+          const key = get().currentSessionKey;
+
+          console.log('fucking hfdkjhs key', key);
+          const chunk = get().chunkIndex[key];
+          return chunk ?? 0;
+        }
+
         const sessions = Object.values(get().sessions);
         return (
           sessions.find(

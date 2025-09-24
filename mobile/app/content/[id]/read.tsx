@@ -32,6 +32,7 @@ import {
 } from '@/stores/miniGameStore';
 import { useReadingSessionStore } from '@/stores/readingSessionStore';
 import { useUserStore } from '@/stores/userStore';
+import { ReadingSession } from '@/models/ReadingSession';
 
 const iconMap: Record<string, any> = {
   Story: require('@/assets/images/storyIcons/narrator.png'),
@@ -125,16 +126,22 @@ const Read = () => {
   useEffect(() => {
     const initSession = async () => {
       if (user.role === 'Teacher') {
+        setCurrentSessionKey(user?.id, selectedContent.id);
+        const pastSession = getPastSession(user, selectedContent.id) as number;
         if (minigamesTeacher) {
           console.log('usre is a teacher');
           setMinigames(minigamesTeacher);
-          setCurrentSessionKey(user?.id, selectedContent.id);
           setCurrentSession(null);
+          console.log('klakjdash', pastSession);
+          setChunkIndex(pastSession);
           return;
         }
       }
 
-      const pastSession = getPastSession(selectedContent.id);
+      const pastSession = getPastSession(
+        user,
+        selectedContent.id,
+      ) as ReadingSession | null;
 
       console.log('user is pupil fr');
       if (!pastSession) {
@@ -330,13 +337,13 @@ const Read = () => {
 
   console.log('@MESSAGES:', messages);
   // console.log('@@CURRENT SESSION', currentSession);
-  // console.log('@@@MINIGAMELOGS', minigameLogs);
-  // console.log(
-  //   '@@@@PARSED BUBBLES LEN',
-  //   parsedBubbles.length,
-  //   '@@@@@CHUNK INDEX LEN',
-  //   chunkIndex,
-  // );
+  console.log('@@@MINIGAMELOGS', minigameLogs);
+  console.log(
+    '@@@@PARSED BUBBLES LEN',
+    parsedBubbles.length,
+    '@@@@@CHUNK INDEX LEN',
+    chunkIndex,
+  );
   console.log('@@@@MINIGAMES', minigames);
 
   if (
