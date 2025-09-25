@@ -13,7 +13,7 @@
     }
   ],
   "buildCommand": "pnpm run build",
-  "outputDirectory": "dist",
+  "outputDirectory": "/dist",
   "installCommand": "pnpm install",
   "github": {
     "enabled": true
