@@ -173,6 +173,13 @@ export interface Genres {
   name: string | null;
 }
 
+export interface LibraryEntries {
+  created_at: Generated<Timestamp | null>;
+  id: Generated<string>;
+  reading_material_id: string | null;
+  user_id: string | null;
+}
+
 export interface MinigameLogs {
   created_at: Timestamp | null;
   id: Generated<string>;
@@ -272,6 +279,7 @@ export interface DB {
   'public.classroom_view': ClassroomView;
   'public.classrooms': Classrooms;
   'public.genres': Genres;
+  'public.library_entries': LibraryEntries;
   'public.minigame_logs': MinigameLogs;
   'public.minigames': Minigames;
   'public.pupil_achievements': PupilAchievements;
