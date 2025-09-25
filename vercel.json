@@ -2,17 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/dist/main.js",
+      "src": "dist/main.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "backend/dist/main.js"
+      "dest": "dist/main.js"
     }
   ],
-  "outputDirectory": "backend/dist",
+  "outputDirectory": "dist",
   "github": {
     "enabled": true
   }
