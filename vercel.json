@@ -1,5 +1,10 @@
 {
   "version": 2,
+  "rootDirectory": "backend",
+
+  "installCommand": "pnpm install --filter backend...",
+  "buildCommand": "pnpm run build",
+
   "builds": [
     {
       "src": "dist/main.js",
@@ -12,7 +17,6 @@
       "dest": "dist/main.js"
     }
   ],
-  "outputDirectory": "dist",
   "github": {
     "enabled": true
   }
