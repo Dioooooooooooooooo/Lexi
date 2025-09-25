@@ -2,8 +2,15 @@
 
 ## 📋 Recent Achievements
 
-### Mobile App Fixes (Latest)
-- ✅ **Profile Logout Modal Issue Resolved** 
+### API Integration Improvements (Latest - Sept 2025)
+- ✅ **Classroom Components API Integration**
+  - Integrated generated hooks across all classroom components
+  - Fixed TypeScript errors in useCreateActivity hook
+  - Standardized component naming conventions (React standards)
+  - Replaced manual mutations with centralized hook system
+
+### Mobile App Fixes
+- ✅ **Profile Logout Modal Issue Resolved**
   - Fixed ConfirmModal visibility and positioning problems
   - Replaced problematic modal component with inline implementation
   - Modal now appears centered and functions correctly

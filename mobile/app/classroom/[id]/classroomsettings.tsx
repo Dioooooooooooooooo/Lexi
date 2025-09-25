@@ -3,17 +3,17 @@ import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { useUserStore } from '@/stores/userStore';
 import { useClassroomStore } from '@/stores/classroomStore';
-import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import {
-  editClassroom as apiEditClassroom,
-  deleteClassroom as apiDeleteClassroom,
-  addPupilToClassroom as apiAddPupilToClassroom,
   searchPupils as apiSearchPupils,
-  removePupilFromClassroom as apiRemovePupilFromClassroom,
-  getPupilsFromClassroom,
-  leaveClassroom as apiLeaveClassroom,
   usePupilsFromClassroom,
 } from '@/services/ClassroomService';
+import {
+  useUpdateClassroom,
+  useDeleteClassroom,
+  useEnrollPupils,
+  useUnEnrollPupils,
+  useLeaveClassroom,
+} from '@/hooks/mutation/useClassroomMutations';
 import TeacherSetting from '@/components/Classroom/TeacherSetting';
 import PupilSetting from '@/components/Classroom/PupilSetting';
 import BackHeader from '@/components/BackHeader';
@@ -21,8 +21,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useLocalSearchParams } from 'expo-router';
 
 export default function ClassroomSettings() {
-  const queryClient = useQueryClient();
-
   const params = useLocalSearchParams<{ id: string }>();
   const selectedClassroom = useClassroomStore(state => state.selectedClassroom);
   const setSelectedClassroom = useClassroomStore(
@@ -34,56 +32,10 @@ export default function ClassroomSettings() {
   const { data: enrolledPupils, isLoading: loadingPupils } =
     usePupilsFromClassroom(selectedClassroom!); // GI BALHIN NAKOS SERVICES SO I CAN REUSE TTOTT
 
-  const { mutateAsync: editClassroomMutation } = useMutation({
-    mutationFn: ({
-      classroomForm,
-      classroomId,
-    }: {
-      classroomForm: Record<string, any>;
-      classroomId: string;
-    }) => apiEditClassroom(classroomForm, classroomId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['classroomsData'] });
-    },
-  });
-
-  const { mutateAsync: deleteClassroomMutation } = useMutation({
-    mutationFn: ({ classroomId }: { classroomId: string }) =>
-      apiDeleteClassroom(classroomId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['classroomsData'] });
-    },
-  });
-
-  const { mutateAsync: addPupilMutation } = useMutation({
-    mutationFn: ({
-      classroomId,
-      pupilId,
-    }: {
-      classroomId: string;
-      pupilId: string;
-    }) => apiAddPupilToClassroom(classroomId, pupilId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['classroomPupils', selectedClassroom?.id],
-      });
-    },
-  });
-
-  const { mutateAsync: removePupilMutation } = useMutation({
-    mutationFn: ({
-      classroomId,
-      pupilId,
-    }: {
-      classroomId: string;
-      pupilId: string;
-    }) => apiRemovePupilFromClassroom(classroomId, pupilId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['classroomPupils', selectedClassroom?.id],
-      });
-    },
-  });
+  const { mutateAsync: editClassroomMutation } = useUpdateClassroom();
+  const { mutateAsync: deleteClassroomMutation } = useDeleteClassroom();
+  const { mutateAsync: addPupilMutation } = useEnrollPupils();
+  const { mutateAsync: removePupilMutation } = useUnEnrollPupils();
 
   // return user?.role === 'Teacher' ? (
   //   <TeacherSetting
@@ -115,7 +67,7 @@ export default function ClassroomSettings() {
               Classroom
             </Text>
             <Text>
-              Teacher: {user?.firstName} {user?.lastName} to fetch pa hahahah
+              Teacher: {user?.first_name} {user?.last_name} to fetch pa hahahah
             </Text>
           </View>
         </View>
