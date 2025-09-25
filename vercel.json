@@ -12,5 +12,8 @@
       "dest": "backend/dist/main.js"
     }
   ],
-  "outputDirectory": "backend/dist"
+  "outputDirectory": "backend/dist",
+  "github": {
+    "enabled": true
+  }
 }
