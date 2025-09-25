@@ -12,6 +12,7 @@
       "dest": "dist/main.js"
     }
   ],
+  "buildCommand": "pnpm run build",
   "outputDirectory": "dist",
   "github": {
     "enabled": true
