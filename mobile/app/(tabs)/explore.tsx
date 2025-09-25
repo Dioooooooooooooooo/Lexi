@@ -25,6 +25,7 @@ import { ReadingMaterial } from '@/models/ReadingMaterial';
 import { StreakIcon } from '@/components/Streak';
 import { useUserStore } from '@/stores/userStore';
 import { HeaderSearchBar } from '@/components/HeaderSearchBar';
+import { useReadingMaterials } from '@/hooks';
 
 function Explore() {
   const streak = useUserStore(state => state.streak);
@@ -33,11 +34,12 @@ function Explore() {
   const [showStreak, setShowStreakModal] = useState(false);
   const user = useUserStore(state => state.user);
 
-  const { data: stories, isLoading: isStoriesLoading } = useStories();
+  const { data: stories, isLoading: isStoriesLoading } = useReadingMaterials();
   const [query, setQuery] = useState<string>('');
   const [selectedGenres, setSelectedGenres] = useState<Set<string>>(new Set());
 
   const toggleGenre = (genre: string) => {
+    console.log('genre tapped');
     setSelectedGenres(prev => {
       const newSet = new Set(prev);
       if (newSet.has(genre)) {

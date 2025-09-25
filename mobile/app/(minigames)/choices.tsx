@@ -62,6 +62,7 @@ const ChoicesBubble = ({
   }, [minigameLog]);
 
   const onBtnPress = async (ans: Choice) => {
+    console.log('sheeeeeesh');
     let score = 0;
     if (ans.answer) {
       score = 1;

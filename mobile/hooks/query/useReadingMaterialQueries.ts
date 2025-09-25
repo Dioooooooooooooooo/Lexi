@@ -18,7 +18,7 @@ export const useReadingMaterials = () => {
       const res = await readingMaterialsControllerFindAll();
       return res.data?.data; // Extract actual data from SuccessResponseDto
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 60 * 60 * 1000, // 5 minutes
   });
 };
 

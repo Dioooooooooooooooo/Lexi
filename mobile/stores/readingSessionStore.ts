@@ -78,6 +78,8 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
 
           const newMessages = [...(state.messages[sessionId] ?? []), message];
 
+          // console.log('HAAAAAAAAAAAAAAA', state.messages);
+
           return {
             messages: {
               ...state.messages,
@@ -91,15 +93,40 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
       removeMessage: messageId =>
         set(state => {
           const sessionId = get().currentSession?.id;
-          if (!sessionId) return state;
+          if (!sessionId) {
+            const key = get().currentSessionKey;
+            console.log('no session for delete message');
+
+            const newMessages = [
+              ...(state.messages[key] ?? []).filter(
+                msg => msg.id !== messageId,
+              ),
+            ];
+
+            return {
+              messages: {
+                ...state.messages,
+                [key]: newMessages,
+              },
+              currentMessages: newMessages,
+            };
+          }
+
+          console.log('pupil delete message usa', messageId);
+          console.log('messages delete message fr', get().messages[sessionId]);
+
+          const newMessages = [
+            ...(state.messages[sessionId] ?? []).filter(
+              msg => msg.id !== messageId,
+            ),
+          ];
 
           return {
             messages: {
               ...state.messages,
-              [sessionId]: (state.messages[sessionId] ?? []).filter(
-                msg => msg.id !== messageId,
-              ),
+              [sessionId]: newMessages,
             },
+            currentMessages: newMessages,
           };
         }),
 
@@ -142,8 +169,15 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
 
           const currentMessages = state.messages[session.id] ?? [];
 
+          console.log('hdjkfhdskhf hahahhaha', session.id);
           console.log('taysa brjshdkjas', currentMessages);
-          return { currentSession: session, currentMessages };
+          console.log('tanandns messages', get().messages);
+          return {
+            currentSession: session,
+            currentMessages,
+            chunkIndex: { ...state.chunkIndex },
+            // sessions: { ...state.sessions, [session.id]: currentMessages },
+          };
         }),
 
       addSession: session =>

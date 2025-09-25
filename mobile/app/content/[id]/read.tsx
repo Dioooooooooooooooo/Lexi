@@ -143,11 +143,14 @@ const Read = () => {
         selectedContent.id,
       ) as ReadingSession | null;
 
+      console.log('HMHDSMAHDKJHFJK', pastSession);
+
       console.log('user is pupil fr');
       if (!pastSession) {
         const newReadingSession = await createReadingSession({
           reading_material_id: selectedContent?.id,
         });
+        console.log('newreadingdsessiosn', newReadingSession);
         addSession(newReadingSession);
         setCurrentSession(newReadingSession);
         setMinigames(newReadingSession.minigames);
@@ -161,7 +164,8 @@ const Read = () => {
 
     initSession();
     console.log('init');
-  }, [minigamesTeacher]);
+    // TODO FIX: minigames is causing index reset
+  }, [minigamesTeacher, getPastSession]);
 
   const messages = useReadingSessionStore(state => state.currentMessages);
 
@@ -239,6 +243,11 @@ const Read = () => {
     console.log('wfl');
   }, [minigames]);
 
+  const onClosePress = (id: number) => {
+    console.log('remove this mgessage omg fr');
+    removeMessage(id);
+  };
+
   // Word definition bubble
   useEffect(() => {
     if (!word || isDictionaryLoading) return;
@@ -301,10 +310,6 @@ const Read = () => {
     setWord(word);
   };
 
-  const onClosePress = (id: number) => {
-    removeMessage(id);
-  };
-
   const addStoryMessage = (msg: bubble, msgType: MessageTypeEnum) => {
     if (!msg) {
       console.warn('tried to add undefined');
@@ -337,7 +342,7 @@ const Read = () => {
 
   console.log('@MESSAGES:', messages);
   // console.log('@@CURRENT SESSION', currentSession);
-  console.log('@@@MINIGAMELOGS', minigameLogs);
+  // console.log('@@@MINIGAMELOGS', minigameLogs);
   console.log(
     '@@@@PARSED BUBBLES LEN',
     parsedBubbles.length,
