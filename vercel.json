@@ -2,18 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/main.js",
+      "src": "main.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/main.js"
+      "dest": "main.js"
     }
   ],
   "buildCommand": "pnpm run build",
-  "outputDirectory": "/dist",
   "installCommand": "pnpm install",
   "github": {
     "enabled": true
