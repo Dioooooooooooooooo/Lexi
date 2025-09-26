@@ -484,13 +484,6 @@ export interface Genres {
   name: string | null;
 }
 
-export interface LibraryEntries {
-  created_at: Generated<Timestamp | null>;
-  id: Generated<string>;
-  reading_material_id: string | null;
-  user_id: string | null;
-}
-
 export interface MinigameLogs {
   created_at: Timestamp | null;
   id: Generated<string>;
@@ -709,19 +702,6 @@ export interface DB {
   'public.achievements': Achievements;
   'public.activities': Activities;
   'public.activity_logs': ActivityLogs;
-  'public.classroom_enrollment': ClassroomEnrollment;
-  'public.classroom_view': ClassroomView;
-  'public.classrooms': Classrooms;
-  'public.genres': Genres;
-  'public.minigame_logs': MinigameLogs;
-  'public.minigames': Minigames;
-  'public.pupil_achievements': PupilAchievements;
-  'public.pupil_leaderboard': PupilLeaderboard;
-  'public.pupils': Pupils;
-  'public.reading_material_genres': ReadingMaterialGenres;
-  'public.reading_materials': ReadingMaterials;
-  'public.reading_sessions': ReadingSessions;
-  'public.teachers': Teachers;
   'auth.audit_log_entries': AuthAuditLogEntries;
   'auth.flow_state': AuthFlowState;
   'auth.identities': AuthIdentities;
@@ -750,8 +730,20 @@ export interface DB {
   'authentication.sessions': AuthenticationSessions;
   'authentication.user_roles': AuthenticationUserRoles;
   'authentication.users': AuthenticationUsers;
+  'public.classroom_enrollment': ClassroomEnrollment;
+  'public.classroom_view': ClassroomView;
+  'public.classrooms': Classrooms;
   'extensions.pg_stat_statements': ExtensionsPgStatStatements;
   'extensions.pg_stat_statements_info': ExtensionsPgStatStatementsInfo;
+  'public.genres': Genres;
+  'public.minigame_logs': MinigameLogs;
+  'public.minigames': Minigames;
+  'public.pupil_achievements': PupilAchievements;
+  'public.pupil_leaderboard': PupilLeaderboard;
+  'public.pupils': Pupils;
+  'public.reading_material_genres': ReadingMaterialGenres;
+  'public.reading_materials': ReadingMaterials;
+  'public.reading_sessions': ReadingSessions;
   'realtime.messages': RealtimeMessages;
   'realtime.schema_migrations': RealtimeSchemaMigrations;
   'realtime.subscription': RealtimeSubscription;
@@ -762,6 +754,8 @@ export interface DB {
   'storage.prefixes': StoragePrefixes;
   'storage.s3_multipart_uploads': StorageS3MultipartUploads;
   'storage.s3_multipart_uploads_parts': StorageS3MultipartUploadsParts;
+  'public.teachers': Teachers;
   'vault.decrypted_secrets': VaultDecryptedSecrets;
   'vault.secrets': VaultSecrets;
 }
+
