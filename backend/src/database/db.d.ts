@@ -3,36 +3,25 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from 'kysely';
+import type { ColumnType } from "kysely";
 
-export type AuthAalLevel = 'aal1' | 'aal2' | 'aal3';
+export type AuthAalLevel = "aal1" | "aal2" | "aal3";
 
-export type AuthCodeChallengeMethod = 'plain' | 's256';
+export type AuthCodeChallengeMethod = "plain" | "s256";
 
-export type AuthFactorStatus = 'unverified' | 'verified';
+export type AuthFactorStatus = "unverified" | "verified";
 
-export type AuthFactorType = 'phone' | 'totp' | 'webauthn';
+export type AuthFactorType = "phone" | "totp" | "webauthn";
 
-export type AuthOauthRegistrationType = 'dynamic' | 'manual';
+export type AuthOauthRegistrationType = "dynamic" | "manual";
 
-export type AuthOneTimeTokenType =
-  | 'confirmation_token'
-  | 'email_change_token_current'
-  | 'email_change_token_new'
-  | 'phone_change_token'
-  | 'reauthentication_token'
-  | 'recovery_token';
+export type AuthOneTimeTokenType = "confirmation_token" | "email_change_token_current" | "email_change_token_new" | "phone_change_token" | "reauthentication_token" | "recovery_token";
 
-export type Generated<T> =
-  T extends ColumnType<infer S, infer I, infer U>
-    ? ColumnType<S, I | undefined, U>
-    : ColumnType<T, T | undefined, T>;
+export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
+  ? ColumnType<S, I | undefined, U>
+  : ColumnType<T, T | undefined, T>;
 
-export type Int8 = ColumnType<
-  string,
-  bigint | number | string,
-  bigint | number | string
->;
+export type Int8 = ColumnType<string, bigint | number | string, bigint | number | string>;
 
 export type Json = JsonValue;
 
@@ -48,7 +37,7 @@ export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
 
 export type Numeric = ColumnType<string, number | string, number | string>;
 
-export type StorageBuckettype = 'ANALYTICS' | 'STANDARD';
+export type StorageBuckettype = "ANALYTICS" | "STANDARD";
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
@@ -488,7 +477,6 @@ export interface MinigameLogs {
   created_at: Timestamp | null;
   id: Generated<string>;
   minigame_id: string | null;
-  pupil_id: string | null;
   reading_session_id: string | null;
   result: string | null;
 }
@@ -556,6 +544,7 @@ export interface ReadingSessions {
   reading_material_id: string | null;
   started_at: Generated<Timestamp | null>;
   updated_at: Timestamp | null;
+  user_id: string | null;
 }
 
 export interface RealtimeMessages {
@@ -702,19 +691,6 @@ export interface DB {
   'public.achievements': Achievements;
   'public.activities': Activities;
   'public.activity_logs': ActivityLogs;
-  'public.classroom_enrollment': ClassroomEnrollment;
-  'public.classroom_view': ClassroomView;
-  'public.classrooms': Classrooms;
-  'public.genres': Genres;
-  'public.minigame_logs': MinigameLogs;
-  'public.minigames': Minigames;
-  'public.pupil_achievements': PupilAchievements;
-  'public.pupil_leaderboard': PupilLeaderboard;
-  'public.pupils': Pupils;
-  'public.reading_material_genres': ReadingMaterialGenres;
-  'public.reading_materials': ReadingMaterials;
-  'public.reading_sessions': ReadingSessions;
-  'public.teachers': Teachers;
   'auth.audit_log_entries': AuthAuditLogEntries;
   'auth.flow_state': AuthFlowState;
   'auth.identities': AuthIdentities;
@@ -743,8 +719,20 @@ export interface DB {
   'authentication.sessions': AuthenticationSessions;
   'authentication.user_roles': AuthenticationUserRoles;
   'authentication.users': AuthenticationUsers;
+  'public.classroom_enrollment': ClassroomEnrollment;
+  'public.classroom_view': ClassroomView;
+  'public.classrooms': Classrooms;
   'extensions.pg_stat_statements': ExtensionsPgStatStatements;
   'extensions.pg_stat_statements_info': ExtensionsPgStatStatementsInfo;
+  'public.genres': Genres;
+  'public.minigame_logs': MinigameLogs;
+  'public.minigames': Minigames;
+  'public.pupil_achievements': PupilAchievements;
+  'public.pupil_leaderboard': PupilLeaderboard;
+  'public.pupils': Pupils;
+  'public.reading_material_genres': ReadingMaterialGenres;
+  'public.reading_materials': ReadingMaterials;
+  'public.reading_sessions': ReadingSessions;
   'realtime.messages': RealtimeMessages;
   'realtime.schema_migrations': RealtimeSchemaMigrations;
   'realtime.subscription': RealtimeSubscription;
@@ -755,6 +743,7 @@ export interface DB {
   'storage.prefixes': StoragePrefixes;
   'storage.s3_multipart_uploads': StorageS3MultipartUploads;
   'storage.s3_multipart_uploads_parts': StorageS3MultipartUploadsParts;
+  'public.teachers': Teachers;
   'vault.decrypted_secrets': VaultDecryptedSecrets;
   'vault.secrets': VaultSecrets;
 }
