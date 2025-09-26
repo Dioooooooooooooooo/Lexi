@@ -11,20 +11,21 @@ import { DB } from './db';
     {
       provide: 'DATABASE',
       useFactory: (configService: ConfigService) => {
-        const dialect = new PostgresDialect({
-          pool: new Pool({
-            host: configService.get<string>('DB_HOST'),
-            port: parseInt(configService.get<string>('DB_PORT') ?? '5432', 10),
-            user: configService.get<string>('DB_USERNAME'),
-            password: configService.get<string>('DB_PASSWORD'),
-            database: configService.get<string>('DB_NAME'),
-            ssl: {
-              rejectUnauthorized: true,
-              ca: configService.get<string>('DB_SSL_CA'),
-            },
-          }),
+        const pool = new Pool({
+          host: configService.get<string>('DB_HOST'),
+          port: parseInt(configService.get<string>('DB_PORT') ?? '6543', 10),
+          user: configService.get<string>('DB_USERNAME'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_DATABASE'),
+          ssl: {
+            rejectUnauthorized: true,
+            ca: configService.get<string>('DB_SSL_CA'),
+          },
         });
-        return new Kysely<DB>({ dialect });
+
+        return new Kysely<DB>({
+          dialect: new PostgresDialect({ pool }),
+        });
       },
       inject: [ConfigService],
     },
