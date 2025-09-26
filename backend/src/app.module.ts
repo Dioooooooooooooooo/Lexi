@@ -80,7 +80,6 @@ import multer from 'multer';
     ActivityLogsModule,
     DictionaryModule,
     ImagekitModule,
-    LibraryModule,
     LibraryEntriesModule,
   ],
   controllers: [AppController],

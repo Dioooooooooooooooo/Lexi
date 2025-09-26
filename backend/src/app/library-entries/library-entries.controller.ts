@@ -10,11 +10,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { LibraryEntriesService } from './library-entries.service';
-import { CreateLibraryEntryDto } from './dto/create-library-entry.dto';
-import { UpdateLibraryEntryDto } from './dto/update-library-entry.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UserResponseDto } from '../auth/dto/auth.dto';
+import { SuccessResponseDto } from '@/common/dto';
+import { LibraryEntries } from '@/database/db';
 
 @Controller('library-entries')
 @UseGuards(AuthGuard('jwt'))
@@ -23,33 +23,44 @@ export class LibraryEntriesController {
   constructor(private readonly libraryEntriesService: LibraryEntriesService) {}
 
   @Post('reading-materials/:readingMaterialId')
-  create(
-    @Request() req: { user: UserResponseDto },
-    @Param('readingMaterialId') readingMaterialId: string,
-  ) {
-    return this.libraryEntriesService.create(readingMaterialId);
+  @ApiOperation({ summary: 'This adds a reading material to the library' })
+  @ApiResponse({
+    status: 201,
+    description: 'Reading material successsfully added to library.',
+    type: SuccessResponseDto,
+  })
+  async create(@Param('readingMaterialId') readingMaterialId: string) {
+    const entry = await this.libraryEntriesService.create(readingMaterialId);
+    return {
+      message: 'Reading material successsfully added to library.',
+      data: entry,
+    };
   }
 
   @Get()
-  findAll() {
-    return this.libraryEntriesService.findAll();
+  @ApiOperation({ summary: 'This will get all reading materials in library.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Reading materials in library successfully fetched.',
+    type: SuccessResponseDto,
+  })
+  async findAll() {
+    const entries = await this.libraryEntriesService.findAll();
+    return {
+      message: 'Successfully fetched reading materials from library.',
+      data: entries,
+    };
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.libraryEntriesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateLibraryEntryDto: UpdateLibraryEntryDto,
-  ) {
-    return this.libraryEntriesService.update(+id, updateLibraryEntryDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.libraryEntriesService.remove(+id);
+  @Delete(':readingMaterialId')
+  @ApiOperation({ summary: 'Remove reading material from library.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully removed reading material from library.',
+    type: SuccessResponseDto,
+  })
+  async remove(@Param('readingMaterialId') readingMaterialId: string) {
+    await this.libraryEntriesService.remove(readingMaterialId);
+    return { message: 'Successfully removed reading material from library.' };
   }
 }

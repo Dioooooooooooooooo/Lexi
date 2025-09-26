@@ -474,7 +474,7 @@ export interface Genres {
 }
 
 export interface LibraryEntries {
-  created_at: Generated<Timestamp | null>;
+  created_at: Generated<Timestamp>;
   id: Generated<string>;
   reading_material_id: string | null;
   user_id: string | null;
@@ -755,3 +755,4 @@ export interface DB {
   'vault.decrypted_secrets': VaultDecryptedSecrets;
   'vault.secrets': VaultSecrets;
 }
+
