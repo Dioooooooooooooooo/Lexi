@@ -2,19 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/main.js",
+      "src": "backend/dist/main.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/main.js"
+      "dest": "backend/dist/main.js"
     }
   ],
-  "buildCommand": "pnpm run build",
-  "installCommand": "pnpm install",
-  "github": {
-    "enabled": true
-  }
+  "outputDirectory": "backend"
 }
