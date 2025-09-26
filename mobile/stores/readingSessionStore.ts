@@ -67,13 +67,16 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
           const sessionId = get().currentSession?.id;
           if (!sessionId) return state;
 
+          const newMessages = (state.messages[sessionId] ?? []).filter(
+            msg => msg.id !== messageId,
+          );
+
           return {
             messages: {
               ...state.messages,
-              [sessionId]: (state.messages[sessionId] ?? []).filter(
-                msg => msg.id !== messageId,
-              ),
+              [sessionId]: newMessages,
             },
+            currentMessages: newMessages,
           };
         }),
 
@@ -83,11 +86,13 @@ export const useReadingSessionStore = create<ReadingSessionStore>()(
           if (!sessionId) return state;
 
           const prev = state.messages[sessionId] ?? [];
+          const newMessages = [...prev.slice(0, -1), message];
           return {
             messages: {
               ...state.messages,
               [sessionId]: [...prev.slice(0, -1), message],
             },
+            currentMessages: newMessages,
           };
         }),
 

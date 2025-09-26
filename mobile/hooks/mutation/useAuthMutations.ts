@@ -320,7 +320,7 @@ export const useUploadAvatar = () => {
       } as any);
 
       await imagekitControllerUploadImage({
-        body: formData
+        body: formData,
       });
     },
     onSuccess: data => {

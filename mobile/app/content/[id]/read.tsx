@@ -76,9 +76,25 @@ const Read = () => {
   const [chunkIndex, setChunkIndex] = useState(0);
   const [word, setWord] = useState<string | null>(null);
   const [minigames, setMinigames] = useState<Minigame[]>();
-  const [isFinished, setIsFinished] = useState(false);
+  const minigamesCount = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { height: screenHeight } = useWindowDimensions();
+
+  // Optimized smooth scroll function
+  const smoothScrollToEnd = (delay = 50) => {
+    // Clear any pending scroll
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+
+    scrollTimeoutRef.current = setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({
+        animated: true,
+        duration: 300, // Smooth 300ms animation
+      });
+    }, delay);
+  };
 
   const selectedContent = useReadingContentStore(
     state => state.selectedContent,
@@ -107,10 +123,18 @@ const Read = () => {
     state => state.setCurrentMinigame,
   );
 
+  // Smooth scroll when messages change
   useEffect(() => {
-    scrollViewRef.current?.scrollToEnd({ animated: false });
-    console.log('scroll');
-  }, [addMessage]);
+    if (messages && messages.length > 0) {
+      smoothScrollToEnd();
+    }
+
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [messages?.length]); // Depend on message count instead of function reference
 
   useEffect(() => {
     const initSession = async () => {
@@ -195,6 +219,15 @@ const Read = () => {
     };
   }, [chunkIndex]); // Add chunkIndex as dependency since onBackPress uses it
 
+  // Cleanup scroll timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // wfl init
   useEffect(() => {
     if (minigames) {
@@ -244,17 +277,21 @@ const Read = () => {
   const onPress = useThrottle(() => {
     if (
       currentSession?.completion_percentage < parsedBubbles!.length ||
-      chunkIndex === parsedBubbles.length
+      chunkIndex <= parsedBubbles.length
     ) {
       const newMessage = parsedBubbles[chunkIndex];
+
+      // Add message and update index together
       addMessage(newMessage);
       setChunkIndex(prev => prev + 1);
-    }
 
-    // console.log('onpress');
+      // Immediate smooth scroll to new message
+      smoothScrollToEnd(80);
+    }
   });
 
   const getMinigameLogById = (minigameId: string) => {
+    minigamesCount.current++;
     const res = minigameLogs.find(
       minigame => minigame.minigame_id === minigameId,
     );
@@ -307,7 +344,7 @@ const Read = () => {
     return false;
   };
 
-  // console.log('@MESSAGES:', messages);
+  console.log('@MESSAGES:', messages);
   // console.log('@@CURRENT SESSION', currentSession);
   // console.log('@@@MINIGAMELOGS', minigameLogs);
   // console.log(
@@ -316,7 +353,7 @@ const Read = () => {
   //   '@@@@@CHUNK INDEX LEN',
   //   chunkIndex,
   // );
-  // console.log('@@@@MINIGAMES', minigames);
+  console.log('@@@@MINIGAMES', minigames);
 
   if (!currentSession || isMinigameLogsLoading || !minigames || !messages) {
     return (
@@ -339,9 +376,10 @@ const Read = () => {
           ref={scrollViewRef}
           className="flex-1"
           showsVerticalScrollIndicator={false}
-          onContentSizeChange={() =>
-            scrollViewRef.current?.scrollToEnd({ animated: true })
-          }
+          onContentSizeChange={(width, height) => {
+            // Smooth scroll when content size changes (new messages)
+            smoothScrollToEnd(120);
+          }}
         >
           <View
             style={{ minHeight: screenHeight }}
@@ -403,7 +441,8 @@ const Read = () => {
           <View className="py-4">
             {!(
               currentSession?.completion_percentage >= parsedBubbles.length ||
-              chunkIndex >= parsedBubbles.length
+              chunkIndex >= parsedBubbles.length ||
+              minigamesCount.current >= minigames.length
             ) ? (
               <Button
                 onPress={() => {
