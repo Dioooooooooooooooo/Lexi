@@ -204,6 +204,7 @@ export class MinigamesService {
     };
   }
 
+  // get random minigames by session id and then create minigamelogs
   async getRandomMinigamesBySessionID(
     readingSessionID: string,
   ): Promise<Minigame[]> {
@@ -257,7 +258,6 @@ export class MinigamesService {
     let minigameLogs = [];
     for (const m of minigames) {
       minigameLogs.push({
-        pupil_id: readingSession.pupil_id,
         reading_session_id: readingSession.id,
         minigame_id: m.id,
       });
@@ -332,7 +332,6 @@ export class MinigamesService {
       .insertInto('public.minigame_logs')
       .values({
         minigame_id: minigameLogDto.minigame_id,
-        pupil_id: minigameLogDto.pupil_id,
         reading_session_id: minigameLogDto.reading_session_id,
         result: minigameLogDto.result,
       })
