@@ -20,7 +20,6 @@ import { SuccessResponseDto } from '@/common/dto';
 @Controller('reading-sessions')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 @ApiBearerAuth('JWT-auth')
-@Roles(['Pupil'])
 export class ReadingSessionsController {
   constructor(
     private readonly readingSessionsService: ReadingSessionsService,

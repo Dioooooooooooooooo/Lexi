@@ -3,7 +3,6 @@ import { CreateReadingSessionDto } from './dto/create-reading-session.dto';
 import { UpdateReadingSessionDto } from './dto/update-reading-session.dto';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/db';
-import { JwtAccessTokenPayload } from '@/common/types/jwt.types';
 import { getCurrentRequest } from '@/common/utils/request-context';
 import { NewReadingSession } from '@/database/schemas';
 import { MinigamesService } from '../minigames/minigames.service';
@@ -17,13 +16,17 @@ export class ReadingSessionsService {
 
   async create(createReadingSessionDto: CreateReadingSessionDto) {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req['user'];
+    const user = req['user'];
 
     const newReadingSession: NewReadingSession = {
       ...createReadingSessionDto,
-      pupil_id: user.pupil.id,
+      user_id: user.id,
       started_at: new Date(),
     };
+
+    if (user.role === 'Pupil') {
+      newReadingSession.pupil_id = user.pupil.id;
+    }
 
     const readingSession = await this.db
       .insertInto('public.reading_sessions')
@@ -31,7 +34,9 @@ export class ReadingSessionsService {
       .returningAll()
       .executeTakeFirst();
 
-    const minigames = await this.minigamesService.getRandomMinigamesBySessionID(
+    var minigames = [];
+
+    minigames = await this.minigamesService.getRandomMinigamesBySessionID(
       readingSession.id,
     );
 
@@ -40,21 +45,21 @@ export class ReadingSessionsService {
 
   async findAll() {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req['user'];
+    const user = req['user'];
     return await this.db
       .selectFrom('public.reading_sessions')
-      .where('pupil_id', '=', user.pupil.id)
+      .where('user_id', '=', user.id)
       .selectAll()
       .execute();
   }
 
   async findOne(id: string) {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req['user'];
+    const user = req['user'];
     const readingSession = await this.db
       .selectFrom('public.reading_sessions as rs')
       .selectAll()
-      .where('rs.pupil_id', '=', user.pupil.id)
+      .where('rs.user_id', '=', user.id)
       .where('rs.id', '=', id)
       .groupBy('rs.id')
       .executeTakeFirstOrThrow(
@@ -81,13 +86,13 @@ export class ReadingSessionsService {
 
   async update(id: string, updateReadingSessionDto: UpdateReadingSessionDto) {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req['user'];
+    const user = req['user'];
 
     return await this.db
       .updateTable('public.reading_sessions')
       .set(updateReadingSessionDto)
       .where('id', '=', id)
-      .where('pupil_id', '=', user.pupil.id)
+      .where('user_id', '=', user.id)
       .returningAll()
       .executeTakeFirstOrThrow(
         () => new NotFoundException(`Reading session with id ${id} not found`),
@@ -96,12 +101,12 @@ export class ReadingSessionsService {
 
   async remove(id: string) {
     const req = getCurrentRequest();
-    const user: JwtAccessTokenPayload = req['user'];
+    const user = req['user'];
 
     return await this.db
       .deleteFrom('public.reading_sessions')
       .where('id', '=', id)
-      .where('pupil_id', '=', user.pupil.id)
+      .where('user_id', '=', user.id)
       .returningAll()
       .executeTakeFirstOrThrow(
         () => new NotFoundException(`Reading session with id ${id} not found`),
