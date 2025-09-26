@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { TextArea } from '@/components/ui/textarea';
-import { useCreateActivity } from '@/hooks/mutation/useClassroomMutations';
+import { useCreateClassroomActivity } from '@/hooks/mutation/useClassroomMutations';
 import { MinigameType } from '@/models/Minigame';
 import { useClassroomStore } from '@/stores/classroomStore';
 import { useReadingContentStore } from '@/stores/readingContentStore';
@@ -44,7 +44,7 @@ export default function CreateActivity() {
     readingMaterialId: selectedContent?.id,
   });
 
-  const { mutateAsync: createReadingAssignmentMutation } = useCreateActivity();
+  const { mutateAsync: createReadingAssignmentMutation } = useCreateClassroomActivity();
 
   return (
     <PaperProvider>

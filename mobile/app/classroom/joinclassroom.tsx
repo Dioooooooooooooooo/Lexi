@@ -52,13 +52,12 @@ export default function JoinClassroom() {
           className="bg-yellowOrange m-5 mb-24 shadow-main"
           variant="default"
           onPress={async () => {
-            if (joinCode.length <= 6) {
+            if (joinCode.length < 6) {
               setError('Please enter a valid classroom code.');
               return;
             }
             try {
-              const response = await joinClassroom(joinCode);
-              const classroom = response.data;
+              const classroom = await joinClassroom(joinCode);
 
               setSelectedClassroom(classroom);
               router.replace(`/classroom/${classroom.id}`);

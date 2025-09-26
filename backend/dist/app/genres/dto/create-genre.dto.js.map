@@ -1,1 +1,0 @@
-{"version":3,"file":"create-genre.dto.js","sourceRoot":"","sources":["../../../../src/app/genres/dto/create-genre.dto.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,6CAA8C;AAC9C,qDAAuD;AAEvD,MAAa,cAAc;CAQ1B;AARD,wCAQC;AADC;IANC,IAAA,qBAAW,EAAC;QACX,WAAW,EAAE,mBAAmB;QAChC,QAAQ,EAAE,IAAI;KACf,CAAC;IACD,IAAA,0BAAQ,GAAE;IACV,IAAA,4BAAU,GAAE;;4CACA"}

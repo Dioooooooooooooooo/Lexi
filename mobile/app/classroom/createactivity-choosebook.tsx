@@ -3,12 +3,12 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { View, Image, TouchableOpacity, Text, ScrollView } from "react-native";
-import { useStories } from "@/services/ReadingMaterialService";
+import { useReadingMaterials } from "@/hooks/query/useReadingMaterialQueries";
 import BookCard from "@/components/Classroom/BookCard";
 import { useReadingContentStore } from "@/stores/readingContentStore";
 
 export default function choosebook() {
-  const { data: stories, isLoading: isStoriesLoading } = useStories(); // REFETCHES. preferably cached store shit lang ttot or idk
+  const { data: stories, isLoading: isStoriesLoading } = useReadingMaterials();
   const { selectedContent } = useReadingContentStore();
 
   return (

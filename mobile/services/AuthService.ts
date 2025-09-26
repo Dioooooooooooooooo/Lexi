@@ -3,14 +3,18 @@ import { axiosInstance } from '@/utils/axiosInstance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useUserStore } from '@/stores/userStore';
 import { router } from 'expo-router';
+import { Platform } from 'react-native';
 
-GoogleSignin.configure({
-  webClientId:
-    '393477780121-6i4h7kp3f18avqb857j8jlmb5uv5q5j6.apps.googleusercontent.com',
-  offlineAccess: true, // Request refresh token
-  forceCodeForRefreshToken: true, // Ensure token is provided
-  scopes: ['profile', 'email'],
-});
+// Only configure Google Sign In on native platforms
+if (Platform.OS !== 'web') {
+  GoogleSignin.configure({
+    webClientId:
+      '393477780121-6i4h7kp3f18avqb857j8jlmb5uv5q5j6.apps.googleusercontent.com',
+    offlineAccess: true, // Request refresh token
+    forceCodeForRefreshToken: true, // Ensure token is provided
+    scopes: ['profile', 'email'],
+  });
+}
 
 const setUser = useUserStore.getState().setUser;
 
@@ -76,10 +80,21 @@ export const signUp = async (registerForm: Record<string, any>) => {
 };
 
 export const refreshAccessToken = async () => {
+  let refreshToken = null;
+  
+  // Get refresh token based on platform
+  if (Platform.OS !== 'web') {
+    refreshToken = await AsyncStorage.getItem('refreshToken');
+  } else {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      refreshToken = localStorage.getItem('refreshToken');
+    }
+  }
+
   const response = await axiosInstance.post(
     '/auth/refresh',
     {
-      refresh_token: await AsyncStorage.getItem('refreshToken'),
+      refresh_token: refreshToken,
     },
     {
       validateStatus: () => true,
@@ -90,11 +105,28 @@ export const refreshAccessToken = async () => {
   if (response.status !== 200 && response.status !== 201) {
     console.warn(response.data.message);
     setUser(null);
-    await AsyncStorage.removeItem('accessToken');
+    
+    // Remove access token based on platform
+    if (Platform.OS !== 'web') {
+      await AsyncStorage.removeItem('accessToken');
+    } else {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.removeItem('accessToken');
+      }
+    }
+    
     router.replace('/');
     return;
   }
-  await AsyncStorage.setItem('accessToken', response.data.data.access_token);
+  
+  // Set access token based on platform
+  if (Platform.OS !== 'web') {
+    await AsyncStorage.setItem('accessToken', response.data.data.access_token);
+  } else {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('accessToken', response.data.data.access_token);
+    }
+  }
 };
 
 export const tokenAuth = async (

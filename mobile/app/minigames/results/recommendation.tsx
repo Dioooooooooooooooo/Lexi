@@ -1,4 +1,15 @@
 // import BackHeader from '@/components/BackHeader';
+import React from 'react';
+import { View, Text } from 'react-native';
+
+export default function Recommendation() {
+  return (
+    <View className="flex-1 justify-center items-center">
+      <Text>Recommendation page - Coming soon</Text>
+    </View>
+  );
+}
+
 // import ReadingContent from '@/components/ReadingContent';
 // import { Button } from '@/components/ui/button';
 // import { Redirect, router, useLocalSearchParams } from 'expo-router';

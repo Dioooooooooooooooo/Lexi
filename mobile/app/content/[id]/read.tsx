@@ -265,7 +265,7 @@ const Read = () => {
   const completedStory = useThrottle(() => {
     const wfl = minigames[minigames?.length - 1];
     setCurrentMinigame(wfl);
-    router.push({ pathname: '/(minigames)/wordsfromletters' });
+    router.push('/minigames/play');
   });
 
   const defineWord = (word: string) => {

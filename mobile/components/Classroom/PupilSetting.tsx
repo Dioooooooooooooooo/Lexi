@@ -8,7 +8,18 @@ import ConfirmModal from '../Modal';
 import LoadingScreen from '../LoadingScreen';
 import LoadingScreenForm from '../LoadingScreenForm';
 import { useMutation } from '@tanstack/react-query';
-import { useLeaveClassroom } from '@/services/ClassroomService';
+import { useLeaveClassroom } from '@/hooks/mutation/useClassroomMutations';
+import { useUserStore } from '@/stores/userStore';
+
+// Helper function to get the correct classroom ID
+const getCorrectClassroomId = (classroom: any, userRole: string) => {
+  // For pupils, the API returns enrollment data with classroom_id field
+  // For teachers, the API returns classroom data with id field
+  if (userRole === 'Pupil' && classroom.classroom_id) {
+    return classroom.classroom_id;
+  }
+  return classroom.id;
+};
 import { Input } from '../ui/input';
 
 type PupilSettingsProps = {
@@ -25,20 +36,30 @@ export default function PupilSetting({
   const [showDeleteClassroomModal, setShowLeaveClassroomModal] =
     useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  
+  const { mutateAsync: leaveClassroom } = useLeaveClassroom();
+  const user = useUserStore(state => state.user);
 
   console.log('mao mn kaha ni');
   const handleLeaveClassroom = async () => {
     if (selectedClassroom?.id) {
-      console.log('wait', selectedClassroom.id);
+      const correctClassroomId = getCorrectClassroomId(selectedClassroom, user?.role || 'Pupil');
+      
+      console.log('🔍 COMPONENT: selectedClassroom:', selectedClassroom);
+      console.log('🔍 COMPONENT: selectedClassroom.id:', selectedClassroom.id);
+      console.log('🔍 COMPONENT: selectedClassroom.classroom_id:', (selectedClassroom as any).classroom_id);
+      console.log('🔍 COMPONENT: User role:', user?.role);
+      console.log('🔍 COMPONENT: Correct classroom ID to use:', correctClassroomId);
+      
       try {
         setIsLoading(true);
-        useLeaveClassroom(selectedClassroom.id);
+        await leaveClassroom({ classroomId: correctClassroomId });
         setSelectedClassroom(null);
         router.replace('/home');
       } catch (error) {
         console.error('Error leaving classroom:', error);
       } finally {
-        setIsLoading(true);
+        setIsLoading(false);
       }
     }
   };

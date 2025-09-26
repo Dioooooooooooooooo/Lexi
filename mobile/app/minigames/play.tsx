@@ -7,11 +7,11 @@ import {
 } from '@/services/minigameService';
 import { useMiniGameStore } from '@/stores/miniGameStore';
 import { memo, useEffect } from 'react';
-import WordsFromLetters from './wordsfromletters';
-import FillInTheBlank from './fillintheblanks';
+import WordsFromLetters from '@/components/minigames/wordsfromletters';
+import FillInTheBlank from '@/components/minigames/fillintheblanks';
 // import SentenceRearrangement from './SentenceRearrangement';
 import { Minigame, MinigameType } from '@/models/Minigame';
-import WordHunt from './wordhunt';
+import WordHunt from '@/components/minigames/wordhunt';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { useReadingSessionStore } from '@/stores/readingSessionStore';
 import { useReadingAssignmentStore } from '@/stores/readingAssignmentStore';
@@ -26,8 +26,8 @@ import { router } from 'expo-router';
 import { useCreateAssignmentLog } from '@/services/ClassroomService';
 import { useUserStore } from '@/stores/userStore';
 import { useReadingContentStore } from '@/stores/readingContentStore';
-import Choices from './twotruthsonelie';
-import SentenceRearrangement from './sentencearrangement';
+import Choices from '@/components/minigames/twotruthsonelie';
+import SentenceRearrangement from '@/components/minigames/sentencearrangement';
 
 const { width } = Dimensions.get('window');
 

@@ -1,1 +1,0 @@
-{"version":3,"file":"create-reading-session.dto.js","sourceRoot":"","sources":["../../../../src/app/reading-sessions/dto/create-reading-session.dto.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,6CAA8C;AAC9C,qDAA2C;AAE3C,MAAa,uBAAuB;CAQnC;AARD,0DAQC;AADC;IANC,IAAA,qBAAW,EAAC;QACX,WAAW,EAAE,qBAAqB;QAClC,OAAO,EAAE,sCAAsC;QAC/C,QAAQ,EAAE,IAAI;KACf,CAAC;IACD,IAAA,0BAAQ,GAAE;;oEACiB"}

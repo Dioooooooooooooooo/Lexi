@@ -238,8 +238,8 @@ export default function TeacherSetting({
     if (selectedClassroom?.id) {
       try {
         await editClassroomMutation({
-          classroomForm: editClassroomForm,
-          classroomId: selectedClassroom.id,
+          id: selectedClassroom.id,
+          ...editClassroomForm,
         });
 
         setSelectedClassroom({

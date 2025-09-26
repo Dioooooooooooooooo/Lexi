@@ -43,10 +43,10 @@ export const useJoinClassroom = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (joinCode: string) => {
       await setupAuthToken();
       const res = await classroomsControllerJoin({
-        body: data,
+        body: { code: joinCode },
       });
       return res.data;
     },
@@ -55,7 +55,7 @@ export const useJoinClassroom = () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.classrooms.list() });
     },
     onError: (error: any) => {
-      console.error('Failed to update classroom:', error);
+      console.error('Failed to join classroom:', error);
     },
   });
 };
@@ -169,19 +169,26 @@ export const useLeaveClassroom = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: { classroomId: string }) => {
+      console.log('🔍 FRONTEND: Input data:', data);
+      const payload = { classroom_id: data.classroomId };
+      console.log('🔍 FRONTEND: Sending payload:', payload);
+
       await setupAuthToken();
       const res = await classroomsControllerLeave({
-        body: data,
+        body: payload,
       });
+
+      console.log('🔍 FRONTEND: Response:', res);
       return res.data?.data;
     },
     onSuccess: () => {
+      console.log('✅ Leave classroom successful');
       // Invalidate classroom lists since user left a classroom
       queryClient.invalidateQueries({ queryKey: queryKeys.classrooms.list() });
     },
     onError: (error: any) => {
-      console.error('Failed to leave classroom:', error);
+      console.error('❌ Failed to leave classroom:', error);
     },
   });
 };
@@ -190,7 +197,7 @@ export const useLeaveClassroom = () => {
 // CLASSROOM ACTIVITY MUTATIONS - Activity Management within Classrooms
 // =============================================================================
 
-export const useCreateActivity = () => {
+export const useCreateClassroomActivity = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -218,9 +225,9 @@ export const useCreateActivity = () => {
       return res.data?.data;
     },
     onSuccess: (data, variables) => {
-      // Invalidate activities for this classroom
+      // Invalidate activities for this classroom using the correct query key
       queryClient.invalidateQueries({
-        queryKey: ['classrooms', variables.classroomId, 'activities'],
+        queryKey: queryKeys.activities.byClassroom(variables.classroomId),
       });
       // Also invalidate the classroom details in case it affects the classroom data
       queryClient.invalidateQueries({
@@ -233,7 +240,7 @@ export const useCreateActivity = () => {
   });
 };
 
-export const useUpdateActivity = () => {
+export const useUpdateClassroomActivity = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -256,17 +263,15 @@ export const useUpdateActivity = () => {
     onSuccess: (data, variables) => {
       // Update the activity in cache
       queryClient.setQueryData(
-        [
-          'classrooms',
+        queryKeys.activities.detail(
           variables.classroomId,
-          'activities',
           variables.activityId,
-        ],
+        ),
         data,
       );
       // Invalidate activities list
       queryClient.invalidateQueries({
-        queryKey: ['classrooms', variables.classroomId, 'activities'],
+        queryKey: queryKeys.activities.byClassroom(variables.classroomId),
       });
     },
     onError: (error: any) => {
@@ -275,7 +280,7 @@ export const useUpdateActivity = () => {
   });
 };
 
-export const useDeleteActivity = () => {
+export const useDeleteClassroomActivity = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -295,16 +300,14 @@ export const useDeleteActivity = () => {
     onSuccess: (data, variables) => {
       // Remove the activity from cache
       queryClient.removeQueries({
-        queryKey: [
-          'classrooms',
+        queryKey: queryKeys.activities.detail(
           variables.classroomId,
-          'activities',
           variables.activityId,
-        ],
+        ),
       });
       // Invalidate activities list
       queryClient.invalidateQueries({
-        queryKey: ['classrooms', variables.classroomId, 'activities'],
+        queryKey: queryKeys.activities.byClassroom(variables.classroomId),
       });
     },
     onError: (error: any) => {

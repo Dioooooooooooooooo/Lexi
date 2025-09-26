@@ -16,8 +16,11 @@ export default function ClassroomCard({ classroom }: ClassroomCardProps) {
   const router = useRouter();
 
   const onPress = () => {
+    console.log('🔍 CLASSROOM DATA STRUCTURE:', classroom);
+    console.log('🔍 CLASSROOM ID:', classroom.id);
+    console.log('🔍 CLASSROOM_ID FIELD:', (classroom as any).classroom_id);
+    
     setSelectedClassroom(classroom);
-    console.log(classroom);
     router.push(`/classroom/${classroom.id}`);
   };
 

@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 import { client } from './requests';
 
 const ipAddress = process.env.EXPO_PUBLIC_IPADDRESS;
@@ -131,10 +132,21 @@ export const queryKeys = {
 export const useConfigureAuth = () => {
   return {
     setToken: async (token: string | null) => {
-      if (token) {
-        await AsyncStorage.setItem('access_token', token);
+      if (Platform.OS !== 'web') {
+        if (token) {
+          await AsyncStorage.setItem('access_token', token);
+        } else {
+          await AsyncStorage.removeItem('access_token');
+        }
       } else {
-        await AsyncStorage.removeItem('access_token');
+        // Handle web localStorage
+        if (typeof window !== 'undefined' && window.localStorage) {
+          if (token) {
+            localStorage.setItem('access_token', token);
+          } else {
+            localStorage.removeItem('access_token');
+          }
+        }
       }
       await setupAuthToken();
     },
