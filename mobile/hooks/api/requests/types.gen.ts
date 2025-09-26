@@ -653,6 +653,23 @@ export type AuthControllerVerifyEmailResponses = {
 
 export type AuthControllerVerifyEmailResponse = AuthControllerVerifyEmailResponses[keyof AuthControllerVerifyEmailResponses];
 
+export type AuthControllerCheckUserData = {
+    body?: never;
+    path?: never;
+    query: {
+        fieldType: string;
+        fieldValue: string;
+    };
+    url: '/auth/check-user';
+};
+
+export type AuthControllerCheckUserResponses = {
+    /**
+     * User exists.
+     */
+    200: unknown;
+};
+
 export type AuthControllerDeleteUserData = {
     body?: never;
     path?: never;

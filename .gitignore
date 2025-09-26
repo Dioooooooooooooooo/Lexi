@@ -3,9 +3,9 @@ node_modules/
 */node_modules/
 
 # Build outputs
-dist/
+# dist/
 build/
-*/dist/
+# */dist/
 */build/
 
 # Environment files
@@ -68,3 +68,4 @@ mobile/ios/build/
 # Database
 *.db
 *.sqlite
+.vercel
