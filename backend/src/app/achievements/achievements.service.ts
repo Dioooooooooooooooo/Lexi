@@ -9,6 +9,7 @@ import type {
 } from '../../database/schemas';
 import { CreateAchievementDto } from './dto/create-achievement.dto';
 import { UpdateAchievementDto } from './dto/update-achievement.dto';
+import { getCurrentRequest } from '@/common/utils/request-context';
 
 @Injectable()
 export class AchievementsService {
@@ -177,10 +178,18 @@ export class AchievementsService {
       [180, 'Half-Year Hero'],
     ]);
 
+    const pupil = await this.db
+      .selectFrom('public.pupils')
+      .where('id', '=', pupilId)
+      .select('user_id')
+      .executeTakeFirstOrThrow(
+        () => new NotFoundException(`Pupil ${pupilId} not found.`),
+      );
+
     // Get longest loginstreak
     const streak = await this.db
-      .selectFrom('auth.login_streaks as ls')
-      .where('ls.pupil_id', '=', pupilId)
+      .selectFrom('authentication.login_streaks as ls')
+      .where('ls.user_id', '=', pupil.user_id)
       .select('ls.longest_streak')
       .executeTakeFirstOrThrow(
         () =>
