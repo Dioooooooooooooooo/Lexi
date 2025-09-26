@@ -3,18 +3,13 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from 'kysely';
+import type { ColumnType } from "kysely";
 
-export type Generated<T> =
-  T extends ColumnType<infer S, infer I, infer U>
-    ? ColumnType<S, I | undefined, U>
-    : ColumnType<T, T | undefined, T>;
+export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
+  ? ColumnType<S, I | undefined, U>
+  : ColumnType<T, T | undefined, T>;
 
-export type Int8 = ColumnType<
-  string,
-  bigint | number | string,
-  bigint | number | string
->;
+export type Int8 = ColumnType<string, bigint | number | string, bigint | number | string>;
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
@@ -173,11 +168,17 @@ export interface Genres {
   name: string | null;
 }
 
+export interface LibraryEntries {
+  created_at: Generated<Timestamp | null>;
+  id: Generated<string>;
+  reading_material_id: string | null;
+  user_id: string | null;
+}
+
 export interface MinigameLogs {
   created_at: Timestamp | null;
   id: Generated<string>;
   minigame_id: string | null;
-  pupil_id: string | null;
   reading_session_id: string | null;
   result: string | null;
 }
@@ -244,6 +245,7 @@ export interface ReadingSessions {
   reading_material_id: string | null;
   started_at: Generated<Timestamp | null>;
   updated_at: Timestamp | null;
+  user_id: string | null;
 }
 
 export interface Teachers {
