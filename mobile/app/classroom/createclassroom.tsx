@@ -7,8 +7,9 @@ import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Input } from '~/components/ui/input';
 import { Description } from '@rn-primitives/dialog';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createClassroom } from '@/services/ClassroomService';
 import { useClassroomStore } from '@/stores/classroomStore';
-import { useCreateClassroom } from '@/hooks/mutation/useClassroomMutations';
 
 export default function CreateClassroom() {
   console.log('hmmmmm?');
@@ -16,12 +17,18 @@ export default function CreateClassroom() {
     state => state.setSelectedClassroom,
   );
 
+  const queryClient = useQueryClient();
   const [classroomForm, setClassroomForm] = useState({
     name: '',
     description: '',
   });
 
-  const { mutateAsync: createClassroomMutation } = useCreateClassroom();
+  const { mutateAsync: createClassroomMutation } = useMutation({
+    mutationFn: createClassroom,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['classroomsData'] });
+    },
+  });
 
   return (
     <View className="flex-1">
@@ -58,10 +65,10 @@ export default function CreateClassroom() {
           onPress={async () => {
             try {
               const response = await createClassroomMutation(classroomForm);
-              const classroom = response?.data;
+              const classroom = response.data;
 
-              setSelectedClassroom(classroom as any);
-              router.replace(`/classroom/${classroom?.id}`);
+              setSelectedClassroom(classroom);
+              router.replace(`/classroom/${classroom.id}`);
             } catch (error) {
               console.error('Error creating classroom:', error);
             }

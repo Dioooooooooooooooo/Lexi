@@ -1,23 +1,24 @@
 import BackHeader from '@/components/BackHeader';
-import BookCard from '@/components/Classroom/BookCard';
 import {
-  AddReadingAssignment,
   SetMinigameDropdown,
+  AddReadingAssignment,
 } from '@/components/Classroom/MainClassroomBtns';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Text } from '@/components/ui/text';
 import { TextArea } from '@/components/ui/textarea';
-import { useCreateActivity } from '@/hooks/mutation/useClassroomMutations';
-import { MinigameType } from '@/models/Minigame';
-import { useClassroomStore } from '@/stores/classroomStore';
-import { useReadingContentStore } from '@/stores/readingContentStore';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { Text } from '@/components/ui/text';
+import BookCard from '@/components/Classroom/BookCard';
+import { useReadingContentStore } from '@/stores/readingContentStore';
+import { MinigameType } from '@/models/Minigame';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createReadingAssignment } from '@/services/ClassroomService';
+import { useClassroomStore } from '@/stores/classroomStore';
 import { Provider as PaperProvider } from 'react-native-paper';
 
-export default function CreateActivity() {
+export default function createactivity() {
   const { selectedContent, setSelectedContent } = useReadingContentStore();
   const { selectedClassroom } = useClassroomStore();
 
@@ -37,6 +38,7 @@ export default function CreateActivity() {
     MinigameType.Choices,
   );
 
+  const queryClient = useQueryClient();
   const [readingAssignmentForm, setReadingAssignmentForm] = useState({
     title: '',
     description: '',
@@ -44,7 +46,14 @@ export default function CreateActivity() {
     readingMaterialId: selectedContent?.id,
   });
 
-  const { mutateAsync: createReadingAssignmentMutation } = useCreateActivity();
+  const { mutateAsync: createReadingAssignmentMutation } = useMutation({
+    mutationFn: createReadingAssignment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['activeReadingAssignments', selectedClassroom!.id],
+      });
+    },
+  });
 
   return (
     <PaperProvider>
@@ -114,7 +123,7 @@ export default function CreateActivity() {
                       classroomId: selectedClassroom!.id,
                       readingAssignmentForm: readingAssignmentForm,
                     });
-                    const readingAssignment = response?.data;
+                    const readingAssignment = response.data;
 
                     console.log(
                       'Created Reading Assignment:',

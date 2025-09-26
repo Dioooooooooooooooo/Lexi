@@ -6,22 +6,18 @@ The mobile app uses a **decoupled hook architecture** with auto-generated TypeSc
 ## Hook Structure
 
 ```
-mobile/hooks/
-├── api/
-│   ├── apiUtils.ts       # Shared config & query keys
-│   └── requests/         # Auto-generated API client
-│       ├── client.gen.ts # Generated client
-│       ├── types.gen.ts  # Generated TypeScript types
-│       └── core/         # HTTP client infrastructure
-├── mutation/
-│   ├── useAuthMutations.ts      # Authentication mutations
-│   ├── useClassroomMutations.ts # Classroom mutations
-│   └── useMinigameMutations.ts  # Minigame mutations
-├── query/
-│   ├── useAuthQueries.ts        # Authentication queries
-│   ├── useClassroomQueries.ts   # Classroom queries
-│   └── useMinigameQueries.ts    # Minigame queries
-└── index.ts             # Barrel exports
+mobile/lib/hooks/
+├── apiUtils.ts           # Shared config & query keys
+├── useAuthHooks.ts       # Authentication hooks
+├── usePupilsHooks.ts     # Student management hooks  
+├── useClassroomsHooks.ts # Classroom management hooks
+├── useMinigamesHooks.ts  # Minigames functionality hooks
+├── index.ts             # Barrel exports
+└── requests/            # Auto-generated API client
+    ├── services.gen.ts   # Generated service classes
+    ├── types.gen.ts      # Generated TypeScript types
+    ├── schemas.gen.ts    # Generated JSON schemas
+    └── core/            # HTTP client infrastructure
 ```
 
 ## Generated Client Integration
@@ -35,17 +31,17 @@ mobile/hooks/
 ### Example Usage
 ```typescript
 // Import specific hooks
-import { useLogin, useAuthMe } from '@/hooks/mutation/useAuthMutations';
-import { useClassrooms } from '@/hooks/query/useClassroomQueries';
+import { useLogin, useAuthMe } from '@/lib/hooks/useAuthHooks';
+import { useClassrooms } from '@/lib/hooks/useClassroomsHooks';
 
 // Or use barrel imports
-import { useLogin, useClassrooms } from '@/hooks';
+import { useLogin, useClassrooms } from '@/lib/hooks';
 
 // In components
 const LoginScreen = () => {
   const { mutate: login, isLoading } = useLogin();
   const handleLogin = (credentials) => login(credentials);
-
+  
   return (
     <Button onPress={handleLogin} disabled={isLoading}>
       {isLoading ? 'Logging in...' : 'Login'}
