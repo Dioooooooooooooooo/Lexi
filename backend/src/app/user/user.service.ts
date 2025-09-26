@@ -21,16 +21,16 @@ export class UserService {
   async updateLoginStreak(user_id: string): Promise<LoginStreak | null> {
     const pupil = await this.pupilService.getPupilProfile(user_id);
     let loginStreak = await this.db
-      .selectFrom('auth.login_streaks')
-      .where('pupil_id', '=', pupil.id)
+      .selectFrom('authentication.login_streaks')
+      .where('user_id', '=', user_id)
       .selectAll()
       .executeTakeFirst();
 
     if (!loginStreak) {
       loginStreak = await this.db
-        .insertInto('auth.login_streaks')
+        .insertInto('authentication.login_streaks')
         .values({
-          pupil_id: pupil.id,
+          user_id: user_id,
           current_streak: 1,
           longest_streak: 1,
           last_login_date: new Date(),
@@ -62,7 +62,7 @@ export class UserService {
       }
 
       loginStreak = await this.db
-        .updateTable('auth.login_streaks')
+        .updateTable('authentication.login_streaks')
         .set({
           current_streak: newCurrentStreak,
           longest_streak: newLongestStreak,
@@ -79,10 +79,9 @@ export class UserService {
   }
 
   async getLoginStreak(user_id: string): Promise<LoginStreak> {
-    const pupil = await this.pupilService.getPupilProfile(user_id);
     const loginStreak = await this.db
-      .selectFrom('auth.login_streaks')
-      .where('pupil_id', '=', pupil.id)
+      .selectFrom('authentication.login_streaks')
+      .where('user_id', '=', user_id)
       .selectAll()
       .executeTakeFirst();
 
@@ -116,9 +115,9 @@ export class UserService {
 
   async getUsersByRole(role: string): Promise<UserResponseDto[]> {
     const users = await this.db
-      .selectFrom('auth.users as u')
-      .leftJoin('auth.user_roles as ur', 'u.id', 'ur.user_id')
-      .leftJoin('auth.roles as r', 'ur.role_id', 'r.id')
+      .selectFrom('authentication.users as u')
+      .leftJoin('authentication.user_roles as ur', 'u.id', 'ur.user_id')
+      .leftJoin('authentication.roles as r', 'ur.role_id', 'r.id')
       .where('r.name', '=', role)
       .where('u.is_deleted', '=', false)
       .select([
@@ -136,7 +135,7 @@ export class UserService {
 
   async createSession(user_id: string): Promise<Session> {
     const newSession = await this.db
-      .insertInto('auth.sessions')
+      .insertInto('authentication.sessions')
       .values({
         user_id: user_id,
         created_at: new Date(),
@@ -152,7 +151,7 @@ export class UserService {
 
   async endSession(id: string, sessionId: string): Promise<Session> {
     const session = await this.db
-      .selectFrom('auth.sessions')
+      .selectFrom('authentication.sessions')
       .where('id', '=', sessionId)
       .selectAll()
       .executeTakeFirstOrThrow(() => {
@@ -169,7 +168,7 @@ export class UserService {
     );
 
     const endedSession = await this.db
-      .updateTable('auth.sessions')
+      .updateTable('authentication.sessions')
       .set({
         duration: durationOfSession,
         end_at: new Date(),
@@ -183,7 +182,7 @@ export class UserService {
 
   async getTotalSessions(user_id: string): Promise<{ number }> {
     const session = await this.db
-      .selectFrom('auth.sessions')
+      .selectFrom('authentication.sessions')
       .where('user_id', '=', user_id)
       .select(sql`Sum(duration)`.as('number'))
       .executeTakeFirst();

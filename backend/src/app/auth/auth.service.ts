@@ -34,12 +34,12 @@ export class AuthService {
     // EmailService injected to send onboarding / reset / verify emails
     private readonly emailService: EmailService,
     private readonly userService: UserService,
-  ) {}
+  ) { }
 
   async register(registerDto: RegisterDto) {
     // Check if user already exists
     const existing = await this.db
-      .selectFrom('auth.users')
+      .selectFrom('authentication.users')
       .select(['id', 'email', 'username'])
       .where(eb =>
         eb.or([
@@ -76,7 +76,7 @@ export class AuthService {
 
     // Create user
     const user = await this.db
-      .insertInto('auth.users')
+      .insertInto('authentication.users')
       .values({
         ...userData,
         is_email_verified: false,
@@ -91,7 +91,7 @@ export class AuthService {
 
     // Create auth provider entry
     await this.db
-      .insertInto('auth.auth_providers')
+      .insertInto('authentication.auth_providers')
       .values({
         id: uuidv4(),
         user_id: user.id,
@@ -102,14 +102,14 @@ export class AuthService {
       .execute();
 
     const dbRole = await this.db
-      .selectFrom('auth.roles')
+      .selectFrom('authentication.roles')
       .select('id')
       .where('name', '=', role)
       .executeTakeFirstOrThrow(() => new Error(`Role "${role}" not found`));
 
     // Assign role to user
     await this.db
-      .insertInto('auth.user_roles')
+      .insertInto('authentication.user_roles')
       .values({
         user_id: user.id,
         role_id: dbRole.id,
@@ -146,32 +146,40 @@ export class AuthService {
   async login(loginDto: LoginDto) {
     // Find user and auth provider
     const userWithProvider = await this.db
-      .selectFrom('auth.users')
+      .selectFrom('authentication.users')
       .leftJoin(
-        'auth.auth_providers',
-        'auth.users.id',
-        'auth.auth_providers.user_id',
+        'authentication.auth_providers',
+        'authentication.users.id',
+        'authentication.auth_providers.user_id',
       )
-      .leftJoin('auth.user_roles', 'auth.users.id', 'auth.user_roles.user_id')
-      .leftJoin('auth.roles', 'auth.user_roles.role_id', 'auth.roles.id')
+      .leftJoin(
+        'authentication.user_roles',
+        'authentication.users.id',
+        'authentication.user_roles.user_id',
+      )
+      .leftJoin(
+        'authentication.roles',
+        'authentication.user_roles.role_id',
+        'authentication.roles.id',
+      )
       .select([
-        'auth.users.id',
-        'auth.users.username',
-        'auth.users.email',
-        'auth.users.first_name',
-        'auth.users.last_name',
-        'auth.users.avatar',
-        'auth.users.phone',
-        'auth.users.is_email_verified',
-        'auth.users.is_phone_verified',
-        'auth.users.created_at',
-        'auth.users.updated_at',
-        'auth.auth_providers.password_hash',
-        'auth.roles.name as role',
+        'authentication.users.id',
+        'authentication.users.username',
+        'authentication.users.email',
+        'authentication.users.first_name',
+        'authentication.users.last_name',
+        'authentication.users.avatar',
+        'authentication.users.phone',
+        'authentication.users.is_email_verified',
+        'authentication.users.is_phone_verified',
+        'authentication.users.created_at',
+        'authentication.users.updated_at',
+        'authentication.auth_providers.password_hash',
+        'authentication.roles.name as role',
       ])
-      .where('auth.users.email', '=', loginDto.email)
-      .where('auth.auth_providers.provider_type', '=', 'email')
-      .where('auth.users.is_deleted', '=', false)
+      .where('authentication.users.email', '=', loginDto.email)
+      .where('authentication.auth_providers.provider_type', '=', 'email')
+      .where('authentication.users.is_deleted', '=', false)
       .executeTakeFirst();
 
     if (!userWithProvider || !userWithProvider.password_hash) {
@@ -212,7 +220,7 @@ export class AuthService {
 
   async deleteUser(userId: string) {
     const res = await this.db
-      .updateTable('auth.users as u')
+      .updateTable('authentication.users as u')
       .set({ is_deleted: true })
       .where('u.id', '=', userId)
       .returning(['is_deleted'])
@@ -238,7 +246,7 @@ export class AuthService {
     switch (fieldType) {
       case 'username':
         res = await this.db
-          .selectFrom('auth.users as u')
+          .selectFrom('authentication.users as u')
           .where('u.username', '=', fieldValue)
           .selectAll()
           .executeTakeFirst();
@@ -246,7 +254,7 @@ export class AuthService {
         break;
       case 'email':
         res = await this.db
-          .selectFrom('auth.users as u')
+          .selectFrom('authentication.users as u')
           .where('u.email', '=', fieldValue)
           .selectAll()
           .executeTakeFirst();
@@ -296,19 +304,35 @@ export class AuthService {
   async refreshToken(refreshTokenDto: RefreshTokenDto) {
     // Find and validate refresh token
     const refreshToken = await this.db
-      .selectFrom('auth.refresh_tokens')
-      .leftJoin('auth.users', 'auth.refresh_tokens.user_id', 'auth.users.id')
-      .leftJoin('auth.user_roles', 'auth.users.id', 'auth.user_roles.user_id')
-      .leftJoin('auth.roles', 'auth.user_roles.role_id', 'auth.roles.id')
+      .selectFrom('authentication.refresh_tokens')
+      .leftJoin(
+        'authentication.users',
+        'authentication.refresh_tokens.user_id',
+        'authentication.users.id',
+      )
+      .leftJoin(
+        'authentication.user_roles',
+        'authentication.users.id',
+        'authentication.user_roles.user_id',
+      )
+      .leftJoin(
+        'authentication.roles',
+        'authentication.user_roles.role_id',
+        'authentication.roles.id',
+      )
       .select([
-        'auth.refresh_tokens.id as token_id',
-        'auth.refresh_tokens.user_id',
-        'auth.refresh_tokens.expires_at',
-        'auth.refresh_tokens.revoked',
-        'auth.users.email',
-        'auth.roles.name as role',
+        'authentication.refresh_tokens.id as token_id',
+        'authentication.refresh_tokens.user_id',
+        'authentication.refresh_tokens.expires_at',
+        'authentication.refresh_tokens.revoked',
+        'authentication.users.email',
+        'authentication.roles.name as role',
       ])
-      .where('auth.refresh_tokens.token', '=', refreshTokenDto.refresh_token)
+      .where(
+        'authentication.refresh_tokens.token',
+        '=',
+        refreshTokenDto.refresh_token,
+      )
       .executeTakeFirst();
 
     if (!refreshToken || refreshToken.revoked) {
@@ -317,7 +341,7 @@ export class AuthService {
 
     if (new Date() > refreshToken.expires_at) {
       await this.db
-        .updateTable('auth.refresh_tokens')
+        .updateTable('authentication.refresh_tokens')
         .set({ revoked: true })
         .where('id', '=', refreshToken.token_id)
         .execute();
@@ -339,7 +363,7 @@ export class AuthService {
   async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
     // Find user by email
     const user = await this.db
-      .selectFrom('auth.users')
+      .selectFrom('authentication.users')
       .select(['id', 'email'])
       .where('email', '=', forgotPasswordDto.email)
       .executeTakeFirst();
@@ -360,7 +384,7 @@ export class AuthService {
 
     // Store reset token
     await this.db
-      .insertInto('auth.password_reset_tokens')
+      .insertInto('authentication.password_reset_tokens')
       .values({
         id: uuidv4(),
         user_id: user.id,
@@ -390,7 +414,7 @@ export class AuthService {
 
     // Find valid reset token
     const resetToken = await this.db
-      .selectFrom('auth.password_reset_tokens')
+      .selectFrom('authentication.password_reset_tokens')
       .select(['id', 'user_id', 'expires_at', 'used'])
       .where('token', '=', hashedToken)
       .executeTakeFirst();
@@ -409,7 +433,7 @@ export class AuthService {
 
     // Update password
     await this.db
-      .updateTable('auth.auth_providers')
+      .updateTable('authentication.auth_providers')
       .set({ password_hash: hashedPassword })
       .where('user_id', '=', resetToken.user_id)
       .where('provider_type', '=', 'email')
@@ -417,7 +441,7 @@ export class AuthService {
 
     // Mark token as used
     await this.db
-      .updateTable('auth.password_reset_tokens')
+      .updateTable('authentication.password_reset_tokens')
       .set({ used: true })
       .where('id', '=', resetToken.id)
       .execute();
@@ -425,7 +449,7 @@ export class AuthService {
 
   async requestEmailVerification(userId: string) {
     const user = await this.db
-      .selectFrom('auth.users')
+      .selectFrom('authentication.users')
       .select(['id', 'email', 'is_email_verified'])
       .where('id', '=', userId)
       .executeTakeFirst();
@@ -444,7 +468,7 @@ export class AuthService {
   async verifyEmail(token: string) {
     // Find valid verification token
     const verificationToken = await this.db
-      .selectFrom('auth.email_verification_tokens')
+      .selectFrom('authentication.email_verification_tokens')
       .select(['id', 'user_id', 'expires_at', 'used'])
       .where('token', '=', token)
       .executeTakeFirst();
@@ -459,14 +483,14 @@ export class AuthService {
 
     // Mark email as verified
     await this.db
-      .updateTable('auth.users')
+      .updateTable('authentication.users')
       .set({ is_email_verified: true })
       .where('id', '=', verificationToken.user_id)
       .execute();
 
     // Mark token as used
     await this.db
-      .updateTable('auth.email_verification_tokens')
+      .updateTable('authentication.email_verification_tokens')
       .set({ used: true })
       .where('id', '=', verificationToken.id)
       .execute();
@@ -476,7 +500,7 @@ export class AuthService {
     // Check for email uniqueness if updating email
     if (updateProfileDto.email) {
       const existingUser = await this.db
-        .selectFrom('auth.users')
+        .selectFrom('authentication.users')
         .select('id')
         .where('email', '=', updateProfileDto.email)
         .where('id', '!=', userId)
@@ -489,7 +513,7 @@ export class AuthService {
 
     // Update user
     await this.db
-      .updateTable('auth.users')
+      .updateTable('authentication.users')
       .set(updateProfileDto)
       .where('id', '=', userId)
       .execute();
@@ -501,24 +525,32 @@ export class AuthService {
 
     // Return updated user with role
     const updatedUser = await this.db
-      .selectFrom('auth.users')
-      .innerJoin('auth.user_roles', 'auth.users.id', 'auth.user_roles.user_id')
-      .innerJoin('auth.roles', 'auth.user_roles.role_id', 'auth.roles.id')
+      .selectFrom('authentication.users')
+      .innerJoin(
+        'authentication.user_roles',
+        'authentication.users.id',
+        'authentication.user_roles.user_id',
+      )
+      .innerJoin(
+        'authentication.roles',
+        'authentication.user_roles.role_id',
+        'authentication.roles.id',
+      )
       .select([
-        'auth.users.id',
-        'auth.users.username',
-        'auth.users.email',
-        'auth.users.first_name',
-        'auth.users.last_name',
-        'auth.users.avatar',
-        'auth.users.phone',
-        'auth.users.is_email_verified',
-        'auth.users.is_phone_verified',
-        'auth.users.created_at',
-        'auth.users.updated_at',
-        'auth.roles.name as role',
+        'authentication.users.id',
+        'authentication.users.username',
+        'authentication.users.email',
+        'authentication.users.first_name',
+        'authentication.users.last_name',
+        'authentication.users.avatar',
+        'authentication.users.phone',
+        'authentication.users.is_email_verified',
+        'authentication.users.is_phone_verified',
+        'authentication.users.created_at',
+        'authentication.users.updated_at',
+        'authentication.roles.name as role',
       ])
-      .where('auth.users.id', '=', userId)
+      .where('authentication.users.id', '=', userId)
       .executeTakeFirstOrThrow(() => new NotFoundException('User not found'));
 
     return updatedUser;
@@ -527,7 +559,7 @@ export class AuthService {
   async changePassword(userId: string, changePasswordDto: ChangePasswordDto) {
     // Get current password hash
     const authProvider = await this.db
-      .selectFrom('auth.auth_providers')
+      .selectFrom('authentication.auth_providers')
       .select(['password_hash'])
       .where('user_id', '=', userId)
       .where('provider_type', '=', 'email')
@@ -558,7 +590,7 @@ export class AuthService {
 
     // Update password
     await this.db
-      .updateTable('auth.auth_providers')
+      .updateTable('authentication.auth_providers')
       .set({ password_hash: hashedPassword })
       .where('user_id', '=', userId)
       .where('provider_type', '=', 'email')
@@ -569,7 +601,7 @@ export class AuthService {
     if (refreshToken) {
       // Revoke the refresh token
       await this.db
-        .updateTable('auth.refresh_tokens')
+        .updateTable('authentication.refresh_tokens')
         .set({ revoked: true })
         .where('token', '=', refreshToken)
         .execute();
@@ -578,24 +610,32 @@ export class AuthService {
 
   async validateUser(payload: { sub: string; email: string }) {
     const user = await this.db
-      .selectFrom('auth.users')
-      .leftJoin('auth.user_roles', 'auth.users.id', 'auth.user_roles.user_id')
-      .leftJoin('auth.roles', 'auth.user_roles.role_id', 'auth.roles.id')
+      .selectFrom('authentication.users')
+      .leftJoin(
+        'authentication.user_roles',
+        'authentication.users.id',
+        'authentication.user_roles.user_id',
+      )
+      .leftJoin(
+        'authentication.roles',
+        'authentication.user_roles.role_id',
+        'authentication.roles.id',
+      )
       .select([
-        'auth.users.id',
-        'auth.users.username',
-        'auth.users.email',
-        'auth.users.first_name',
-        'auth.users.last_name',
-        'auth.users.avatar',
-        'auth.users.phone',
-        'auth.users.is_email_verified',
-        'auth.users.is_phone_verified',
-        'auth.users.created_at',
-        'auth.users.updated_at',
-        'auth.roles.name as role',
+        'authentication.users.id',
+        'authentication.users.username',
+        'authentication.users.email',
+        'authentication.users.first_name',
+        'authentication.users.last_name',
+        'authentication.users.avatar',
+        'authentication.users.phone',
+        'authentication.users.is_email_verified',
+        'authentication.users.is_phone_verified',
+        'authentication.users.created_at',
+        'authentication.users.updated_at',
+        'authentication.roles.name as role',
       ])
-      .where('auth.users.id', '=', payload.sub)
+      .where('authentication.users.id', '=', payload.sub)
       .executeTakeFirstOrThrow(
         () => new NotFoundException('User does not exist'),
       );
@@ -637,22 +677,34 @@ export class AuthService {
     const providerId = googleProfile.id;
     // Try to find existing federated provider
     const provider = await this.db
-      .selectFrom('auth.auth_providers')
-      .leftJoin('auth.users', 'auth.auth_providers.user_id', 'auth.users.id')
-      .leftJoin('auth.user_roles', 'auth.users.id', 'auth.user_roles.user_id')
-      .leftJoin('auth.roles', 'auth.user_roles.role_id', 'auth.roles.id')
+      .selectFrom('authentication.auth_providers')
+      .leftJoin(
+        'authentication.users',
+        'authentication.auth_providers.user_id',
+        'authentication.users.id',
+      )
+      .leftJoin(
+        'authentication.user_roles',
+        'authentication.users.id',
+        'authentication.user_roles.user_id',
+      )
+      .leftJoin(
+        'authentication.roles',
+        'authentication.user_roles.role_id',
+        'authentication.roles.id',
+      )
       .select([
-        'auth.auth_providers.id as provider_id',
-        'auth.auth_providers.user_id',
-        'auth.users.id as id',
-        'auth.users.email',
-        'auth.users.first_name',
-        'auth.users.last_name',
-        'auth.users.username',
-        'auth.roles.name as role',
+        'authentication.auth_providers.id as provider_id',
+        'authentication.auth_providers.user_id',
+        'authentication.users.id as id',
+        'authentication.users.email',
+        'authentication.users.first_name',
+        'authentication.users.last_name',
+        'authentication.users.username',
+        'authentication.roles.name as role',
       ])
-      .where('auth.auth_providers.provider_type', '=', 'google')
-      .where('auth.auth_providers.provider_user_id', '=', providerId)
+      .where('authentication.auth_providers.provider_type', '=', 'google')
+      .where('authentication.auth_providers.provider_user_id', '=', providerId)
       .executeTakeFirst();
 
     if (provider && provider.user_id) {
@@ -686,7 +738,7 @@ export class AuthService {
 
     // Create user
     const user = await this.db
-      .insertInto('auth.users')
+      .insertInto('authentication.users')
       .values({
         username,
         first_name: firstName,
@@ -706,7 +758,7 @@ export class AuthService {
 
     // Create auth provider link
     await this.db
-      .insertInto('auth.auth_providers')
+      .insertInto('authentication.auth_providers')
       .values({
         id: uuidv4(),
         user_id: user.id,
@@ -720,14 +772,14 @@ export class AuthService {
 
     // Find role
     const dbRole = await this.db
-      .selectFrom('auth.roles')
+      .selectFrom('authentication.roles')
       .select('id')
       .where('name', '=', roleName)
       .executeTakeFirst();
 
     if (dbRole) {
       await this.db
-        .insertInto('auth.user_roles')
+        .insertInto('authentication.user_roles')
         .values({ user_id: user.id, role_id: dbRole.id })
         .execute();
     }
@@ -799,7 +851,7 @@ export class AuthService {
 
     // Store refresh token
     await this.db
-      .insertInto('auth.refresh_tokens')
+      .insertInto('authentication.refresh_tokens')
       .values({
         id: uuidv4(),
         user_id: userId,
@@ -816,7 +868,7 @@ export class AuthService {
     const verificationToken = crypto.randomBytes(32).toString('hex');
 
     await this.db
-      .insertInto('auth.email_verification_tokens')
+      .insertInto('authentication.email_verification_tokens')
       .values({
         id: uuidv4(),
         user_id: userId,

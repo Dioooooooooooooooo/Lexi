@@ -68,3 +68,4 @@ mobile/ios/build/
 # Database
 *.db
 *.sqlite
+.vercel
