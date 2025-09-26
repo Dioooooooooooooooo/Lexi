@@ -1,11 +1,18 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys, setupAuthToken } from '../api/apiUtils';
 import {
+  activityControllerCreate,
+  activityControllerRemove,
+  activityControllerUpdate,
   classroomsControllerCreate,
-  classroomsControllerRemove,
-  classroomsControllerUpdate,
+  classroomsControllerEnroll,
   classroomsControllerJoin,
+  classroomsControllerLeave,
+  classroomsControllerRemove,
+  classroomsControllerUnEnroll,
+  classroomsControllerUpdate,
 } from '../api/requests';
+import type { CreateActivityDto } from '../api/requests/types.gen';
 
 // =============================================================================
 // CLASSROOM MUTATIONS - Data Modification Hooks
@@ -100,6 +107,208 @@ export const useDeleteClassroom = () => {
     },
     onError: (error: any) => {
       console.error('Failed to delete classroom:', error);
+    },
+  });
+};
+
+export const useEnrollPupils = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: any) => {
+      await setupAuthToken();
+      const res = await classroomsControllerEnroll({
+        body: data,
+      });
+      return res.data?.data;
+    },
+    onSuccess: (data, variables) => {
+      // Invalidate classroom lists to refresh enrollment data
+      queryClient.invalidateQueries({ queryKey: queryKeys.classrooms.list() });
+      // If classroomId is provided, invalidate specific classroom
+      if (variables.classroomId) {
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.classrooms.detail(variables.classroomId),
+        });
+      }
+    },
+    onError: (error: any) => {
+      console.error('Failed to enroll pupils:', error);
+    },
+  });
+};
+
+export const useUnEnrollPupils = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: any) => {
+      await setupAuthToken();
+      const res = await classroomsControllerUnEnroll({
+        body: data,
+      });
+      return res.data?.data;
+    },
+    onSuccess: (data, variables) => {
+      // Invalidate classroom lists to refresh enrollment data
+      queryClient.invalidateQueries({ queryKey: queryKeys.classrooms.list() });
+      // If classroomId is provided, invalidate specific classroom
+      if (variables.classroomId) {
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.classrooms.detail(variables.classroomId),
+        });
+      }
+    },
+    onError: (error: any) => {
+      console.error('Failed to unenroll pupils:', error);
+    },
+  });
+};
+
+export const useLeaveClassroom = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: any) => {
+      await setupAuthToken();
+      const res = await classroomsControllerLeave({
+        body: data,
+      });
+      return res.data?.data;
+    },
+    onSuccess: () => {
+      // Invalidate classroom lists since user left a classroom
+      queryClient.invalidateQueries({ queryKey: queryKeys.classrooms.list() });
+    },
+    onError: (error: any) => {
+      console.error('Failed to leave classroom:', error);
+    },
+  });
+};
+
+// =============================================================================
+// CLASSROOM ACTIVITY MUTATIONS - Activity Management within Classrooms
+// =============================================================================
+
+export const useCreateActivity = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      classroomId,
+      readingAssignmentForm,
+    }: {
+      classroomId: string;
+      readingAssignmentForm: {
+        title: string;
+        description?: string;
+        readingMaterialId?: string;
+        minigameType?: any;
+      };
+    }) => {
+      await setupAuthToken();
+      const res = await activityControllerCreate({
+        path: { classroomId },
+        body: {
+          title: readingAssignmentForm.title,
+          description: readingAssignmentForm.description,
+          reading_material_id: readingAssignmentForm.readingMaterialId || '',
+        } as CreateActivityDto,
+      });
+      return res.data?.data;
+    },
+    onSuccess: (data, variables) => {
+      // Invalidate activities for this classroom
+      queryClient.invalidateQueries({
+        queryKey: ['classrooms', variables.classroomId, 'activities'],
+      });
+      // Also invalidate the classroom details in case it affects the classroom data
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.classrooms.detail(variables.classroomId),
+      });
+    },
+    onError: (error: any) => {
+      console.error('Failed to create activity:', error);
+    },
+  });
+};
+
+export const useUpdateActivity = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      classroomId,
+      activityId,
+      ...updateData
+    }: {
+      classroomId: string;
+      activityId: string;
+      [key: string]: any;
+    }) => {
+      await setupAuthToken();
+      const res = await activityControllerUpdate({
+        path: { classroomId, activityId },
+        body: updateData,
+      });
+      return res.data?.data;
+    },
+    onSuccess: (data, variables) => {
+      // Update the activity in cache
+      queryClient.setQueryData(
+        [
+          'classrooms',
+          variables.classroomId,
+          'activities',
+          variables.activityId,
+        ],
+        data,
+      );
+      // Invalidate activities list
+      queryClient.invalidateQueries({
+        queryKey: ['classrooms', variables.classroomId, 'activities'],
+      });
+    },
+    onError: (error: any) => {
+      console.error('Failed to update activity:', error);
+    },
+  });
+};
+
+export const useDeleteActivity = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      classroomId,
+      activityId,
+    }: {
+      classroomId: string;
+      activityId: string;
+    }) => {
+      await setupAuthToken();
+      const res = await activityControllerRemove({
+        path: { classroomId, activityId },
+      });
+      return res.data?.data;
+    },
+    onSuccess: (data, variables) => {
+      // Remove the activity from cache
+      queryClient.removeQueries({
+        queryKey: [
+          'classrooms',
+          variables.classroomId,
+          'activities',
+          variables.activityId,
+        ],
+      });
+      // Invalidate activities list
+      queryClient.invalidateQueries({
+        queryKey: ['classrooms', variables.classroomId, 'activities'],
+      });
+    },
+    onError: (error: any) => {
+      console.error('Failed to delete activity:', error);
     },
   });
 };
