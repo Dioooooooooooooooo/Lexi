@@ -22,9 +22,13 @@ import {
 } from '@/hooks';
 import { useReadingContentStore } from '@/stores/readingContentStore';
 import { useUserStore } from '@/stores/userStore';
+import { useLibraryStories } from '@/hooks/query/useLibraryQueries';
+import { useLibraryStore } from '@/stores/libraryStore';
 
 function HomeScreen() {
   const { data: stories, isLoading: isStoriesLoading } = useReadingMaterials();
+  const { data: readingMaterials, isLoading } = useLibraryStories();
+
   const [showStreak, setShowStreakModal] = useState(false);
   const user = useUserStore(state => state.user);
   const { data: recommendations, isLoading: isRecommendationsLoading } =
@@ -34,6 +38,15 @@ function HomeScreen() {
   const setSelectedContent = useReadingContentStore(
     state => state.setSelectedContent,
   );
+
+  const setLibrary = useLibraryStore(state => state.setLibrary);
+
+  useEffect(() => {
+    if (readingMaterials) {
+      setLibrary(readingMaterials);
+    }
+  }, [readingMaterials, setLibrary]);
+
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);

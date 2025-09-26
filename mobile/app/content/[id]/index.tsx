@@ -10,8 +10,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBookOpen, faPlus } from '@fortawesome/free-solid-svg-icons';
 import BackHeader from '@/components/BackHeader';
 import { useGetCoverFromGDrive } from '@/hooks/utils/useExtractDriveField';
+import { useLibraryStore } from '@/stores/libraryStore';
 
 function ContentIndex() {
+  const lib = useLibraryStore(state => state.library);
+
+  const isInLibrary = (materialId: string) => {
+    return lib.some(m => m.id === materialId);
+  };
   const selectedContent = useReadingContentStore(
     state => state.selectedContent,
   );
@@ -83,6 +89,10 @@ function ContentIndex() {
             >
               <FontAwesomeIcon size={30} icon={faBookOpen} />
             </Button>
+            <Text className="text-sm">
+              In library: {isInLibrary(selectedContent.id) ? 'Yes' : 'No'}
+            </Text>
+
             <Text className="font-poppins-bold">Read</Text>
           </View>
         </View>

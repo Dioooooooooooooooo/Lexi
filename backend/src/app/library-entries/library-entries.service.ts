@@ -38,7 +38,7 @@ export class LibraryEntriesService {
         'le.reading_material_id',
       )
       .where('le.user_id', '=', user.id)
-      .orderBy('created_at desc')
+      .orderBy('created_at', 'desc')
       .selectAll('rm')
       .execute();
 
