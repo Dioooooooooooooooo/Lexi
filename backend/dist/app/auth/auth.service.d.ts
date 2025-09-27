@@ -18,17 +18,17 @@ export declare class AuthService {
         access_token: string;
         refresh_token: string;
         user: {
-            created_at: Date;
             id: string;
-            updated_at: Date;
-            username: string;
-            first_name: string;
-            last_name: string;
-            email: string;
             avatar: string;
+            created_at: Date;
+            email: string;
+            first_name: string;
             is_email_verified: boolean;
             is_phone_verified: boolean;
+            last_name: string;
             phone: string;
+            updated_at: Date;
+            username: string;
             role: string;
         };
     }>;
@@ -59,17 +59,17 @@ export declare class AuthService {
     requestEmailVerification(userId: string): Promise<void>;
     verifyEmail(token: string): Promise<void>;
     updateProfile(userId: string, updateProfileDto: UpdateProfileDto): Promise<{
-        created_at: Date;
         id: string;
-        updated_at: Date;
-        username: string;
-        first_name: string;
-        last_name: string;
-        email: string;
         avatar: string;
+        created_at: Date;
+        email: string;
+        first_name: string;
         is_email_verified: boolean;
         is_phone_verified: boolean;
+        last_name: string;
         phone: string;
+        updated_at: Date;
+        username: string;
         role: string;
     }>;
     changePassword(userId: string, changePasswordDto: ChangePasswordDto): Promise<void>;
@@ -78,17 +78,17 @@ export declare class AuthService {
         sub: string;
         email: string;
     }): Promise<{
-        created_at: Date;
         id: string;
-        updated_at: Date;
-        username: string;
-        first_name: string;
-        last_name: string;
-        email: string;
         avatar: string;
+        created_at: Date;
+        email: string;
+        first_name: string;
         is_email_verified: boolean;
         is_phone_verified: boolean;
+        last_name: string;
         phone: string;
+        updated_at: Date;
+        username: string;
         role: string;
     }>;
     validateGoogleUser(profile: unknown): Promise<{

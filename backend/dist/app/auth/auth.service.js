@@ -390,11 +390,20 @@ let AuthService = class AuthService {
                 throw new common_1.ConflictException('Email already exists');
             }
         }
-        await this.db
-            .updateTable('authentication.users')
-            .set(updateProfileDto)
-            .where('id', '=', userId)
-            .execute();
+        if (updateProfileDto.age) {
+            await this.db
+                .updateTable('public.pupils')
+                .set({ age: updateProfileDto.age })
+                .where('user_id', '=', userId)
+                .execute();
+        }
+        else {
+            await this.db
+                .updateTable('authentication.users')
+                .set(updateProfileDto)
+                .where('id', '=', userId)
+                .execute();
+        }
         if (updateProfileDto.email) {
             await this.generateEmailVerificationToken(userId);
         }

@@ -32,6 +32,7 @@ export declare class UpdateProfileDto {
     last_name?: string;
     email?: string;
     avatar?: string;
+    age?: number;
 }
 export declare class RefreshTokenDto {
     refresh_token: string;

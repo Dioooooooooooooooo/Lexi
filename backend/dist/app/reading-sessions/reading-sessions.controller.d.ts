@@ -10,12 +10,12 @@ export declare class ReadingSessionsController {
             minigames: any[];
             created_at: Date;
             id: string;
+            reading_material_id: string;
             user_id: string;
             updated_at: Date;
             pupil_id: string;
             completed_at: Date;
             completion_percentage: number;
-            reading_material_id: string;
             started_at: Date;
         };
     }>;
@@ -24,12 +24,12 @@ export declare class ReadingSessionsController {
         data: {
             created_at: Date;
             id: string;
+            reading_material_id: string;
             user_id: string;
             updated_at: Date;
             pupil_id: string;
             completed_at: Date;
             completion_percentage: number;
-            reading_material_id: string;
             started_at: Date;
         }[];
     }>;
@@ -52,12 +52,12 @@ export declare class ReadingSessionsController {
             }[];
             created_at: Date;
             id: string;
+            reading_material_id: string;
             user_id: string;
             updated_at: Date;
             pupil_id: string;
             completed_at: Date;
             completion_percentage: number;
-            reading_material_id: string;
             started_at: Date;
         };
     }>;
@@ -66,12 +66,12 @@ export declare class ReadingSessionsController {
         data: {
             created_at: Date;
             id: string;
+            reading_material_id: string;
             user_id: string;
             updated_at: Date;
             pupil_id: string;
             completed_at: Date;
             completion_percentage: number;
-            reading_material_id: string;
             started_at: Date;
         };
     }>;
@@ -80,12 +80,12 @@ export declare class ReadingSessionsController {
         data: {
             created_at: Date;
             id: string;
+            reading_material_id: string;
             user_id: string;
             updated_at: Date;
             pupil_id: string;
             completed_at: Date;
             completion_percentage: number;
-            reading_material_id: string;
             started_at: Date;
         };
     }>;

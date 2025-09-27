@@ -211,6 +211,12 @@ __decorate([
     (0, class_validator_1.MaxLength)(2048),
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "avatar", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: "Age", required: false }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], UpdateProfileDto.prototype, "age", void 0);
 class RefreshTokenDto {
 }
 exports.RefreshTokenDto = RefreshTokenDto;

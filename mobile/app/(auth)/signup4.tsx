@@ -19,8 +19,11 @@ import {
 
 import { Image, View } from 'react-native';
 import { Text } from '@/components/ui/text';
+import { useHandleUpdateProfile } from '@/services/UserService';
+import { extractUser } from '@/models/User';
 
 export default function Step4() {
+  const handleProfileUpdate = useHandleUpdateProfile();
   const updateProfile = useUserStore(state => state.updateProfile);
   const setIsLoading = useGlobalStore(state => state.setIsLoading);
 
@@ -46,7 +49,13 @@ export default function Step4() {
       }
       setAgeInvalid(false);
       setIsLoading(true);
-      await updateProfile({ age: parseInt(age, 10) });
+
+      const res = await handleProfileUpdate({ age: parseInt(age, 10) });
+      if (res) {
+        const updatedUser = extractUser(res);
+        updateProfile(updatedUser);
+      }
+
       Toast.show({
         type: 'success',
         text1: 'Registration Success',

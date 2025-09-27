@@ -14,6 +14,9 @@ import { useGlobalStore } from '@/stores/globalStore';
 import BackHeader from '@/components/BackHeader';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import { Text } from '~/components/ui/text';
+import { useUserStore } from '@/stores/userStore';
+import { useAuthMe } from '@/hooks';
+import { extractUser } from '@/models/User';
 
 export default function Step3() {
   const { fromProviderAuth } = useLocalSearchParams();
@@ -34,6 +37,9 @@ export default function Step3() {
   // Use TanStack Query mutations instead of store methods
   const registerMutation = useRegister();
   const updateProfileMutation = useUpdateProfile();
+
+  const setUser = useUserStore(state => state.setUser);
+  const { refetch: refetchUser } = useAuthMe();
 
   const handleStep = async () => {
     const form = fromProviderAuth ? providerRegisterForm : registerForm;
@@ -79,6 +85,9 @@ export default function Step3() {
         text2: error.message || 'Unknown error occurred',
       });
     } finally {
+      const user = await refetchUser();
+      console.log('refecth user: ', user)
+      setUser(user.data);
       console.log('🏁 Registration Step - Finished, setting loading to false');
       setIsLoading(false);
     }

@@ -11,23 +11,23 @@ export declare class ReadingSessionsService {
         minigames: any[];
         created_at: Date;
         id: string;
+        reading_material_id: string;
         user_id: string;
         updated_at: Date;
         pupil_id: string;
         completed_at: Date;
         completion_percentage: number;
-        reading_material_id: string;
         started_at: Date;
     }>;
     findAll(): Promise<{
         created_at: Date;
         id: string;
+        reading_material_id: string;
         user_id: string;
         updated_at: Date;
         pupil_id: string;
         completed_at: Date;
         completion_percentage: number;
-        reading_material_id: string;
         started_at: Date;
     }[]>;
     findOne(id: string): Promise<{
@@ -47,34 +47,34 @@ export declare class ReadingSessionsService {
         }[];
         created_at: Date;
         id: string;
+        reading_material_id: string;
         user_id: string;
         updated_at: Date;
         pupil_id: string;
         completed_at: Date;
         completion_percentage: number;
-        reading_material_id: string;
         started_at: Date;
     }>;
     update(id: string, updateReadingSessionDto: UpdateReadingSessionDto): Promise<{
         created_at: Date;
         id: string;
+        reading_material_id: string;
         user_id: string;
         updated_at: Date;
         pupil_id: string;
         completed_at: Date;
         completion_percentage: number;
-        reading_material_id: string;
         started_at: Date;
     }>;
     remove(id: string): Promise<{
         created_at: Date;
         id: string;
+        reading_material_id: string;
         user_id: string;
         updated_at: Date;
         pupil_id: string;
         completed_at: Date;
         completion_percentage: number;
-        reading_material_id: string;
         started_at: Date;
     }>;
 }
