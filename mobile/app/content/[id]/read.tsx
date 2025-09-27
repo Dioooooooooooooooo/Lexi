@@ -9,7 +9,7 @@ import { bubble } from '@/types/bubble';
 import { MessageTypeEnum, personEnum } from '@/types/enum';
 import { makeBubble } from '@/utils/makeBubble';
 import { router } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   BackHandler,
   ScrollView,
@@ -30,6 +30,7 @@ import {
   useWordsFromLettersMiniGameStore,
 } from '@/stores/miniGameStore';
 import { useReadingSessionStore } from '@/stores/readingSessionStore';
+import { useUserStore } from '@/stores/userStore';
 
 const iconMap: Record<string, any> = {
   Story: require('@/assets/images/storyIcons/narrator.png'),
@@ -76,9 +77,39 @@ const Read = () => {
   const [chunkIndex, setChunkIndex] = useState(0);
   const [word, setWord] = useState<string | null>(null);
   const [minigames, setMinigames] = useState<Minigame[]>();
-  const [isFinished, setIsFinished] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isScrollingRef = useRef(false);
   const { height: screenHeight } = useWindowDimensions();
+
+  // Immediate scroll function - no delays for user actions
+  const scrollToEndImmediately = useCallback(() => {
+    if (scrollViewRef.current) {
+      // Double requestAnimationFrame ensures DOM is fully updated
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          scrollViewRef.current?.scrollToEnd({
+            animated: true,
+            duration: 180, // Very fast animation for responsiveness
+          });
+        });
+      });
+    }
+  }, []);
+
+  // Debounced scroll function for automatic triggers
+  const smoothScrollToEnd = useCallback(
+    (delay = 100) => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+
+      scrollTimeoutRef.current = setTimeout(() => {
+        scrollToEndImmediately();
+      }, delay);
+    },
+    [scrollToEndImmediately],
+  );
 
   const selectedContent = useReadingContentStore(
     state => state.selectedContent,
@@ -106,11 +137,23 @@ const Read = () => {
   const setCurrentMinigame = useMiniGameStore(
     state => state.setCurrentMinigame,
   );
+  const user = useUserStore(state => state.user);
 
+  console.log('selected content:', selectedContent?.id);
+
+  // Smooth scroll when messages change (only for automatic updates)
   useEffect(() => {
-    scrollViewRef.current?.scrollToEnd({ animated: false });
-    console.log('scroll');
-  }, [addMessage]);
+    if (messages && messages.length > 0) {
+      // Use a very short delay for automatic message updates
+      smoothScrollToEnd(20);
+    }
+
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [messages?.length, smoothScrollToEnd]);
 
   useEffect(() => {
     const initSession = async () => {
@@ -195,6 +238,15 @@ const Read = () => {
     };
   }, [chunkIndex]); // Add chunkIndex as dependency since onBackPress uses it
 
+  // Cleanup scroll timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // wfl init
   useEffect(() => {
     if (minigames) {
@@ -240,18 +292,24 @@ const Read = () => {
     console.log('dict');
   }, [word, data, isDictionaryLoading]);
 
-  // next btn
+  // next btn with immediate scrolling and batched updates
   const onPress = useThrottle(() => {
     if (
       currentSession?.completion_percentage < parsedBubbles!.length ||
       chunkIndex === parsedBubbles.length
     ) {
       const newMessage = parsedBubbles[chunkIndex];
-      addMessage(newMessage);
-      setChunkIndex(prev => prev + 1);
-    }
 
-    // console.log('onpress');
+      // Batch updates for better performance
+      requestAnimationFrame(() => {
+        // Add message first
+        addMessage(newMessage);
+        setChunkIndex(prev => prev + 1);
+
+        // IMMEDIATE scroll after state updates
+        scrollToEndImmediately();
+      });
+    }
   });
 
   const getMinigameLogById = (minigameId: string) => {
@@ -265,7 +323,10 @@ const Read = () => {
   const completedStory = useThrottle(() => {
     const wfl = minigames[minigames?.length - 1];
     setCurrentMinigame(wfl);
-    router.push({ pathname: '/(minigames)/wordsfromletters' });
+    router.push({
+      pathname: '/(minigames)/wordsfromletters',
+      params: { sessionId: currentSession?.id },
+    });
   });
 
   const defineWord = (word: string) => {
@@ -339,12 +400,14 @@ const Read = () => {
           ref={scrollViewRef}
           className="flex-1"
           showsVerticalScrollIndicator={false}
-          onContentSizeChange={() =>
-            scrollViewRef.current?.scrollToEnd({ animated: true })
-          }
+          contentContainerStyle={{ flexGrow: 1 }}
+          onContentSizeChange={() => {
+            // Immediate scroll for content size changes
+            scrollToEndImmediately();
+          }}
         >
           <View
-            style={{ minHeight: screenHeight }}
+            style={{ minHeight: screenHeight * 0.8 }}
             className="flex justify-end"
           >
             {messages
@@ -352,7 +415,7 @@ const Read = () => {
                 (msg): msg is Message => msg !== undefined && msg !== null,
               )
               .map((msg, index) => (
-                <View key={index} className="py-1">
+                <View key={`message-${msg.id}-${index}`} className="py-2">
                   {msg.type === MessageTypeEnum.STORY
                     ? (() => {
                         const bubblePayload = msg.payload as bubble;

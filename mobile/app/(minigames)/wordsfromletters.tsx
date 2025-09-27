@@ -14,8 +14,9 @@ import { CorrectSound, IncorrectSound } from '@/utils/sounds';
 import { Progress } from '@/components/ui/progress';
 import { useCreateMinigameLog } from '@/services/minigameService';
 import { useUserStore } from '@/stores/userStore';
-import { router } from 'expo-router';
-import { useCreateWordsFromLettersLog } from '@/hooks';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useCreateWordsFromLettersLog, useUpdateReadingSession } from '@/hooks';
+import { useReadingSessionStore } from '@/stores/readingSessionStore';
 
 export default function WordsFromLetters() {
   const userRole = useUserStore(state => state.user?.role);
@@ -39,16 +40,23 @@ export default function WordsFromLetters() {
     resetGameState,
   } = useWordsFromLettersMiniGameStore();
 
+  const params = useLocalSearchParams();
   const { gameOver } = useMiniGameStore();
   const [firstGuess, isFirstGuess] = useState(false);
   const [firstWord, setFirstWord] = useState('');
   const { mutateAsync: createLog } = useCreateWordsFromLettersLog();
   const minigame = useMiniGameStore(state => state.currentMinigame);
   const user = useUserStore(state => state.user);
+  const { mutateAsync: updateReadingSession } = useUpdateReadingSession();
+  const updateReadingSessionProgress = useReadingSessionStore(
+    state => state.updateReadingSessionProgress,
+  );
+  const sessionId = params.sessionId as string;
   // console.log('wfl words:', words, 'wfl letters:', letters);
 
   // console.log('correct answers', correctAnswers);
   // console.log('guessed first word', firstWord);
+  console.log('params', sessionId);
 
   useEffect(() => {
     resetGameState();
@@ -110,6 +118,14 @@ export default function WordsFromLetters() {
             });
 
             console.log('wfl logs', log);
+
+            updateReadingSessionProgress(sessionId, 100);
+            updateReadingSession({
+              id: sessionId,
+              body: {
+                completion_percentage: 100,
+              },
+            });
           }
 
           setTimeout(() => {

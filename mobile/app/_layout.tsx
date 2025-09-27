@@ -109,7 +109,7 @@ export default function RootLayout() {
         <LoadingScreenForm visible={isLoading} />
 
         <StatusBar style={'dark'} />
-        <SafeAreaView className="flex-1 bg-background">
+        <SafeAreaView className="flex-1 bg-background" edges={['top']}>
           <GestureHandlerRootView style={{ flex: 1 }}>
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name="index" />

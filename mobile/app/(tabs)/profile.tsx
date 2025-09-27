@@ -18,10 +18,12 @@ import { ActivityIndicator } from 'react-native-paper';
 import { useAchievements } from '@/hooks/query/useAchievementQueries';
 import { useReadingSessions } from '@/hooks/query/useReadingSessionQueries';
 import { useUserSessions, useUserStreak } from '@/hooks/query/useUserQueries';
+import { useReadingSessionStore } from '@/stores/readingSessionStore';
 const STREAK_COLOR = '#FF663E';
 
 export default function Profile() {
   const user = useUserStore(state => state.user);
+  const resetSession = useReadingSessionStore(state => state.resetSession);
   const setAchievements = useMiniGameStore(state => state.setAchievements);
   const [logoutModalVisible, setLogoutModalVisible] = useState<boolean>(false);
   const logout = useAuthStore(state => state.logout);
@@ -90,6 +92,7 @@ export default function Profile() {
 
   const handleLogout = () => {
     logout();
+    resetSession();
     router.dismissAll();
     router.replace('/');
   };

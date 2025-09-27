@@ -114,13 +114,14 @@ const SentenceRearrangementBubble = ({
         });
 
         // console.log('minigame log created', minigameLog);
-        const log = await createLog({
-          minigame_id: minigame.id,
-          reading_session_id: minigameLog?.reading_session_id,
-          pupil_id: user?.pupil.id,
-          result: JSON.stringify(minigameLog),
-        });
-
+        if (user.role === 'Pupil') {
+          const log = await createLog({
+            minigame_id: minigame.id,
+            reading_session_id: minigameLog?.reading_session_id,
+            pupil_id: user?.pupil.id,
+            result: JSON.stringify(minigameLog),
+          });
+        }
         // console.log('updated arrangement minigamelog:', log);
 
         return;

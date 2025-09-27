@@ -18,6 +18,7 @@ import { Input } from '~/components/ui/input';
 import BackHeader from '@/components/BackHeader';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useReadingSessionStore } from '@/stores/readingSessionStore';
 
 const SignIn = () => {
   // const setUser = useUserStore.getState().setUser;
@@ -29,6 +30,7 @@ const SignIn = () => {
   const setIsLoading = useGlobalStore(state => state.setIsLoading);
   const loginMutation = useLogin();
   const setUser = useUserStore(state => state.setUser);
+  const resetSession = useReadingSessionStore(state => state.resetSession);
   const { refetch: refetchUser } = useAuthMe();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -100,7 +102,7 @@ const SignIn = () => {
       if (loginResult && loginResult.data) {
         console.log('✅ Login successful, fetching user profile...');
         console.log('🔍 Login result data:', loginResult.data);
-        
+
         // After successful login, fetch user data
         const userResult = await refetchUser();
         console.log('🔍 User fetch result:', userResult);
@@ -135,6 +137,7 @@ const SignIn = () => {
       });
     } finally {
       setIsLoading(false);
+      resetSession();
     }
   };
 

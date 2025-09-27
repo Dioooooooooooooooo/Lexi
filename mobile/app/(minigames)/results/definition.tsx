@@ -4,6 +4,7 @@ import { Text } from '@/components/ui/text';
 import { useCompleteMinigameSession, useDictionaryDefinition } from '@/hooks';
 import { CompletedReadingSession } from '@/models/ReadingSession';
 import { useReadingSessionStore } from '@/stores/readingSessionStore';
+import { useUserStore } from '@/stores/userStore';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Volume2 } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
@@ -18,6 +19,7 @@ export default function Definition() {
   const { mutateAsync: completeSession } = useCompleteMinigameSession();
   const [data, setData] = useState<CompletedReadingSession>(null);
   const word = params.word as string;
+  const user = useUserStore(state => state.user);
 
   useEffect(() => {
     const init = async () => {
@@ -34,6 +36,10 @@ export default function Definition() {
   };
 
   const onPress = () => {
+    if (user?.role === 'Teacher') {
+      router.push({ pathname: '/(tabs)/home' });
+    }
+
     const routePath =
       data?.achievements?.length > 0
         ? '/(minigames)/results/achievements'

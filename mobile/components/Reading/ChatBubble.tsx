@@ -95,8 +95,8 @@ const ChatBubble = ({
               <Pressable
                 key={index}
                 onPress={() => {
-                  // onWordPress(word.clean);
-                  // console.log(word.clean);
+                  onWordPress(word.clean);
+                  console.log(word.clean);
                   // fetchTranslation(word.clean);
                 }}
               >

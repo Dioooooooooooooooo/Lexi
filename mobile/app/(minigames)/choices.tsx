@@ -31,7 +31,6 @@ const ChoicesBubble = ({
   const [isPressed, setIsPressed] = useState(false);
   const { setCurrentMinigame, gameOver } = useMiniGameStore();
   const { mutateAsync: createLog } = useCreateChoicesLog();
-  const [result, setResult] = useState<MinigameLogResultInfo>();
   const user = useUserStore(state => state.user);
   const minigameLogResult = minigameLog.result // result can be nullable
     ? (JSON.parse(minigameLog.result) as MinigameLogResult)
@@ -53,6 +52,8 @@ const ChoicesBubble = ({
     setTimeout(() => onPress(responseBubble, MessageTypeEnum.STORY), time);
   };
 
+  console.log('pressed answer', isPressed);
+
   useEffect(() => {
     setCurrentMinigame(minigame);
 
@@ -69,13 +70,15 @@ const ChoicesBubble = ({
 
     const minigameLog = gameOver({ answers: ans.choice, score: score });
     // console.log('choices log', minigameLog);
-    const log = await createLog({
-      minigame_id: minigame.id,
-      reading_session_id: minigameLog?.reading_session_id,
-      pupil_id: user?.pupil?.id,
-      result: JSON.stringify(minigameLog),
-    });
 
+    if (user.role === 'Pupil') {
+      const log = await createLog({
+        minigame_id: minigame.id,
+        reading_session_id: minigameLog?.reading_session_id,
+        pupil_id: user?.pupil?.id,
+        result: JSON.stringify(minigameLog),
+      });
+    }
     responseBubbles(ans.choice, score >= 1, 500);
     // console.log('updated choices minigame log', log);
   };
