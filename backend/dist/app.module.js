@@ -37,6 +37,7 @@ const cacheable_1 = require("cacheable");
 const dictionary_module_1 = require("./app/dictionary/dictionary.module");
 const imagekit_module_1 = require("./app/imagekit/imagekit.module");
 const platform_express_1 = require("@nestjs/platform-express");
+const library_entries_module_1 = require("./app/library-entries/library-entries.module");
 const multer_1 = __importDefault(require("multer"));
 let AppModule = class AppModule {
 };
@@ -90,6 +91,7 @@ exports.AppModule = AppModule = __decorate([
             activity_logs_module_1.ActivityLogsModule,
             dictionary_module_1.DictionaryModule,
             imagekit_module_1.ImagekitModule,
+            library_entries_module_1.LibraryEntriesModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

@@ -26,6 +26,7 @@ import { CacheableMemory } from 'cacheable';
 import { DictionaryModule } from './app/dictionary/dictionary.module';
 import { ImagekitModule } from './app/imagekit/imagekit.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { LibraryEntriesModule } from './app/library-entries/library-entries.module';
 import multer from 'multer';
 
 @Module({
@@ -79,6 +80,7 @@ import multer from 'multer';
     ActivityLogsModule,
     DictionaryModule,
     ImagekitModule,
+    LibraryEntriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

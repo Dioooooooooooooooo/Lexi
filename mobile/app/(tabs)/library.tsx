@@ -1,28 +1,18 @@
 import ReadingContent from '@/components/ReadingContent';
+import { useLibraryStories } from '@/hooks/query/useLibraryQueries';
 import { ReadingMaterial } from '@/models/ReadingMaterial';
-import { getIncompleteReadingSessions } from '@/services/ReadingSessionService';
-import { useReadingSessionStore } from '@/stores/readingSessionStore';
-import { useQuery } from '@tanstack/react-query';
+import { useLibraryStore } from '@/stores/libraryStore';
 import React, { useEffect } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
 function library() {
-  const currentlyReading = useReadingSessionStore(
-    state => state.currentlyReading,
-  );
-  const setCurrentlyReading = useReadingSessionStore(
-    state => state.setCurrentlyReading,
-  );
-
-  const { data: readingMaterials, isLoading } = useQuery({
-    queryKey: ['readingSessions'],
-    queryFn: getIncompleteReadingSessions,
-    enabled: !!currentlyReading,
-  });
+  const storiesInLibrary = useLibraryStore(state => state.library);
+  const setLibrary = useLibraryStore(state => state.setLibrary);
+  const { data: readingMaterials, isLoading } = useLibraryStories();
 
   useEffect(() => {
     if (readingMaterials) {
-      setCurrentlyReading(readingMaterials);
+      setLibrary(readingMaterials);
     }
   }, [readingMaterials]);
 
@@ -37,26 +27,28 @@ function library() {
   return (
     <ScrollView className="bg-background">
       <View>
-        <View className="flex p-8">
-          <Text className="text-[24px] font-poppins-bold py-3">
-            Continue Reading
-          </Text>
-          <View className="flex flex-row flex-wrap gap-4">
-            {readingMaterials?.map(
-              (material: ReadingMaterial, index: number) => (
-                <View key={index}>
-                  <ReadingContent
-                    type="ScrollView"
-                    id={material.id}
-                    title={material.title}
-                    description={material.description}
-                    cover={material.cover}
-                    content={material.content}
-                    genres={material.genres}
-                    difficulty={material.difficulty}
-                  />
-                </View>
-              ),
+        <View className="flex-1 p-5 w-full">
+          <Text className="text-[24px] font-poppins-bold py-3">Library</Text>
+          <View className="flex flex-row flex-wrap justify-between">
+            {readingMaterials && readingMaterials.length > 0 ? (
+              readingMaterials?.map(
+                (material: ReadingMaterial, index: number) => (
+                  <View key={index}>
+                    <ReadingContent
+                      type="ScrollView"
+                      id={material.id}
+                      title={material.title}
+                      description={material.description}
+                      cover={material.cover}
+                      content={material.content}
+                      genres={material.genres}
+                      difficulty={material.difficulty}
+                    />
+                  </View>
+                ),
+              )
+            ) : (
+              <Text className="text-gray-500 ">No stories in library, yet.</Text>
             )}
           </View>
         </View>

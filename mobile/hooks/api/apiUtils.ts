@@ -111,6 +111,12 @@ export const queryKeys = {
     detail: (id: string) =>
       [...queryKeys.readingSessions.all, 'detail', id] as const,
   },
+  // Library keys
+  library: {
+    all: ['library-stories'] as const,
+    list: () => [...queryKeys.library.all, 'list'] as const,
+    detail: (id: string) => [...queryKeys.library.all, 'detail', id] as const,
+  },
   // Reading Materials keys
   readingMaterials: {
     all: ['reading-materials'] as const,
