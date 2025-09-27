@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { useCompleteMinigameSession, useDictionaryDefinition } from '@/hooks';
 import { CompletedReadingSession } from '@/models/ReadingSession';
+import { User } from '@/models/User';
 import { useReadingSessionStore } from '@/stores/readingSessionStore';
 import { useUserStore } from '@/stores/userStore';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -10,6 +11,25 @@ import { Volume2 } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import { View, Image, Pressable } from 'react-native';
 import Tts from 'react-native-tts';
+
+function changeRoute(user: User, data: any) {
+  if (user?.role === 'Teacher') {
+    router.push({ pathname: '/(tabs)/home' });
+    return;
+  }
+
+  const routePath =
+    data?.achievements?.length > 0
+      ? '/(minigames)/results/achievements'
+      : '/(minigames)/results/levelup';
+
+  router.push({
+    pathname: routePath,
+    params: {
+      data: JSON.stringify(data),
+    },
+  });
+}
 
 export default function Definition() {
   const params = useLocalSearchParams();
@@ -23,6 +43,9 @@ export default function Definition() {
 
   useEffect(() => {
     const init = async () => {
+      if (!word) {
+        changeRoute(user, data);
+      }
       const complete = await completeSession(currentSession?.id);
       console.log('completed session data:', complete);
       setData(complete);
@@ -36,21 +59,7 @@ export default function Definition() {
   };
 
   const onPress = () => {
-    if (user?.role === 'Teacher') {
-      router.push({ pathname: '/(tabs)/home' });
-    }
-
-    const routePath =
-      data?.achievements?.length > 0
-        ? '/(minigames)/results/achievements'
-        : '/(minigames)/results/levelup';
-
-    router.push({
-      pathname: routePath,
-      params: {
-        data: JSON.stringify(data),
-      },
-    });
+    changeRoute(user, data);
   };
 
   if (isDictionaryLoading) {
@@ -86,7 +95,9 @@ export default function Definition() {
         />
 
         <Button variant="secondary" fullWidth onPress={onPress}>
-          <Text className="font-poppins-bold text-black">NEXT</Text>
+          <Text className="font-poppins-bold text-black">
+            {user.role === 'Pupil' ? 'Next' : 'Finish'}
+          </Text>
         </Button>
       </View>
     </View>

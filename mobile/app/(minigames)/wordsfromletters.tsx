@@ -15,7 +15,11 @@ import { Progress } from '@/components/ui/progress';
 import { useCreateMinigameLog } from '@/services/minigameService';
 import { useUserStore } from '@/stores/userStore';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useCreateWordsFromLettersLog, useUpdateReadingSession } from '@/hooks';
+import {
+  useCompleteMinigameSession,
+  useCreateWordsFromLettersLog,
+  useUpdateReadingSession,
+} from '@/hooks';
 import { useReadingSessionStore } from '@/stores/readingSessionStore';
 
 export default function WordsFromLetters() {
@@ -51,6 +55,7 @@ export default function WordsFromLetters() {
   const updateReadingSessionProgress = useReadingSessionStore(
     state => state.updateReadingSessionProgress,
   );
+  const { mutateAsync: completeSession } = useCompleteMinigameSession();
   const sessionId = params.sessionId as string;
   // console.log('wfl words:', words, 'wfl letters:', letters);
 
@@ -126,6 +131,10 @@ export default function WordsFromLetters() {
                 completion_percentage: 100,
               },
             });
+
+            const complete = await completeSession(
+              minigameLog.reading_session_id,
+            );
           }
 
           setTimeout(() => {
