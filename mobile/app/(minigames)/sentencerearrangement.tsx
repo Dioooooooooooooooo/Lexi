@@ -1,7 +1,3 @@
-import {
-  useMiniGameStore,
-  useSentenceRearrangementMiniGameStore,
-} from '@/stores/miniGameStore';
 import { bubble } from '@/types/bubble';
 import { MessageTypeEnum, personEnum } from '@/types/enum';
 import React, { useEffect, useState } from 'react';
@@ -11,11 +7,13 @@ import { makeBubble } from '@/utils/makeBubble';
 import { Minigame, SentenceRearrangement } from '@/models/Minigame';
 import { useCreateSentenceRearrangementLog } from '@/hooks';
 import { useUserStore } from '@/stores/userStore';
+import { useReadingSessionStore } from '@/stores/readingSessionStore';
 import {
   MinigameLog,
   MinigameLogResult,
   MinigameLogResultInfo,
 } from '@/models/MinigameLog';
+import { useMiniGameStore } from '@/stores/miniGameStore';
 
 const SentenceRearrangementBtn = ({
   text,
@@ -37,7 +35,6 @@ const SentenceRearrangementBtn = ({
   );
 };
 
-// TODO: decouple from zustand
 const SentenceRearrangementBubble = ({
   minigame,
   minigameLog,
@@ -50,27 +47,47 @@ const SentenceRearrangementBubble = ({
   // const [isAudio, setIsAudio] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
-  const {
-    currentAnswer,
-    addPartToCurrentAnswer,
-    removePartFromCurrentAnswer,
-    parts,
-    resetGameState,
-    setParts,
-    setCurrentAnswer,
-  } = useSentenceRearrangementMiniGameStore();
+
+  // Local state replacing Zustand stores
+  const [currentAnswer, setCurrentAnswer] = useState<string[]>([]);
+  const [parts, setParts] = useState<string[]>([]);
+  const [gameStartTime, setGameStartTime] = useState<Date | null>(null);
+
   const metadata = JSON.parse(minigame.metadata) as SentenceRearrangement;
-  const { setCurrentMinigame, gameOver } = useMiniGameStore();
   const { mutateAsync: createLog } = useCreateSentenceRearrangementLog();
   const user = useUserStore(state => state.user);
+  const { setCurrentMinigame, gameOver } = useMiniGameStore();
+  const currentSession = useReadingSessionStore(state => state.currentSession);
   const [result, setResult] = useState<MinigameLogResultInfo>();
   const minigameLogResult = minigameLog.result
     ? (JSON.parse(minigameLog.result) as MinigameLogResult)
     : undefined;
 
-  // init bruh
+  // Local state management functions
+  const resetGameState = () => {
+    setCurrentAnswer([]);
+    setParts([]);
+    setGameStartTime(new Date());
+  };
+
+  const addPartToCurrentAnswer = (part: string) => {
+    setCurrentAnswer(prev => [...prev, part]);
+  };
+
+  const removePartFromCurrentAnswer = (index: number) => {
+    setCurrentAnswer(prev => {
+      const updated = [...prev];
+      const removedPart = updated[index];
+      updated.splice(index, 1);
+      setParts(prevParts => [...prevParts, removedPart]);
+      return updated;
+    });
+  };
+
+  // init
   useEffect(() => {
     resetGameState();
+    setCurrentMinigame(minigame);
 
     if (minigameLogResult) {
       // console.log('ararnrgemnet result', minigameLogResult.result);
@@ -78,13 +95,12 @@ const SentenceRearrangementBubble = ({
       setResult(res);
       // console.log('arrangement result', res);
       setIsFinished(true);
-      setCurrentAnswer(res?.answers);
+      setCurrentAnswer(res?.answers || []);
 
       return;
     }
 
     setParts(metadata.parts);
-    setCurrentMinigame(minigame);
   }, [minigameLog]);
 
   // console.log('minigamelog for sentencerrange:', result);
@@ -121,6 +137,7 @@ const SentenceRearrangementBubble = ({
             pupil_id: user?.pupil.id,
             result: JSON.stringify(minigameLog),
           });
+          console.log('sentenaca arrangemtn log', log);
         }
         // console.log('updated arrangement minigamelog:', log);
 
@@ -167,7 +184,9 @@ const SentenceRearrangementBubble = ({
                   text={part}
                   onPress={() => {
                     addPartToCurrentAnswer(part);
-                    setParts(parts.filter((_, i) => i !== index));
+                    setParts(prevParts =>
+                      prevParts.filter((_, i) => i !== index),
+                    );
                   }}
                   disabled={isFinished}
                 />
