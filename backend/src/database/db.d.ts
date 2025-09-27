@@ -755,4 +755,3 @@ export interface DB {
   'vault.decrypted_secrets': VaultDecryptedSecrets;
   'vault.secrets': VaultSecrets;
 }
-
