@@ -473,6 +473,13 @@ export interface Genres {
   name: string | null;
 }
 
+export interface LibraryEntries {
+  created_at: Generated<Timestamp>;
+  id: Generated<string>;
+  reading_material_id: string | null;
+  user_id: string | null;
+}
+
 export interface MinigameLogs {
   created_at: Timestamp | null;
   id: Generated<string>;
@@ -725,6 +732,7 @@ export interface DB {
   'extensions.pg_stat_statements': ExtensionsPgStatStatements;
   'extensions.pg_stat_statements_info': ExtensionsPgStatStatementsInfo;
   'public.genres': Genres;
+  'public.library_entries': LibraryEntries;
   'public.minigame_logs': MinigameLogs;
   'public.minigames': Minigames;
   'public.pupil_achievements': PupilAchievements;
