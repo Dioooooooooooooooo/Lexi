@@ -7,6 +7,7 @@ import {
   MaxLength,
   IsIn,
   IsUrl,
+  IsNumber,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { Match } from "@/validators/match.decorator";
@@ -179,6 +180,11 @@ export class UpdateProfileDto {
   @IsOptional()
   @MaxLength(2048)
   avatar?: string;
+
+  @ApiProperty({ description: "Age", required: false})
+  @IsOptional()
+  @IsNumber()
+  age?: number
 }
 
 export class RefreshTokenDto {

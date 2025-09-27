@@ -1940,6 +1940,58 @@ export type ImagekitControllerUploadImageResponses = {
 
 export type ImagekitControllerUploadImageResponse = ImagekitControllerUploadImageResponses[keyof ImagekitControllerUploadImageResponses];
 
+export type LibraryEntriesControllerCreateData = {
+    body?: never;
+    path: {
+        readingMaterialId: string;
+    };
+    query?: never;
+    url: '/library-entries/reading-materials/{readingMaterialId}';
+};
+
+export type LibraryEntriesControllerCreateResponses = {
+    /**
+     * Reading material successsfully added to library.
+     */
+    201: SuccessResponseDto;
+};
+
+export type LibraryEntriesControllerCreateResponse = LibraryEntriesControllerCreateResponses[keyof LibraryEntriesControllerCreateResponses];
+
+export type LibraryEntriesControllerFindAllData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/library-entries';
+};
+
+export type LibraryEntriesControllerFindAllResponses = {
+    /**
+     * Reading materials in library successfully fetched.
+     */
+    200: SuccessResponseDto;
+};
+
+export type LibraryEntriesControllerFindAllResponse = LibraryEntriesControllerFindAllResponses[keyof LibraryEntriesControllerFindAllResponses];
+
+export type LibraryEntriesControllerRemoveData = {
+    body?: never;
+    path: {
+        readingMaterialId: string;
+    };
+    query?: never;
+    url: '/library-entries/{readingMaterialId}';
+};
+
+export type LibraryEntriesControllerRemoveResponses = {
+    /**
+     * Successfully removed reading material from library.
+     */
+    200: SuccessResponseDto;
+};
+
+export type LibraryEntriesControllerRemoveResponse = LibraryEntriesControllerRemoveResponses[keyof LibraryEntriesControllerRemoveResponses];
+
 export type ClientOptions = {
     baseUrl: 'http://localhost:3000' | (string & {});
 };

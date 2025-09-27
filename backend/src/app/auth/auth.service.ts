@@ -34,7 +34,7 @@ export class AuthService {
     // EmailService injected to send onboarding / reset / verify emails
     private readonly emailService: EmailService,
     private readonly userService: UserService,
-  ) { }
+  ) {}
 
   async register(registerDto: RegisterDto) {
     // Check if user already exists
@@ -511,12 +511,20 @@ export class AuthService {
       }
     }
 
-    // Update user
-    await this.db
-      .updateTable('authentication.users')
-      .set(updateProfileDto)
-      .where('id', '=', userId)
-      .execute();
+    if (updateProfileDto.age) {
+      await this.db
+        .updateTable('public.pupils')
+        .set({ age: updateProfileDto.age })
+        .where('user_id', '=', userId)
+        .execute();
+    } else {
+      // Update user
+      await this.db
+        .updateTable('authentication.users')
+        .set(updateProfileDto)
+        .where('id', '=', userId)
+        .execute();
+    }
 
     // If email was changed, generate new verification token
     if (updateProfileDto.email) {

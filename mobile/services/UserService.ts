@@ -146,7 +146,7 @@ export const uploadAvatar = async (avatar: {
   } as any);
 
   const response = await axiosInstance.post(
-    `${API_URL}/upload/image`,
+    `http://${process.env.EXPO_PUBLIC_IPADDRESS}:3000/upload/image`,
     formData,
     {
       headers: {
@@ -155,6 +155,7 @@ export const uploadAvatar = async (avatar: {
       validateStatus: () => true,
     },
   );
+  console.log('Response: ', response);
 
   if (response.status !== 200 && response.status !== 201) {
     throw new Error(response.data.message);
@@ -174,7 +175,7 @@ export const useUploadAvatar = () => {
       console.log('Upload successfuljjj: ', data);
     },
     onError: error => {
-      console.error('Error uploading avatar:', error.message);
+      console.error('Error uploading avatar:', error);
     },
   });
 };
