@@ -9,7 +9,7 @@ import { bubble } from '@/types/bubble';
 import { MessageTypeEnum, personEnum } from '@/types/enum';
 import { makeBubble } from '@/utils/makeBubble';
 import { router } from 'expo-router';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   BackHandler,
   ScrollView,
@@ -30,7 +30,6 @@ import {
   useWordsFromLettersMiniGameStore,
 } from '@/stores/miniGameStore';
 import { useReadingSessionStore } from '@/stores/readingSessionStore';
-import { useUserStore } from '@/stores/userStore';
 
 const iconMap: Record<string, any> = {
   Story: require('@/assets/images/storyIcons/narrator.png'),
@@ -77,39 +76,25 @@ const Read = () => {
   const [chunkIndex, setChunkIndex] = useState(0);
   const [word, setWord] = useState<string | null>(null);
   const [minigames, setMinigames] = useState<Minigame[]>();
+  const minigamesCount = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const isScrollingRef = useRef(false);
   const { height: screenHeight } = useWindowDimensions();
 
-  // Immediate scroll function - no delays for user actions
-  const scrollToEndImmediately = useCallback(() => {
-    if (scrollViewRef.current) {
-      // Double requestAnimationFrame ensures DOM is fully updated
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          scrollViewRef.current?.scrollToEnd({
-            animated: true,
-            duration: 180, // Very fast animation for responsiveness
-          });
-        });
-      });
+  // Optimized smooth scroll function
+  const smoothScrollToEnd = (delay = 50) => {
+    // Clear any pending scroll
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
     }
-  }, []);
 
-  // Debounced scroll function for automatic triggers
-  const smoothScrollToEnd = useCallback(
-    (delay = 100) => {
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-
-      scrollTimeoutRef.current = setTimeout(() => {
-        scrollToEndImmediately();
-      }, delay);
-    },
-    [scrollToEndImmediately],
-  );
+    scrollTimeoutRef.current = setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({
+        animated: true,
+        duration: 300, // Smooth 300ms animation
+      });
+    }, delay);
+  };
 
   const selectedContent = useReadingContentStore(
     state => state.selectedContent,
@@ -137,15 +122,11 @@ const Read = () => {
   const setCurrentMinigame = useMiniGameStore(
     state => state.setCurrentMinigame,
   );
-  const user = useUserStore(state => state.user);
 
-  console.log('selected content:', selectedContent?.id);
-
-  // Smooth scroll when messages change (only for automatic updates)
+  // Smooth scroll when messages change
   useEffect(() => {
     if (messages && messages.length > 0) {
-      // Use a very short delay for automatic message updates
-      smoothScrollToEnd(20);
+      smoothScrollToEnd();
     }
 
     return () => {
@@ -153,7 +134,7 @@ const Read = () => {
         clearTimeout(scrollTimeoutRef.current);
       }
     };
-  }, [messages?.length, smoothScrollToEnd]);
+  }, [messages?.length]); // Depend on message count instead of function reference
 
   useEffect(() => {
     const initSession = async () => {
@@ -292,27 +273,25 @@ const Read = () => {
     console.log('dict');
   }, [word, data, isDictionaryLoading]);
 
-  // next btn with immediate scrolling and batched updates
+  // next btn
   const onPress = useThrottle(() => {
     if (
       currentSession?.completion_percentage < parsedBubbles!.length ||
-      chunkIndex === parsedBubbles.length
+      chunkIndex <= parsedBubbles.length
     ) {
       const newMessage = parsedBubbles[chunkIndex];
 
-      // Batch updates for better performance
-      requestAnimationFrame(() => {
-        // Add message first
-        addMessage(newMessage);
-        setChunkIndex(prev => prev + 1);
+      // Add message and update index together
+      addMessage(newMessage);
+      setChunkIndex(prev => prev + 1);
 
-        // IMMEDIATE scroll after state updates
-        scrollToEndImmediately();
-      });
+      // Immediate smooth scroll to new message
+      smoothScrollToEnd(80);
     }
   });
 
   const getMinigameLogById = (minigameId: string) => {
+    minigamesCount.current++;
     const res = minigameLogs.find(
       minigame => minigame.minigame_id === minigameId,
     );
@@ -323,10 +302,7 @@ const Read = () => {
   const completedStory = useThrottle(() => {
     const wfl = minigames[minigames?.length - 1];
     setCurrentMinigame(wfl);
-    router.push({
-      pathname: '/(minigames)/wordsfromletters',
-      params: { sessionId: currentSession?.id },
-    });
+    router.push({ pathname: '/(minigames)/wordsfromletters' });
   });
 
   const defineWord = (word: string) => {
@@ -368,7 +344,7 @@ const Read = () => {
     return false;
   };
 
-  // console.log('@MESSAGES:', messages);
+  console.log('@MESSAGES:', messages);
   // console.log('@@CURRENT SESSION', currentSession);
   // console.log('@@@MINIGAMELOGS', minigameLogs);
   // console.log(
@@ -377,7 +353,7 @@ const Read = () => {
   //   '@@@@@CHUNK INDEX LEN',
   //   chunkIndex,
   // );
-  // console.log('@@@@MINIGAMES', minigames);
+  console.log('@@@@MINIGAMES', minigames);
 
   if (!currentSession || isMinigameLogsLoading || !minigames || !messages) {
     return (
@@ -400,14 +376,13 @@ const Read = () => {
           ref={scrollViewRef}
           className="flex-1"
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ flexGrow: 1 }}
-          onContentSizeChange={() => {
-            // Immediate scroll for content size changes
-            scrollToEndImmediately();
+          onContentSizeChange={(width, height) => {
+            // Smooth scroll when content size changes (new messages)
+            smoothScrollToEnd(120);
           }}
         >
           <View
-            style={{ minHeight: screenHeight * 0.8 }}
+            style={{ minHeight: screenHeight }}
             className="flex justify-end"
           >
             {messages
@@ -415,7 +390,7 @@ const Read = () => {
                 (msg): msg is Message => msg !== undefined && msg !== null,
               )
               .map((msg, index) => (
-                <View key={`message-${msg.id}-${index}`} className="py-2">
+                <View key={index} className="py-1">
                   {msg.type === MessageTypeEnum.STORY
                     ? (() => {
                         const bubblePayload = msg.payload as bubble;
@@ -463,40 +438,35 @@ const Read = () => {
                 </View>
               ))}
           </View>
-          <View className="py-4">
-            {!(
-              currentSession?.completion_percentage >= parsedBubbles.length ||
-              chunkIndex >= parsedBubbles.length
-            ) ? (
-              <Button
-                onPress={() => {
-                  onPress();
-                }}
-                disabled={isNextDisabled()}
-              >
-                <Text className="font-poppins-bold text-black">
-                  {chunkIndex === 0 ? 'Start' : 'Next'}
-                </Text>
-              </Button>
-            ) : (
-              <View className="w-full items-center">
-                {/* Divider */}
-                <View className="w-full flex-row items-center my-6">
-                  <View className="flex-1 bg-gray-400" />
-                  <Text className="mx-4 text-gray-600">End of Story</Text>
-                  <View className="flex-1 bg-gray-400" />
-                </View>
-
-                {/* Button */}
-                <Button variant="secondary" onPress={() => completedStory()}>
-                  <Text className="font-poppins-bold text-black">
-                    Story Completed
-                  </Text>
-                </Button>
-              </View>
-            )}
-          </View>
         </ScrollView>
+        <View className="py-4">
+          {!(
+            currentSession?.completion_percentage >= parsedBubbles.length ||
+            chunkIndex >= parsedBubbles.length
+          ) ? (
+            <Button
+              onPress={() => {
+                onPress();
+              }}
+              disabled={isNextDisabled()}
+            >
+              <Text className="font-poppins-bold text-black">
+                {chunkIndex === 0 ? 'Start' : 'Next'}
+              </Text>
+            </Button>
+          ) : (
+            <View className="w-full items-center">
+              <View className="w-full flex-row items-center my-6">
+                <View className="flex-1 bg-gray-400" />
+                <Text className="mx-4 text-gray-600">End of Story</Text>
+                <View className="flex-1 bg-gray-400" />
+              </View>
+              <Button variant="secondary" onPress={() => completedStory()}>
+                <Text className="font-poppins-bold text-black">Story Completed</Text>
+              </Button>
+            </View>
+          )}
+        </View>
       </View>
     </View>
   );
