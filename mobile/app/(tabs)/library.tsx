@@ -27,24 +27,28 @@ function library() {
   return (
     <ScrollView className="bg-background">
       <View>
-        <View className="flex p-8">
+        <View className="flex-1 p-5 w-full">
           <Text className="text-[24px] font-poppins-bold py-3">Library</Text>
-          <View className="flex flex-row flex-wrap gap-4">
-            {readingMaterials?.map(
-              (material: ReadingMaterial, index: number) => (
-                <View key={index}>
-                  <ReadingContent
-                    type="ScrollView"
-                    id={material.id}
-                    title={material.title}
-                    description={material.description}
-                    cover={material.cover}
-                    content={material.content}
-                    genres={material.genres}
-                    difficulty={material.difficulty}
-                  />
-                </View>
-              ),
+          <View className="flex flex-row flex-wrap justify-between">
+            {readingMaterials && readingMaterials.length > 0 ? (
+              readingMaterials?.map(
+                (material: ReadingMaterial, index: number) => (
+                  <View key={index}>
+                    <ReadingContent
+                      type="ScrollView"
+                      id={material.id}
+                      title={material.title}
+                      description={material.description}
+                      cover={material.cover}
+                      content={material.content}
+                      genres={material.genres}
+                      difficulty={material.difficulty}
+                    />
+                  </View>
+                ),
+              )
+            ) : (
+              <Text className="text-gray-500 ">No stories in library, yet.</Text>
             )}
           </View>
         </View>
